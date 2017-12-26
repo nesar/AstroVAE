@@ -31,7 +31,8 @@ log_sigma = Dense(n_z, activation='linear')(h_q)
 
 def sample_z(args):
     mu, log_sigma = args
-    eps = K.random_normal(shape=(m, n_z), mean=0., std=1.)
+    ###eps = K.random_normal(shape=(m, n_z), mean=0., std=1.)
+    eps = K.random_normal(shape=(m, n_z), mean=0., stddev=1.)
     return mu + K.exp(log_sigma / 2) * eps
 
 
@@ -64,7 +65,7 @@ d_out = decoder_out(d_h)
 decoder = Model(d_in, d_out)
 
 
-#-------------------------------------------------------------
+# -------------------------------------------------------------
 #CUSTOM LOSS 
 
 def vae_loss(y_true, y_pred):
@@ -76,13 +77,23 @@ def vae_loss(y_true, y_pred):
 
     return recon + kl
 
-#-------------------------------------------------------------
+# -------------------------------------------------------------
+# LOAD 
+
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+x_train = x_train.astype('float32') / 255.
+x_test = x_test.astype('float32') / 255.
+x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
+# -------------------------------------------------------------
 #TRAIN
 
 vae.compile(optimizer='adam', loss=vae_loss)
 vae.fit(X_train, X_train, batch_size=m, nb_epoch=n_epoch)
 
-#-------------------------------------------------------------
+# -------------------------------------------------------------
 
 
 
