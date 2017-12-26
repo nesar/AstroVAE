@@ -65,7 +65,7 @@ decoder = Model(d_in, d_out)
 
 
 # -------------------------------------------------------------
-
+#CUSTOM LOSS 
 
 def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
@@ -78,6 +78,7 @@ def vae_loss(y_true, y_pred):
 
 # -------------------------------------------------------------
 #TRAIN
+
 vae.compile(optimizer='adam', loss=vae_loss)
 vae.fit(X_train, X_train, batch_size=m, nb_epoch=n_epoch)
 
