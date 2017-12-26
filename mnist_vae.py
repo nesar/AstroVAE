@@ -40,4 +40,13 @@ z = Lambda(sample_z)([mu, log_sigma])
 
 # -------------------------------------------------------------
 
+# P(X|z) -- decoder
+decoder_hidden = Dense(512, activation='relu')
+decoder_out = Dense(784, activation='sigmoid')
+
+h_p = decoder_hidden(z)
+outputs = decoder_out(h_p)
+
+# -------------------------------------------------------------
+
 
