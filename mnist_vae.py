@@ -96,7 +96,7 @@ vae.fit(X_train, X_train, batch_size=m, nb_epoch=n_epoch)
 
 # -------------------------------------------------------------
 
-score = vae.evaluate(x_test, y_test, verbose=0)
+score = vae.evaluate(X_test, Y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
