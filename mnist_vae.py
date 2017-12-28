@@ -96,11 +96,13 @@ vae.fit(X_train, X_train, batch_size=m, nb_epoch=n_epoch)
 
 # -------------------------------------------------------------
 
-y_pred = encoder.predict(X_test)
+y_pred = decoder.predict(X_test)
 
-score = vae.evaluate(X_test, verbose=0)
-print('Test loss:', score[0])
-print('Test accuracy:', score[1])
+
+
+# score = vae.evaluate(X_test, verbose=0)
+# print('Test loss:', score[0])
+# print('Test accuracy:', score[1])
 
 
 
