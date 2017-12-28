@@ -18,7 +18,7 @@ import tensorflow as tf
 
 m = 50
 n_z = 2
-n_epoch = 2 #10
+n_epoch = 10 #10
 
 
 # Q(z|X) -- encoder
@@ -89,7 +89,7 @@ X_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 X_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 # -------------------------------------------------------------
-#TRAIN
+#TRAIN       -- NaN losses Uhhh
 
 vae.compile(optimizer='adam', loss=vae_loss)
 vae.fit(X_train, X_train, batch_size=m, nb_epoch=n_epoch)
