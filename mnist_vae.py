@@ -96,7 +96,7 @@ vae.fit(X_train, X_train, batch_size=m, nb_epoch=n_epoch)
 
 # -------------------------------------------------------------
 
-y_pred = decoder.predict(X_test)
+y_pred = encoder.predict(X_train[10:20,:])
 
 
 
