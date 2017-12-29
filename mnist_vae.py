@@ -64,7 +64,6 @@ d_h = decoder_hidden(d_in)
 d_out = decoder_out(d_h)
 decoder = Model(d_in, d_out)
 
-
 # -------------------------------------------------------------
 #CUSTOM LOSS 
 
@@ -97,7 +96,6 @@ vae.fit(X_train, X_train, batch_size=m, nb_epoch=n_epoch)
 # -------------------------------------------------------------
 
 y_pred = encoder.predict(X_train[10:20,:])
-
 
 
 # score = vae.evaluate(X_test, verbose=0)
