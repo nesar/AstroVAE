@@ -15,10 +15,11 @@ import matplotlib.pyplot as plt
 import keras.backend as K
 import tensorflow as tf
 
+mnist = input_data.read_data_sets("../MNIST_data/", one_hot=True)
 
 m = 50
 n_z = 2
-n_epoch = 10 #10
+n_epoch = 2 #10
 
 
 # Q(z|X) -- encoder

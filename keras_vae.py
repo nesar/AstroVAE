@@ -121,5 +121,6 @@ plt.imshow(figure, cmap='Greys_r')
 plt.show()
 
 # plot loss
-plt.figure(100)
-plt.plot(vae.loss)
+# plt.figure(100)
+# plt.plot(vae.loss)
+
