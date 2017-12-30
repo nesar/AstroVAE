@@ -21,7 +21,7 @@ batch_size = 100
 original_dim = 784
 latent_dim = 2
 intermediate_dim = 256
-epochs = 10 #50
+epochs = 50 #50
 epsilon_std = 1.0
 
 
@@ -125,4 +125,4 @@ loss = vae.history.history['loss']
 val_loss = vae.history.history['val_loss']
 plt.plot( np.arange(len(loss)), np.array(loss),  'o-')
 plt.plot( np.arange(len(val_loss)), np.array(val_loss),  'o-')
-
+plt.show()
