@@ -15,11 +15,10 @@ import matplotlib.pyplot as plt
 import keras.backend as K
 import tensorflow as tf
 
-mnist = input_data.read_data_sets("../MNIST_data/", one_hot=True)
 
 m = 50
 n_z = 2
-n_epoch = 2 #10
+n_epoch = 10 #10
 
 
 # Q(z|X) -- encoder
@@ -79,14 +78,24 @@ def vae_loss(y_true, y_pred):
 
 #-------------------------------------------------------------
 # LOAD 
-from keras.datasets import mnist
+# from keras.datasets import mnist
+#
+# (x_train, y_train), (x_test, y_test) = mnist.load_data()
+#
+# X_train = x_train.astype('float32') / 255.
+# ## X_test = x_test.astype('float32') / 255.
+# X_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+# ## X_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-X_train = x_train.astype('float32') / 255.
-X_test = x_test.astype('float32') / 255.
-X_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-X_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+mnist = input_data.read_data_sets("../MNIST_data/", one_hot=True)
+X_train = mnist.train.images
+X_train = X_train.astype('float32') / 255.
+
+X_test = mnist.test.images
+X_test = X_test.astype('float32') / 255.
+Y_test = mnist.test.labels
+
 
 # -------------------------------------------------------------
 #TRAIN       -- NaN losses Uhhh
@@ -98,6 +107,13 @@ vae.fit(X_train, X_train, batch_size=m, nb_epoch=n_epoch)
 
 y_pred = encoder.predict(X_train[10:20,:])
 
+# display a 2D plot of the digit classes in the latent space
+x_test_encoded = encoder.predict(X_test, batch_size=m)
+plt.figure(figsize=(6, 6))
+plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=np.where(Y_test == 1)[1]
+)
+plt.colorbar()
+plt.show()
 
 # score = vae.evaluate(X_test, verbose=0)
 # print('Test loss:', score[0])
