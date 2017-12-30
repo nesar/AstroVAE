@@ -100,7 +100,7 @@ _x_decoded_mean = decoder_mean(_h_decoded)
 generator = Model(decoder_input, _x_decoded_mean)
 
 # display a 2D manifold of the digits
-n = 15  # figure with 15x15 digits
+n = 10  # figure with 15x15 digits
 digit_size = 28
 figure = np.zeros((digit_size * n, digit_size * n))
 # linearly spaced coordinates on the unit square were transformed through the inverse CDF (ppf) of the Gaussian
