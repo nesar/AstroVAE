@@ -120,5 +120,6 @@ plt.show()
 # print('Test accuracy:', score[1])
 
 
-
-
+plt.figure(100)
+loss = vae.history.history['loss']
+plt.plot( np.arange(len(loss)), np.array(loss),  'o-')
