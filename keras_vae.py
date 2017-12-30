@@ -2,6 +2,8 @@
 
  #Reference
 https://blog.keras.io/building-autoencoders-in-keras.html
+
+
  - Auto-Encoding Variational Bayes
    https://arxiv.org/abs/1312.6114
 '''
@@ -19,7 +21,7 @@ batch_size = 100
 original_dim = 784
 latent_dim = 2
 intermediate_dim = 256
-epochs = 50
+epochs = 10 #50
 epsilon_std = 1.0
 
 
@@ -61,7 +63,8 @@ class CustomVariationalLayer(Layer):
         x_decoded_mean = inputs[1]
         loss = self.vae_loss(x, x_decoded_mean)
         self.add_loss(loss, inputs=inputs)
-        # We won't actually use the output.
+        # We won't act
+        # ually use the output.
         return x
 
 y = CustomVariationalLayer()([x, x_decoded_mean])
@@ -77,11 +80,8 @@ x_test = x_test.astype('float32') / 255.
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
-vae.fit(x_train,
-        shuffle=True,
-        epochs=epochs,
-        batch_size=batch_size,
-        validation_data=(x_test, None))
+vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None))
+
 
 # build a model to project inputs on the latent space
 encoder = Model(x, z_mean)
@@ -119,3 +119,7 @@ for i, yi in enumerate(grid_x):
 plt.figure(figsize=(10, 10))
 plt.imshow(figure, cmap='Greys_r')
 plt.show()
+
+# plot loss
+plt.figure(100)
+plt.plot(vae.loss)
