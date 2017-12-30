@@ -120,7 +120,9 @@ plt.figure(figsize=(10, 10))
 plt.imshow(figure, cmap='Greys_r')
 plt.show()
 
-# plot loss
-# plt.figure(100)
-# plt.plot(vae.loss)
+plt.figure(100)
+loss = vae.history.history['loss']
+val_loss = vae.history.history['val_loss']
+plt.plot( np.arange(len(loss)), np.array(loss),  'o-')
+plt.plot( np.arange(len(val_loss)), np.array(val_loss),  'o-')
 
