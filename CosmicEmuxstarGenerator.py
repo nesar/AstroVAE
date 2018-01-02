@@ -29,5 +29,5 @@ z = np.linspace(1.4, 1.7, nsize)
 
 AllPara = np.vstack([OmegaM, H0, ns, sigma8, delta_h])
 
-np.savetxt('xstar.dat', AllCombinations)
+np.savetxt('xstar.dat', AllPara)
 
