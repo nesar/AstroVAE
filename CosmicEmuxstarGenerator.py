@@ -10,7 +10,12 @@
 0.0   | omega_nu  | 0.01
 0.0   | z         | 2.02
 
+
+1. NOTE: w0, wb are NOT changed right now
+2. We are drawing values from uniform distribution. -- may have to change it to Gaussian or something else.
+
 '''
+
 
 nsize = 100000
 
