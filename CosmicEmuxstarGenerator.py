@@ -12,22 +12,25 @@
 
 '''
 
-nsize = 100
+nsize = 100000
 
 import numpy as np
 
-OmegaM = np.linspace(0.25, 0.35, nsize)
-Omegab = np.linspace(0.25, 0.35, nsize)
-sigma8 = np.linspace(0.7, 0.85, nsize)
-h = np.linspace(66, 75, nsize)
-ns = np.linspace(0.95, 1.0, nsize)
-w0 = np.linspace(0.95, 1.0, nsize)
-wb = np.linspace(0.95, 1.0, nsize) ## Should be changed later due to w_a's distribution
-OmegaNu = np.linspace(0.95, 1.0, nsize)
-z = np.linspace(1.4, 1.7, nsize)
+OmegaM = np.linspace(0.12, 0.155, nsize)
+Omegab = np.linspace(0.0215, 0.0235, nsize)
+sigma8 = np.linspace(0.7, 0.9, nsize)
+h = np.linspace(0.55, 0.85, nsize)
+ns = np.linspace(0.85, 1.05, nsize)
+# w0 = np.linspace(-1.3, -0.7, nsize)
+w0 = -1.0*np.ones(shape=nsize)
+# wb = np.linspace(0.3, 1.29, nsize) ## Should be changed later due to w_a's distribution
+wb = 0.4*np.ones(shape=nsize)
+OmegaNu = np.linspace(0.0, 0.01, nsize)
+z = np.linspace(0.0, 2.02, nsize)
  
 
-AllPara = np.vstack([OmegaM, H0, ns, sigma8, delta_h])
+AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, w0, wb, OmegaNu, z])
 
-np.savetxt('xstar.dat', AllPara)
+np.savetxt('../Pk_data/CosmicEmu-master/P_cb/xstar.dat', AllPara.T)
 
+print('-------done--------')
