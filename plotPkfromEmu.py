@@ -1,15 +1,26 @@
 import numpy as np
 import matplotlib.pylab as plt
+import glob
 
 
-nsize = 100
-for i in range(nsize):
-    fileIn = '../Pk_data/CosmicEmu-master/P_cb/EMU'
+nbins = 351
 
-    Pk, k = np.loadtxt(fileIn + str(1000*i) + '.txt').T
+data_path = '../Pk_data/CosmicEmu-master/P_cb/EMU*.txt'
 
+Allfiles = sorted(glob.glob(data_path))
+
+Pk = np.zeros(shape= (len(Allfiles), nbins))
+k = np.zeros(shape= (len(Allfiles), nbins))
+
+for i in range(len(Allfiles)):
+
+    Pk[i], k[i] = np.loadtxt(Allfiles[i]).T
+
+## Not all k's are same for each Pk (!). Although the difference is quite small - Gonna roll with it.
+
+for i in range(10):
     plt.figure(10)
-    plt.plot(Pk, k, alpha = 0.3)
+    plt.plot(Pk[i], k[i])
     plt.xscale('log')
     plt.yscale('log')
     plt.xlabel('k')
