@@ -35,8 +35,7 @@ if PlotSample:
 
     plt.show()
 
-AllPara = np.loadtxt(
-    '../Pk_data/CosmicEmu-master/P_cb/xstar.dat')
+AllPara = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar.dat')
 
 # OmegaM, Omegab, sigma8, h, ns, w0, wb, OmegaNu, z
 

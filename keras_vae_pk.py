@@ -15,7 +15,6 @@ from keras.layers import Input, Dense, Lambda, Layer
 from keras.models import Model
 from keras import backend as K
 from keras import metrics
-from keras.datasets import mnist
 
 batch_size = 100
 original_dim = 351 # mnist ~ 784
