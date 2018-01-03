@@ -20,14 +20,14 @@ k = np.zeros(shape= (len(Allfiles), nbins))
 
 for i in range(len(Allfiles)):
 
-    Pk[i], k[i] = np.loadtxt(Allfiles[i]).T
+    k[i], Pk[i] = np.loadtxt(Allfiles[i]).T
 
 
 PlotSample = False
 if PlotSample:
     for i in range(10):
         plt.figure(10)
-        plt.plot(Pk[10000*i], k[10000*i])
+        plt.plot(k[10000*i], Pk[10000*i])
         plt.xscale('log')
         plt.yscale('log')
         plt.xlabel('k')
@@ -35,11 +35,12 @@ if PlotSample:
 
     plt.show()
 
-AllPara = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar.dat')
+AllPara = np.loadtxt(
+    '../Pk_data/CosmicEmu-master/P_cb/xstar.dat')
 
 # OmegaM, Omegab, sigma8, h, ns, w0, wb, OmegaNu, z
 
-
+np.save('../Pk_data/k.npy', k[0])
 np.save('../Pk_data/Pk.npy', Pk)
 np.save('../Pk_data/Para9.npy', AllPara)
 
