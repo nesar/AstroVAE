@@ -44,3 +44,9 @@ AllPara = np.loadtxt(
 np.save('../Pk_data/Pk.npy', Pk)
 np.save('../Pk_data/Para9.npy', AllPara)
 
+
+plt.plot(Pk[100])
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel('k')
+plt.ylabel('P(k)')

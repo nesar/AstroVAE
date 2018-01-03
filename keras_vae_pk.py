@@ -19,9 +19,9 @@ from keras.datasets import mnist
 
 batch_size = 100
 original_dim = 351 # mnist ~ 784
-latent_dim = 10
+latent_dim = 7
 intermediate_dim = 128 # mnist ~ 256
-epochs = 5 #110 #50
+epochs = 20 #110 #50
 epsilon_std = 1.0
 
 
@@ -82,7 +82,7 @@ import pk_load
 
 density_file = '../Pk_data/Pk.npy'
 halo_para_file = '../Pk_data/Para9.npy'
-pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file, num_files= 10000)
+pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
 
@@ -102,8 +102,12 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 # ------------------------------------------------------------------------------
-
-
+#
+plt.figure(1034)
+plt.plot(np.load('../Pk_data/Pk.npy')[100])
+plt.plot(x_train[100], 'x')
+plt.yscale('log')
+plt.xscale('log')
 
 vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None))
 
@@ -114,7 +118,7 @@ encoder = Model(x, z_mean)
 # display a 2D plot of the digit classes in the latent space
 x_test_encoded = encoder.predict(x_test, batch_size=batch_size)
 plt.figure(figsize=(6, 6))
-plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:,1])
+plt.scatter(x_test_encoded[:, 1], x_test_encoded[:, 5], c=y_test[:,1])
 plt.colorbar()
 plt.show()
 
@@ -126,35 +130,37 @@ generator = Model(decoder_input, _x_decoded_mean)
 
 # display a 2D manifold of the digits
 n = 10  # figure with 10x10 digits
-digit_size = 29
+digit_size = original_dim
 figure = np.zeros((digit_size * n, digit_size * n))
 # linearly spaced coordinates on the unit square were transformed through the inverse CDF (ppf) of the Gaussian
 # to produce values of the latent variables z, since the prior of the latent space is Gaussian
 grid_x = norm.ppf(np.linspace(0.05, 0.95, n))
 grid_y = norm.ppf(np.linspace(0.05, 0.95, n))
 
-for i, yi in enumerate(grid_x):
-    for j, xi in enumerate(grid_y):
-        z_sample = np.array([[xi, yi]])
-        x_decoded = generator.predict(z_sample)
-        # digit = x_decoded[0].reshape(digit_size, digit_size)
-        # figure[i * digit_size: (i + 1) * digit_size,
-        #        j * digit_size: (j + 1) * digit_size] = x_decoded
+# for i, yi in enumerate(grid_x):
+#     for j, xi in enumerate(grid_y):
 
-        plt.figure(30, figsize=(8,6))
-        plt.plot(x_decoded[0], 'b', alpha = 0.5)
-        # plt.plot()
+z_sample = np.array([np.random.uniform(size = 7)])
+# z_sample = np.expand_dims(z_sample, axis=1)
+x_decoded = generator.predict(z_sample)
+plt.figure(30, figsize=(8,6))
+plt.plot(x_decoded[0], 'b', alpha = 0.5)
 
 
-for i in range(x_test.shape[0]):
-    plt.figure(30, figsize=(8,6) )
-    plt.plot(x_test[i,:], 'r', alpha = 0.1)
 
-plt.show()
+PlotSample = True
+if PlotSample:
+    for i in range(10):
+        plt.figure(i, figsize=(8,6) )
+        plt.plot(x_test[i,:], 'r', alpha = 0.8)
 
-plt.figure(100)
-loss = vae.history.history['loss']
-val_loss = vae.history.history['val_loss']
-plt.plot( np.arange(len(loss)), np.array(loss),  'o-')
-plt.plot( np.arange(len(val_loss)), np.array(val_loss),  'o-')
-plt.show()
+    plt.show()
+
+PlotLoss = True
+if PlotLoss:
+    plt.figure(100)
+    loss = vae.history.history['loss']
+    val_loss = vae.history.history['val_loss']
+    plt.plot( np.arange(len(loss)), np.array(loss),  'o-')
+    plt.plot( np.arange(len(val_loss)), np.array(val_loss),  'o-')
+    plt.show()
