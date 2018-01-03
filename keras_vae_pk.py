@@ -20,7 +20,7 @@ batch_size = 256
 original_dim = 351 # mnist ~ 784
 latent_dim = 7
 intermediate_dim = 128 # mnist ~ 256
-epochs = 4 #110 #50
+epochs = 10 #110 #50
 epsilon_std = 1.0 # 1.0
 
 
@@ -116,10 +116,16 @@ encoder = Model(x, z_mean)
 
 # display a 2D plot of the digit classes in the latent space
 x_test_encoded = encoder.predict(x_test, batch_size=batch_size)
-plt.figure(65, figsize=(6, 6))
-plt.scatter(x_test_encoded[:, 1], x_test_encoded[:, 0], c=y_test[:,0])
+
+fig, ax = plt.subplots(4,4 , figsize=(5, 5), sharex=True)
+
+ax[0,0].scatter(y_test[:, 0], y_test[:, 1], c= x_test_encoded[:,0])
+ax[0,1].scatter(y_test[:, 0], y_test[:, 2], c= x_test_encoded[:,0])
+ax[0,2].scatter(y_test[:, 0], y_test[:, 3], c= x_test_encoded[:,0])
+ax[0,3].scatter(y_test[:, 0], y_test[:, 4], c= x_test_encoded[:,0])
+
 plt.colorbar()
-plt.show()
+# plt.show()
 
 plt.figure(66, figsize=(6, 6))
 plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 2], c=y_test[:,1])
