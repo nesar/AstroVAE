@@ -78,13 +78,13 @@ vae.compile(optimizer='rmsprop', loss=None)
 
 # train the VAE on halo profile
 
-import halo_load
+import pk_load
 
-density_file = '../Halo_data/fof-064-d_profile.npy'
-halo_para_file1 = '../Halo_data/fof-064-m_200.npy'
-dens = halo_load.density_profile(data_path = density_file, para_path1 = halo_para_file1, para_path2 = halo_para_file2)
+density_file = '../Pk_data/Pk.npy'
+halo_para_file = '../Pk_data/Para9.npy'
+pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file, num_files= 10000)
 
-(x_train, y_train), (x_test, y_test) = dens.load_data()
+(x_train, y_train), (x_test, y_test) = pk.load_data()
 
 
 
