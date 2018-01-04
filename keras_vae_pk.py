@@ -111,7 +111,7 @@ plt.xscale('log')
 
 vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None))
 
-#
+#-------------------------------------------------------------------------------
 
 # build a model to project inputs on the latent space
 encoder = Model(x, z_mean)
