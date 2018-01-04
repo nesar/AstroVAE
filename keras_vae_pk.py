@@ -15,12 +15,14 @@ from keras.layers import Input, Dense, Lambda, Layer
 from keras.models import Model
 from keras import backend as K
 from keras import metrics
+from keras import optimizers
 
-batch_size = 128
+
+batch_size = 100
 original_dim = 351 # mnist ~ 784
-latent_dim = 7
+latent_dim = 2
 intermediate_dim = 128 # mnist ~ 256
-epochs = 50 #110 #50
+epochs = 2 #110 #50
 epsilon_std = 1.0 # 1.0
 
 
@@ -68,6 +70,9 @@ class CustomVariationalLayer(Layer):
 
 y = CustomVariationalLayer()([x, x_decoded_mean])
 vae = Model(x, y)
+
+rmsprop = optimizers.RMSprop(lr=0.00001, rho=0.9, epsilon=None, decay=0.0) # Added
+
 vae.compile(optimizer='rmsprop', loss=None)
 
 # ------------------------------------------------------------------------------
@@ -103,11 +108,11 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 # ------------------------------------------------------------------------------
 #
-plt.figure(34)
-# plt.plot(np.load('../Pk_data/Pk9.npy')[100]/5)
-plt.plot(x_train[100], 'x')
-plt.yscale('log')
-plt.xscale('log')
+# plt.figure(34)
+# # plt.plot(np.load('../Pk_data/Pk9.npy')[100]/5)
+# plt.plot(x_train[100], 'x')
+# plt.yscale('log')
+# plt.xscale('log')
 
 vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None))
 
@@ -146,13 +151,20 @@ ax[3,2].scatter(y_test[:, 3], y_test[:, 3], c= x_test_encoded[:,0])
 ax[3,3].scatter(y_test[:, 3], y_test[:, 4], c= x_test_encoded[:,0])
 
 plt.figure(67, figsize=(6, 6))
-plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 3], c=y_test[:,2])
+plt.scatter(x_test_encoded[:, 1], x_test_encoded[:, 0], c=y_test[:,2])
 plt.colorbar()
 plt.show()
 
 
+# from mpl_toolkits.mplot3d import Axes3D
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d')
+# ax.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], x_test_encoded[:, 2],c = y_test[:,2])
+
+
+
 plt.figure(687, figsize=(6, 6))
-plt.scatter(y_test[:, 3], y_test[:, 4], c=x_test_encoded[:,5])
+plt.scatter(y_test[:, 3], y_test[:, 4], c=x_test_encoded[:,1])
 plt.colorbar()
 plt.show()
 
@@ -170,8 +182,8 @@ figure = np.zeros((digit_size * n, digit_size * n))
 # linearly spaced coordinates on the unit square were transformed through the inverse CDF (ppf) of the Gaussian
 # to produce values of the latent variables z, since the prior of the latent space is Gaussian
 
-grid_x = norm.ppf(np.linspace(0.05, 0.95, n))
-grid_y = norm.ppf(np.linspace(0.05, 0.95, n))
+# grid_x = norm.ppf(np.linspace(0.05, 0.95, n))
+# grid_y = norm.ppf(np.linspace(0.05, 0.95, n))
 
 # for i, yi in enumerate(grid_x):
 #     for j, xi in enumerate(grid_y):
