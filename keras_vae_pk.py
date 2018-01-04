@@ -16,11 +16,11 @@ from keras.models import Model
 from keras import backend as K
 from keras import metrics
 
-batch_size = 256
+batch_size = 128
 original_dim = 351 # mnist ~ 784
 latent_dim = 7
 intermediate_dim = 128 # mnist ~ 256
-epochs = 10 #110 #50
+epochs = 50 #110 #50
 epsilon_std = 1.0 # 1.0
 
 
@@ -79,8 +79,8 @@ vae.compile(optimizer='rmsprop', loss=None)
 
 import pk_load
 
-density_file = '../Pk_data/Pk.npy'
-halo_para_file = '../Pk_data/Para9.npy'
+density_file = '../Pk_data/Pk5.npy'
+halo_para_file = '../Pk_data/Para5.npy'
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
@@ -92,10 +92,11 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
+normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 
 
-x_train = x_train.astype('float32')/28000 #/ 255.
-x_test = x_test.astype('float32')/28000 #/ 255.
+x_train = x_train.astype('float32')/normFactor #/ 255.
+x_test = x_test.astype('float32')/normFactor #/ 255.
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
@@ -103,13 +104,14 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 # ------------------------------------------------------------------------------
 #
 plt.figure(34)
-plt.plot(np.load('../Pk_data/Pk.npy')[100])
+# plt.plot(np.load('../Pk_data/Pk9.npy')[100]/5)
 plt.plot(x_train[100], 'x')
 plt.yscale('log')
 plt.xscale('log')
 
 vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None))
 
+#
 
 # build a model to project inputs on the latent space
 encoder = Model(x, z_mean)
@@ -119,27 +121,38 @@ x_test_encoded = encoder.predict(x_test, batch_size=batch_size)
 
 fig, ax = plt.subplots(4,4 , figsize=(5, 5), sharex=True)
 
-ax[0,0].scatter(y_test[:, 0], y_test[:, 1], c= x_test_encoded[:,0])
-ax[0,1].scatter(y_test[:, 0], y_test[:, 2], c= x_test_encoded[:,0])
-ax[0,2].scatter(y_test[:, 0], y_test[:, 3], c= x_test_encoded[:,0])
-ax[0,3].scatter(y_test[:, 0], y_test[:, 4], c= x_test_encoded[:,0])
+ax[0,0].scatter(y_test[:, 0], y_test[:, 0], c= x_test_encoded[:,0])
+ax[0,1].scatter(y_test[:, 0], y_test[:, 1], c= x_test_encoded[:,0])
+ax[0,2].scatter(y_test[:, 0], y_test[:, 2], c= x_test_encoded[:,0])
+ax[0,3].scatter(y_test[:, 0], y_test[:, 3], c= x_test_encoded[:,0])
 
-plt.colorbar()
+# plt.colorbar()
 # plt.show()
 
-plt.figure(66, figsize=(6, 6))
-plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 2], c=y_test[:,1])
-plt.colorbar()
-plt.show()
+ax[1,0].scatter(y_test[:, 1], y_test[:, 1], c= x_test_encoded[:,0])
+ax[1,1].scatter(y_test[:, 1], y_test[:, 2], c= x_test_encoded[:,0])
+ax[1,2].scatter(y_test[:, 1], y_test[:, 3], c= x_test_encoded[:,0])
+ax[1,3].scatter(y_test[:, 1], y_test[:, 4], c= x_test_encoded[:,0])
+
+
+ax[2,0].scatter(y_test[:, 2], y_test[:, 1], c= x_test_encoded[:,0])
+ax[2,1].scatter(y_test[:, 2], y_test[:, 2], c= x_test_encoded[:,0])
+ax[2,2].scatter(y_test[:, 2], y_test[:, 3], c= x_test_encoded[:,0])
+ax[2,3].scatter(y_test[:, 2], y_test[:, 4], c= x_test_encoded[:,0])
+
+ax[3,0].scatter(y_test[:, 3], y_test[:, 1], c= x_test_encoded[:,0])
+ax[3,1].scatter(y_test[:, 3], y_test[:, 2], c= x_test_encoded[:,0])
+ax[3,2].scatter(y_test[:, 3], y_test[:, 3], c= x_test_encoded[:,0])
+ax[3,3].scatter(y_test[:, 3], y_test[:, 4], c= x_test_encoded[:,0])
 
 plt.figure(67, figsize=(6, 6))
-plt.scatter(x_test_encoded[:, 1], x_test_encoded[:, 3], c=y_test[:,2])
+plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 3], c=y_test[:,2])
 plt.colorbar()
 plt.show()
 
 
 plt.figure(687, figsize=(6, 6))
-plt.scatter(y_test[:, 3], y_test[:, 4], c=x_test_encoded[:,1])
+plt.scatter(y_test[:, 3], y_test[:, 4], c=x_test_encoded[:,5])
 plt.colorbar()
 plt.show()
 
