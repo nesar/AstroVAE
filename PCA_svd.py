@@ -16,15 +16,42 @@ import matplotlib.pyplot as plt
 
 import pk_load
 
-density_file = '../Pk_data/Pk5.npy'
-halo_para_file = '../Pk_data/Para5.npy'
-pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
-k = np.load('../Pk_data/k5.npy')
+totalFiles = 10000
 
+# ------------------------------------------------------------------------------
+
+import pk_load
+
+density_file = '../Pk_data/SVDvsVAE/Pk5.npy'
+halo_para_file = '../Pk_data/SVDvsVAE/Para5.npy'
+pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
 
-y = x_train[:1000,:].T
+x_train = x_train[:totalFiles]
+x_test = x_test[:np.int(0.2*totalFiles)]
+y_train = y_test[:totalFiles]
+y_test = y_test[:np.int(0.2*totalFiles)]
+
+
+print(x_train.shape, 'train sequences')
+print(x_test.shape, 'test sequences')
+print(y_train.shape, 'train sequences')
+print(y_test.shape, 'test sequences')
+
+normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+
+
+x_train = x_train/normFactor
+x_test = x_test/normFactor
+x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
+
+# ------------------------------------------------------------------------------
+
+
+y = x_train.T
 yRowMean = np.zeros_like(y[:,0])
 
 for i in range(y.shape[0]):
@@ -53,7 +80,7 @@ W = np.matmul(W1, y)
 
 Pred = np.matmul(K,W)
 
-
+k = np.load('../Pk_data/SVDvsVAE/k5.npy')
 for i in range(30, 40):
     plt.figure(10)
     plt.plot(k, y[:,i]*stdy + yRowMean, 'x', label = 'data')
@@ -77,7 +104,12 @@ np.savetxt('../Pk_data/SVDvsVAE/stdy.txt', [stdy])
 np.savetxt('../Pk_data/SVDvsVAE/yRowMean.txt',yRowMean)
 
 
-plt.figure(900)
-# plt.scatter(K[:,0], K[:,1])
-plt.scatter(W[0], W[1], c = y_test[:1000][:,4])
-plt.savefig('../Pk_data/SVDvsVAE/ScatterW.png')
+plt.figure(900, figsize=(7,6))
+plt.title('Truncated PCA weights')
+plt.xlabel('W[0]')
+plt.ylabel('W[1]')
+CS = plt.scatter(W[0], W[1], c = y_train[:,0])
+cbar = plt.colorbar(CS)
+cbar.ax.set_ylabel(r'$\Omega_m$')
+plt.tight_layout()
+plt.savefig('../Pk_data/SVDvsVAE/SVD_TruncatedWeights.png')

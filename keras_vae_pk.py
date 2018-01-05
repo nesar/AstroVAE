@@ -197,10 +197,13 @@ plt.plot(x_decoded[0], 'bx', alpha = 0.5)
 
 
 PlotSample = True
+k = np.load('../Pk_data/k5.npy')
 if PlotSample:
     for i in range(10):
         plt.figure(91, figsize=(8,6))
-        plt.plot(x_test[i,:], 'r', alpha = 0.7)
+        plt.plot(k, x_test[i,:], 'r', alpha = 0.7)
+        plt.xscale('log')
+        plt.yscale('log')
 
     plt.show()
 
