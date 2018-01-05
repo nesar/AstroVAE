@@ -22,7 +22,7 @@ batch_size = 100
 original_dim = 351 # mnist ~ 784
 latent_dim = 2
 intermediate_dim = 128 # mnist ~ 256
-epochs = 2 #110 #50
+epochs = 50 #110 #50
 epsilon_std = 1.0 # 1.0
 
 
@@ -71,7 +71,7 @@ class CustomVariationalLayer(Layer):
 y = CustomVariationalLayer()([x, x_decoded_mean])
 vae = Model(x, y)
 
-rmsprop = optimizers.RMSprop(lr=0.00001, rho=0.9, epsilon=None, decay=0.0) # Added
+rmsprop = optimizers.RMSprop(lr=0.000001, rho=0.9, epsilon=None, decay=0.0) # Added
 
 vae.compile(optimizer='rmsprop', loss=None)
 
@@ -114,7 +114,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 # plt.yscale('log')
 # plt.xscale('log')
 
-vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None))
+vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None), verbose = 2)
 
 #-------------------------------------------------------------------------------
 
@@ -212,3 +212,11 @@ if PlotLoss:
     plt.plot( np.arange(len(loss)), np.array(loss),  'o-')
     plt.plot( np.arange(len(val_loss)), np.array(val_loss),  'o-')
     plt.show()
+
+#  FROM WIKI
+# Relationship with truncated singular value decomposition (TSVD)[edit]
+# If linear activations are used, or only a single sigmoid hidden layer, then the optimal solution to an autoencoder is strongly related to principal component analysis (PCA).[10][11]
+
+
+# Can be shown?
+
