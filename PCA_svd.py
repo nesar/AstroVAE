@@ -13,14 +13,15 @@ Gotta save RowMean, std.dev etc
 import numpy as np
 import scipy.linalg as SL
 import matplotlib.pyplot as plt
-
 import pk_load
+import SetPub
+SetPub.set_pub()
 
-totalFiles = 10000
+
+totalFiles = 1000
 
 # ------------------------------------------------------------------------------
 
-import pk_load
 
 density_file = '../Pk_data/SVDvsVAE/Pk5.npy'
 halo_para_file = '../Pk_data/SVDvsVAE/Para5.npy'
@@ -108,7 +109,7 @@ plt.figure(900, figsize=(7,6))
 plt.title('Truncated PCA weights')
 plt.xlabel('W[0]')
 plt.ylabel('W[1]')
-CS = plt.scatter(W[0], W[1], c = y_train[:,0])
+CS = plt.scatter(W[0], W[1], c = y_train[:,0], s = 15, alpha=0.6)
 cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel(r'$\Omega_m$')
 plt.tight_layout()
