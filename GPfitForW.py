@@ -35,7 +35,7 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 1000
+totalFiles = 5000
 
 
 length_scaleParameter = 1.0
