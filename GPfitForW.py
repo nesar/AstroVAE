@@ -248,6 +248,6 @@ if PlotRatio:
         plt.ylabel(r'$P_{GP}(k)$/$P_{Original}(k)$')
                 # plt.legend()
                 # plt.tight_layout()
-        plt.savefig('../Pk_data/SVDvsVAE/GP_PCA_ratio.png')
+    plt.savefig('../Pk_data/SVDvsVAE/GP_PCA_ratio.png')
 
-        plt.show()
+    plt.show()

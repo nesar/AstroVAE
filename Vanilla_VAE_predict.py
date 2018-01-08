@@ -268,22 +268,18 @@ if PlotRatio:
         x_decoded = decoder.predict(W_decoder_input)
 
 
-        PlotRatio = True
-        if PlotRatio:
-            # for i in range(2):
-                plt.figure(94, figsize=(8,6))
-                plt.title('Autoencoder+GP fit')
+        plt.figure(94, figsize=(8,6))
+        plt.title('Autoencoder+GP fit')
 
-                plt.plot(k, x_decoded[0]/PkOriginal[i], 'r',
-                         alpha=.8, lw = 1)
+        plt.plot(k, x_decoded[0]/PkOriginal[i], 'r', alpha=.8, lw = 1)
 
-                plt.xlabel('k')
-                plt.ylabel(r'$P_{GPAE}(k)$/$P_{Original}(k)$')
-                # plt.legend()
-                # plt.tight_layout()
-        plt.savefig('../Pk_data/SVDvsVAE/GP_AE_ratio.png')
+        plt.xlabel('k')
+        plt.ylabel(r'$P_{GPAE}(k)$/$P_{Original}(k)$')
+        # plt.legend()
+        # plt.tight_layout()
+    plt.savefig('../Pk_data/SVDvsVAE/GP_AE_ratio.png')
 
-        plt.show()
+    plt.show()
 
 
 # ------------------------------------------------------------------------------
