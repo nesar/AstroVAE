@@ -25,6 +25,8 @@ from matplotlib import pyplot as plt
 
 import george
 
+import SetPub
+SetPub.set_pub()
 
 def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
@@ -205,3 +207,4 @@ if PlotSample:
         plt.tight_layout()
         plt.savefig('../Pk_data/SVDvsVAE/GP_output.png')
 
+plt.show()
