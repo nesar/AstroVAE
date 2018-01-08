@@ -20,7 +20,7 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 5000
+totalFiles = 10000
 batch_size = 100
 original_dim = 351 # mnist ~ 784
 latent_dim = 2
@@ -30,6 +30,7 @@ epsilon_std = 1.0 # 1.0
 
 
 x = Input(shape=(original_dim,)) # Deepen encoder after this
+
 h = Dense(intermediate_dim, activation='relu')(x)
 z_mean = Dense(latent_dim)(h)
 z_log_var = Dense(latent_dim)(h)
@@ -47,6 +48,7 @@ z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 # we instantiate these layers separately so as to reuse them later
 decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
 decoder_mean = Dense(original_dim, activation='sigmoid')
+
 h_decoded = decoder_h(z)
 x_decoded_mean = decoder_mean(h_decoded)
 
@@ -71,7 +73,7 @@ class CustomVariationalLayer(Layer):
         return x
 
 y = CustomVariationalLayer()([x, x_decoded_mean])
-vae = Model(x, y)
+vae = Model(x, y)  #Model(input layer, loss function)??
 
 rmsprop = optimizers.RMSprop(lr=1e-6, rho=0.9, epsilon=None, decay=0.01) # Added
 
@@ -130,7 +132,7 @@ cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel(r'$\Omega_m$')
 # cbar.ax.set_ylabel(r'$\sigma_8$')
 plt.tight_layout()
-plt.savefig('../Pk_data/SVDvsVAE/VAE_encodedOutputs_y0.png')
+# plt.savefig('../Pk_data/SVDvsVAE/VAE_encodedOutputs_y0.png')
 
 
 

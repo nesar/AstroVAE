@@ -18,7 +18,7 @@ import SetPub
 SetPub.set_pub()
 
 
-totalFiles = 5000
+totalFiles = 10000
 
 # ------------------------------------------------------------------------------
 
@@ -113,4 +113,4 @@ CS = plt.scatter(W[0], W[1], c = y_train[:,0], s = 15, alpha=0.6)
 cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel(r'$\Omega_m$')
 plt.tight_layout()
-plt.savefig('../Pk_data/SVDvsVAE/SVD_TruncatedWeights.png')
+# plt.savefig('../Pk_data/SVDvsVAE/SVD_TruncatedWeights.png')

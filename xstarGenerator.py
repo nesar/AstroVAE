@@ -25,7 +25,7 @@ def normalGenerate(lim1, lim2, nsize):
     return pdf
     # return (N02 - lim N01.max() + N01.min())*(lim2 - lim1)/(N01.max() - N01.min())
 
-nsize = 10  # 100000 without combination - iteration
+nsize = 3  # 100000 without combination - iteration
 
 
 
@@ -79,8 +79,10 @@ z = np.zeros(shape=nsize**5)
 
 restpara = np.vstack([w0, wb, OmegaNu, z])
 
-AllPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01, -1.0, 0.4, 0.0, 0.0]).T
-# AllPara = np.hstack([para5, restpara.T])
+# AllPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01, -1.0, 0.4, 0.0, 0.0]).T  ## For EMU0 -- just
+# one test case
+
+AllPara = np.hstack([para5, restpara.T])
 
 np.savetxt('../Pk_data/CosmicEmu-master/P_cb/xstar.dat', AllPara)
 

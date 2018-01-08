@@ -35,7 +35,7 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 5000
+totalFiles = 10000
 
 
 length_scaleParameter = 1.0
@@ -159,7 +159,9 @@ gp2.compute(XY[:, 0, :].T)
 
 
 # This part will go inside likelihood -- Anirban
+
 RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
+
 RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
 RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
 RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
@@ -178,24 +180,18 @@ Prediction = np.matmul(K, W_pred[:, :, 0])
 
 # Plots for comparison ---------------------------
 
-# xlim1 = 10
-# xlim2 = 15
-# Mass = np.logspace(np.log10(10 ** xlim1), np.log10(10 ** xlim2), 500)[
-#        ::10]  # !!!Check if data points [::10] are properly uniform
-
-# hmf = np.loadtxt('../Pk_data/SVDvsVAE/HMFTestData.txt')[5:]
-
-k = np.load('../Pk_data/k5.npy')
-EMU0 = np.loadtxt('../Pk_data/EMU0.txt')[:,1] # Generated from CosmicEmu -- original value
 normFactor = np.load('../Pk_data/SVDvsVAE/normfactor.npy')
 stdy = np.loadtxt('../Pk_data/SVDvsVAE/stdy.txt')
 yRowMean = np.loadtxt('../Pk_data/SVDvsVAE/yRowMean.txt')
 
+k = np.load('../Pk_data/k5.npy')
+EMU0 = np.loadtxt('../Pk_data/EMU0.txt')[:,1] # Generated from CosmicEmu -- original value
 
 PlotSample = True
 if PlotSample:
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
+        plt.title('Truncated PCA+GP fit')
         plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
         plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
@@ -205,6 +201,53 @@ if PlotSample:
         plt.ylabel('P(k)')
         plt.legend()
         plt.tight_layout()
-        plt.savefig('../Pk_data/SVDvsVAE/GP_output.png')
+        # plt.savefig('../Pk_data/SVDvsVAE/GP_PCA_output.png')
 
 plt.show()
+
+
+
+
+PkOriginal = np.load('../Pk_data/Pk5Test.npy')[:,:] # Generated from CosmicEmu -- original value
+RealParaArray = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar_243.dat')
+
+# RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
+
+for i in range(np.shape(RealParaArray)[0]):
+
+    RealPara = RealParaArray[3*i]
+
+    RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
+    RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
+    RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
+    RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
+    RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
+
+    test_pts = RealPara[:5].reshape(5, -1).T
+
+    W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
+    W_interpol2 = gp2.predict(y[1], test_pts)
+
+    W_pred = np.array([W_interpol1, W_interpol2])
+
+    # K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
+    Prediction = np.matmul(K, W_pred[:, :, 0])
+
+    PlotRatio = True
+    if PlotRatio:
+        # for i in range(2):
+            plt.figure(94, figsize=(8,6))
+            plt.title('Truncated PCA+GP fit')
+            # plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
+            # plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0, label='decoded')
+            plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], 'r',
+                     alpha=.2, lw = 1)
+            plt.xscale('log')
+            plt.yscale('log')
+            plt.xlabel('k')
+            plt.ylabel(r'$P_{GP}(k)$/$P_{Original}(k)$')
+            # plt.legend()
+            # plt.tight_layout()
+    plt.savefig('../Pk_data/SVDvsVAE/GP_PCA_ratio.png')
+
+    plt.show()
