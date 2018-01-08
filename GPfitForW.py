@@ -205,32 +205,3 @@ if PlotSample:
         plt.tight_layout()
         plt.savefig('../Pk_data/SVDvsVAE/GP_output.png')
 
-
-
-# hmfPara = np.loadtxt('Data/HMF_5Para.txt')
-# for i in range(hmfPara[:, 5:].shape[0]):
-#     yA = hmfPara[i, 5:].T  # n(M)    -> all values
-#     plt.figure(1)
-#     plt.plot(Mass, yA, lw=1.5, color="#4682b4", alpha=0.15)
-#
-#     plt.figure(2)
-#     plt.plot(Mass, yA / hmf, lw=1.5, color="#4682b4", alpha=0.3)
-
-
-#
-# plt.figure(1)
-# plt.plot(Mass, Prediction[:, 0] * stdy + yRowMean, 'r-', label='data', lw=1.5)
-# plt.plot(Mass[::5], hmf[::5], 'kx', lw=100)
-#
-# plt.xscale('log')
-# plt.yscale('log')
-# plt.savefig('../Pk_data/SVDvsVAE/GP_fit_fig2.png')
-#
-# plt.figure(2)
-# plt.plot(Mass, (Prediction[:, 0] * stdy + yRowMean) / hmf, 'r-', lw=1.5)
-# plt.xscale('log')
-# # plt.yscale('log')
-#
-# plt.savefig('../Pk_data/SVDvsVAE/GP_fit_fig1.png')
-# plt.show()
-

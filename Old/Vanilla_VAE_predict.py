@@ -26,8 +26,7 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 5000
-latent_dim = 2
+totalFiles = 10000
 
 
 # length_scaleParameter = 1.0
@@ -132,7 +131,6 @@ gp2 = george.GP(kernel)
 
 gp1.compute(XY[:, 0, :].T)
 gp2.compute(XY[:, 0, :].T)
-
 # gp2.optimize( XY[:,0,:].T, y[1], verbose=True)
 
 
@@ -161,123 +159,77 @@ y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
 W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
 W_interpol2 = gp2.predict(y[1], test_pts)
 
-# Why is the dimension of W_interpol1 = (2,1). I need just (1)
-
 W_pred = np.array([W_interpol1, W_interpol2])
-print(W_pred)
 
-# Just need one decoder input representation, not 2 -- W_pred right now gives 2
-W_decoder_input = W_pred[:,0,:].T
 
 # ------------------------------------------------------------------------------
 # Decoder acts here
 # Have to save and load model architecture, and weights
-
-from keras.models import load_model
-
-fileOut = 'Model'
-# vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
-encoder = load_model('../Pk_data/Encoder_' + fileOut + '.hdf5')
-decoder = load_model('../Pk_data/Decoder_' + fileOut + '.hdf5')
-history = np.load('../Pk_data/TrainingHistory_'+fileOut+'.npy')
-
-# generator = Model(decoder_input, _x_decoded_mean)
-# x_decoded = generator.predict(W_pred.T[0,:,:])
-x_decoded = decoder.predict(W_decoder_input)
-
-
-k = np.load('../Pk_data/k5.npy')
-EMU0 = np.loadtxt('../Pk_data/EMU0.txt')[:,1] # Generated from CosmicEmu -- original value
-normFactor = np.load('../Pk_data/SVDvsVAE/normfactor.npy')
+generator = Model(decoder_input, _x_decoded_mean)
+x_decoded = generator.predict(W_pred.T[0,:,:])
 
 
 PlotSample = True
+k = np.load('../Pk_data/k5.npy')
 if PlotSample:
-    # for i in range(2):
+    for i in range(2):
         plt.figure(91, figsize=(8,6))
-        plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
-        plt.plot(k, normFactor * x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
-        plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
+        plt.plot(k, x_decoded[i], 'o', alpha = 0.2)
+        plt.plot(k, x_train[i], '--')
         plt.xscale('log')
         plt.yscale('log')
-        plt.xlabel('k')
-        plt.ylabel('P(k)')
-        plt.legend()
-        plt.tight_layout()
-        plt.savefig('../Pk_data/SVDvsVAE/GPAE_output.png')
 
-plotLoss = True
-if plotLoss:
-    import matplotlib.pylab as plt
-
-    epochs =  history[0,:]
-    train_loss = history[1,:]
-    val_loss = history[2,:]
-
-
-    fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
-    # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
-    ax.plot(epochs,train_loss, 'o-')
-    ax.plot(epochs,val_loss, 'o-')
-    ax.set_ylabel('loss')
-    ax.set_xlabel('epochs')
-    # ax[0].set_ylim([0,1])
-    # ax[0].set_title('Loss')
-    ax.legend(['train loss','val loss'])
-    plt.tight_layout()
-    plt.savefig('../Pk_data/SVDvsVAE/Training_loss.png')
-
-plt.show()
+    plt.show()
 
 
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-#
-## # Load decoder architecture here
-## K = np.loadtxt('Data/K_for2Eval.txt')
-#
-## # Get W_pred -> decode to P(k)
-## Prediction = np.matmul(K, W_pred[:, :, 0])
-#
+
+# Load decoder architecture here
+K = np.loadtxt('Data/K_for2Eval.txt')
+
+# Get W_pred -> decode to P(k)
+Prediction = np.matmul(K, W_pred[:, :, 0])
+
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-#
-# # Plots for comparison ---------------------------
-#
-# xlim1 = 10
-# xlim2 = 15
-# Mass = np.logspace(np.log10(10 ** xlim1), np.log10(10 ** xlim2), 500)[
-#        ::10]  # !!!Check if data points [::10] are properly uniform
-#
-# hmf = np.loadtxt('Data/HMFTestData.txt')[5:]
-#
-# hmfPara = np.loadtxt('Data/HMF_5Para.txt')
-# for i in range(hmfPara[:, 5:].shape[0]):
-#     yA = hmfPara[i, 5:].T  # n(M)    -> all values
-#     plt.figure(1)
-#     plt.plot(Mass, yA, lw=1.5, color="#4682b4", alpha=0.15)
-#
-#     plt.figure(2)
-#     plt.plot(Mass, yA / hmf, lw=1.5, color="#4682b4", alpha=0.3)
-#
-# stdy = np.loadtxt('Data/stdy.txt')
-# yRowMean = np.loadtxt('Data/yRowMean.txt')
-#
-# plt.figure(1)
-# plt.plot(Mass, Prediction[:, 0] * stdy + yRowMean, 'r-', label='data', lw=1.5)
-# plt.plot(Mass[::5], hmf[::5], 'kx', lw=100)
-#
-# plt.xscale('log')
+
+# Plots for comparison ---------------------------
+
+xlim1 = 10
+xlim2 = 15
+Mass = np.logspace(np.log10(10 ** xlim1), np.log10(10 ** xlim2), 500)[
+       ::10]  # !!!Check if data points [::10] are properly uniform
+
+hmf = np.loadtxt('Data/HMFTestData.txt')[5:]
+
+hmfPara = np.loadtxt('Data/HMF_5Para.txt')
+for i in range(hmfPara[:, 5:].shape[0]):
+    yA = hmfPara[i, 5:].T  # n(M)    -> all values
+    plt.figure(1)
+    plt.plot(Mass, yA, lw=1.5, color="#4682b4", alpha=0.15)
+
+    plt.figure(2)
+    plt.plot(Mass, yA / hmf, lw=1.5, color="#4682b4", alpha=0.3)
+
+stdy = np.loadtxt('Data/stdy.txt')
+yRowMean = np.loadtxt('Data/yRowMean.txt')
+
+plt.figure(1)
+plt.plot(Mass, Prediction[:, 0] * stdy + yRowMean, 'r-', label='data', lw=1.5)
+plt.plot(Mass[::5], hmf[::5], 'kx', lw=100)
+
+plt.xscale('log')
+plt.yscale('log')
+plt.savefig('Plots/GP_fit_fig2.png')
+
+plt.figure(2)
+plt.plot(Mass, (Prediction[:, 0] * stdy + yRowMean) / hmf, 'r-', lw=1.5)
+plt.xscale('log')
 # plt.yscale('log')
-# plt.savefig('Plots/GP_fit_fig2.png')
-#
-# plt.figure(2)
-# plt.plot(Mass, (Prediction[:, 0] * stdy + yRowMean) / hmf, 'r-', lw=1.5)
-# plt.xscale('log')
-# # plt.yscale('log')
-#
-# plt.savefig('Plots/GP_fit_fig1.png')
-# plt.show()
+
+plt.savefig('Plots/GP_fit_fig1.png')
+plt.show()
