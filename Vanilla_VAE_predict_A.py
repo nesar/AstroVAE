@@ -26,7 +26,7 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 10000
+totalFiles = 5000
 latent_dim = 2
 
 
