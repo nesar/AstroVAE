@@ -3,7 +3,7 @@ Data reduction and inference problems using combination of GP emulator and Varia
 
 ## Architecture: 
 
-![Model](ArchitectureFullAE.png "Full model")
+![Model](Old/ArchitectureFullAE.png "Full model")
 
 
 
