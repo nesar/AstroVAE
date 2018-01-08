@@ -237,6 +237,58 @@ plt.show()
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
+PlotRatio = False
+if PlotRatio:
+
+    PkOriginal = np.load('../Pk_data/Pk5Test.npy')[:,:] # Generated from CosmicEmu -- original value
+    RealParaArray = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar_243.dat')
+
+    # RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
+
+    for i in range(np.shape(RealParaArray)[0]):
+
+        RealPara = RealParaArray[9*i]
+
+        RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
+        RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
+        RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
+        RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
+        RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
+
+        test_pts = RealPara[:5].reshape(5, -1).T
+
+        W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
+        W_interpol2 = gp2.predict(y[1], test_pts)
+
+        W_pred = np.array([W_interpol1, W_interpol2])
+
+        W_decoder_input = W_pred[:, 0, :].T
+
+
+        x_decoded = decoder.predict(W_decoder_input)
+
+
+        PlotRatio = True
+        if PlotRatio:
+            # for i in range(2):
+                plt.figure(94, figsize=(8,6))
+                plt.title('Autoencoder+GP fit')
+
+                plt.plot(k, x_decoded[0]/PkOriginal[i], 'r',
+                         alpha=.8, lw = 1)
+
+                plt.xlabel('k')
+                plt.ylabel(r'$P_{GPAE}(k)$/$P_{Original}(k)$')
+                # plt.legend()
+                # plt.tight_layout()
+        plt.savefig('../Pk_data/SVDvsVAE/GP_AE_ratio.png')
+
+        plt.show()
+
+
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
 #
 ## # Load decoder architecture here
 ## K = np.loadtxt('Data/K_for2Eval.txt')

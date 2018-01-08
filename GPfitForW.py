@@ -206,48 +206,52 @@ if PlotSample:
 plt.show()
 
 
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
+PlotRatio = False
+if PlotRatio:
 
-PkOriginal = np.load('../Pk_data/Pk5Test.npy')[:,:] # Generated from CosmicEmu -- original value
-RealParaArray = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar_243.dat')
+    PkOriginal = np.load('../Pk_data/Pk5Test.npy')[:,:] # Generated from CosmicEmu -- original value
+    RealParaArray = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar_243.dat')
 
-# RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
+    # RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
 
-for i in range(np.shape(RealParaArray)[0]):
+    for i in range(np.shape(RealParaArray)[0]):
 
-    RealPara = RealParaArray[3*i]
+        RealPara = RealParaArray[9*i]
 
-    RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
-    RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
-    RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
-    RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
-    RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
+        RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
+        RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
+        RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
+        RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
+        RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 
-    test_pts = RealPara[:5].reshape(5, -1).T
+        test_pts = RealPara[:5].reshape(5, -1).T
 
-    W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
-    W_interpol2 = gp2.predict(y[1], test_pts)
+        W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
+        W_interpol2 = gp2.predict(y[1], test_pts)
 
-    W_pred = np.array([W_interpol1, W_interpol2])
+        W_pred = np.array([W_interpol1, W_interpol2])
 
-    # K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
-    Prediction = np.matmul(K, W_pred[:, :, 0])
+        # K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
+        Prediction = np.matmul(K, W_pred[:, :, 0])
 
-    PlotRatio = True
-    if PlotRatio:
-        # for i in range(2):
-            plt.figure(94, figsize=(8,6))
-            plt.title('Truncated PCA+GP fit')
-            # plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
-            # plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0, label='decoded')
-            plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], 'r',
-                     alpha=.2, lw = 1)
-            plt.xscale('log')
-            plt.yscale('log')
-            plt.xlabel('k')
-            plt.ylabel(r'$P_{GP}(k)$/$P_{Original}(k)$')
-            # plt.legend()
-            # plt.tight_layout()
-    plt.savefig('../Pk_data/SVDvsVAE/GP_PCA_ratio.png')
+        PlotRatio = True
+        if PlotRatio:
+            # for i in range(2):
+                plt.figure(94, figsize=(8,6))
+                plt.title('Truncated PCA+GP fit')
+                # plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
+                # plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0, label='decoded')
+                plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], 'r',
+                         alpha=.8, lw = 1)
+                # plt.xscale('log')
+                # plt.yscale('log')
+                plt.xlabel('k')
+                plt.ylabel(r'$P_{GP}(k)$/$P_{Original}(k)$')
+                # plt.legend()
+                # plt.tight_layout()
+        plt.savefig('../Pk_data/SVDvsVAE/GP_PCA_ratio.png')
 
-    plt.show()
+        plt.show()
