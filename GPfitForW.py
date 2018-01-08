@@ -10,6 +10,10 @@ print(__doc__)
 # Higdon et al 2008, 2012
 # Check David's talk for plots of spectrum, and other things.
 
+# See if we want to emulate mass-density instead?
+
+
+
 import numpy as np
 
 from matplotlib import pyplot as plt
@@ -21,18 +25,20 @@ from matplotlib import pyplot as plt
 
 import george
 
+
 def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
 
 
+# import SetPub
+# SetPub.set_pub()
 
-totalFiles = 5000
-latent_dim = 2
+totalFiles = 1000
 
 
-# length_scaleParameter = 1.0
-# length_scaleBoundMin = 0.1
-# length_scaleBoundMax = 0.3
+length_scaleParameter = 1.0
+length_scaleBoundMin = 0.1
+length_scaleBoundMax = 0.3
 
 # kernels = [1.0 * Matern(length_scale=length_scaleParameter, length_scale_bounds=(length_scaleBoundMin, length_scaleBoundMax),
 # nu=1.5)]
@@ -51,11 +57,8 @@ from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel
 # kernel = ConstantKernel(0.5, ndim=5) * Matern32Kernel(0.5, ndim=5) + WhiteKernel(0.1, ndim=5)
 kernel = Matern32Kernel(0.5, ndim=5)
 
-
-# ------------------------------------------------------------------------------
-
 # hmf = np.loadtxt('Data/HMF_5Para.txt')
-# hmf = np.load('../Pk_data/Para5.npy')
+
 
 # Load from pk load instead
 # ------------------------------------------------------------------------------
@@ -95,6 +98,29 @@ hmf = y_train
 # ------------------------------------------------------------------------------
 
 
+#
+# X1 = hmf[:, 0][:, np.newaxis]
+# X1a = rescale01(np.min(X1), np.max(X1), X1)
+#
+# X2 = hmf[:, 1][:, np.newaxis]
+# X2a = rescale01(np.min(X2), np.max(X2), X2)
+#
+# X3 = hmf[:, 2][:, np.newaxis]
+# X3a = rescale01(np.min(X3), np.max(X3), X3)
+#
+# X4 = hmf[:, 3][:, np.newaxis]
+# X4a = rescale01(np.min(X4), np.max(X4), X4)
+#
+# X5 = hmf[:, 4][:, np.newaxis]
+# X5a = rescale01(np.min(X5), np.max(X5), X5)
+#
+#
+# XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
+
+
+# ------------------------------------------------------------------------------
+
+
 
 X1 = hmf[:, 0][:, np.newaxis]
 X1a = rescale01(np.min(X1), np.max(X1), X1)
@@ -111,14 +137,9 @@ X4a = rescale01(np.min(X4), np.max(X4), X4)
 X5 = hmf[:, 4][:, np.newaxis]
 X5a = rescale01(np.min(X5), np.max(X5), X5)
 
+y = np.loadtxt('../Pk_data/SVDvsVAE/W_for2Eval.txt', dtype=float)  #
 
 XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
-
-
-# ------------------------------------------------------------------------------
-
-#  2 gp because of 2 truncated pca basis
-# 2 also because 2 latent variables??
 
 # Specify Gaussian Process
 # gp1 = GaussianProcessRegressor(kernel=kernels[0])
@@ -132,12 +153,8 @@ gp2 = george.GP(kernel)
 
 gp1.compute(XY[:, 0, :].T)
 gp2.compute(XY[:, 0, :].T)
-
 # gp2.optimize( XY[:,0,:].T, y[1], verbose=True)
 
-
-
-# ------------------------------------------------------------------------------
 
 # This part will go inside likelihood -- Anirban
 RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
@@ -149,46 +166,28 @@ RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 
 test_pts = RealPara.reshape(5, -1).T
 
-
-
-# ------------------------------------------------------------------------------
-# Dimension of W_pred is very small
-
-
-y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
-# y = np.loadtxt('Data/W_for2Eval.txt', dtype=float)  #
-
 W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
 W_interpol2 = gp2.predict(y[1], test_pts)
 
-# Why is the dimension of W_interpol1 = (2,1). I need just (1)
-
 W_pred = np.array([W_interpol1, W_interpol2])
-print(W_pred)
 
-# Just need one decoder input representation, not 2 -- W_pred right now gives 2
-W_decoder_input = W_pred[:,0,:].T
+K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
+Prediction = np.matmul(K, W_pred[:, :, 0])
 
-# ------------------------------------------------------------------------------
-# Decoder acts here
-# Have to save and load model architecture, and weights
+# Plots for comparison ---------------------------
 
-from keras.models import load_model
+# xlim1 = 10
+# xlim2 = 15
+# Mass = np.logspace(np.log10(10 ** xlim1), np.log10(10 ** xlim2), 500)[
+#        ::10]  # !!!Check if data points [::10] are properly uniform
 
-fileOut = 'Model'
-# vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
-encoder = load_model('../Pk_data/Encoder_' + fileOut + '.hdf5')
-decoder = load_model('../Pk_data/Decoder_' + fileOut + '.hdf5')
-history = np.load('../Pk_data/TrainingHistory_'+fileOut+'.npy')
-
-# generator = Model(decoder_input, _x_decoded_mean)
-# x_decoded = generator.predict(W_pred.T[0,:,:])
-x_decoded = decoder.predict(W_decoder_input)
-
+# hmf = np.loadtxt('../Pk_data/SVDvsVAE/HMFTestData.txt')[5:]
 
 k = np.load('../Pk_data/k5.npy')
 EMU0 = np.loadtxt('../Pk_data/EMU0.txt')[:,1] # Generated from CosmicEmu -- original value
 normFactor = np.load('../Pk_data/SVDvsVAE/normfactor.npy')
+stdy = np.loadtxt('../Pk_data/SVDvsVAE/stdy.txt')
+yRowMean = np.loadtxt('../Pk_data/SVDvsVAE/yRowMean.txt')
 
 
 PlotSample = True
@@ -196,7 +195,7 @@ if PlotSample:
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
         plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
-        plt.plot(k, normFactor * x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
+        plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         plt.xscale('log')
         plt.yscale('log')
@@ -204,56 +203,10 @@ if PlotSample:
         plt.ylabel('P(k)')
         plt.legend()
         plt.tight_layout()
-        plt.savefig('../Pk_data/SVDvsVAE/GPAE_output.png')
-
-plotLoss = True
-if plotLoss:
-    import matplotlib.pylab as plt
-
-    epochs =  history[0,:]
-    train_loss = history[1,:]
-    val_loss = history[2,:]
-
-
-    fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
-    # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
-    ax.plot(epochs,train_loss, 'o-')
-    ax.plot(epochs,val_loss, 'o-')
-    ax.set_ylabel('loss')
-    ax.set_xlabel('epochs')
-    # ax[0].set_ylim([0,1])
-    # ax[0].set_title('Loss')
-    ax.legend(['train loss','val loss'])
-    plt.tight_layout()
-    plt.savefig('../Pk_data/SVDvsVAE/Training_loss.png')
-
-plt.show()
+        plt.savefig('../Pk_data/SVDvsVAE/GP_output.png')
 
 
 
-# ------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------
-
-#
-## # Load decoder architecture here
-## K = np.loadtxt('Data/K_for2Eval.txt')
-#
-## # Get W_pred -> decode to P(k)
-## Prediction = np.matmul(K, W_pred[:, :, 0])
-#
-
-# ------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------
-#
-# # Plots for comparison ---------------------------
-#
-# xlim1 = 10
-# xlim2 = 15
-# Mass = np.logspace(np.log10(10 ** xlim1), np.log10(10 ** xlim2), 500)[
-#        ::10]  # !!!Check if data points [::10] are properly uniform
-#
-# hmf = np.loadtxt('Data/HMFTestData.txt')[5:]
-#
 # hmfPara = np.loadtxt('Data/HMF_5Para.txt')
 # for i in range(hmfPara[:, 5:].shape[0]):
 #     yA = hmfPara[i, 5:].T  # n(M)    -> all values
@@ -262,9 +215,8 @@ plt.show()
 #
 #     plt.figure(2)
 #     plt.plot(Mass, yA / hmf, lw=1.5, color="#4682b4", alpha=0.3)
-#
-# stdy = np.loadtxt('Data/stdy.txt')
-# yRowMean = np.loadtxt('Data/yRowMean.txt')
+
+
 #
 # plt.figure(1)
 # plt.plot(Mass, Prediction[:, 0] * stdy + yRowMean, 'r-', label='data', lw=1.5)
@@ -272,12 +224,13 @@ plt.show()
 #
 # plt.xscale('log')
 # plt.yscale('log')
-# plt.savefig('Plots/GP_fit_fig2.png')
+# plt.savefig('../Pk_data/SVDvsVAE/GP_fit_fig2.png')
 #
 # plt.figure(2)
 # plt.plot(Mass, (Prediction[:, 0] * stdy + yRowMean) / hmf, 'r-', lw=1.5)
 # plt.xscale('log')
 # # plt.yscale('log')
 #
-# plt.savefig('Plots/GP_fit_fig1.png')
+# plt.savefig('../Pk_data/SVDvsVAE/GP_fit_fig1.png')
 # plt.show()
+
