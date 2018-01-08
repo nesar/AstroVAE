@@ -194,11 +194,37 @@ normFactor = np.load('../Pk_data/SVDvsVAE/normfactor.npy')
 if PlotSample:
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
-        plt.plot(k, normFactor*x_decoded[0], 'x', alpha = 0.5, label= 'decoded')
-        plt.plot(k, EMU0, 'kx', alpha = 0.5, label='original')
+        plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
+        plt.plot(k, normFactor * x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
+        plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         plt.xscale('log')
         plt.yscale('log')
+        plt.xlabel('k')
+        plt.ylabel('P(k)')
         plt.legend()
+        plt.tight_layout()
+        plt.savefig('../Pk_data/SVDvsVAE/GPAE_output.png')
+
+plotLoss = True
+if plotLoss:
+    import matplotlib.pylab as plt
+
+    epochs =  history[0,:]
+    train_loss = history[1,:]
+    val_loss = history[2,:]
+
+
+    fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
+    # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
+    ax.plot(epochs,train_loss, 'o-')
+    ax.plot(epochs,val_loss, 'o-')
+    ax.set_ylabel('loss')
+    ax.set_xlabel('epochs')
+    # ax[0].set_ylim([0,1])
+    # ax[0].set_title('Loss')
+    ax.legend(['train loss','val loss'])
+    plt.tight_layout()
+    plt.savefig('../Pk_data/SVDvsVAE/Training_loss.png')
 
 plt.show()
 
