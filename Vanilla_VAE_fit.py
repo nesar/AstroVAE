@@ -173,7 +173,7 @@ if SaveModel:
 PlotSample = False
 k = np.load('../Pk_data/k5.npy')
 if PlotSample:
-    for i in range(3):
+    for i in range(30,31):
         plt.figure(91, figsize=(8,6))
         plt.plot(k, x_decoded[i], 'rx', alpha = 0.2)
         plt.plot(k, x_train[i], 'k')
@@ -183,6 +183,16 @@ if PlotSample:
     plt.show()
 
 
+PlotModel = True
+if PlotModel:
+    from keras.utils.vis_utils import plot_model
+    fileOut = '../Pk_data/SVDvsVAE/ArchitectureFullAE.png'
+    plot_model(vae, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
+    fileOut = '../Pk_data/SVDvsVAE/ArchitectureEncoder.png'
+    plot_model(encoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
+
+    fileOut = '../Pk_data/SVDvsVAE/ArchitectureDecoder.png'
+    plot_model(generator, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
 print('---- Training done -------')
