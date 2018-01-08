@@ -237,19 +237,15 @@ if PlotRatio:
         # K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
         Prediction = np.matmul(K, W_pred[:, :, 0])
 
-        PlotRatio = True
-        if PlotRatio:
-            # for i in range(2):
-                plt.figure(94, figsize=(8,6))
-                plt.title('Truncated PCA+GP fit')
-                # plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
-                # plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0, label='decoded')
-                plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], 'r',
-                         alpha=.8, lw = 1)
+
+        plt.figure(94, figsize=(8,6))
+        plt.title('Truncated PCA+GP fit')
+        plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], 'r', alpha=.8,
+                 lw = 1)
                 # plt.xscale('log')
                 # plt.yscale('log')
-                plt.xlabel('k')
-                plt.ylabel(r'$P_{GP}(k)$/$P_{Original}(k)$')
+        plt.xlabel('k')
+        plt.ylabel(r'$P_{GP}(k)$/$P_{Original}(k)$')
                 # plt.legend()
                 # plt.tight_layout()
         plt.savefig('../Pk_data/SVDvsVAE/GP_PCA_ratio.png')
