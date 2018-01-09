@@ -1,5 +1,5 @@
 # AstroVAE
-Data reduction and inference problems using combination of GP emulator and Variational autoencoder 
+Data reduction, emulation and inference using a combination of GP emulator and Variational autoencoder 
 
 ## Architecture: 
 
