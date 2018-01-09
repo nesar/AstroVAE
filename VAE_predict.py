@@ -244,8 +244,6 @@ if PlotRatio:
     PkOriginal = np.load('../Pk_data/Pk5Test.npy')[:,:] # Generated from CosmicEmu -- original value
     RealParaArray = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar_243.dat')
 
-    # RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
-
     for i in range(np.shape(RealParaArray)[0]):
 
         RealPara = RealParaArray[20*i]
@@ -269,8 +267,6 @@ if PlotRatio:
             W_pred[:, i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
 
         # ------------------------------------------------------------------------------
-
-
 
         x_decoded = decoder.predict(W_pred)
 
