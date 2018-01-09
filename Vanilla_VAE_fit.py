@@ -20,10 +20,10 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 100
+totalFiles = 1000
 batch_size = 10
 original_dim = 351 # mnist ~ 784
-latent_dim = 4
+latent_dim = 6
 intermediate_dim = 128 # mnist ~ 256
 epochs = 10 #110 #50
 epsilon_std = 1.0 # 1.0

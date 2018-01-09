@@ -28,8 +28,8 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 100
-latent_dim = 4
+totalFiles = 1000
+latent_dim = 6
 
 
 # length_scaleParameter = 1.0
@@ -200,7 +200,7 @@ if PlotSample:
         plt.figure(91, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
         plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
-        plt.plot(k, normFactor * x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
+        plt.plot(k, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         plt.xscale('log')
         plt.yscale('log')
@@ -238,7 +238,7 @@ plt.show()
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-PlotRatio = False
+PlotRatio = True
 if PlotRatio:
 
     PkOriginal = np.load('../Pk_data/Pk5Test.npy')[:,:] # Generated from CosmicEmu -- original value
@@ -248,7 +248,7 @@ if PlotRatio:
 
     for i in range(np.shape(RealParaArray)[0]):
 
-        RealPara = RealParaArray[9*i]
+        RealPara = RealParaArray[20*i]
 
         RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
         RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
@@ -278,12 +278,12 @@ if PlotRatio:
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
 
-        plt.plot(k, x_decoded[0]/PkOriginal[i], 'r', alpha=.8, lw = 1)
+        plt.plot(k, normFactor*x_decoded[0]/PkOriginal[i], 'r', alpha=.8, lw = 1)
 
         plt.xlabel('k')
         plt.ylabel(r'$P_{GPAE}(k)$/$P_{Original}(k)$')
         # plt.legend()
-        # plt.tight_layout()
+        plt.tight_layout()
     plt.savefig('../Pk_data/SVDvsVAE/GP_AE_ratio.png')
 
     plt.show()
