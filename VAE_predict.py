@@ -258,15 +258,21 @@ if PlotRatio:
 
         test_pts = RealPara[:5].reshape(5, -1).T
 
-        W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
-        W_interpol2 = gp2.predict(y[1], test_pts)
+        # ------------------------------------------------------------------------------
+        y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
 
-        W_pred = np.array([W_interpol1, W_interpol2])
+        W_pred = np.array([np.zeros(shape=latent_dim)])
+        gp = {}
+        for i in range(latent_dim):
+            gp["fit{0}".format(i)] = george.GP(kernel)
+            gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
+            W_pred[:, i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
 
-        W_decoder_input = W_pred[:, 0, :].T
+        # ------------------------------------------------------------------------------
 
 
-        x_decoded = decoder.predict(W_decoder_input)
+
+        x_decoded = decoder.predict(W_pred)
 
 
         plt.figure(94, figsize=(8,6))
