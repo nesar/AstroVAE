@@ -20,13 +20,17 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 10000
-batch_size = 100
+totalFiles = 100
+batch_size = 10
 original_dim = 351 # mnist ~ 784
-latent_dim = 2
+latent_dim = 4
 intermediate_dim = 128 # mnist ~ 256
 epochs = 10 #110 #50
 epsilon_std = 1.0 # 1.0
+
+
+# -------------------------------- Network Architecture ---------------------------------
+
 
 
 x = Input(shape=(original_dim,)) # Deepen encoder after this
@@ -79,7 +83,7 @@ rmsprop = optimizers.RMSprop(lr=1e-6, rho=0.9, epsilon=None, decay=0.01) # Added
 
 vae.compile(optimizer='rmsprop', loss=None)
 
-# ------------------------------------------------------------------------------
+# ----------------------------- i/o ------------------------------------------
 
 import pk_load
 
