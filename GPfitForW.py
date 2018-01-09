@@ -35,7 +35,9 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 10000
+totalFiles = 100
+NoEigenComp = 5
+
 
 
 length_scaleParameter = 1.0
@@ -143,25 +145,10 @@ y = np.loadtxt('../Pk_data/SVDvsVAE/W_for2Eval.txt', dtype=float)  #
 
 XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
-# Specify Gaussian Process
-# gp1 = GaussianProcessRegressor(kernel=kernels[0])
-# gp2 = GaussianProcessRegressor(kernel=kernels[0])
-
-gp1 = george.GP(kernel)
-gp2 = george.GP(kernel)
-
-# gp1.fit(  XY[:,0,:].T   ,  y[0])
-# gp2.fit( XY[:,0,:].T ,  y[1])
-
-gp1.compute(XY[:, 0, :].T)
-gp2.compute(XY[:, 0, :].T)
-# gp2.optimize( XY[:,0,:].T, y[1], verbose=True)
-
-
+# ------------------------------------------------------------------------------
+# Test Sample
 # This part will go inside likelihood -- Anirban
-
 RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
-
 RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
 RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
 RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
@@ -170,13 +157,42 @@ RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 
 test_pts = RealPara.reshape(5, -1).T
 
-W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
-W_interpol2 = gp2.predict(y[1], test_pts)
+# ------------------------------------------------------------------------------
 
-W_pred = np.array([W_interpol1, W_interpol2])
+# Specify Gaussian Process
+# gp1 = GaussianProcessRegressor(kernel=kernels[0])
+# gp2 = GaussianProcessRegressor(kernel=kernels[0])
+
+# gp1 = george.GP(kernel)
+# gp2 = george.GP(kernel)
+
+# gp1.fit(  XY[:,0,:].T   ,  y[0])
+# gp2.fit( XY[:,0,:].T ,  y[1])
+
+# gp1.compute(XY[:, 0, :].T)
+# gp2.compute(XY[:, 0, :].T)
+# gp2.optimize( XY[:,0,:].T, y[1], verbose=True)
+
+
+# ------------------------------------------------------------------------------
+
+W_pred = np.array([np.zeros(shape=NoEigenComp)])
+gp={}
+for i in range(NoEigenComp):
+    gp["fit{0}".format(i)]= george.GP(kernel)
+    gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
+    W_pred[:,i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
+
+# ------------------------------------------------------------------------------
+
+
+# W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
+# W_interpol2 = gp2.predict(y[1], test_pts)
+#
+# W_pred = np.array([W_interpol1, W_interpol2])
 
 K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
-Prediction = np.matmul(K, W_pred[:, :, 0])
+Prediction = np.matmul(K, W_pred.T)
 
 # Plots for comparison ---------------------------
 
@@ -192,7 +208,7 @@ if PlotSample:
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
         plt.title('Truncated PCA+GP fit')
-        plt.plot(k, normFactor*x_test[::20].T, 'gray', alpha=0.2)
+        plt.plot(k, normFactor*x_test[::].T, 'gray', alpha=0.1)
         plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         plt.xscale('log')
@@ -209,17 +225,18 @@ plt.show()
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-PlotRatio = False
+PlotRatio = True
 if PlotRatio:
 
-    PkOriginal = np.load('../Pk_data/Pk5Test.npy')[:,:] # Generated from CosmicEmu -- original value
-    RealParaArray = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar_243.dat')
+    PkOriginal = np.load('../Pk_data/Pk5Test32.npy')[:,:] # Generated from CosmicEmu -- original
+    # value
+    RealParaArray = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar_32.dat')
 
     # RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
 
     for i in range(np.shape(RealParaArray)[0]):
 
-        RealPara = RealParaArray[9*i]
+        RealPara = RealParaArray[i]
 
         RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
         RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
@@ -229,25 +246,31 @@ if PlotRatio:
 
         test_pts = RealPara[:5].reshape(5, -1).T
 
-        W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
-        W_interpol2 = gp2.predict(y[1], test_pts)
+        # ------------------------------------------------------------------------------
 
-        W_pred = np.array([W_interpol1, W_interpol2])
+        W_pred = np.array([np.zeros(shape=NoEigenComp)])
+        gp = {}
+        for i in range(NoEigenComp):
+            gp["fit{0}".format(i)] = george.GP(kernel)
+            gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
+            W_pred[:, i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
+
+        # ------------------------------------------------------------------------------
 
         # K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
-        Prediction = np.matmul(K, W_pred[:, :, 0])
+        Prediction = np.matmul(K, W_pred.T)
 
 
         plt.figure(94, figsize=(8,6))
         plt.title('Truncated PCA+GP fit')
-        plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], 'r', alpha=.8,
-                 lw = 1)
-                # plt.xscale('log')
+        plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], alpha=.9,
+                 lw = 1.5)
+        plt.xscale('log')
                 # plt.yscale('log')
         plt.xlabel('k')
         plt.ylabel(r'$P_{GP}(k)$/$P_{Original}(k)$')
                 # plt.legend()
                 # plt.tight_layout()
     plt.savefig('../Pk_data/SVDvsVAE/GP_PCA_ratio.png')
-
+    plt.axhline(y=1, ls = '-.', lw = 1.5)
     plt.show()

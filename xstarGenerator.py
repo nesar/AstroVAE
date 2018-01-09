@@ -25,19 +25,27 @@ def normalGenerate(lim1, lim2, nsize):
     return pdf
     # return (N02 - lim N01.max() + N01.min())*(lim2 - lim1)/(N01.max() - N01.min())
 
-nsize = 3  # 100000 without combination - iteration
+nsize = 2  # 100000 without combination - iteration
 
 
 
 #-----------------------------------------------------------
 
-OmegaM = np.linspace(0.12, 0.155, nsize)
-# OmegaM = normalGenerate(0.12, 0.155, nsize)  # Not sure if the data should be generated likewise?
-Omegab = np.linspace(0.0215, 0.0235, nsize)
-sigma8 = np.linspace(0.7, 0.9, nsize)
-h = np.linspace(0.55, 0.85, nsize)
-ns = np.linspace(0.85, 1.05, nsize)
+# OmegaM = np.linspace(0.12, 0.155, nsize)
+# # OmegaM = normalGenerate(0.12, 0.155, nsize)  # Not sure if the data should be generated likewise?
+# Omegab = np.linspace(0.0215, 0.0235, nsize)
+# sigma8 = np.linspace(0.7, 0.9, nsize)
+# h = np.linspace(0.55, 0.85, nsize)
+# ns = np.linspace(0.85, 1.05, nsize)
 
+
+
+OmegaM = np.linspace(0.12, 0.155, 2*nsize)[1:-1]
+# OmegaM = normalGenerate(0.12, 0.155, nsize)  # Not sure if the data should be generated likewise?
+Omegab = np.linspace(0.0215, 0.0235, 2*nsize)[1:-1]
+sigma8 = np.linspace(0.7, 0.9, 2*nsize)[1:-1]
+h = np.linspace(0.55, 0.85, 2*nsize)[1:-1]
+ns = np.linspace(0.85, 1.05, 2*nsize)[1:-1]
 
 
 ###    Parameters below aren't varied for sampling.

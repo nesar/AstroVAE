@@ -27,7 +27,7 @@ PlotSample = True
 if PlotSample:
     for i in range(10):
         plt.figure(10)
-        plt.plot(k[1000*i], Pk[1000*i])
+        plt.plot(k[i], Pk[i])
         plt.xscale('log')
         plt.yscale('log')
         plt.xlabel('k')
@@ -38,7 +38,7 @@ if PlotSample:
 
 
 AllPara = np.loadtxt(
-    '../Pk_data/CosmicEmu-master/P_cb/xstar.dat')
+    '../Pk_data/CosmicEmu-master/P_cb/xstar_32.dat')
 
 plt.figure(43)
 plt.scatter(AllPara[:, :5][:, 2], AllPara[:, :5][:, 1], c = AllPara[:, :5][:, 3])
@@ -47,6 +47,6 @@ plt.show()
 # OmegaM, Omegab, sigma8, h, ns, w0, wb, OmegaNu, z
 
 
-np.save('../Pk_data/k5.npy', k[0])
-np.save('../Pk_data/Pk5.npy', Pk)
-np.save('../Pk_data/Para5.npy', AllPara[:,:5])
+np.save('../Pk_data/k5Test32.npy', k[0])
+np.save('../Pk_data/Pk5Test32.npy', Pk)
+np.save('../Pk_data/Para5Test32.npy', AllPara[:,:5])

@@ -18,7 +18,9 @@ import SetPub
 SetPub.set_pub()
 
 
-totalFiles = 10000
+totalFiles = 100
+NoEigenComp = 5
+
 
 # ------------------------------------------------------------------------------
 
@@ -68,7 +70,6 @@ Pxx = y
 U, s, Vh = SL.svd(Pxx, full_matrices=False)
 assert np.allclose(Pxx, np.dot(U, np.dot(np.diag(s), Vh)))
 
-NoEigenComp = 2
 
 TruncU = U[:, :NoEigenComp]     #Truncation
 TruncS = s[:NoEigenComp]
