@@ -1,3 +1,12 @@
+"""
+sudo pip install camb
+
+from:
+http://camb.readthedocs.io/en/latest/CAMBdemo.html
+
+
+"""
+
 import sys, platform, os
 from matplotlib import pyplot as plt
 import numpy as np
