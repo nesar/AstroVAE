@@ -41,3 +41,9 @@ for i in range(para5.shape[0]):
 ls = np.arange(totCL.shape[0])
 
 np.save('../Cl_data/ls.npy', ls)
+
+
+# Talk to Jason
+# CAMB install gfortran issue in Phoenix
+# Generate lots of outputs
+# training check using 32 files.
