@@ -57,7 +57,8 @@ for ax in ax.reshape(-1): ax.set_xlim([2,2500]);
 
 
 #-------------------------------------------------------------------------------
-
+print(pars) # Shows all parameters
+# -------------------------------------------------------------------------------
 
 
 #You can calculate spectra for different primordial power spectra without recalculating everything
