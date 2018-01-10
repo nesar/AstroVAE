@@ -28,7 +28,7 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 100
+totalFiles = 500
 latent_dim = 5
 
 
@@ -199,7 +199,7 @@ if PlotSample:
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
-        plt.plot(k, normFactor*x_test[::].T, 'gray', alpha=0.1)
+        plt.plot(k, normFactor*x_test[::].T, 'gray', alpha=0.3)
         plt.plot(k, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         plt.xscale('log')
@@ -208,7 +208,7 @@ if PlotSample:
         plt.ylabel('P(k)')
         plt.legend()
         plt.tight_layout()
-        # plt.savefig('../Pk_data/SVDvsVAE/GP_AE_output.png')
+        plt.savefig('../Pk_data/SVDvsVAE/GP_AE_output.png')
 
 plotLoss = True
 if plotLoss:
@@ -229,7 +229,7 @@ if plotLoss:
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
-    # plt.savefig('../Pk_data/SVDvsVAE/Training_loss.png')
+    plt.savefig('../Pk_data/SVDvsVAE/Training_loss.png')
 
 plt.show()
 

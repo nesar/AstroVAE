@@ -20,7 +20,7 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 100
+totalFiles = 500
 batch_size = 1
 original_dim = 351 # mnist ~ 784
 latent_dim = 5

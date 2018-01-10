@@ -208,7 +208,7 @@ if PlotSample:
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
         plt.title('Truncated PCA+GP fit')
-        plt.plot(k, normFactor*x_test[::].T, 'gray', alpha=0.1)
+        plt.plot(k, normFactor*x_test[::].T, 'gray', alpha=0.3)
         plt.plot(k, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         plt.xscale('log')
