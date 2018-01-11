@@ -25,7 +25,7 @@ batch_size = 1
 original_dim = 2551 # mnist ~ 784
 latent_dim = 2
 intermediate_dim = 256 # mnist ~ 256
-epochs = 5 #110 #50
+epochs = 2 #110 #50
 epsilon_std = 1.0 # 1.0
 
 
@@ -177,7 +177,7 @@ if SaveModel:
 
 
 PlotSample = True
-ls = np.load('../Cl_data/ls.npy')
+ls = np.load('../Cl_data/ls.npy')#[2:]
 if PlotSample:
     for i in range(3,4):
         plt.figure(91, figsize=(8,6))

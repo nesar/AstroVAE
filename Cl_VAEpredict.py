@@ -123,7 +123,7 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
 RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
 RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
-RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
+# RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2]) ## ns = 0.8 constant while training
 RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
 RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 
@@ -189,7 +189,7 @@ history = np.load('../Cl_data/TrainingHistory_'+fileOut+'.npy')
 x_decoded = decoder.predict(W_pred)
 
 
-ls = np.load('../Cl_data/ls.npy')
+ls = np.load('../Cl_data/ls.npy')#[2:]
 EMU0 = np.load('../Cl_data/totCL0.npy')[:,0] # Generated from CosmicEmu -- original value
 normFactor = np.load('../Cl_data/normfactor.npy')
 
@@ -290,3 +290,5 @@ if PlotRatio:
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
+
+# Cosmic Variance emulator

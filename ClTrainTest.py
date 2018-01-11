@@ -23,11 +23,13 @@ for i in range(len(Allfiles)):
     Cl[i] = np.load(Allfiles[i])[:,0]
 
 
+ls = np.arange(Cl[0].shape[0])
+
 PlotSample = True
 if PlotSample:
     for i in range(10):
         plt.figure(10)
-        plt.plot(Cl[i])
+        plt.plot(ls[2:], Cl[i,2:])
         plt.xscale('log')
         # plt.yscale('log')
         plt.xlabel('l')
@@ -47,5 +49,5 @@ plt.show()
 
 
 # np.save('../Cl_data/k5Test32.npy', k[0])
-np.save('../Cl_data/Cl.npy', Cl)
+np.save('../Cl_data/Cl.npy', Cl)#[:,2:])
 # np.save('../Cl_data/Para5Test32.npy', AllPara[:,:5])
