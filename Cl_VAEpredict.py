@@ -189,7 +189,7 @@ history = np.load('../Cl_data/TrainingHistory_'+fileOut+'.npy')
 x_decoded = decoder.predict(W_pred)
 
 
-k = np.load('../Cl_data/ls.npy')
+ls = np.load('../Cl_data/ls.npy')
 EMU0 = np.load('../Cl_data/totCL0.npy')[:,0] # Generated from CosmicEmu -- original value
 normFactor = np.load('../Cl_data/normfactor.npy')
 
@@ -199,10 +199,10 @@ if PlotSample:
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
-        plt.plot(k, normFactor*x_test[::].T, 'gray', alpha=0.3)
-        plt.plot(k, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
-        plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
-        plt.xscale('log')
+        plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.3)
+        plt.plot(ls, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
+        plt.plot(ls, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
+        # plt.xscale('log')
         # plt.yscale('log')
         plt.xlabel('$l$')
         plt.ylabel(r'$C_l$')
@@ -275,7 +275,7 @@ if PlotRatio:
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
 
-        plt.plot(k, normFactor*x_decoded[0]/PkOriginal[i], alpha=.9, lw = 1.5)
+        plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.9, lw = 1.5)
 
         plt.xscale('log')
         plt.xlabel('k')
