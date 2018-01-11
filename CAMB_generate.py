@@ -40,6 +40,7 @@ for i in range(para5.shape[0]):
 
 ls = np.arange(totCL.shape[0])
 
+np.save('../Cl_data/Para5.npy', para5)
 np.save('../Cl_data/ls.npy', ls)
 
 
