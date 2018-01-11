@@ -33,7 +33,7 @@ pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_fil
 
 x_train = x_train[:totalFiles]
 x_test = x_test[:np.int(0.2*totalFiles)]
-y_train = y_test[:totalFiles]
+y_train = y_train[:totalFiles]
 y_test = y_test[:np.int(0.2*totalFiles)]
 
 

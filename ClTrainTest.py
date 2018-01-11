@@ -47,5 +47,5 @@ plt.show()
 
 
 # np.save('../Cl_data/k5Test32.npy', k[0])
-np.save('../Cl_data/ClTest32.npy', Cl)
+np.save('../Cl_data/Cl.npy', Cl)
 # np.save('../Cl_data/Para5Test32.npy', AllPara[:,:5])

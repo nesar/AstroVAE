@@ -48,3 +48,4 @@ np.save('../Cl_data/ls.npy', ls)
 # CAMB install gfortran issue in Phoenix
 # Generate lots of outputs
 # training check using 32 files.
+# Why emulate when there's a theoretical model?

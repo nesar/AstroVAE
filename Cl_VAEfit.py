@@ -20,12 +20,12 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 500
+totalFiles = 32
 batch_size = 1
-original_dim = 351 # mnist ~ 784
-latent_dim = 5
-intermediate_dim = 128 # mnist ~ 256
-epochs = 10 #110 #50
+original_dim = 2551 # mnist ~ 784
+latent_dim = 2
+intermediate_dim = 256 # mnist ~ 256
+epochs = 5 #110 #50
 epsilon_std = 1.0 # 1.0
 
 
@@ -87,8 +87,8 @@ vae.compile(optimizer='rmsprop', loss=None)
 
 import pk_load
 
-density_file = '../Pk_data/SVDvsVAE/Pk5.npy'
-halo_para_file = '../Pk_data/SVDvsVAE/Para5.npy'
+density_file = '../Cl_data/Cl.npy'
+halo_para_file = '../Cl_data/Para5.npy'
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
@@ -145,8 +145,8 @@ plt.tight_layout()
 # display a 2D plot of the digit classes in the latent space
 x_train_encoded = encoder.predict(x_train, batch_size=batch_size)
 
-np.save('../Pk_data/SVDvsVAE/encoded_xtrain.npy', x_train_encoded)
-np.save('../Pk_data/SVDvsVAE/normfactor.npy', normFactor)
+np.save('../Cl_data/encoded_xtrain.npy', x_train_encoded)
+np.save('../Cl_data/normfactor.npy', normFactor)
 
 
 # build a digit generator that can sample from the learned distribution
@@ -169,20 +169,20 @@ if SaveModel:
     # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
 
     fileOut = 'Model'
-    vae.save('../Pk_data/fullAE_' + fileOut + '.hdf5')
-    encoder.save('../Pk_data/Encoder_' + fileOut + '.hdf5')
-    generator.save('../Pk_data/Decoder_' + fileOut + '.hdf5')
-    np.save('../Pk_data/TrainingHistory_'+fileOut+'.npy', training_hist)
+    vae.save('../Cl_data/fullAE_' + fileOut + '.hdf5')
+    encoder.save('../Cl_data/Encoder_' + fileOut + '.hdf5')
+    generator.save('../Cl_data/Decoder_' + fileOut + '.hdf5')
+    np.save('../Cl_data/TrainingHistory_'+fileOut+'.npy', training_hist)
 
 
 
-PlotSample = False
-k = np.load('../Pk_data/k5.npy')
+PlotSample = True
+ls = np.load('../Cl_data/ls.npy')
 if PlotSample:
-    for i in range(30,31):
+    for i in range(3,4):
         plt.figure(91, figsize=(8,6))
-        plt.plot(k, x_decoded[i], 'rx', alpha = 0.2)
-        plt.plot(k, x_train[i], 'k')
+        plt.plot(ls, x_decoded[i], 'r', alpha = 0.8)
+        plt.plot(ls, x_train[i], 'k')
         plt.xscale('log')
         plt.yscale('log')
 

@@ -28,8 +28,8 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 500
-latent_dim = 5
+totalFiles = 32
+latent_dim = 2
 
 
 # length_scaleParameter = 1.0
@@ -64,8 +64,8 @@ kernel = Matern32Kernel(0.5, ndim=5)
 
 import pk_load
 
-density_file = '../Pk_data/SVDvsVAE/Pk5.npy'
-halo_para_file = '../Pk_data/SVDvsVAE/Para5.npy'
+density_file = '../Cl_data/Cl.npy'
+halo_para_file = '../Cl_data/Para5.npy'
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
@@ -130,7 +130,7 @@ RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 test_pts = RealPara.reshape(5, -1).T
 
 # ------------------------------------------------------------------------------
-y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
+y = np.load('../Cl_data/encoded_xtrain.npy').T
 
 W_pred = np.array([np.zeros(shape=latent_dim)])
 gp={}
@@ -180,18 +180,18 @@ from keras.models import load_model
 
 fileOut = 'Model'
 # vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
-encoder = load_model('../Pk_data/Encoder_' + fileOut + '.hdf5')
-decoder = load_model('../Pk_data/Decoder_' + fileOut + '.hdf5')
-history = np.load('../Pk_data/TrainingHistory_'+fileOut+'.npy')
+encoder = load_model('../Cl_data/Encoder_' + fileOut + '.hdf5')
+decoder = load_model('../Cl_data/Decoder_' + fileOut + '.hdf5')
+history = np.load('../Cl_data/TrainingHistory_'+fileOut+'.npy')
 
 # generator = Model(decoder_input, _x_decoded_mean)
 # x_decoded = generator.predict(W_pred.T[0,:,:])
 x_decoded = decoder.predict(W_pred)
 
 
-k = np.load('../Pk_data/k5.npy')
-EMU0 = np.loadtxt('../Pk_data/EMU0.txt')[:,1] # Generated from CosmicEmu -- original value
-normFactor = np.load('../Pk_data/SVDvsVAE/normfactor.npy')
+k = np.load('../Cl_data/ls.npy')
+EMU0 = np.load('../Cl_data/totCL0.npy')[:,0] # Generated from CosmicEmu -- original value
+normFactor = np.load('../Cl_data/normfactor.npy')
 
 
 PlotSample = True
@@ -203,12 +203,12 @@ if PlotSample:
         plt.plot(k, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(k, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         plt.xscale('log')
-        plt.yscale('log')
-        plt.xlabel('k')
-        plt.ylabel('P(k)')
+        # plt.yscale('log')
+        plt.xlabel('$l$')
+        plt.ylabel(r'$C_l$')
         plt.legend()
         plt.tight_layout()
-        plt.savefig('../Pk_data/SVDvsVAE/GP_AE_output.png')
+        plt.savefig('../Cl_data/GP_AE_output.png')
 
 plotLoss = True
 if plotLoss:
@@ -229,7 +229,7 @@ if plotLoss:
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
-    plt.savefig('../Pk_data/SVDvsVAE/Training_loss.png')
+    plt.savefig('../Cl_data/Training_loss.png')
 
 plt.show()
 
@@ -241,9 +241,9 @@ plt.show()
 PlotRatio = True
 if PlotRatio:
 
-    PkOriginal = np.load('../Pk_data/Pk5Test32.npy')[:,:] # Generated from CosmicEmu -- original
+    PkOriginal = np.load('../Cl_data/ClTest32.npy')[:,:] # Generated from CosmicEmu -- original
     # value
-    RealParaArray = np.loadtxt('../Pk_data/CosmicEmu-master/P_cb/xstar_32.dat')
+    RealParaArray = np.load('../Cl_data/Para5.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
 
@@ -282,7 +282,7 @@ if PlotRatio:
         plt.ylabel(r'$P_{GPAE}(k)$/$P_{Original}(k)$')
         # plt.legend()
         plt.tight_layout()
-    plt.savefig('../Pk_data/SVDvsVAE/GP_AE_ratio.png')
+    plt.savefig('../Cl_data/GP_AE_ratio.png')
     plt.axhline(y=1, ls='-.', lw=1.5)
 
     plt.show()
