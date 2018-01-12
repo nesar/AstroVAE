@@ -25,7 +25,7 @@ batch_size = 1
 original_dim = 351 # mnist ~ 784
 latent_dim = 5
 intermediate_dim = 128 # mnist ~ 256
-epochs = 10 #110 #50
+epochs = 1 #110 #50
 epsilon_std = 1.0 # 1.0
 
 
@@ -131,7 +131,8 @@ plt.figure(687, figsize=(7, 6))
 plt.title('Encoded outputs')
 plt.xlabel('E[0]')
 plt.ylabel('E[1]')
-CS = plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], c=y_test[:,0], s = 15, alpha=0.6)
+plt.set_cmap('gist_rainbow')
+CS = plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], c=y_test[:,0], s = 15, alpha=0.6 )
 cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel(r'$\Omega_m$')
 # cbar.ax.set_ylabel(r'$\sigma_8$')
