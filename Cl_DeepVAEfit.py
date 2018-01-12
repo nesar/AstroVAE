@@ -26,7 +26,7 @@ original_dim = 2551 # mnist ~ 784
 latent_dim = 2
 intermediate_dim0 = 1024 # mnist ~ 256
 intermediate_dim = 256 # mnist ~ 256
-epochs = 2 #110 #50
+epochs = 10 #110 #50
 epsilon_std = 1.0 # 1.0
 
 
@@ -36,8 +36,8 @@ epsilon_std = 1.0 # 1.0
 
 
 x = Input(shape=(original_dim,)) # Deepen encoder after this
-x = Dense(intermediate_dim0, activation = 'relu')(x) # ADDED intermediate_layer_0
-h = Dense(intermediate_dim, activation='relu')(x)
+h0 = Dense(intermediate_dim0, activation = 'relu')(x) # ADDED intermediate_layer_0
+h = Dense(intermediate_dim, activation='relu')(h0)
 z_mean = Dense(latent_dim)(h)
 z_log_var = Dense(latent_dim)(h)
 
@@ -52,7 +52,9 @@ def sampling(args):
 z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 
 # we instantiate these layers separately so as to reuse them later
+decoder_h0 = Dense(intermediate_dim0, activation='relu') # Deepen decoder after this
 decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
+
 decoder_mean = Dense(original_dim, activation='sigmoid')
 
 h_decoded = decoder_h(z)
@@ -194,13 +196,13 @@ if PlotSample:
 PlotModel = True
 if PlotModel:
     from keras.utils.vis_utils import plot_model
-    fileOut = '../Pk_data/SVDvsVAE/ArchitectureFullAE.png'
+    fileOut = '../Cl_data/ArchitectureFullAE.png'
     plot_model(vae, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-    fileOut = '../Pk_data/SVDvsVAE/ArchitectureEncoder.png'
+    fileOut = '../Cl_data/ArchitectureEncoder.png'
     plot_model(encoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-    fileOut = '../Pk_data/SVDvsVAE/ArchitectureDecoder.png'
+    fileOut = '../Cl_data/ArchitectureDecoder.png'
     plot_model(generator, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
 print('---- Training done -------')
