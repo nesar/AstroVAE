@@ -296,9 +296,15 @@ if PlotRatio:
 
 # Next step -- uncertainty quantification -- check Laurence et al
 # Parameter estimation  -- mcmc or variational bayes
-#
+# Go back to check P(k) -- we may just use the simulation suite data.
 # Generate better data sampling - latin hc?
 #
 # Deeper network!
 # adding hidden layers seems to be fixed -- check again
+
+# Talk to Jason
+# CAMB install gfortran issue in Phoenix
+# Generate lots of outputs
+# training check using 32 files.
+# Why emulate when there's a theoretical model?
 
