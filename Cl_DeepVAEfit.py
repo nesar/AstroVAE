@@ -54,14 +54,14 @@ def sampling(args):
 z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 
 # we instantiate these layers separately so as to reuse them later
-decoder_h0 = Dense(intermediate_dim0, activation='relu') # Deepen decoder after this
 decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
+decoder_h0 = Dense(intermediate_dim0, activation='relu') # Deepen decoder after this
 
 decoder_mean = Dense(original_dim, activation='sigmoid')
 
-h0_decoded = decoder_h0(z)
-h_decoded = decoder_h(h0_decoded)
-x_decoded_mean = decoder_mean(h_decoded)
+h_decoded = decoder_h(z)
+h0_decoded = decoder_h0(h_decoded)
+x_decoded_mean = decoder_mean(h0_decoded)
 
 
 # Custom loss layer
@@ -186,7 +186,7 @@ if SaveModel:
 
 
 PlotSample = True
-ls = np.load('../Cl_data/ls.npy')#[2:]
+ls = np.load('../Cl_data/ls.npy')[2:]
 if PlotSample:
     for i in range(3,4):
         plt.figure(91, figsize=(8,6))
