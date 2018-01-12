@@ -202,7 +202,7 @@ if PlotSample:
         plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.3)
         plt.plot(ls, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(ls, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
-        # plt.xscale('log')
+        plt.xscale('log')
         # plt.yscale('log')
         plt.xlabel('$l$')
         plt.ylabel(r'$C_l$')
