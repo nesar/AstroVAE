@@ -241,7 +241,7 @@ plt.show()
 PlotRatio = True
 if PlotRatio:
 
-    PkOriginal = np.load('../Cl_data/ClTest32.npy')[:,:] # Generated from CosmicEmu -- original
+    PkOriginal = np.load('../Cl_data/ClTest32.npy')[:,2:] # Generated from CosmicEmu -- original
     # value
     RealParaArray = np.load('../Cl_data/Para5.npy')
 
