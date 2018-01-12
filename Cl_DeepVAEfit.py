@@ -22,12 +22,14 @@ SetPub.set_pub()
 
 totalFiles = 32
 batch_size = 1
-original_dim = 2551 # mnist ~ 784
-latent_dim = 2
+original_dim = 2549 #2551 # mnist ~ 784
+latent_dim = 5
 intermediate_dim0 = 1024 # mnist ~ 256
 intermediate_dim = 256 # mnist ~ 256
-epochs = 10 #110 #50
+epochs = 2 #110 #50
 epsilon_std = 1.0 # 1.0
+learning_rate = 1e-1
+decay_rate = 0.0
 
 
 # -------------------------------- Network Architecture - simple
@@ -57,7 +59,8 @@ decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after th
 
 decoder_mean = Dense(original_dim, activation='sigmoid')
 
-h_decoded = decoder_h(z)
+h0_decoded = decoder_h0(z)
+h_decoded = decoder_h(h0_decoded)
 x_decoded_mean = decoder_mean(h_decoded)
 
 
@@ -83,7 +86,7 @@ class CustomVariationalLayer(Layer):
 y = CustomVariationalLayer()([x, x_decoded_mean])
 vae = Model(x, y)  #Model(input layer, loss function)??
 
-rmsprop = optimizers.RMSprop(lr=1e-6, rho=0.9, epsilon=None, decay=0.01) # Added
+rmsprop = optimizers.RMSprop(lr= learning_rate, rho=0.9, epsilon=None, decay=decay_rate) # Added
 
 vae.compile(optimizer='rmsprop', loss=None)
 
@@ -97,8 +100,8 @@ pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_fil
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
 
-x_train = x_train[:totalFiles]
-x_test = x_test[:np.int(0.2*totalFiles)]
+x_train = x_train[:totalFiles][:,2:]
+x_test = x_test[:np.int(0.2*totalFiles)][:,2:]
 y_train = y_train[:totalFiles]
 y_test = y_test[:np.int(0.2*totalFiles)]
 
@@ -155,8 +158,10 @@ np.save('../Cl_data/normfactor.npy', normFactor)
 
 # build a digit generator that can sample from the learned distribution
 decoder_input = Input(shape=(latent_dim,))
+
 _h_decoded = decoder_h(decoder_input)
-_x_decoded_mean = decoder_mean(_h_decoded)
+_h0_decoded = decoder_h0(_h_decoded)
+_x_decoded_mean = decoder_mean(_h0_decoded)
 generator = Model(decoder_input, _x_decoded_mean)
 x_decoded = generator.predict(x_train_encoded)
 

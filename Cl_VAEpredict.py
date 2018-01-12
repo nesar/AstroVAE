@@ -29,7 +29,7 @@ def rescale01(xmin, xmax, f):
 
 
 totalFiles = 32
-latent_dim = 2
+latent_dim = 5
 
 
 # length_scaleParameter = 1.0
@@ -70,8 +70,8 @@ pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_fil
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
 
-x_train = x_train[:totalFiles]
-x_test = x_test[:np.int(0.2*totalFiles)]
+x_train = x_train[:totalFiles][:,2:]
+x_test = x_test[:np.int(0.2*totalFiles)][:,2:]
 y_train = y_train[:totalFiles]
 y_test = y_test[:np.int(0.2*totalFiles)]
 
@@ -189,8 +189,8 @@ history = np.load('../Cl_data/TrainingHistory_'+fileOut+'.npy')
 x_decoded = decoder.predict(W_pred)
 
 
-ls = np.load('../Cl_data/ls.npy')#[2:]
-EMU0 = np.load('../Cl_data/totCL0.npy')[:,0] # Generated from CosmicEmu -- original value
+ls = np.load('../Cl_data/ls.npy')[2:]
+EMU0 = np.load('../Cl_data/totCL0.npy')[2:,0] # Generated from CosmicEmu -- original value
 normFactor = np.load('../Cl_data/normfactor.npy')
 
 
@@ -202,7 +202,7 @@ if PlotSample:
         plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.3)
         plt.plot(ls, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(ls, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
-        plt.xscale('log')
+        # plt.xscale('log')
         # plt.yscale('log')
         plt.xlabel('$l$')
         plt.ylabel(r'$C_l$')
