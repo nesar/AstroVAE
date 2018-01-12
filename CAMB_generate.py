@@ -2,6 +2,12 @@ import numpy as np
 import camb
 import itertools
 
+"""
+first 2 outputs from CAMB - totCL and unlensed CL both are 0's. 
+CAMBFast maybe better?
+CosmoMC works well with CAMB
+"""
+
 
 
 nsize = 2
