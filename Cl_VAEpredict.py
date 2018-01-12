@@ -292,3 +292,13 @@ if PlotRatio:
 # ------------------------------------------------------------------------------
 
 # Cosmic Variance emulator
+
+
+# Next step -- uncertainty quantification -- check Laurence et al
+# Parameter estimation  -- mcmc or variational bayes
+#
+# Generate better data sampling - latin hc?
+#
+# Deeper network!
+# adding hidden layers seems to be fixed -- check again
+
