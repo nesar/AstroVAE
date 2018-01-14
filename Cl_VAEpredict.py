@@ -28,7 +28,7 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 32
+totalFiles = 243 #32
 latent_dim = 5
 
 
@@ -278,8 +278,8 @@ if PlotRatio:
         plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.9, lw = 1.5)
 
         plt.xscale('log')
-        plt.xlabel('k')
-        plt.ylabel(r'$P_{GPAE}(k)$/$P_{Original}(k)$')
+        plt.xlabel(r'$l$')
+        plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
         # plt.legend()
         plt.tight_layout()
     plt.savefig('../Cl_data/GP_AE_ratio.png')

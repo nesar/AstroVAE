@@ -27,7 +27,7 @@ ls = np.arange(Cl[0].shape[0])
 
 PlotSample = True
 if PlotSample:
-    for i in range(10):
+    for i in range(243):
         plt.figure(10)
         plt.plot(ls[2:], Cl[i,2:])
         plt.xscale('log')

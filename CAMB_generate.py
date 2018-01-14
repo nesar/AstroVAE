@@ -10,7 +10,7 @@ CosmoMC works well with CAMB
 
 
 
-nsize = 2
+nsize = 3
 
 OmegaM = np.linspace(0.12, 0.155, nsize)
 # OmegaM = normalGenerate(0.12, 0.155, nsize)  # Not sure if the data should be generated likewise?

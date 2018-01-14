@@ -20,13 +20,13 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 32
+totalFiles = 243 #32
 batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
 latent_dim = 5
 intermediate_dim0 = 1024 # mnist ~ 256
 intermediate_dim = 256 # mnist ~ 256
-epochs = 100 #110 #50
+epochs = 10 #110 #50
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-1
 decay_rate = 0.0
@@ -55,7 +55,8 @@ z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 
 # we instantiate these layers separately so as to reuse them later
 decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
-decoder_h0 = Dense(intermediate_dim0, activation='relu') # Deepen decoder after this
+decoder_h0 = Dense(intermediate_dim0, activation='relu') # ADDED
+
 
 decoder_mean = Dense(original_dim, activation='sigmoid')
 
@@ -160,7 +161,7 @@ np.save('../Cl_data/normfactor.npy', normFactor)
 decoder_input = Input(shape=(latent_dim,))
 
 _h_decoded = decoder_h(decoder_input)
-_h0_decoded = decoder_h0(_h_decoded)
+_h0_decoded = decoder_h0(_h_decoded)    ## ADDED --- should replicate decoder arch
 _x_decoded_mean = decoder_mean(_h0_decoded)
 generator = Model(decoder_input, _x_decoded_mean)
 x_decoded = generator.predict(x_train_encoded)
