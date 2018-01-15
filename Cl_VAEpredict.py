@@ -295,3 +295,8 @@ if PlotRatio:
 # training check using 32 files.
 # Why emulate when there's a theoretical model?
 
+# Still haven't figured how to change sigma_8 in CAMB
+
+# CAMB - linear theory -- good for demonstration
+# Future -- use simulations for a proper cmb power spectrum
+
