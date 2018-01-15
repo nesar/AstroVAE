@@ -20,14 +20,14 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-nsize = 2
+nsize = 3
 totalFiles = nsize**5 #32
 batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
 latent_dim = 5
 intermediate_dim0 = 1024 # mnist ~ 256
 intermediate_dim = 256 # mnist ~ 256
-epochs = 10 #110 #50
+epochs = 50 #110 #50
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-1
 decay_rate = 0.0

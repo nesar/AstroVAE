@@ -27,7 +27,7 @@ def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
 
 
-nsize = 2
+nsize = 3
 totalFiles = nsize**5 #32
 latent_dim = 5
 
@@ -163,7 +163,7 @@ PlotSample = True
 if PlotSample:
         nsize0 = 0 ## SAMPLE
         ls = np.load('../Cl_data/ls_' + str(nsize0) + '.npy')[2:]
-        EMU0 = np.load('../Cl_data/totCL'+str(nsize0)+'.npy')[2:, 0]  # Generated from CosmicEmu --
+        EMU0 = np.load('../Cl_data/Cl_'+str(nsize0)+'.npy')[0,2:]  # Generated from CosmicEmu --
         # original value
         normFactor = np.load('../Cl_data/normfactor_' + str(nsize) + '.npy')
 
@@ -193,8 +193,8 @@ if plotLoss:
 
     fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
     # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
-    ax.plot(epochs,train_loss, 'o-')
-    ax.plot(epochs,val_loss, 'o-')
+    ax.plot(epochs,train_loss, '--')
+    ax.plot(epochs,val_loss, '--')
     ax.set_ylabel('loss')
     ax.set_xlabel('epochs')
     # ax[0].set_ylim([0,1])
