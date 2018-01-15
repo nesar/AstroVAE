@@ -16,7 +16,7 @@ OmegaM = np.linspace(0.12, 0.155, nsize)
 Omegab = np.linspace(0.0215, 0.0235, nsize)
 # sigma8 = np.linspace(0.7, 0.9, nsize)
 # sigma8 = 0.8*np.ones(shape=nsize)
-sigma8 = np.linspace(0.799999999, 0.800000001, nsize)  # Dunno how to set sigma_8 in CAMB yet
+sigma8 = np.linspace(0.799, 0.8001, nsize)  # Dunno how to set sigma_8 in CAMB yet
 h = np.linspace(0.55, 0.85, nsize)
 ns = np.linspace(0.85, 1.05, nsize)
 
