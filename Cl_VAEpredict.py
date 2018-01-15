@@ -246,6 +246,7 @@ if PlotRatio:
     RealParaArray = np.load('../Cl_data/Para5.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
+        print(i)
 
         RealPara = RealParaArray[i]
 
@@ -262,10 +263,10 @@ if PlotRatio:
 
         W_pred = np.array([np.zeros(shape=latent_dim)])
         gp = {}
-        for i in range(latent_dim):
-            gp["fit{0}".format(i)] = george.GP(kernel)
-            gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
-            W_pred[:, i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
+        for j in range(latent_dim):
+            gp["fit{0}".format(j)] = george.GP(kernel)
+            gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
+            W_pred[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
 
@@ -275,13 +276,27 @@ if PlotRatio:
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
 
-        plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.9, lw = 1.5)
+        plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.5, lw = 1.5)
 
         plt.xscale('log')
         plt.xlabel(r'$l$')
         plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
         # plt.legend()
         plt.tight_layout()
+
+        # plt.figure(94, figsize=(8,6))
+        # plt.title('Autoencoder+GP fit')
+        #
+        # plt.plot(ls, normFactor*x_decoded[0], alpha=.3, lw = 1.5)
+        # plt.plot(ls, PkOriginal[i], alpha=.3, lw = 1.5, label = str(i))
+        #
+        # plt.xscale('log')
+        # plt.xlabel(r'$l$')
+        # plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
+        # # plt.legend()
+        # plt.tight_layout()
+
+
     plt.savefig('../Cl_data/GP_AE_ratio.png')
     plt.axhline(y=1, ls='-.', lw=1.5)
 
