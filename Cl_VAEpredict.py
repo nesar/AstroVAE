@@ -171,7 +171,7 @@ if PlotSample:
         # for i in range(2):
         plt.figure(91, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
-        plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.3)
+        plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.2)
         plt.plot(ls, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(ls, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         # plt.xscale('log')
@@ -193,8 +193,8 @@ if plotLoss:
 
     fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
     # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
-    ax.plot(epochs,train_loss, '--')
-    ax.plot(epochs,val_loss, '--')
+    ax.plot(epochs,train_loss, '-')
+    ax.plot(epochs,val_loss, '-')
     ax.set_ylabel('loss')
     ax.set_xlabel('epochs')
     # ax[0].set_ylim([0,1])
@@ -248,7 +248,7 @@ if PlotRatio:
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
 
-        plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.5, lw = 1.5)
+        plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.15, lw = 1.0)
 
         plt.xscale('log')
         plt.xlabel(r'$l$')
