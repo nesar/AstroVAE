@@ -8,7 +8,7 @@ import glob
 
 
 nbins = 2551 # no. of k values.
-nsize = 32
+nsize = 2
 
 # data_path = '../Pk_data/CosmicEmu-master/P_cb/EMU*.txt'
 

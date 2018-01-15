@@ -27,8 +27,8 @@ def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
 
 
-
-totalFiles = 243 #32
+nsize = 2
+totalFiles = nsize**5 #32
 latent_dim = 5
 
 
@@ -64,8 +64,8 @@ kernel = Matern32Kernel(0.5, ndim=5)
 
 import pk_load
 
-density_file = '../Cl_data/Cl_'+str(totalFiles)+'.npy'
-halo_para_file = '../Cl_data/Para5_'+str(totalFiles)+'.npy'
+density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
+halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
@@ -130,7 +130,7 @@ RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 test_pts = RealPara.reshape(5, -1).T
 
 # ------------------------------------------------------------------------------
-y = np.load('../Cl_data/encoded_xtrain_'+str(totalFiles)+'.npy').T
+y = np.load('../Cl_data/encoded_xtrain_'+str(nsize)+'.npy').T
 
 W_pred = np.array([np.zeros(shape=latent_dim)])
 gp={}
@@ -140,45 +140,12 @@ for i in range(latent_dim):
     W_pred[:,i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
 
 # ------------------------------------------------------------------------------
-
-#  2 gp because of 2 truncated pca basis
-# 2 also because 2 latent variables??
-
-# Specify Gaussian Process
-# gp1 = GaussianProcessRegressor(kernel=kernels[0])
-# gp2 = GaussianProcessRegressor(kernel=kernels[0])
-
-
-
-# gp1 = george.GP(kernel)
-# gp2 = george.GP(kernel)
-
-# gp1.fit(  XY[:,0,:].T   ,  y[0])
-# gp2.fit( XY[:,0,:].T ,  y[1])
-
-# gp1.compute(XY[:, 0, :].T)
-# gp2.compute(XY[:, 0, :].T)
-
-# gp2.optimize( XY[:,0,:].T, y[1], verbose=True)
-
-# W_interpol1 = gp1.predict(y[0], test_pts)  # Equal to number of eigenvalues
-# W_interpol2 = gp2.predict(y[1], test_pts)
-
-# Why is the dimension of W_interpol1 = (2,1). I need just (1)
-
-# W_pred = np.array([W_interpol1, W_interpol2])
-# print(W_pred)
-
-# W_decoder_input = W_pred[:,0,:].T
-
-
-# ------------------------------------------------------------------------------
 # Decoder acts here
 # Have to save and load model architecture, and weights
 
 from keras.models import load_model
 
-fileOut = 'Model_'+str(totalFiles)
+fileOut = 'Model_'+str(nsize)
 # vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
 encoder = load_model('../Cl_data/Encoder_' + fileOut + '.hdf5')
 decoder = load_model('../Cl_data/Decoder_' + fileOut + '.hdf5')
@@ -189,14 +156,17 @@ history = np.load('../Cl_data/TrainingHistory_'+fileOut+'.npy')
 x_decoded = decoder.predict(W_pred)
 
 
-ls = np.load('../Cl_data/ls_'+str(totalFiles)+'.npy')[2:]
-EMU0 = np.load('../Cl_data/totCL0.npy')[2:,0] # Generated from CosmicEmu -- original value
-normFactor = np.load('../Cl_data/normfactor_'+str(totalFiles)+'.npy')
+
 
 
 PlotSample = True
 if PlotSample:
-    # for i in range(2):
+        ls = np.load('../Cl_data/ls_' + str(nsize) + '.npy')[2:]
+        EMU0 = np.load('../Cl_data/totCL0.npy')[2:, 0]  # Generated from CosmicEmu -- original value
+        normFactor = np.load('../Cl_data/normfactor_' + str(nsize) + '.npy')
+
+
+        # for i in range(2):
         plt.figure(91, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
         plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.3)
@@ -241,9 +211,9 @@ plt.show()
 PlotRatio = True
 if PlotRatio:
 
-    PkOriginal = np.load('../Cl_data/Cl_'+str(totalFiles)+'.npy')[:,2:] # Generated from CosmicEmu -- original
+    PkOriginal = np.load('../Cl_data/Cl_'+str(nsize)+'.npy')[:,2:] # Generated from CosmicEmu -- original
     # value
-    RealParaArray = np.load('../Cl_data/Para5_'+str(totalFiles)+'.npy')
+    RealParaArray = np.load('../Cl_data/Para5_'+str(nsize)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
         print(i)

@@ -20,7 +20,8 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 243 #32
+nsize = 2
+totalFiles = nsize**5 #32
 batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
 latent_dim = 5
@@ -95,8 +96,8 @@ vae.compile(optimizer='rmsprop', loss=None)
 
 import pk_load
 
-density_file = '../Cl_data/Cl_'+str(totalFiles)+'.npy'
-halo_para_file = '../Cl_data/Para5_'+str(totalFiles)+'.npy'
+density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
+halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
@@ -153,8 +154,8 @@ plt.tight_layout()
 # display a 2D plot of the digit classes in the latent space
 x_train_encoded = encoder.predict(x_train, batch_size=batch_size)
 
-np.save('../Cl_data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
-np.save('../Cl_data/normfactor_'+str(totalFiles)+'.npy', normFactor)
+np.save('../Cl_data/encoded_xtrain_'+str(nsize)+'.npy', x_train_encoded)
+np.save('../Cl_data/normfactor_'+str(nsize)+'.npy', normFactor)
 
 
 # build a digit generator that can sample from the learned distribution
@@ -178,7 +179,7 @@ if SaveModel:
 
     # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
 
-    fileOut = 'Model_'+str(totalFiles)
+    fileOut = 'Model_'+str(nsize)
     vae.save('../Cl_data/fullAE_' + fileOut + '.hdf5')
     encoder.save('../Cl_data/Encoder_' + fileOut + '.hdf5')
     generator.save('../Cl_data/Decoder_' + fileOut + '.hdf5')
@@ -187,7 +188,7 @@ if SaveModel:
 
 
 PlotSample = True
-ls = np.load('../Cl_data/ls_'+str(totalFiles)+'.npy')[2:]
+ls = np.load('../Cl_data/ls_'+str(nsize)+'.npy')[2:]
 if PlotSample:
     for i in range(3,4):
         plt.figure(91, figsize=(8,6))
