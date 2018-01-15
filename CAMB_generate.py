@@ -10,7 +10,7 @@ CosmoMC works well with CAMB
 
 
 
-nsize = 2
+nsize = 3
 
 OmegaM = np.linspace(0.12, 0.155, nsize)
 Omegab = np.linspace(0.0215, 0.0235, nsize)
@@ -22,8 +22,12 @@ ns = np.linspace(0.85, 1.05, nsize)
 
 # allGrid = np.array(np.meshgrid(OmegaM, Omegab, sigma8, h, ns))
 
-# para5 = np.array(list(itertools.product(OmegaM, Omegab, sigma8, h, ns)))
-para5 = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
+para5 = np.array(list(itertools.product(OmegaM, Omegab, sigma8, h, ns)))
+
+# nsize = 0
+# para5 = np.array([np.array([0.13, 0.022, 0.8, 0.75, 1.01])])
+
+
 
 #Set up a new set of parameters for CAMB
 pars = camb.CAMBparams()

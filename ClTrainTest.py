@@ -8,7 +8,7 @@ import glob
 
 
 nbins = 2551 # no. of k values.
-nsize = 2
+nsize = 3
 
 # data_path = '../Pk_data/CosmicEmu-master/P_cb/EMU*.txt'
 
@@ -27,7 +27,7 @@ ls = np.arange(Cl[0].shape[0])
 
 PlotSample = True
 if PlotSample:
-    for i in range(243):
+    for i in range( (nsize**5)):
         plt.figure(10)
         plt.plot(ls[2:], Cl[i,2:])
         plt.xscale('log')
@@ -48,6 +48,4 @@ plt.show()
 # OmegaM, Omegab, sigma8, h, ns, w0, wb, OmegaNu, z
 
 
-# np.save('../Cl_data/k5Test32.npy', k[0])
 np.save('../Cl_data/Cl_'+str(nsize)+'.npy', Cl)#[:,2:])
-# np.save('../Cl_data/Para5Test32.npy', AllPara[:,:5])

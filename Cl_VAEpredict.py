@@ -161,8 +161,10 @@ x_decoded = decoder.predict(W_pred)
 
 PlotSample = True
 if PlotSample:
-        ls = np.load('../Cl_data/ls_' + str(nsize) + '.npy')[2:]
-        EMU0 = np.load('../Cl_data/totCL0.npy')[2:, 0]  # Generated from CosmicEmu -- original value
+        nsize0 = 0 ## SAMPLE
+        ls = np.load('../Cl_data/ls_' + str(nsize0) + '.npy')[2:]
+        EMU0 = np.load('../Cl_data/totCL'+str(nsize0)+'.npy')[2:, 0]  # Generated from CosmicEmu --
+        # original value
         normFactor = np.load('../Cl_data/normfactor_' + str(nsize) + '.npy')
 
 
