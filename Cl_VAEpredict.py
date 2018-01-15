@@ -64,8 +64,8 @@ kernel = Matern32Kernel(0.5, ndim=5)
 
 import pk_load
 
-density_file = '../Cl_data/Cl.npy'
-halo_para_file = '../Cl_data/Para5.npy'
+density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
+halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()

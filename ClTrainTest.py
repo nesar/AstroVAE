@@ -8,11 +8,11 @@ import glob
 
 
 nbins = 2551 # no. of k values.
-
+nsize = 32
 
 # data_path = '../Pk_data/CosmicEmu-master/P_cb/EMU*.txt'
 
-data_path = '../Cl_data/totCL*.npy'
+data_path = '../Cl_data/totCL'+str(nsize)+'*.npy'
 
 Allfiles = sorted(glob.glob(data_path))
 
@@ -39,7 +39,7 @@ if PlotSample:
 
 
 
-AllPara = np.load('../Cl_data/Para5.npy')
+AllPara = np.load('../Cl_data/Para5_'+str(nsize)+'.npy')
 
 plt.figure(43)
 plt.scatter(AllPara[:, :5][:, 2], AllPara[:, :5][:, 1], c = AllPara[:, :5][:, 3])
@@ -49,5 +49,5 @@ plt.show()
 
 
 # np.save('../Cl_data/k5Test32.npy', k[0])
-np.save('../Cl_data/Cl.npy', Cl)#[:,2:])
+np.save('../Cl_data/Cl_'+str(nsize)+'.npy', Cl)#[:,2:])
 # np.save('../Cl_data/Para5Test32.npy', AllPara[:,:5])
