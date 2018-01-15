@@ -95,8 +95,8 @@ vae.compile(optimizer='rmsprop', loss=None)
 
 import pk_load
 
-density_file = '../Cl_data/Cl.npy'
-halo_para_file = '../Cl_data/Para5.npy'
+density_file = '../Cl_data/Cl_'+str(totalFiles)+'.npy'
+halo_para_file = '../Cl_data/Para5_'+str(totalFiles)+'.npy'
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
@@ -153,8 +153,8 @@ plt.tight_layout()
 # display a 2D plot of the digit classes in the latent space
 x_train_encoded = encoder.predict(x_train, batch_size=batch_size)
 
-np.save('../Cl_data/encoded_xtrain.npy', x_train_encoded)
-np.save('../Cl_data/normfactor.npy', normFactor)
+np.save('../Cl_data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
+np.save('../Cl_data/normfactor_'+str(totalFiles)+'.npy', normFactor)
 
 
 # build a digit generator that can sample from the learned distribution
@@ -178,7 +178,7 @@ if SaveModel:
 
     # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
 
-    fileOut = 'Model'
+    fileOut = 'Model_'+str(totalFiles)
     vae.save('../Cl_data/fullAE_' + fileOut + '.hdf5')
     encoder.save('../Cl_data/Encoder_' + fileOut + '.hdf5')
     generator.save('../Cl_data/Decoder_' + fileOut + '.hdf5')
@@ -187,7 +187,7 @@ if SaveModel:
 
 
 PlotSample = True
-ls = np.load('../Cl_data/ls.npy')[2:]
+ls = np.load('../Cl_data/ls_'+str(totalFiles)+'.npy')[2:]
 if PlotSample:
     for i in range(3,4):
         plt.figure(91, figsize=(8,6))

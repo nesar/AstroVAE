@@ -64,8 +64,8 @@ kernel = Matern32Kernel(0.5, ndim=5)
 
 import pk_load
 
-density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
-halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
+density_file = '../Cl_data/Cl_'+str(totalFiles)+'.npy'
+halo_para_file = '../Cl_data/Para5_'+str(totalFiles)+'.npy'
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
@@ -130,7 +130,7 @@ RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 test_pts = RealPara.reshape(5, -1).T
 
 # ------------------------------------------------------------------------------
-y = np.load('../Cl_data/encoded_xtrain.npy').T
+y = np.load('../Cl_data/encoded_xtrain_'+str(totalFiles)+'.npy').T
 
 W_pred = np.array([np.zeros(shape=latent_dim)])
 gp={}
@@ -178,7 +178,7 @@ for i in range(latent_dim):
 
 from keras.models import load_model
 
-fileOut = 'Model'
+fileOut = 'Model_'+str(totalFiles)
 # vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
 encoder = load_model('../Cl_data/Encoder_' + fileOut + '.hdf5')
 decoder = load_model('../Cl_data/Decoder_' + fileOut + '.hdf5')
@@ -189,9 +189,9 @@ history = np.load('../Cl_data/TrainingHistory_'+fileOut+'.npy')
 x_decoded = decoder.predict(W_pred)
 
 
-ls = np.load('../Cl_data/ls.npy')[2:]
+ls = np.load('../Cl_data/ls_'+str(totalFiles)+'.npy')[2:]
 EMU0 = np.load('../Cl_data/totCL0.npy')[2:,0] # Generated from CosmicEmu -- original value
-normFactor = np.load('../Cl_data/normfactor.npy')
+normFactor = np.load('../Cl_data/normfactor_'+str(totalFiles)+'.npy')
 
 
 PlotSample = True
@@ -241,9 +241,9 @@ plt.show()
 PlotRatio = True
 if PlotRatio:
 
-    PkOriginal = np.load('../Cl_data/ClTest32.npy')[:,2:] # Generated from CosmicEmu -- original
+    PkOriginal = np.load('../Cl_data/Cl_'+str(totalFiles)+'.npy')[:,2:] # Generated from CosmicEmu -- original
     # value
-    RealParaArray = np.load('../Cl_data/Para5.npy')
+    RealParaArray = np.load('../Cl_data/Para5_'+str(totalFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
         print(i)
