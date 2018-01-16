@@ -6,6 +6,10 @@ import numpy as np
 import matplotlib.pylab as plt
 import glob
 
+import SetPub
+SetPub.set_pub()
+
+
 
 nbins = 2551 # no. of k values.
 nsize = 3
@@ -29,11 +33,12 @@ PlotSample = True
 if PlotSample:
     for i in range( (nsize**5)):
         plt.figure(10)
-        plt.plot(ls[2:], Cl[i,2:])
+        plt.plot(ls[2:], Cl[i,2:], alpha = 0.3)
         plt.xscale('log')
         # plt.yscale('log')
-        plt.xlabel('l')
-        plt.ylabel('C_l')
+        plt.xlabel(r'$l$')
+        plt.ylabel(r'$C_l$')
+    plt.tight_layout()
 
     plt.show()
 
