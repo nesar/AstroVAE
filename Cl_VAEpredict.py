@@ -11,6 +11,7 @@ print(__doc__)
 # Check David's talk for plots of spectrum, and other things.
 
 import numpy as np
+np.get_printoptions()
 
 from matplotlib import pyplot as plt
 
@@ -267,7 +268,7 @@ if PlotRatio:
         # plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
         # # plt.legend()
         # plt.tight_layout()
-        print('ERRRO max:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).max(), 'min:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).min() )
+        print('ERR0R max:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).max(), 'min:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).min() )
 
 
     plt.axhline(y=1, ls='-.', lw=1.5)
