@@ -17,8 +17,12 @@ To Do:
 5. Deeper
 
 6. Can add a little bit noise to data -- so that distribution itself is not learnt.
+7. Use part of the data to predict the entire data well.?
+
 
 7. Adversarial AEs
+
+VAe -- can specify priors for latent distribution. 
 
 
 
