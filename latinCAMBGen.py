@@ -10,19 +10,23 @@ CosmoMC works well with CAMB
 
 
 
-nsize = 3
+nsize = 2
 
-OmegaM = np.linspace(0.12, 0.155, nsize)
-Omegab = np.linspace(0.0215, 0.0235, nsize)
-# sigma8 = np.linspace(0.7, 0.9, nsize)
-# sigma8 = 0.8*np.ones(shape=nsize)
-sigma8 = np.linspace(0.799, 0.8001, nsize)  # Dunno how to set sigma_8 in CAMB yet
-h = np.linspace(0.55, 0.85, nsize)
-ns = np.linspace(0.85, 1.05, nsize)
+# OmegaM = np.linspace(0.12, 0.155, nsize)
+# Omegab = np.linspace(0.0215, 0.0235, nsize)
+# # sigma8 = np.linspace(0.7, 0.9, nsize)
+# # sigma8 = 0.8*np.ones(shape=nsize)
+# sigma8 = np.linspace(0.799, 0.8001, nsize)  # Dunno how to set sigma_8 in CAMB yet
+# h = np.linspace(0.55, 0.85, nsize)
+# ns = np.linspace(0.85, 1.05, nsize)
+
+
 
 # allGrid = np.array(np.meshgrid(OmegaM, Omegab, sigma8, h, ns))
 
-para5 = np.array(list(itertools.product(OmegaM, Omegab, sigma8, h, ns)))
+# para5 = np.array(list(itertools.product(OmegaM, Omegab, sigma8, h, ns)))
+
+para5 = np.loadtxt('LatinCosmo.txt')
 
 # nsize = 0
 # para5 = np.array([np.array([0.13, 0.022, 0.8, 0.75, 1.01])])

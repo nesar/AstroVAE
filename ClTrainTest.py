@@ -12,7 +12,7 @@ SetPub.set_pub()
 
 
 nbins = 2551 # no. of k values.
-nsize = 3
+nsize = 2
 
 # data_path = '../Pk_data/CosmicEmu-master/P_cb/EMU*.txt'
 

@@ -21,19 +21,27 @@ import SetPub
 
 SetPub.set_pub()
 
-nsize = 32
+nsize = 2
+totalFiles = nsize**5 #32
 
-OmegaM = np.linspace(0.12, 0.155, nsize)
-Omegab = np.linspace(0.0215, 0.0235, nsize)
-# sigma8 = np.linspace(0.7, 0.9, nsize)
-# sigma8 = 0.8*np.ones(shape=nsize)
-sigma8 = np.linspace(0.799, 0.8001, nsize)  # Dunno how to set sigma_8 in CAMB yet
-h = np.linspace(0.55, 0.85, nsize)
-ns = np.linspace(0.85, 1.05, nsize)
+# OmegaM = np.linspace(0.12, 0.155, totalFiles)
+# Omegab = np.linspace(0.0215, 0.0235, totalFiles)
+# # sigma8 = np.linspace(0.7, 0.9, totalFiles)
+# # sigma8 = 0.8*np.ones(shape=totalFiles)
+# sigma8 = np.linspace(0.799, 0.8001, totalFiles)  # Dunno how to set sigma_8 in CAMB yet
+# h = np.linspace(0.55, 0.85, totalFiles)
+# ns = np.linspace(0.85, 1.05, totalFiles)
+
+
+OmegaM = np.linspace(0.12, 0.155, totalFiles)
+Omegab = np.linspace(0.0215, 0.0235, totalFiles)
+sigma8 = np.linspace(0.799, 0.8001, totalFiles)  # Dunno how to set sigma_8 in CAMB yet
+h = np.linspace(0.55, 0.85, totalFiles)
+ns = np.linspace(0.85, 1.05, totalFiles)
 
 AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns])
 
-lhd = pyDOE.lhs(5, samples=nsize, criterion='cm')
+lhd = pyDOE.lhs(5, samples=totalFiles, criterion='cm')
 print lhd
 print
 # lhd = norm(loc=0, scale=1).ppf(lhd)  # this applies to both factors here
@@ -51,9 +59,9 @@ for i in range(5):
 
 #plt.savefig('LatinSq.png', figsize=(10, 10))
 plt.show()
-idx = (lhd * nsize).astype(int)
+idx = (lhd * totalFiles).astype(int)
 
-AllCombinations = np.zeros((nsize, 5))
+AllCombinations = np.zeros((totalFiles, 5))
 for i in range(5):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
@@ -61,15 +69,15 @@ np.savetxt('LatinCosmo.txt', AllCombinations)
 
 print AllCombinations
 
-# for i in range(nsize):
-# idx = (lhd[:,i]*nsize).astype(int)
+# for i in range(totalFiles):
+# idx = (lhd[:,i]*totalFiles).astype(int)
 # AllPara[]
 
 
 # plt.tight_layout()
 
 
-#
+#  Can we design lhc such that things
 design = pyDOE.lhs(5, samples=10)
 from scipy.stats.distributions import norm
 
