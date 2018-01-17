@@ -45,12 +45,12 @@ plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, h
 plt.rcParams.update({'font.size': 8})
 
 for i in range(5):
-    for j in range(i):
+    for j in range(i+1):
         a[i, j].scatter(lhd[:, i], lhd[:, j], s=20)
         a[i, j].grid(True)
 
 plt.savefig('LatinSq.png', figsize=(10, 10))
-
+plt.show()
 idx = (lhd * nsize).astype(int)
 
 AllCombinations = np.zeros((nsize, 5))
@@ -69,16 +69,16 @@ print AllCombinations
 # plt.tight_layout()
 
 
-
-# design = pyDOE.lhs(5, samples=10)
-# from scipy.stats.distributions import norm
 #
-# means = [1, 2, 3, 4]
-# stdvs = [0.1, 0.5, 1, 0.25]
-# for i in xrange(4):
-#     design[:, i] = norm(loc=means[i], scale=stdvs[i]).ppf(design[:, i])
+design = pyDOE.lhs(5, samples=10)
+from scipy.stats.distributions import norm
 
-# print design
+means = [1, 2, 3, 4]
+stdvs = [0.1, 0.5, 1, 0.25]
+for i in xrange(4):
+    design[:, i] = norm(loc=means[i], scale=stdvs[i]).ppf(design[:, i])
 
+print design
+#
 
 

@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 
-from keras.layers import Input, Dense, Lambda, Layer
+from keras.layers import Input, Dense, Lambda, Layer, Dropout
 from keras.models import Model
 from keras import backend as K
 from keras import metrics
@@ -24,7 +24,7 @@ nsize = 2
 totalFiles = nsize**5 #32
 batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
-latent_dim = 5
+latent_dim = 2
 intermediate_dim0 = 1024 # mnist ~ 256
 intermediate_dim = 512 # mnist ~ 256
 epochs = 20 #110 #50
@@ -43,6 +43,7 @@ h0 = Dense(intermediate_dim0, activation = 'relu')(x) # ADDED intermediate_layer
 h = Dense(intermediate_dim, activation='relu')(h0)
 z_mean = Dense(latent_dim)(h)
 z_log_var = Dense(latent_dim)(h)
+h = Dropout(.3)(h)
 
 
 def sampling(args):
