@@ -16,6 +16,10 @@ To Do:
 
 5. Deeper
 
+6. Can add a little bit noise to data -- so that distribution itself is not learnt.
+
+7. Adversarial AEs
+
 
 
 
