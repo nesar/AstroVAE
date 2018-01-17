@@ -49,7 +49,7 @@ for i in range(5):
         a[i, j].scatter(lhd[:, i], lhd[:, j], s=20)
         a[i, j].grid(True)
 
-plt.savefig('LatinSq.png', figsize=(10, 10))
+#plt.savefig('LatinSq.png', figsize=(10, 10))
 plt.show()
 idx = (lhd * nsize).astype(int)
 
