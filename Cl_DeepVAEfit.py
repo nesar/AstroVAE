@@ -20,15 +20,13 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-nsize = 2
-# totalFiles = nsize**5 #32
-totalFiles = 100 #32
+# nsize = 2
 batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
-intermediate_dim1 = 512 #
+intermediate_dim1 = 256 #
 intermediate_dim = 64 #
-latent_dim = 10
+latent_dim = 8
 
 epochs = 100 #110 #50
 epsilon_std = 0.5 # 1.0
@@ -97,23 +95,32 @@ class CustomVariationalLayer(Layer):
 y = CustomVariationalLayer()([x, x_decoded_mean])
 vae = Model(x, y)  #Model(input layer, loss function)??
 
-rmsprop = optimizers.RMSprop(lr= learning_rate, rho=0.9, epsilon=None, decay=decay_rate) # Added
-
-vae.compile(optimizer='rmsprop', loss=None)
+# rmsprop = optimizers.RMSprop(lr= learning_rate, rho=0.9, epsilon=None, decay=decay_rate) # Added
+adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
+vae.compile(optimizer='adam', loss=None)
 
 # ----------------------------- i/o ------------------------------------------
 
-import pk_load
+import Cl_load
 
 # density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
-density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
+# density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
+totalFiles = 100
+train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
+train_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
+totalFiles = 20
+test_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
+test_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
 
 # halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
-halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
+# halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
 
-pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
+# pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
-(x_train, y_train), (x_test, y_test) = pk.load_data()
+camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+
+
+(x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
 x_train = x_train[:,2:]
 x_test = x_test[:,2:]
@@ -155,7 +162,7 @@ cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel(r'$\Omega_m$')
 # cbar.ax.set_ylabel(r'$\sigma_8$')
 plt.tight_layout()
-# plt.savefig('../Pk_data/SVDvsVAE/VAE_encodedOutputs_y0.png')
+plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
 
 
 
@@ -164,8 +171,8 @@ plt.tight_layout()
 # display a 2D plot of the digit classes in the latent space
 x_train_encoded = encoder.predict(x_train, batch_size=batch_size)
 
-np.save('../Cl_data/encoded_xtrain_'+str(nsize)+'.npy', x_train_encoded)
-np.save('../Cl_data/normfactor_'+str(nsize)+'.npy', normFactor)
+np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
+np.save('../Cl_data/Data/normfactor_'+str(totalFiles)+'.npy', normFactor)
 
 
 # build a digit generator that can sample from the learned distribution
@@ -190,16 +197,16 @@ if SaveModel:
 
     # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
 
-    fileOut = 'Model_'+str(nsize)
-    vae.save('../Cl_data/fullAE_' + fileOut + '.hdf5')
-    encoder.save('../Cl_data/Encoder_' + fileOut + '.hdf5')
-    generator.save('../Cl_data/Decoder_' + fileOut + '.hdf5')
-    np.save('../Cl_data/TrainingHistory_'+fileOut+'.npy', training_hist)
+    fileOut = 'Model_'+str(totalFiles)
+    vae.save('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
+    encoder.save('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
+    generator.save('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
+    np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
 
 
 
 PlotSample = True
-ls = np.load('../Cl_data/ls_'+str(nsize)+'.npy')[2:]
+ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
 if PlotSample:
     for i in range(3,4):
         plt.figure(91, figsize=(8,6))
@@ -229,20 +236,20 @@ if plotLoss:
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
-    # plt.savefig('../Cl_data/Training_loss.png')
+    plt.savefig('../Cl_data/Plots/Training_loss.png')
 
 plt.show()
 
 PlotModel = True
 if PlotModel:
     from keras.utils.vis_utils import plot_model
-    fileOut = '../Cl_data/ArchitectureFullAE.png'
+    fileOut = '../Cl_data/Plots/ArchitectureFullAE.png'
     plot_model(vae, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-    fileOut = '../Cl_data/ArchitectureEncoder.png'
+    fileOut = '../Cl_data/Plots/ArchitectureEncoder.png'
     plot_model(encoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-    fileOut = '../Cl_data/ArchitectureDecoder.png'
+    fileOut = '../Cl_data/Plots/ArchitectureDecoder.png'
     plot_model(generator, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
 print('---- Training done -------')

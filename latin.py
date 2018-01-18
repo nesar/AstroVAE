@@ -20,9 +20,9 @@ import SetPub
 
 SetPub.set_pub()
 
-nsize = 2
+# nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 125
+totalFiles = 2
 
 # OmegaM = np.linspace(0.12, 0.155, totalFiles)
 # Omegab = np.linspace(0.0215, 0.0235, totalFiles)
@@ -83,7 +83,7 @@ AllCombinations = np.zeros((totalFiles, 5))
 for i in range(5):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
-np.savetxt('LatinCosmo.txt', AllCombinations)
+np.savetxt('../Cl_data/Data/LatinCosmo'+str(totalFiles)+'.txt', AllCombinations)
 
 print AllCombinations
 
@@ -98,7 +98,7 @@ print AllCombinations
 #  Can we design lhc such that mean and std can be provided
 
 
-design = pyDOE.lhs(5, samples=32)
+design = pyDOE.lhs(5, samples=totalFiles)
 from scipy.stats.distributions import norm
 
 # means = [np.mean(OmegaM), np.mean(Omegab), np.mean(sigma8), np.mean(h), np.mean(ns)]
@@ -142,4 +142,4 @@ AllCombinations = np.zeros((totalFiles, 5))
 for i in range(5):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
-np.savetxt('LatinCosmoMean.txt', AllCombinations)
+np.savetxt('../Cl_data/Data/LatinCosmoMean'+str(totalFiles)+'.txt', AllCombinations)

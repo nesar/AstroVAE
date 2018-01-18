@@ -3,7 +3,7 @@ print('Loading data...')
 
 
 class density_profile:
-    def __init__(self, data_path, para_path, test_split = 0.01, num_para = 9):
+    def __init__(self, data_path, para_path, test_split = 0.2, num_para = 9):
         self.data_path = data_path
         self.para_path = para_path
         self.num_para = num_para

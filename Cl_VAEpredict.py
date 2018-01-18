@@ -28,10 +28,10 @@ def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
 
 
-nsize = 2
+# nsize = 2
 # totalFiles = nsize**5 #32
 totalFiles = 100 #32
-latent_dim = 10
+latent_dim = 5
 
 
 # length_scaleParameter = 1.0
@@ -62,23 +62,31 @@ kernel = Matern32Kernel(0.5, ndim=5)
 # hmf = np.load('../Pk_data/Para5.npy')
 
 # Load from pk load instead
-# ------------------------------------------------------------------------------
+# ----------------------------- i/o ------------------------------------------
 
-import pk_load
+import Cl_load
 
 # density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
-density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
+# density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
+totalFiles = 100
+train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
+train_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
+totalFiles = 20
+test_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
+test_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
 
 # halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
-halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
+# halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
 
-pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
+# pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
-(x_train, y_train), (x_test, y_test) = pk.load_data()
+camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+
+
+(x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
 x_train = x_train[:,2:]
 x_test = x_test[:,2:]
-
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -86,7 +94,7 @@ print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-
+print('-------normalization factor:', normFactor)
 
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
@@ -134,7 +142,7 @@ RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 test_pts = RealPara.reshape(5, -1).T
 
 # ------------------------------------------------------------------------------
-y = np.load('../Cl_data/encoded_xtrain_'+str(nsize)+'.npy').T
+y = np.load('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy').T
 
 W_pred = np.array([np.zeros(shape=latent_dim)])
 gp={}
@@ -149,11 +157,11 @@ for i in range(latent_dim):
 
 from keras.models import load_model
 
-fileOut = 'Model_'+str(nsize)
+fileOut = 'Model_'+str(totalFiles)
 # vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
-encoder = load_model('../Cl_data/Encoder_' + fileOut + '.hdf5')
-decoder = load_model('../Cl_data/Decoder_' + fileOut + '.hdf5')
-history = np.load('../Cl_data/TrainingHistory_'+fileOut+'.npy')
+encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
+decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
+history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
 
 # generator = Model(decoder_input, _x_decoded_mean)
 # x_decoded = generator.predict(W_pred.T[0,:,:])
@@ -165,11 +173,13 @@ x_decoded = decoder.predict(W_pred)
 
 PlotSample = True
 if PlotSample:
-        nsize0 = 0 ## SAMPLE
-        ls = np.load('../Cl_data/ls_' + str(nsize0) + '.npy')[2:]
-        EMU0 = np.load('../Cl_data/Cl_'+str(nsize0)+'.npy')[0,2:]  # Generated from CosmicEmu --
+        normFactor = np.load('../Cl_data/Data/normfactor_' + str(totalFiles) + '.npy')
+
+        totalFiles = 2
+
+        ls = np.load('../Cl_data/Data/Latinls_' + str(totalFiles) + '.npy')[2:]
+        EMU0 = np.load('../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy')[0,2:]  # Generated from CosmicEmu --
         # original value
-        normFactor = np.load('../Cl_data/normfactor_' + str(nsize) + '.npy')
 
 
         # for i in range(2):
@@ -184,7 +194,7 @@ if PlotSample:
         plt.ylabel(r'$C_l$')
         plt.legend()
         plt.tight_layout()
-        plt.savefig('../Cl_data/GP_AE_output.png')
+        plt.savefig('../Cl_data/Plots/GP_AE_output.png')
 
         badEggs = np.where( 100*np.abs(EMU0 - normFactor*x_decoded[0])/EMU0 > 3 )
         print('ERROR max:',100*np.max(np.abs(EMU0 - normFactor*x_decoded[0])/EMU0), 'per cent')
@@ -211,7 +221,7 @@ if plotLoss:
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
-    plt.savefig('../Cl_data/Training_loss.png')
+    plt.savefig('../Cl_data/Plots/Training_loss.png')
 
 plt.show()
 
@@ -222,10 +232,11 @@ plt.show()
 
 PlotRatio = True
 if PlotRatio:
+    totalFiles = 20
 
-    PkOriginal = np.load('../Cl_data/Cl_'+str(nsize)+'.npy')[:,2:] # Generated from CosmicEmu -- original
+    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy')[:,2:] # Generated from CosmicEmu -- original
     # value
-    RealParaArray = np.load('../Cl_data/Para5_'+str(nsize)+'.npy')
+    RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
         # print(i)
@@ -283,7 +294,7 @@ if PlotRatio:
 
 
     plt.axhline(y=1, ls='-.', lw=1.5)
-    plt.savefig('../Cl_data/GP_AE_ratio.png')
+    plt.savefig('../Cl_data/Plots/GP_AE_ratio.png')
 
     plt.show()
 

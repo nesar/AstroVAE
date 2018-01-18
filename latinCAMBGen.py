@@ -8,30 +8,9 @@ CAMBFast maybe better?
 CosmoMC works well with CAMB
 """
 
+totalFiles = 2
 
-
-nsize = 2
-
-# OmegaM = np.linspace(0.12, 0.155, nsize)
-# Omegab = np.linspace(0.0215, 0.0235, nsize)
-# # sigma8 = np.linspace(0.7, 0.9, nsize)
-# # sigma8 = 0.8*np.ones(shape=nsize)
-# sigma8 = np.linspace(0.799, 0.8001, nsize)  # Dunno how to set sigma_8 in CAMB yet
-# h = np.linspace(0.55, 0.85, nsize)
-# ns = np.linspace(0.85, 1.05, nsize)
-
-
-
-# allGrid = np.array(np.meshgrid(OmegaM, Omegab, sigma8, h, ns))
-
-# para5 = np.array(list(itertools.product(OmegaM, Omegab, sigma8, h, ns)))
-
-para5 = np.loadtxt('LatinCosmo.txt')
-
-# nsize = 0
-# para5 = np.array([np.array([0.13, 0.022, 0.8, 0.75, 1.01])])
-
-
+para5 = np.loadtxt('../Cl_data/Data/LatinCosmo'+str(totalFiles)+'.txt')
 
 #Set up a new set of parameters for CAMB
 pars = camb.CAMBparams()
@@ -61,12 +40,12 @@ for i in range(para5.shape[0]):
     totCL = powers['total']
     unlensedCL = powers['unlensed_scalar']
 
-    np.save('../Cl_data/LatintotCL'+str(nsize)+'_'+str(i) +'.npy', totCL)
-    np.save('../Cl_data/LatinunlensedCL'+str(nsize)+'_'+str(i)+'.npy', unlensedCL)
+    np.save('../Cl_data/Data/LatintotCL'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
+    np.save('../Cl_data/Data/LatinunlensedCL'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 
 ls = np.arange(totCL.shape[0])
 
-np.save('../Cl_data/LatinPara5_'+str(nsize)+'.npy', para5)
-np.save('../Cl_data/Latinls_'+str(nsize)+'.npy', ls)
+np.save('../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy', para5)
+np.save('../Cl_data/Data/Latinls_'+str(totalFiles)+'.npy', ls)
 
 
