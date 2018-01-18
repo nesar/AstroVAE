@@ -13,6 +13,7 @@ SetPub.set_pub()
 
 nbins = 2551 # no. of k values.
 nsize = 2
+totalFiles = 100
 
 # data_path = '../Pk_data/CosmicEmu-master/P_cb/EMU*.txt'
 # data_path = '../Cl_data/totCL'+str(nsize)+'*.npy'
@@ -32,7 +33,7 @@ ls = np.arange(Cl[0].shape[0])
 
 PlotSample = True
 if PlotSample:
-    for i in range( (nsize**5)):
+    for i in range( (totalFiles)):
         plt.figure(10)
         plt.plot(ls[2:], Cl[i,2:], alpha = 0.3)
         plt.xscale('log')

@@ -29,8 +29,9 @@ def rescale01(xmin, xmax, f):
 
 
 nsize = 2
-totalFiles = nsize**5 #32
-latent_dim = 2
+# totalFiles = nsize**5 #32
+totalFiles = 100 #32
+latent_dim = 10
 
 
 # length_scaleParameter = 1.0
@@ -75,10 +76,8 @@ pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_fil
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
 
-x_train = x_train[:totalFiles][:,2:]
-x_test = x_test[:np.int(0.2*totalFiles)][:,2:]
-y_train = y_train[:totalFiles]
-y_test = y_test[:np.int(0.2*totalFiles)]
+x_train = x_train[:,2:]
+x_test = x_test[:,2:]
 
 
 print(x_train.shape, 'train sequences')
@@ -176,7 +175,7 @@ if PlotSample:
         # for i in range(2):
         plt.figure(91, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
-        plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.15)
+        plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.3)
         plt.plot(ls, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
         plt.plot(ls, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
         # plt.xscale('log')
@@ -187,7 +186,11 @@ if PlotSample:
         plt.tight_layout()
         plt.savefig('../Cl_data/GP_AE_output.png')
 
-        print(100*np.max((EMU0 - normFactor*x_decoded[0])/EMU0))
+        badEggs = np.where( 100*np.abs(EMU0 - normFactor*x_decoded[0])/EMU0 > 3 )
+        print('ERROR max:',100*np.max(np.abs(EMU0 - normFactor*x_decoded[0])/EMU0), 'per cent')
+        # print('ERROR max at:', np.where((EMU0 - normFactor*x_decoded[0]) > 20))
+
+        plt.plot(ls[badEggs], normFactor*x_decoded[0][badEggs], 'gx', alpha=0.2, label='bad eggs', markersize = '3')
 
 plotLoss = True
 if plotLoss:
@@ -225,7 +228,7 @@ if PlotRatio:
     RealParaArray = np.load('../Cl_data/Para5_'+str(nsize)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
-        print(i)
+        # print(i)
 
         RealPara = RealParaArray[i]
 
@@ -255,7 +258,7 @@ if PlotRatio:
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
 
-        plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.15, lw = 1.0)
+        plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.35, lw = 1.5)
 
         # plt.xscale('log')
         plt.xlabel(r'$l$')

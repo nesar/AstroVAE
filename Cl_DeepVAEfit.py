@@ -21,16 +21,19 @@ import SetPub
 SetPub.set_pub()
 
 nsize = 2
-totalFiles = nsize**5 #32
+# totalFiles = nsize**5 #32
+totalFiles = 100 #32
 batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
-latent_dim = 2
-intermediate_dim0 = 1024 # mnist ~ 256
-intermediate_dim = 512 # mnist ~ 256
-epochs = 20 #110 #50
-epsilon_std = 1.0 # 1.0
-learning_rate = 1e-3
-decay_rate = 0.0
+intermediate_dim0 = 1024 #
+intermediate_dim1 = 512 #
+intermediate_dim = 64 #
+latent_dim = 10
+
+epochs = 100 #110 #50
+epsilon_std = 0.5 # 1.0
+learning_rate = 1e-5
+decay_rate = 0.1
 
 
 # -------------------------------- Network Architecture - simple
@@ -40,10 +43,11 @@ decay_rate = 0.0
 
 x = Input(shape=(original_dim,)) # Deepen encoder after this
 h0 = Dense(intermediate_dim0, activation = 'relu')(x) # ADDED intermediate_layer_0
-h = Dense(intermediate_dim, activation='relu')(h0)
+h1 = Dense(intermediate_dim1, activation = 'relu')(h0) # ADDED intermediate_layer_1
+h = Dense(intermediate_dim, activation='relu')(h1)
 z_mean = Dense(latent_dim)(h)
 z_log_var = Dense(latent_dim)(h)
-h = Dropout(.3)(h)
+h = Dropout(.5)(h)
 
 
 def sampling(args):
@@ -57,13 +61,15 @@ z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 
 # we instantiate these layers separately so as to reuse them later
 decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
-decoder_h0 = Dense(intermediate_dim0, activation='relu') # ADDED
+decoder_h1 = Dense(intermediate_dim1, activation='relu') # ADDED layer_0
+decoder_h0 = Dense(intermediate_dim0, activation='relu') # ADDED layer_0
 
 
 decoder_mean = Dense(original_dim, activation='sigmoid')
 
 h_decoded = decoder_h(z)
-h0_decoded = decoder_h0(h_decoded)
+h1_decoded = decoder_h1(h_decoded)
+h0_decoded = decoder_h0(h1_decoded)
 x_decoded_mean = decoder_mean(h0_decoded)
 
 
@@ -109,11 +115,8 @@ pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_fil
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
 
-x_train = x_train[:totalFiles][:,2:]
-x_test = x_test[:np.int(0.2*totalFiles)][:,2:]
-y_train = y_train[:totalFiles]
-y_test = y_test[:np.int(0.2*totalFiles)]
-
+x_train = x_train[:,2:]
+x_test = x_test[:,2:]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -169,7 +172,8 @@ np.save('../Cl_data/normfactor_'+str(nsize)+'.npy', normFactor)
 decoder_input = Input(shape=(latent_dim,))
 
 _h_decoded = decoder_h(decoder_input)
-_h0_decoded = decoder_h0(_h_decoded)    ## ADDED --- should replicate decoder arch
+_h1_decoded = decoder_h1(_h_decoded)    ## ADDED layer_1
+_h0_decoded = decoder_h0(_h1_decoded)    ## ADDED --- should replicate decoder arch
 _x_decoded_mean = decoder_mean(_h0_decoded)
 generator = Model(decoder_input, _x_decoded_mean)
 x_decoded = generator.predict(x_train_encoded)
@@ -206,6 +210,28 @@ if PlotSample:
 
     plt.show()
 
+plotLoss = True
+if plotLoss:
+    import matplotlib.pylab as plt
+
+    # epochs = np.arange(1, epochs+1)
+    train_loss = vae.history.history['loss']
+    val_loss = vae.history.history['val_loss']
+
+
+    fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
+    # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
+    ax.plot(epochs,train_loss, '-', lw =1.5)
+    ax.plot(epochs,val_loss, '-', lw = 1.5)
+    ax.set_ylabel('loss')
+    ax.set_xlabel('epochs')
+    # ax[0].set_ylim([0,1])
+    # ax[0].set_title('Loss')
+    ax.legend(['train loss','val loss'])
+    plt.tight_layout()
+    # plt.savefig('../Cl_data/Training_loss.png')
+
+plt.show()
 
 PlotModel = True
 if PlotModel:
