@@ -15,8 +15,9 @@ nbins = 2551 # no. of k values.
 nsize = 2
 
 # data_path = '../Pk_data/CosmicEmu-master/P_cb/EMU*.txt'
+# data_path = '../Cl_data/totCL'+str(nsize)+'*.npy'
+data_path = '../Cl_data/LatintotCL'+str(nsize)+'*.npy'
 
-data_path = '../Cl_data/totCL'+str(nsize)+'*.npy'
 
 Allfiles = sorted(glob.glob(data_path))
 
@@ -43,8 +44,8 @@ if PlotSample:
     plt.show()
 
 
-
 AllPara = np.load('../Cl_data/Para5_'+str(nsize)+'.npy')
+AllPara = np.load('../Cl_data/LatinPara5_'+str(nsize)+'.npy')
 
 plt.figure(43)
 plt.scatter(AllPara[:, :5][:, 2], AllPara[:, :5][:, 1], c = AllPara[:, :5][:, 3])
@@ -52,5 +53,5 @@ plt.show()
 
 # OmegaM, Omegab, sigma8, h, ns, w0, wb, OmegaNu, z
 
-
 np.save('../Cl_data/Cl_'+str(nsize)+'.npy', Cl)#[:,2:])
+np.save('../Cl_data/LatinCl_'+str(nsize)+'.npy', Cl)#[:,2:])

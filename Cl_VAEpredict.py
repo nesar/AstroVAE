@@ -65,8 +65,12 @@ kernel = Matern32Kernel(0.5, ndim=5)
 
 import pk_load
 
-density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
-halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
+# density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
+density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
+
+# halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
+halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
+
 pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
 (x_train, y_train), (x_test, y_test) = pk.load_data()
@@ -183,6 +187,8 @@ if PlotSample:
         plt.tight_layout()
         plt.savefig('../Cl_data/GP_AE_output.png')
 
+        print(100*np.max((EMU0 - normFactor*x_decoded[0])/EMU0))
+
 plotLoss = True
 if plotLoss:
     import matplotlib.pylab as plt
@@ -268,7 +274,9 @@ if PlotRatio:
         # plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
         # # plt.legend()
         # plt.tight_layout()
-        print('ERR0R max:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).max(), 'min:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).min() )
+
+
+        # print('ERR0R max:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).max(), 'min:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).min() )
 
 
     plt.axhline(y=1, ls='-.', lw=1.5)
