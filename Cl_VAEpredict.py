@@ -324,3 +324,7 @@ if PlotRatio:
 # CAMB - linear theory -- good for demonstration
 # Future -- use simulations for a proper cmb power spectrum
 
+# Change loss function and see if it changes anything
+## can loss include something from GP?
+
+# combine a few files -- one for io, one for training (AE+GP), one for testing?
