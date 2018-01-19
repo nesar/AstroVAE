@@ -30,9 +30,9 @@ intermediate_dim1 = 512 #
 intermediate_dim = 256 #
 latent_dim = 5
 
-epochs = 50 #110 #50
+epochs = 25 #110 #50
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-5
+learning_rate = 1e-6
 decay_rate = 0.0
 
 
@@ -61,7 +61,7 @@ z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 
 # we instantiate these layers separately so as to reuse them later
 decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
-decoder_h1 = Dense(intermediate_dim1, activation='relu') # ADDED layer_0
+decoder_h1 = Dense(intermediate_dim1, activation='relu') # ADDED layer_1
 decoder_h0 = Dense(intermediate_dim0, activation='relu') # ADDED layer_0
 
 
@@ -80,8 +80,8 @@ class CustomVariationalLayer(Layer):
         super(CustomVariationalLayer, self).__init__(**kwargs)
 
     def vae_loss(self, x, x_decoded_mean):
-        xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
-        # xent_loss = metrics.binary_crossentropy(x, x_decoded_mean)
+        # xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
+        xent_loss = metrics.binary_crossentropy(x, x_decoded_mean)
         kl_loss = - 0.5 * K.sum(1 + z_log_var - K.square(z_mean) - K.exp(z_log_var), axis=-1)
 
 
@@ -103,18 +103,6 @@ adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
 
 vae = Model(x, y)  #Model(input layer, loss function)??
 vae.compile(optimizer='adam', loss=None)
-
-
-# def vae_loss(y_true, y_pred):
-#     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
-#     # E[log P(X|z)]
-#     recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
-#     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
-#     kl = 0.5 * K.sum(K.exp(z_log_var) + K.square(z_mean) - 1. - z_log_var, axis=1)
-#     return recon + kl
-#
-# vae = Model(x, x_decoded_mean)
-# vae.compile(optimizer='adam', loss=vae_loss)
 
 # ----------------------------- i/o ------------------------------------------
 
