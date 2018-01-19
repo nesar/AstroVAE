@@ -23,7 +23,7 @@ SetPub.set_pub()
 totalFiles = 100
 TestFiles = 20
 
-batch_size = 5
+batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
 intermediate_dim1 = 512 #
