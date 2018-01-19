@@ -107,8 +107,9 @@ from scipy.stats.distributions import norm
 means = [0.5, 0.5, 0.5, 0.5, 0.5]
 stdvs = 0.15*np.ones(shape=5)
 
-for i in xrange(4):
+for i in np.arange(4):
     design[:, i] = norm(loc=means[i], scale=stdvs[i]).ppf(design[:, i])
+    # print(i)
 
 print(design)
 #
