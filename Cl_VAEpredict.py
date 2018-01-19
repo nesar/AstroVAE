@@ -11,7 +11,8 @@ print(__doc__)
 # Check David's talk for plots of spectrum, and other things.
 
 import numpy as np
-np.get_printoptions()
+
+
 
 from matplotlib import pyplot as plt
 
@@ -24,13 +25,16 @@ import george
 import SetPub
 SetPub.set_pub()
 
+
+
 def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
 
 
-# nsize = 2
-# totalFiles = nsize**5 #32
-totalFiles = 100 #32
+
+totalFiles = 100
+TestFiles = 20
+
 latent_dim = 5
 
 
@@ -68,12 +72,10 @@ import Cl_load
 
 # density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
 # density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
-totalFiles = 100
 train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
 train_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
-totalFiles = 20
-test_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
-test_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
+test_path = '../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy'
+test_target_path =  '../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy'
 
 # halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
 # halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
@@ -132,26 +134,26 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 # ------------------------------------------------------------------------------
 # Test Sample
 # This part will go inside likelihood -- Anirban
-RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
-RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
-RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
-# RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2]) ## ns = 0.8 constant while training
-RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
-RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
-
-test_pts = RealPara.reshape(5, -1).T
-
-# ------------------------------------------------------------------------------
+# RealPara = np.load('../Cl_data/Data/LatinPara5_2.npy')[0]
+# RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
+# RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
+# # RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2]) ## ns = 0.8 constant while training
+# RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
+# RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
+#
+# test_pts = RealPara.reshape(5, -1).T
+#
+# # ------------------------------------------------------------------------------
 y = np.load('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy').T
-
-W_pred = np.array([np.zeros(shape=latent_dim)])
-gp={}
-for i in range(latent_dim):
-    gp["fit{0}".format(i)]= george.GP(kernel)
-    gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
-    W_pred[:,i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
-
-# ------------------------------------------------------------------------------
+#
+# W_pred = np.array([np.zeros(shape=latent_dim)])
+# gp={}
+# for i in range(latent_dim):
+#     gp["fit{0}".format(i)]= george.GP(kernel)
+#     gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
+#     W_pred[:,i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
+#
+# # ------------------------------------------------------------------------------
 # Decoder acts here
 # Have to save and load model architecture, and weights
 
@@ -165,42 +167,9 @@ history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
 
 # generator = Model(decoder_input, _x_decoded_mean)
 # x_decoded = generator.predict(W_pred.T[0,:,:])
-x_decoded = decoder.predict(W_pred)
+# x_decoded = decoder.predict(W_pred)
 
 
-
-
-
-PlotSample = True
-if PlotSample:
-        normFactor = np.load('../Cl_data/Data/normfactor_' + str(totalFiles) + '.npy')
-
-        totalFiles = 2
-
-        ls = np.load('../Cl_data/Data/Latinls_' + str(totalFiles) + '.npy')[2:]
-        EMU0 = np.load('../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy')[0,2:]  # Generated from CosmicEmu --
-        # original value
-
-
-        # for i in range(2):
-        plt.figure(91, figsize=(8,6))
-        plt.title('Autoencoder+GP fit')
-        plt.plot(ls, normFactor*x_test[::].T, 'gray', alpha=0.3)
-        plt.plot(ls, normFactor*x_decoded[0], 'b--', lw = 2, alpha=1.0, label='decoded')
-        plt.plot(ls, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
-        # plt.xscale('log')
-        # plt.yscale('log')
-        plt.xlabel('$l$')
-        plt.ylabel(r'$C_l$')
-        plt.legend()
-        plt.tight_layout()
-        plt.savefig('../Cl_data/Plots/GP_AE_output.png')
-
-        badEggs = np.where( 100*np.abs(EMU0 - normFactor*x_decoded[0])/EMU0 > 3 )
-        print('ERROR max:',100*np.max(np.abs(EMU0 - normFactor*x_decoded[0])/EMU0), 'per cent')
-        # print('ERROR max at:', np.where((EMU0 - normFactor*x_decoded[0]) > 20))
-
-        plt.plot(ls[badEggs], normFactor*x_decoded[0][badEggs], 'gx', alpha=0.2, label='bad eggs', markersize = '3')
 
 plotLoss = True
 if plotLoss:
@@ -228,18 +197,19 @@ plt.show()
 
 
 # ------------------------------------------------------------------------------
+np.set_printoptions(precision=3)
+np.set_printoptions(suppress=True)
+np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
 PlotRatio = True
 if PlotRatio:
     totalFiles = 20
-
-    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy')[:,2:] # Generated from CosmicEmu -- original
-    # value
+    ls = np.load('../Cl_data/Data/Latinls_' + str(totalFiles) + '.npy')[2:]
+    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy')[:,2:] # Original
     RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
-        # print(i)
 
         RealPara = RealParaArray[i]
 
@@ -268,8 +238,10 @@ if PlotRatio:
 
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
+        cl_ratio = normFactor*x_decoded[0]/PkOriginal[i]
+        relError = 100*np.abs(cl_ratio - 1)
 
-        plt.plot(ls, normFactor*x_decoded[0]/PkOriginal[i], alpha=.35, lw = 1.5)
+        plt.plot(ls, cl_ratio, alpha=.35, lw = 1.5)
 
         # plt.xscale('log')
         plt.xlabel(r'$l$')
@@ -277,20 +249,31 @@ if PlotRatio:
         # plt.legend()
         plt.tight_layout()
 
-        # plt.figure(94, figsize=(8,6))
-        # plt.title('Autoencoder+GP fit')
-        #
-        # plt.plot(ls, normFactor*x_decoded[0], alpha=.3, lw = 1.5)
-        # plt.plot(ls, PkOriginal[i], alpha=.3, lw = 1.5, label = str(i))
-        #
-        # plt.xscale('log')
-        # plt.xlabel(r'$l$')
-        # plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
-        # # plt.legend()
-        # plt.tight_layout()
+        PlotSampleID = 17
+
+        if(i == PlotSampleID):
 
 
-        # print('ERR0R max:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).max(), 'min:', ( np.abs(normFactor * x_decoded[0]  - PkOriginal[i]) / PkOriginal[i] ).min() )
+            plt.figure(99, figsize=(8,6))
+            plt.title('Autoencoder+GP fit')
+            plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.3)
+
+            plt.plot(ls, normFactor*x_decoded[0], ls='--', alpha= 1.0, lw = 2, label = 'emulated')
+            plt.plot(ls, PkOriginal[i], ls='--', alpha=1.0, lw = 2, label = 'original')
+
+            # plt.xscale('log')
+            plt.xlabel(r'$l$')
+            plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
+            # plt.legend()
+            plt.tight_layout()
+
+            plt.savefig('../Cl_data/Plots/GP_AE_output.png')
+
+            ErrTh = 10
+            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '3')
+
+
+        print(i, 'ERR0R min max:', np.array([(relError).min(), (relError).max()]) )
 
 
     plt.axhline(y=1, ls='-.', lw=1.5)

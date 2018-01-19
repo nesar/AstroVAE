@@ -20,15 +20,17 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-# nsize = 2
+totalFiles = 100
+TestFiles = 20
+
 batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
 intermediate_dim1 = 256 #
 intermediate_dim = 64 #
-latent_dim = 8
+latent_dim = 5
 
-epochs = 100 #110 #50
+epochs = 20 #110 #50
 epsilon_std = 0.5 # 1.0
 learning_rate = 1e-5
 decay_rate = 0.1
@@ -105,12 +107,10 @@ import Cl_load
 
 # density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
 # density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
-totalFiles = 100
 train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
 train_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
-totalFiles = 20
-test_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
-test_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
+test_path = '../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy'
+test_target_path =  '../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy'
 
 # halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
 # halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
@@ -153,16 +153,16 @@ encoder = Model(x, z_mean)
 x_test_encoded = encoder.predict(x_test, batch_size=batch_size)
 
 
-plt.figure(687, figsize=(7, 6))
-plt.title('Encoded outputs')
-plt.xlabel('E[0]')
-plt.ylabel('E[1]')
-CS = plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], c=y_test[:,0], s = 15, alpha=0.6)
-cbar = plt.colorbar(CS)
-cbar.ax.set_ylabel(r'$\Omega_m$')
-# cbar.ax.set_ylabel(r'$\sigma_8$')
-plt.tight_layout()
-plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
+# plt.figure(687, figsize=(7, 6))
+# plt.title('Encoded outputs')
+# plt.xlabel('E[0]')
+# plt.ylabel('E[1]')
+# CS = plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], c=y_test[:,0], s = 15, alpha=0.6)
+# cbar = plt.colorbar(CS)
+# cbar.ax.set_ylabel(r'$\Omega_m$')
+# # cbar.ax.set_ylabel(r'$\sigma_8$')
+# plt.tight_layout()
+# plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
 
 
 
@@ -170,6 +170,18 @@ plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
 
 # display a 2D plot of the digit classes in the latent space
 x_train_encoded = encoder.predict(x_train, batch_size=batch_size)
+
+
+plt.figure(687, figsize=(7, 6))
+plt.title('Encoded outputs')
+plt.xlabel('E[0]')
+plt.ylabel('E[1]')
+CS = plt.scatter(x_train_encoded[:,0], x_train_encoded[:,1], c=y_train[:,0], s = 15, alpha=0.6)
+cbar = plt.colorbar(CS)
+cbar.ax.set_ylabel(r'$\Omega_m$')
+# cbar.ax.set_ylabel(r'$\sigma_8$')
+plt.tight_layout()
+plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
 
 np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
 np.save('../Cl_data/Data/normfactor_'+str(totalFiles)+'.npy', normFactor)
