@@ -231,12 +231,13 @@ if SaveModel:
 PlotSample = True
 ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
 if PlotSample:
-    for i in range(3,4):
+    for i in range(3,10):
         plt.figure(91, figsize=(8,6))
-        plt.plot(ls, x_decoded[i], 'r', alpha = 0.8)
-        plt.plot(ls, x_train[i], 'k')
-        plt.xscale('log')
-        plt.yscale('log')
+        plt.plot(ls, x_decoded[i], 'r--', alpha = 0.8)
+        plt.plot(ls, x_train[i], 'b--')
+        # plt.xscale('log')
+        # plt.yscale('log')
+        plt.title('reconstruct x_train - red')
 
     plt.show()
 
