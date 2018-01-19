@@ -30,7 +30,7 @@ intermediate_dim1 = 512 #
 intermediate_dim = 256 #
 latent_dim = 5
 
-epochs = 100 #110 #50
+epochs = 50 #110 #50
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-5
 decay_rate = 0.0
@@ -98,11 +98,23 @@ class CustomVariationalLayer(Layer):
         return x
 
 y = CustomVariationalLayer()([x, x_decoded_mean])
-vae = Model(x, y)  #Model(input layer, loss function)??
-
 # rmsprop = optimizers.RMSprop(lr= learning_rate, rho=0.9, epsilon=None, decay=decay_rate) # Added
 adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
+
+vae = Model(x, y)  #Model(input layer, loss function)??
 vae.compile(optimizer='adam', loss=None)
+
+
+# def vae_loss(y_true, y_pred):
+#     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
+#     # E[log P(X|z)]
+#     recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
+#     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
+#     kl = 0.5 * K.sum(K.exp(z_log_var) + K.square(z_mean) - 1. - z_log_var, axis=1)
+#     return recon + kl
+#
+# vae = Model(x, x_decoded_mean)
+# vae.compile(optimizer='adam', loss=vae_loss)
 
 # ----------------------------- i/o ------------------------------------------
 

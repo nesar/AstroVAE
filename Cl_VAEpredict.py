@@ -310,3 +310,5 @@ if PlotRatio:
 ## can loss include something from GP?
 
 # combine a few files -- one for io, one for training (AE+GP), one for testing?
+
+## encoded arrays are all same!!!
