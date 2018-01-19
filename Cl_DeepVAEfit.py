@@ -23,17 +23,17 @@ SetPub.set_pub()
 totalFiles = 100
 TestFiles = 20
 
-batch_size = 1
+batch_size = 5
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
-intermediate_dim1 = 256 #
-intermediate_dim = 64 #
+intermediate_dim1 = 512 #
+intermediate_dim = 256 #
 latent_dim = 5
 
-epochs = 20 #110 #50
-epsilon_std = 0.5 # 1.0
+epochs = 100 #110 #50
+epsilon_std = 1.0 # 1.0
 learning_rate = 1e-5
-decay_rate = 0.1
+decay_rate = 0.0
 
 
 # -------------------------------- Network Architecture - simple
@@ -83,8 +83,8 @@ class CustomVariationalLayer(Layer):
         xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
         # xent_loss = metrics.binary_crossentropy(x, x_decoded_mean)
         kl_loss = - 0.5 * K.sum(1 + z_log_var - K.square(z_mean) - K.exp(z_log_var), axis=-1)
-        return K.mean(xent_loss + kl_loss)
-        # return K.mean(kl_loss)
+        return K.mean(xent_loss + 100*kl_loss)
+        # return K.mean(xent_loss)
 
     def call(self, inputs):
         x = inputs[0]
