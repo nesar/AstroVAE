@@ -20,18 +20,20 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-# nsize = 2
-batch_size = 1
+totalFiles = 100
+TestFiles = 20
+
+batch_size = 2
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
-intermediate_dim1 = 256 #
-intermediate_dim = 64 #
-latent_dim = 8
+intermediate_dim1 = 512 #
+intermediate_dim = 256 #
+latent_dim = 10
 
 epochs = 100 #110 #50
-epsilon_std = 0.5 # 1.0
-learning_rate = 1e-5
-decay_rate = 0.1
+epsilon_std = 1.0 # 1.0
+learning_rate = 1e-7
+decay_rate = 0.0
 
 
 # -------------------------------- Network Architecture - simple
@@ -45,7 +47,7 @@ h1 = Dense(intermediate_dim1, activation = 'relu')(h0) # ADDED intermediate_laye
 h = Dense(intermediate_dim, activation='relu')(h1)
 z_mean = Dense(latent_dim)(h)
 z_log_var = Dense(latent_dim)(h)
-h = Dropout(.5)(h)
+# h = Dropout(.5)(h)
 
 
 def sampling(args):
@@ -59,7 +61,7 @@ z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 
 # we instantiate these layers separately so as to reuse them later
 decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
-decoder_h1 = Dense(intermediate_dim1, activation='relu') # ADDED layer_0
+decoder_h1 = Dense(intermediate_dim1, activation='relu') # ADDED layer_1
 decoder_h0 = Dense(intermediate_dim0, activation='relu') # ADDED layer_0
 
 
@@ -79,10 +81,12 @@ class CustomVariationalLayer(Layer):
 
     def vae_loss(self, x, x_decoded_mean):
         xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
-        # xent_loss = metrics.binary_crossentropy(x, x_decoded_mean)
+        # xent_loss = K.sum(metrics.binary_crossentropy(x, x_decoded_mean))
         kl_loss = - 0.5 * K.sum(1 + z_log_var - K.square(z_mean) - K.exp(z_log_var), axis=-1)
+
+        # return K.mean(xent_loss + 100*kl_loss)
         return K.mean(xent_loss + kl_loss)
-        # return K.mean(kl_loss)
+        # return K.mean(xent_loss)
 
     def call(self, inputs):
         x = inputs[0]
@@ -93,10 +97,10 @@ class CustomVariationalLayer(Layer):
         return x
 
 y = CustomVariationalLayer()([x, x_decoded_mean])
-vae = Model(x, y)  #Model(input layer, loss function)??
-
 # rmsprop = optimizers.RMSprop(lr= learning_rate, rho=0.9, epsilon=None, decay=decay_rate) # Added
 adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
+
+vae = Model(x, y)  #Model(input layer, loss function)??
 vae.compile(optimizer='adam', loss=None)
 
 # ----------------------------- i/o ------------------------------------------
@@ -105,12 +109,10 @@ import Cl_load
 
 # density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
 # density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
-totalFiles = 100
 train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
 train_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
-totalFiles = 20
-test_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
-test_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
+test_path = '../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy'
+test_target_path =  '../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy'
 
 # halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
 # halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
@@ -130,11 +132,23 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-print('-------normalization factor:', normFactor)
 
+# meanFactor = np.mean( [np.mean(x_train), np.mean(x_test ) ])
+# print('-------mean factor:', meanFactor)
+# x_train = x_train.astype('float32') - meanFactor #/ 255.
+# x_test = x_test.astype('float32') - meanFactor #/ 255.
+# np.save('../Cl_data/Data/meanfactor_'+str(totalFiles)+'.npy', meanFactor)
+#
+
+
+normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+# normFactor = np.mean( [np.std(x_train), np.std(x_test ) ])
+print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
+np.save('../Cl_data/Data/normfactor_'+str(totalFiles)+'.npy', normFactor)
+
+
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
@@ -153,16 +167,16 @@ encoder = Model(x, z_mean)
 x_test_encoded = encoder.predict(x_test, batch_size=batch_size)
 
 
-plt.figure(687, figsize=(7, 6))
-plt.title('Encoded outputs')
-plt.xlabel('E[0]')
-plt.ylabel('E[1]')
-CS = plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], c=y_test[:,0], s = 15, alpha=0.6)
-cbar = plt.colorbar(CS)
-cbar.ax.set_ylabel(r'$\Omega_m$')
-# cbar.ax.set_ylabel(r'$\sigma_8$')
-plt.tight_layout()
-plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
+# plt.figure(687, figsize=(7, 6))
+# plt.title('Encoded outputs')
+# plt.xlabel('E[0]')
+# plt.ylabel('E[1]')
+# CS = plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], c=y_test[:,0], s = 15, alpha=0.6)
+# cbar = plt.colorbar(CS)
+# cbar.ax.set_ylabel(r'$\Omega_m$')
+# # cbar.ax.set_ylabel(r'$\sigma_8$')
+# plt.tight_layout()
+# plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
 
 
 
@@ -171,8 +185,19 @@ plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
 # display a 2D plot of the digit classes in the latent space
 x_train_encoded = encoder.predict(x_train, batch_size=batch_size)
 
+
+plt.figure(687, figsize=(7, 6))
+plt.title('Encoded outputs')
+plt.xlabel('E[0]')
+plt.ylabel('E[1]')
+CS = plt.scatter(x_train_encoded[:,0], x_train_encoded[:,1], c=y_train[:,0], s = 15, alpha=0.6)
+cbar = plt.colorbar(CS)
+cbar.ax.set_ylabel(r'$\Omega_m$')
+# cbar.ax.set_ylabel(r'$\sigma_8$')
+plt.tight_layout()
+plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
+
 np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
-np.save('../Cl_data/Data/normfactor_'+str(totalFiles)+'.npy', normFactor)
 
 
 # build a digit generator that can sample from the learned distribution
