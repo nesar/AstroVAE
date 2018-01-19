@@ -32,8 +32,8 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 100
-TestFiles = 20
+totalFiles = 128
+TestFiles = 32
 
 latent_dim = 5
 
@@ -204,10 +204,9 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 
 PlotRatio = True
 if PlotRatio:
-    totalFiles = 20
-    ls = np.load('../Cl_data/Data/Latinls_' + str(totalFiles) + '.npy')[2:]
-    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy')[:,2:] # Original
-    RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy')
+    ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]
+    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,2:] # Original
+    RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
 

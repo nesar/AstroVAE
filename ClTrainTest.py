@@ -13,7 +13,7 @@ SetPub.set_pub()
 
 nbins = 2551 # no. of k values.
 # nsize = 2
-totalFiles = 2
+totalFiles = 128
 
 # data_path = '../Pk_data/CosmicEmu-master/P_cb/EMU*.txt'
 # data_path = '../Cl_data/totCL'+str(nsize)+'*.npy'
@@ -30,7 +30,7 @@ for i in range(len(Allfiles)):
 
 
 ls = np.arange(Cl[0].shape[0])
-# np.save('../Cl_data/Data/ls_'+str(totalFiles)+'.npy', ls)
+np.save('../Cl_data/Data/ls_'+str(totalFiles)+'.npy', ls)
 
 
 PlotSample = True

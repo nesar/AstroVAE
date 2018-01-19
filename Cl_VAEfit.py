@@ -20,14 +20,20 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 32
-batch_size = 1
-original_dim = 2551 # mnist ~ 784
-latent_dim = 2
-intermediate_dim = 256 # mnist ~ 256
-epochs = 2 #110 #50
-epsilon_std = 1.0 # 1.0
+totalFiles = 128
+TestFiles = 32
 
+batch_size = 1
+original_dim = 2549 #2551 # mnist ~ 784
+intermediate_dim0 = 1024 #
+intermediate_dim1 = 512 #
+intermediate_dim = 256 #
+latent_dim = 6
+
+epochs = 30 #110 #50
+epsilon_std = 1.0 # 1.0
+learning_rate = 1e-7
+decay_rate = 0.09
 
 # -------------------------------- Network Architecture - simple
 # ---------------------------------
@@ -86,35 +92,56 @@ vae.compile(optimizer='rmsprop', loss=None)
 
 # ----------------------------- i/o ------------------------------------------
 
-import pk_load
+import Cl_load
 
-density_file = '../Cl_data/Cl.npy'
-halo_para_file = '../Cl_data/Para5.npy'
-pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
+# density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
+# density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
+train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
+train_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
+test_path = '../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy'
+test_target_path =  '../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy'
 
-(x_train, y_train), (x_test, y_test) = pk.load_data()
+# halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
+# halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
 
-x_train = x_train[:totalFiles]
-x_test = x_test[:np.int(0.2*totalFiles)]
-y_train = y_train[:totalFiles]
-y_test = y_test[:np.int(0.2*totalFiles)]
+# pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
+camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+
+
+(x_train, y_train), (x_test, y_test) = camb_in.load_data()
+
+x_train = x_train[:,2:]
+x_test = x_test[:,2:]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-print('-------normalization factor:', normFactor)
 
+# meanFactor = np.mean( [np.mean(x_train), np.mean(x_test ) ])
+# print('-------mean factor:', meanFactor)
+# x_train = x_train.astype('float32') - meanFactor #/ 255.
+# x_test = x_test.astype('float32') - meanFactor #/ 255.
+# np.save('../Cl_data/Data/meanfactor_'+str(totalFiles)+'.npy', meanFactor)
+#
+
+
+normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+# normFactor = np.mean( [np.std(x_train), np.std(x_test ) ])
+print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
+np.save('../Cl_data/Data/normfactor_'+str(totalFiles)+'.npy', normFactor)
+
+
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 # ------------------------------------------------------------------------------
+
 
 
 vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None), verbose = 2)
@@ -128,16 +155,16 @@ encoder = Model(x, z_mean)
 x_test_encoded = encoder.predict(x_test, batch_size=batch_size)
 
 
-plt.figure(687, figsize=(7, 6))
-plt.title('Encoded outputs')
-plt.xlabel('E[0]')
-plt.ylabel('E[1]')
-CS = plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], c=y_test[:,0], s = 15, alpha=0.6)
-cbar = plt.colorbar(CS)
-cbar.ax.set_ylabel(r'$\Omega_m$')
-# cbar.ax.set_ylabel(r'$\sigma_8$')
-plt.tight_layout()
-# plt.savefig('../Pk_data/SVDvsVAE/VAE_encodedOutputs_y0.png')
+# plt.figure(687, figsize=(7, 6))
+# plt.title('Encoded outputs')
+# plt.xlabel('E[0]')
+# plt.ylabel('E[1]')
+# CS = plt.scatter(x_test_encoded[:,0], x_test_encoded[:,1], c=y_test[:,0], s = 15, alpha=0.6)
+# cbar = plt.colorbar(CS)
+# cbar.ax.set_ylabel(r'$\Omega_m$')
+# # cbar.ax.set_ylabel(r'$\sigma_8$')
+# plt.tight_layout()
+# # plt.savefig('../Pk_data/SVDvsVAE/VAE_encodedOutputs_y0.png')
 
 
 
@@ -150,6 +177,21 @@ np.save('../Cl_data/encoded_xtrain.npy', x_train_encoded)
 np.save('../Cl_data/normfactor.npy', normFactor)
 
 
+plt.figure(687, figsize=(7, 6))
+plt.title('Encoded outputs')
+plt.xlabel('E[0]')
+plt.ylabel('E[1]')
+CS = plt.scatter(x_train_encoded[:,0], x_train_encoded[:,1], c=y_train[:,0], s = 15, alpha=0.6)
+cbar = plt.colorbar(CS)
+cbar.ax.set_ylabel(r'$\Omega_m$')
+# cbar.ax.set_ylabel(r'$\sigma_8$')
+plt.tight_layout()
+plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
+
+np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
+
+
+
 # build a digit generator that can sample from the learned distribution
 decoder_input = Input(shape=(latent_dim,))
 _h_decoded = decoder_h(decoder_input)
@@ -159,7 +201,7 @@ x_decoded = generator.predict(x_train_encoded)
 
 
 
-SaveModel = True
+SaveModel = False
 if SaveModel:
     epochs = np.arange(1, epochs+1)
     train_loss = vae.history.history['loss']
@@ -177,7 +219,7 @@ if SaveModel:
 
 
 
-PlotSample = True
+PlotSample = False
 ls = np.load('../Cl_data/ls.npy')#[2:]
 if PlotSample:
     for i in range(3,4):
@@ -190,7 +232,7 @@ if PlotSample:
     plt.show()
 
 
-PlotModel = True
+PlotModel = False
 if PlotModel:
     from keras.utils.vis_utils import plot_model
     fileOut = '../Pk_data/SVDvsVAE/ArchitectureFullAE.png'

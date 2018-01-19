@@ -20,26 +20,23 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 100
-TestFiles = 20
+totalFiles = 128
+TestFiles = 32
 
-batch_size = 2
+batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
 intermediate_dim1 = 512 #
 intermediate_dim = 256 #
-latent_dim = 10
+latent_dim = 6
 
-epochs = 100 #110 #50
+epochs = 30 #110 #50
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-7
-decay_rate = 0.0
+decay_rate = 0.09
 
 
-# -------------------------------- Network Architecture - simple
-# ---------------------------------
-
-
+# -------------------------------- Network Architecture ------------------------------
 
 x = Input(shape=(original_dim,)) # Deepen encoder after this
 h0 = Dense(intermediate_dim0, activation = 'relu')(x) # ADDED intermediate_layer_0
@@ -47,7 +44,7 @@ h1 = Dense(intermediate_dim1, activation = 'relu')(h0) # ADDED intermediate_laye
 h = Dense(intermediate_dim, activation='relu')(h1)
 z_mean = Dense(latent_dim)(h)
 z_log_var = Dense(latent_dim)(h)
-# h = Dropout(.5)(h)
+h = Dropout(.5)(h)
 
 
 def sampling(args):
@@ -97,11 +94,11 @@ class CustomVariationalLayer(Layer):
         return x
 
 y = CustomVariationalLayer()([x, x_decoded_mean])
-# rmsprop = optimizers.RMSprop(lr= learning_rate, rho=0.9, epsilon=None, decay=decay_rate) # Added
-adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
+rmsprop = optimizers.RMSprop(lr= learning_rate, rho=0.9, epsilon=None, decay=decay_rate) # Added
+# adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
 
 vae = Model(x, y)  #Model(input layer, loss function)??
-vae.compile(optimizer='adam', loss=None)
+vae.compile(optimizer='rmsprop', loss=None)
 
 # ----------------------------- i/o ------------------------------------------
 
@@ -157,6 +154,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None), verbose = 2)
+print('---- Training done -------')
 
 #-------------------------------------------------------------------------------
 
@@ -277,4 +275,4 @@ if PlotModel:
     fileOut = '../Cl_data/Plots/ArchitectureDecoder.png'
     plot_model(generator, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-print('---- Training done -------')
+print(x_train_encoded)
