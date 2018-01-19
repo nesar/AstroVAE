@@ -263,17 +263,16 @@ if PlotRatio:
 
             # plt.xscale('log')
             plt.xlabel(r'$l$')
-            plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
-            # plt.legend()
+            plt.ylabel(r'$C_l$')
+            plt.legend()
             plt.tight_layout()
-
-            plt.savefig('../Cl_data/Plots/GP_AE_output.png')
 
             ErrTh = 10
             plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '3')
+            plt.savefig('../Cl_data/Plots/GP_AE_output.png')
 
 
-        print(i, 'ERR0R min max:', np.array([(relError).min(), (relError).max()]) )
+        print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
 
 
     plt.axhline(y=1, ls='-.', lw=1.5)
