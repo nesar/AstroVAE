@@ -83,7 +83,10 @@ class CustomVariationalLayer(Layer):
         xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
         # xent_loss = metrics.binary_crossentropy(x, x_decoded_mean)
         kl_loss = - 0.5 * K.sum(1 + z_log_var - K.square(z_mean) - K.exp(z_log_var), axis=-1)
-        return K.mean(xent_loss + 100*kl_loss)
+
+
+        # return K.mean(xent_loss + 100*kl_loss)
+        return K.mean(xent_loss + kl_loss)
         # return K.mean(xent_loss)
 
     def call(self, inputs):
@@ -130,11 +133,23 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-print('-------normalization factor:', normFactor)
 
+# meanFactor = np.mean( [np.mean(x_train), np.mean(x_test ) ])
+# print('-------mean factor:', meanFactor)
+# x_train = x_train.astype('float32') - meanFactor #/ 255.
+# x_test = x_test.astype('float32') - meanFactor #/ 255.
+# np.save('../Cl_data/Data/meanfactor_'+str(totalFiles)+'.npy', meanFactor)
+#
+
+
+normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+# normFactor = np.mean( [np.std(x_train), np.std(x_test ) ])
+print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
+np.save('../Cl_data/Data/normfactor_'+str(totalFiles)+'.npy', normFactor)
+
+
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
@@ -184,7 +199,6 @@ plt.tight_layout()
 plt.savefig('../Cl_data/Plots/VAE_encodedOutputs_y0.png')
 
 np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
-np.save('../Cl_data/Data/normfactor_'+str(totalFiles)+'.npy', normFactor)
 
 
 # build a digit generator that can sample from the learned distribution
