@@ -45,7 +45,7 @@ AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$'
 AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns])
 
 lhd = pyDOE.lhs(5, samples=totalFiles, criterion='cm')
-print lhd
+print(lhd)
 print
 # lhd = norm(loc=0, scale=1).ppf(lhd)  # this applies to both factors here
 
@@ -85,7 +85,7 @@ for i in range(5):
 
 np.savetxt('../Cl_data/Data/LatinCosmo'+str(totalFiles)+'.txt', AllCombinations)
 
-print AllCombinations
+print(AllCombinations)
 
 # for i in range(totalFiles):
 # idx = (lhd[:,i]*totalFiles).astype(int)
@@ -110,7 +110,7 @@ stdvs = 0.15*np.ones(shape=5)
 for i in xrange(4):
     design[:, i] = norm(loc=means[i], scale=stdvs[i]).ppf(design[:, i])
 
-print design
+print(design)
 #
 
 
