@@ -23,16 +23,16 @@ SetPub.set_pub()
 totalFiles = 100
 TestFiles = 20
 
-batch_size = 1
+batch_size = 2
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
 intermediate_dim1 = 512 #
 intermediate_dim = 256 #
-latent_dim = 5
+latent_dim = 10
 
-epochs = 25 #110 #50
+epochs = 100 #110 #50
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-6
+learning_rate = 1e-7
 decay_rate = 0.0
 
 
@@ -47,7 +47,7 @@ h1 = Dense(intermediate_dim1, activation = 'relu')(h0) # ADDED intermediate_laye
 h = Dense(intermediate_dim, activation='relu')(h1)
 z_mean = Dense(latent_dim)(h)
 z_log_var = Dense(latent_dim)(h)
-h = Dropout(.5)(h)
+# h = Dropout(.5)(h)
 
 
 def sampling(args):
@@ -80,10 +80,9 @@ class CustomVariationalLayer(Layer):
         super(CustomVariationalLayer, self).__init__(**kwargs)
 
     def vae_loss(self, x, x_decoded_mean):
-        # xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
-        xent_loss = metrics.binary_crossentropy(x, x_decoded_mean)
+        xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
+        # xent_loss = K.sum(metrics.binary_crossentropy(x, x_decoded_mean))
         kl_loss = - 0.5 * K.sum(1 + z_log_var - K.square(z_mean) - K.exp(z_log_var), axis=-1)
-
 
         # return K.mean(xent_loss + 100*kl_loss)
         return K.mean(xent_loss + kl_loss)
