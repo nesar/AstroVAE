@@ -29,10 +29,10 @@ TestFiles = 32 #128
 
 
 batch_size = 1
-num_epochs = 2 #110 #50
+num_epochs = 20 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-7
+learning_rate = 1e-6
 decay_rate = 0.09
 
 
@@ -171,6 +171,10 @@ x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
+# x_mean = np.mean(x_train, axis = 0)
+# x_train = x_train - x_mean
+# x_test = x_test - x_mean
+
 
 # ------------------------------------------------------------------------------
 
@@ -207,9 +211,9 @@ x_decoded = decoder.predict(x_train_encoded)
 
 
 # ----------------------------------------------------------------------------
+ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
 
 PlotSample = True
-ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
 if PlotSample:
     for i in range(3,10):
         plt.figure(91, figsize=(8,6))
