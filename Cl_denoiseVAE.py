@@ -19,9 +19,6 @@ import keras.backend as K
 import tensorflow as tf
 
 
-# m = 1 # 50
-# n_z = 2
-
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim = 512 #
 latent_dim = 6
@@ -30,8 +27,8 @@ totalFiles = 128
 TestFiles = 32
 
 
-batch_size = 1
-num_epochs = 10 #110 #50
+batch_size = 2
+num_epochs = 30 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-7
@@ -208,6 +205,8 @@ x_train_encoded = encoder.predict(x_train)
 x_decoded = decoder.predict(x_train_encoded)
 
 
+# -------------------------------------------------------------
+
 PlotSample = True
 ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
 if PlotSample:
@@ -244,9 +243,6 @@ if plotLoss:
     # plt.savefig('../Cl_data/Plots/Training_loss.png')
 
 plt.show()
-
-
-
 
 SaveModel = False
 if SaveModel:
