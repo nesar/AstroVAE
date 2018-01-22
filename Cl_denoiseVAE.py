@@ -20,11 +20,11 @@ import tensorflow as tf
 
 
 original_dim = 2549 #2551 # mnist ~ 784
-intermediate_dim1 = 2014 #
+intermediate_dim1 = 1024 #
 intermediate_dim = 256 #
 latent_dim = 10
 
-totalFiles = 128 #256
+totalFiles = 256 #256
 TestFiles = 32 #128
 
 
@@ -192,7 +192,7 @@ x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 #TRAIN       -- NaN losses Uhhh
 adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
 vae.compile(optimizer='adam', loss=vae_loss)
-vae.fit(x_train_noisy, x_train, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
+vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
         validation_data=(x_test_noisy, x_test))
 
 # ----------------------------------------------------------------------------
@@ -215,6 +215,7 @@ plt.show()
 x_train_encoded = encoder.predict(x_train)
 x_decoded = decoder.predict(x_train_encoded)
 
+np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
 
 # ----------------------------------------------------------------------------
 ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
