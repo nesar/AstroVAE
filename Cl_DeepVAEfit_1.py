@@ -23,13 +23,13 @@ SetPub.set_pub()
 totalFiles = 128
 TestFiles = 32
 
-batch_size = 1
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
 intermediate_dim1 = 512 #
 intermediate_dim = 256 #
 latent_dim = 8
 
+batch_size = 1
 epochs = 1 #110 #50
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-7
