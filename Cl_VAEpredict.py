@@ -32,10 +32,10 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 128
+totalFiles = 256
 TestFiles = 32
 
-latent_dim = 10
+latent_dim = 6
 
 
 # length_scaleParameter = 1.0
@@ -248,17 +248,17 @@ if PlotRatio:
         # plt.legend()
         plt.tight_layout()
 
-        PlotSampleID = [1, 10]
+        PlotSampleID = [1,2,3,4,10,20]
 
         if i in PlotSampleID:
 
 
             plt.figure(99, figsize=(8,6))
             plt.title('Autoencoder+GP fit')
-            plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.3)
+            # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
 
-            plt.plot(ls, normFactor*x_decoded[0], 'r--', alpha= 1.0, lw = 2, label = 'emulated')
-            plt.plot(ls, PkOriginal[i], 'b--', alpha=1.0, lw = 2, label = 'original')
+            plt.plot(ls, normFactor*x_decoded[0], 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+            plt.plot(ls, PkOriginal[i], 'b--', alpha=0.5, lw = 1, label = 'original')
 
             # plt.xscale('log')
             plt.xlabel(r'$l$')
@@ -266,16 +266,16 @@ if PlotRatio:
             plt.legend()
             # plt.tight_layout()
 
-            ErrTh = 10
-            # plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '3')
-            plt.savefig('../Cl_data/Plots/GP_AE_output.png')
+            ErrTh = 3
+            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '3')
+            # plt.savefig('../Cl_data/Plots/GP_AE_output.png')
 
 
         print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
 
 
     plt.axhline(y=1, ls='-.', lw=1.5)
-    plt.savefig('../Cl_data/Plots/GP_AE_ratio.png')
+    # plt.savefig('../Cl_data/Plots/GP_AE_ratio.png')
 
     plt.show()
 
@@ -311,3 +311,13 @@ if PlotRatio:
 # combine a few files -- one for io, one for training (AE+GP), one for testing?
 
 ## encoded arrays are all same!!!
+
+## Tried avg, didn't help
+## Try fft ??
+
+for i in range(10):
+    plt.plot(np.fft.rfft(x_train[i,:]))
+plt.xscale('log')
+
+plt.plot( np.fft.irfft( np.fft.rfft(x_train[0,:]) ), 'r' )
+plt.plot(x_train[0,:], 'b-.')

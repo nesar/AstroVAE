@@ -21,18 +21,18 @@ import tensorflow as tf
 
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim1 = 1024 #
-intermediate_dim = 256 #
-latent_dim = 10
+intermediate_dim = 512 #
+latent_dim = 16
 
 totalFiles = 256 #256
 TestFiles = 32 #128
 
 
-batch_size = 4
-num_epochs = 50 #110 #50
-epsilon_mean = 0.0 # 1.0
-epsilon_std = 1.0 # 1.0
-learning_rate = 0.1
+batch_size = 32
+num_epochs = 30 #110 #50
+epsilon_mean = 1.0 # 1.0
+epsilon_std = 3.0 # 1.0
+learning_rate = 0.01
 decay_rate = 0.09
 
 
@@ -179,7 +179,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 ## ADD noise
 
-noise_factor = 0.05
+noise_factor = 0.1
 
 x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
 x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
