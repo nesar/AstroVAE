@@ -255,7 +255,7 @@ if plotLoss:
 
 plt.show()
 
-SaveModel = True
+SaveModel = False
 if SaveModel:
     epochs = np.arange(1, num_epochs+1)
     train_loss = vae.history.history['loss']
