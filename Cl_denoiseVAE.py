@@ -1,5 +1,6 @@
 """
 
+this script used NaN loss  -- dunno where
 Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoencoder/
 
 """
@@ -264,3 +265,14 @@ if SaveModel:
     np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
 
 
+PlotModel = True
+if PlotModel:
+    from keras.utils.vis_utils import plot_model
+    fileOut = '../Cl_data/Plots/ArchitectureFullAE.png'
+    plot_model(vae, to_file=fileOut, show_shapes=True, show_layer_names=True)
+
+    fileOut = '../Cl_data/Plots/ArchitectureEncoder.png'
+    plot_model(encoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
+
+    fileOut = '../Cl_data/Plots/ArchitectureDecoder.png'
+    plot_model(decoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
