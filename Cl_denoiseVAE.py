@@ -28,7 +28,7 @@ totalFiles = 128 #256
 TestFiles = 32 #128
 
 
-batch_size = 16
+batch_size = 4
 num_epochs = 50 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1.0 # 1.0
@@ -171,19 +171,29 @@ x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
+## Trying to get x_train ~ (-1, 1) -- doesn't work well
 # x_mean = np.mean(x_train, axis = 0)
 # x_train = x_train - x_mean
 # x_test = x_test - x_mean
 
+
+## ADD noise
+
+noise_factor = 0.05
+
+x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
+x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
+
+x_train_noisy = np.clip(x_train_noisy, 0., 1.)
+x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 
 # ------------------------------------------------------------------------------
 
 #TRAIN       -- NaN losses Uhhh
 adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
 vae.compile(optimizer='adam', loss=vae_loss)
-vae.fit(x_train, x_train, batch_size=batch_size, nb_epoch=num_epochs, verbose=2, validation_data=(
-    x_test,
-                                                                                      x_test))
+vae.fit(x_train_noisy, x_train, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
+        validation_data=(x_test_noisy, x_test))
 
 # ----------------------------------------------------------------------------
 

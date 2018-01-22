@@ -35,7 +35,7 @@ def rescale01(xmin, xmax, f):
 totalFiles = 128
 TestFiles = 32
 
-latent_dim = 6
+latent_dim = 10
 
 
 # length_scaleParameter = 1.0
