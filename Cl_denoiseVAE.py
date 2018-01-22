@@ -20,19 +20,19 @@ import tensorflow as tf
 
 
 original_dim = 2549 #2551 # mnist ~ 784
-intermediate_dim1 = 1024 #
-intermediate_dim = 512 #
-latent_dim = 6
+intermediate_dim1 = 2014 #
+intermediate_dim = 256 #
+latent_dim = 10
 
 totalFiles = 128 #256
 TestFiles = 32 #128
 
 
-batch_size = 1
-num_epochs = 20 #110 #50
+batch_size = 16
+num_epochs = 50 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-6
+learning_rate = 0.1
 decay_rate = 0.09
 
 
@@ -199,10 +199,6 @@ x_test_encoded = encoder.predict(x_test)
 plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:, 0], cmap='copper')
 plt.colorbar()
 plt.show()
-
-# score = vae.evaluate(X_test, verbose=0)
-# print('Test loss:', score[0])
-# print('Test accuracy:', score[1])
 
 
 
