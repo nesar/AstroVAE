@@ -20,15 +20,16 @@ import tensorflow as tf
 
 
 original_dim = 2549 #2551 # mnist ~ 784
+intermediate_dim1 = 1024 #
 intermediate_dim = 512 #
 latent_dim = 6
 
-totalFiles = 128
-TestFiles = 32
+totalFiles = 128 #256
+TestFiles = 32 #128
 
 
-batch_size = 2
-num_epochs = 30 #110 #50
+batch_size = 1
+num_epochs = 2 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-7
@@ -38,11 +39,12 @@ decay_rate = 0.09
 
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
-h_q = Dense(intermediate_dim, activation='relu')(inputs)
+h_q1 = Dense(intermediate_dim1, activation='relu')(inputs) # ADDED intermediate layer
+h_q = Dense(intermediate_dim, activation='relu')(h_q1)
 mu = Dense(latent_dim, activation='linear')(h_q)
 log_sigma = Dense(latent_dim, activation='linear')(h_q)
 
-# -------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 def sample_z(args):
     mu, log_sigma = args
@@ -54,16 +56,20 @@ def sample_z(args):
 # Sample z ~ Q(z|X)
 z = Lambda(sample_z)([mu, log_sigma])
 
-# -------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 # P(X|z) -- decoder
 decoder_hidden = Dense(latent_dim, activation='relu')
+decoder_hidden1 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
+decoder_hidden2 = Dense(intermediate_dim, activation='relu') # ADDED intermediate layer
 decoder_out = Dense(original_dim, activation='sigmoid')
 
-h_p = decoder_hidden(z)
-outputs = decoder_out(h_p)
+h_p1 = decoder_hidden(z)
+h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
+h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
+outputs = decoder_out(h_p3)
 
-# -------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 
 # Overall VAE model, for reconstruction and training
@@ -76,7 +82,9 @@ encoder = Model(inputs, mu)
 # Generator model, generate new data given latent variable z
 d_in = Input(shape=(latent_dim,))
 d_h = decoder_hidden(d_in)
-d_out = decoder_out(d_h)
+d_h1 = decoder_hidden1(d_h)
+d_h2 = decoder_hidden2(d_h1)
+d_out = decoder_out(d_h2)
 decoder = Model(d_in, d_out)
 
 # -------------------------------------------------------------
@@ -173,7 +181,7 @@ vae.fit(x_train, x_train, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
     x_test,
                                                                                       x_test))
 
-# -------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 # y_pred = encoder.predict(x_train[10:20,:])
 
@@ -193,19 +201,12 @@ plt.show()
 # print('Test accuracy:', score[1])
 
 
-plt.figure(100)
-loss = vae.history.history['loss']
-# val_loss = vae.history.history['val_loss']
-plt.plot( np.arange(len(loss)), np.array(loss),  'o-')
-# plt.plot( np.arange(len(val_loss)), np.array(val_loss),  'o-')
-plt.show()
-
 
 x_train_encoded = encoder.predict(x_train)
 x_decoded = decoder.predict(x_train_encoded)
 
 
-# -------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 PlotSample = True
 ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
@@ -244,7 +245,7 @@ if plotLoss:
 
 plt.show()
 
-SaveModel = False
+SaveModel = True
 if SaveModel:
     epochs = np.arange(1, num_epochs+1)
     train_loss = vae.history.history['loss']
