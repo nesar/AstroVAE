@@ -7,7 +7,9 @@ Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoenco
 from tensorflow.examples.tutorials.mnist import input_data
 from keras.layers import Input, Dense, Lambda
 from keras.models import Model
-from keras.objectives import binary_crossentropy
+from keras import optimizers
+
+# from keras.objectives import binary_crossentropy
 from keras.callbacks import LearningRateScheduler
 
 import numpy as np
@@ -21,19 +23,18 @@ import tensorflow as tf
 
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim = 512 #
-
 latent_dim = 6
-n_epoch = 30 #10
+
 totalFiles = 128
 TestFiles = 32
 
 
 batch_size = 1
-epochs = 1 #110 #50
+num_epochs = 10 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1.0 # 1.0
-# learning_rate = 1e-7
-# decay_rate = 0.09
+learning_rate = 1e-7
+decay_rate = 0.09
 
 
 
@@ -168,9 +169,10 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 # ------------------------------------------------------------------------------
 
 #TRAIN       -- NaN losses Uhhh
-
+adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
 vae.compile(optimizer='adam', loss=vae_loss)
-vae.fit(x_train, x_train, batch_size=batch_size, nb_epoch=n_epoch, verbose=2, validation_data=(x_test,
+vae.fit(x_train, x_train, batch_size=batch_size, nb_epoch=num_epochs, verbose=2, validation_data=(
+    x_test,
                                                                                       x_test))
 
 # -------------------------------------------------------------
@@ -211,9 +213,54 @@ if PlotSample:
     for i in range(3,10):
         plt.figure(91, figsize=(8,6))
         plt.plot(ls, x_decoded[i], 'r--', alpha = 0.8)
-        plt.plot(ls, x_train[i], 'b--')
+        plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
         # plt.xscale('log')
         # plt.yscale('log')
         plt.title('reconstructed - red')
 
     plt.show()
+
+
+plotLoss = True
+if plotLoss:
+    import matplotlib.pylab as plt
+
+    epochs = np.arange(1, num_epochs+1)
+    train_loss = vae.history.history['loss']
+    val_loss = vae.history.history['val_loss']
+
+
+    fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
+    # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
+    ax.plot(epochs,train_loss, '-', lw =1.5)
+    ax.plot(epochs,val_loss, '-', lw = 1.5)
+    ax.set_ylabel('loss')
+    ax.set_xlabel('epochs')
+    # ax[0].set_ylim([0,1])
+    # ax[0].set_title('Loss')
+    ax.legend(['train loss','val loss'])
+    plt.tight_layout()
+    # plt.savefig('../Cl_data/Plots/Training_loss.png')
+
+plt.show()
+
+
+
+
+SaveModel = False
+if SaveModel:
+    epochs = np.arange(1, num_epochs+1)
+    train_loss = vae.history.history['loss']
+    val_loss = vae.history.history['val_loss']
+
+    training_hist = np.vstack([epochs, train_loss, val_loss])
+
+    # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
+
+    fileOut = 'Model_'+str(totalFiles)
+    vae.save('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
+    encoder.save('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
+    decoder.save('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
+    np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
+
+

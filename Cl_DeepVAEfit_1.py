@@ -30,7 +30,7 @@ intermediate_dim = 256 #
 latent_dim = 8
 
 batch_size = 1
-epochs = 1 #110 #50
+num_epochs = 10 #110 #50
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-7
 decay_rate = 0.09
@@ -154,7 +154,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 # ------------------------------------------------------------------------------
 
 
-vae.fit(x_train, shuffle=True, epochs=epochs, batch_size=batch_size, validation_data=(x_test, None), verbose = 2)
+vae.fit(x_train, shuffle=True, epochs=num_epochs, batch_size=batch_size, validation_data=(x_test, None), verbose = 2)
 print('---- Training done -------')
 
 #-------------------------------------------------------------------------------
@@ -213,7 +213,7 @@ x_decoded = generator.predict(x_train_encoded)
 
 SaveModel = True
 if SaveModel:
-    epochs = np.arange(1, epochs+1)
+    epochs = np.arange(1, num_epochs+1)
     train_loss = vae.history.history['loss']
     val_loss = vae.history.history['val_loss']
 
