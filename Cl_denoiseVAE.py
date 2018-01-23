@@ -4,8 +4,8 @@ this script used NaN loss  -- dunno where
 Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoencoder/
 
 """
-import SetPub
-SetPub.set_pub()
+#import SetPub
+#SetPub.set_pub()
 
 from tensorflow.examples.tutorials.mnist import input_data
 from keras.layers import Input, Dense, Lambda
@@ -97,7 +97,7 @@ def vae_loss(y_true, y_pred):
     # E[log P(X|z)]
     recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
-    kl = 0.0 * K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
+    kl = 0.5*K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
 
     return recon + kl
 
@@ -181,7 +181,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 ## ADD noise
 
-noise_factor = 0.1
+noise_factor = 0.0
 
 x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
 x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
@@ -275,7 +275,7 @@ if SaveModel:
     np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
 
 
-PlotModel = True
+PlotModel = False
 if PlotModel:
     from keras.utils.vis_utils import plot_model
     fileOut = '../Cl_data/Plots/ArchitectureFullAE.png'
