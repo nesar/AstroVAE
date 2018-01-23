@@ -35,7 +35,7 @@ def rescale01(xmin, xmax, f):
 totalFiles = 256
 TestFiles = 32
 
-latent_dim = 6
+latent_dim = 8
 
 
 # length_scaleParameter = 1.0
@@ -202,6 +202,8 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
+PlotSampleID = np.arange(10) #[1, 10]
+ErrTh = 1
 PlotRatio = True
 if PlotRatio:
     ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]
@@ -248,7 +250,7 @@ if PlotRatio:
         # plt.legend()
         plt.tight_layout()
 
-        PlotSampleID = [1,2,3,4,10,20]
+
 
         if i in PlotSampleID:
 
@@ -266,7 +268,6 @@ if PlotRatio:
             plt.legend()
             # plt.tight_layout()
 
-            ErrTh = 3
             plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '3')
             # plt.savefig('../Cl_data/Plots/GP_AE_output.png')
 

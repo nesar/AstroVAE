@@ -22,18 +22,18 @@ import tensorflow as tf
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim1 = 1024 #
 intermediate_dim = 512 #
-latent_dim = 16
+latent_dim = 8
 
 totalFiles = 256 #256
 TestFiles = 32 #128
 
 
-batch_size = 32
-num_epochs = 30 #110 #50
+batch_size = 8
+num_epochs = 100 #110 #50
 epsilon_mean = 1.0 # 1.0
-epsilon_std = 3.0 # 1.0
-learning_rate = 0.01
-decay_rate = 0.09
+epsilon_std = 1.0 # 1.0
+learning_rate = 1e-2
+decay_rate = 0.0
 
 
 
@@ -95,7 +95,7 @@ def vae_loss(y_true, y_pred):
     # E[log P(X|z)]
     recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
-    kl = 0.5 * K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
+    kl = 0.0 * K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
 
     return recon + kl
 
@@ -256,7 +256,7 @@ if plotLoss:
 
 plt.show()
 
-SaveModel = False
+SaveModel = True
 if SaveModel:
     epochs = np.arange(1, num_epochs+1)
     train_loss = vae.history.history['loss']
