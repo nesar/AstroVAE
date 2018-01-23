@@ -248,7 +248,7 @@ def GaussP(encoded):
 
         # ------------------------------------------------------------------------------
 
-        x_decoded = decoder.predict(W_pred)
+        x_decoded[i] = decoder.predict(W_pred)
 
     return x_decoded
 
