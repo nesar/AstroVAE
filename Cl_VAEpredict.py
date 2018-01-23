@@ -202,8 +202,8 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
-PlotSampleID = np.arange(10) #[1, 10]
-ErrTh = 1
+PlotSampleID = np.arange(2) #[1, 10]
+ErrTh = 3
 PlotRatio = True
 if PlotRatio:
     ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]
@@ -242,7 +242,7 @@ if PlotRatio:
         cl_ratio = normFactor*x_decoded[0]/PkOriginal[i]
         relError = 100*np.abs(cl_ratio - 1)
 
-        plt.plot(ls, cl_ratio, alpha=.35, lw = 1.5)
+        plt.plot(ls, cl_ratio, alpha=.5, lw = 1.0)
 
         # plt.xscale('log')
         plt.xlabel(r'$l$')

@@ -4,6 +4,8 @@ this script used NaN loss  -- dunno where
 Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoencoder/
 
 """
+import SetPub
+SetPub.set_pub()
 
 from tensorflow.examples.tutorials.mnist import input_data
 from keras.layers import Input, Dense, Lambda
@@ -28,11 +30,11 @@ totalFiles = 256 #256
 TestFiles = 32 #128
 
 
-batch_size = 8
+batch_size = 2
 num_epochs = 100 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-2
+learning_rate = 1e-3
 decay_rate = 0.0
 
 
