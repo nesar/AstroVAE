@@ -27,7 +27,7 @@ original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim0 = 1024 #
 intermediate_dim1 = 512 #
 intermediate_dim = 256 #
-latent_dim = 8
+latent_dim = 10
 
 batch_size = 1
 num_epochs = 10 #110 #50

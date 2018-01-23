@@ -21,7 +21,6 @@ from matplotlib import pyplot as plt
 # ExpSineSquared, DotProduct,
 # ConstantKernel)
 
-import george
 import SetPub
 SetPub.set_pub()
 
@@ -35,7 +34,7 @@ def rescale01(xmin, xmax, f):
 totalFiles = 256
 TestFiles = 32
 
-latent_dim = 8
+latent_dim = 16
 
 
 # length_scaleParameter = 1.0
@@ -54,6 +53,7 @@ latent_dim = 8
 # kernel = k1 + k2 + k3 + k4
 # kernel = k1
 
+import george
 from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel
 
 # kernel = ConstantKernel(0.5, ndim=5) * Matern32Kernel(0.5, ndim=5) + WhiteKernel(0.1, ndim=5)
@@ -65,7 +65,6 @@ kernel = Matern32Kernel(0.5, ndim=5)
 # hmf = np.loadtxt('Data/HMF_5Para.txt')
 # hmf = np.load('../Pk_data/Para5.npy')
 
-# Load from pk load instead
 # ----------------------------- i/o ------------------------------------------
 
 import Cl_load
@@ -105,26 +104,23 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 # ------------------------------------------------------------------------------
-
-hmf = y_train
-
 # ------------------------------------------------------------------------------
 
 
 
-X1 = hmf[:, 0][:, np.newaxis]
+X1 = y_train[:, 0][:, np.newaxis]
 X1a = rescale01(np.min(X1), np.max(X1), X1)
 
-X2 = hmf[:, 1][:, np.newaxis]
+X2 = y_train[:, 1][:, np.newaxis]
 X2a = rescale01(np.min(X2), np.max(X2), X2)
 
-X3 = hmf[:, 2][:, np.newaxis]
+X3 = y_train[:, 2][:, np.newaxis]
 X3a = rescale01(np.min(X3), np.max(X3), X3)
 
-X4 = hmf[:, 3][:, np.newaxis]
+X4 = y_train[:, 3][:, np.newaxis]
 X4a = rescale01(np.min(X4), np.max(X4), X4)
 
-X5 = hmf[:, 4][:, np.newaxis]
+X5 = y_train[:, 4][:, np.newaxis]
 X5a = rescale01(np.min(X5), np.max(X5), X5)
 
 
