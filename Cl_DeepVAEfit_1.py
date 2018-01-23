@@ -20,7 +20,7 @@ from keras import optimizers
 import SetPub
 SetPub.set_pub()
 
-totalFiles = 128
+totalFiles = 256
 TestFiles = 32
 
 original_dim = 2549 #2551 # mnist ~ 784

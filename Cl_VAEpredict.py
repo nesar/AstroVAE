@@ -203,7 +203,7 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
 PlotSampleID = np.arange(2) #[1, 10]
-ErrTh = 3
+ErrTh = 5
 PlotRatio = True
 if PlotRatio:
     ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]

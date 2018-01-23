@@ -11,6 +11,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 from keras.layers import Input, Dense, Lambda
 from keras.models import Model
 from keras import optimizers
+from keras import losses
+
 
 # from keras.objectives import binary_crossentropy
 from keras.callbacks import LearningRateScheduler
@@ -24,14 +26,14 @@ import tensorflow as tf
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim1 = 1024 #
 intermediate_dim = 512 #
-latent_dim = 8
+latent_dim = 16
 
 totalFiles = 256 #256
 TestFiles = 32 #128
 
 
-batch_size = 2
-num_epochs = 100 #110 #50
+batch_size = 8
+num_epochs = 50 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-3
@@ -96,6 +98,9 @@ def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
     # E[log P(X|z)]
     recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
+    # recon = K.categorical_crossentropy(y_pred, y_true)
+
+    # recon = losses.mean_squared_error(y_pred, y_true)
     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
     kl = 0.5*K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
 
@@ -181,7 +186,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 ## ADD noise
 
-noise_factor = 0.0
+noise_factor = 0.003
 
 x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
 x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
@@ -189,6 +194,8 @@ x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size
 x_train_noisy = np.clip(x_train_noisy, 0., 1.)
 x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 
+
+# plt.plot(x_train_noisy.T)
 # ------------------------------------------------------------------------------
 
 #TRAIN       -- NaN losses Uhhh
