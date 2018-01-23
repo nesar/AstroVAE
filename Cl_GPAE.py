@@ -224,7 +224,7 @@ def GaussP(encoded):
 
     Para = y_train ## To be commented
 
-    x_decoded = np.array( shape=(totalFiles, latent_dim) )
+    x_decoded = np.zeros( shape=(totalFiles, latent_dim) )
 
     for i in range(Para.shape[0]):
 
