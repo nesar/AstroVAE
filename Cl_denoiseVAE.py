@@ -186,7 +186,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 ## ADD noise
 
-noise_factor = 0.003
+noise_factor = 0.00
 
 x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
 x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
