@@ -103,7 +103,7 @@ decoder = Model(d_in, d_out)
 def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
     # E[log P(X|z)]
-    encoder.predict(y_true)
+    # encoder.predict(y_true)
     latent_z = encoder.predict(y_pred.eval(session=sess))
     print(latent_z)
 
@@ -218,6 +218,27 @@ x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
 
+
+X1 = y_train[:, 0][:, np.newaxis]
+X1a = rescale01(np.min(X1), np.max(X1), X1)
+
+X2 = y_train[:, 1][:, np.newaxis]
+X2a = rescale01(np.min(X2), np.max(X2), X2)
+
+X3 = y_train[:, 2][:, np.newaxis]
+X3a = rescale01(np.min(X3), np.max(X3), X3)
+
+X4 = y_train[:, 3][:, np.newaxis]
+X4a = rescale01(np.min(X4), np.max(X4), X4)
+
+X5 = y_train[:, 4][:, np.newaxis]
+X5a = rescale01(np.min(X5), np.max(X5), X5)
+
+
+XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
+
+
+
 import george
 from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel
 
@@ -259,25 +280,6 @@ def GaussP(encoded):
         x_decoded[i] = decoder.predict(W_pred)
 
     return x_decoded
-
-
-X1 = y_train[:, 0][:, np.newaxis]
-X1a = rescale01(np.min(X1), np.max(X1), X1)
-
-X2 = y_train[:, 1][:, np.newaxis]
-X2a = rescale01(np.min(X2), np.max(X2), X2)
-
-X3 = y_train[:, 2][:, np.newaxis]
-X3a = rescale01(np.min(X3), np.max(X3), X3)
-
-X4 = y_train[:, 3][:, np.newaxis]
-X4a = rescale01(np.min(X4), np.max(X4), X4)
-
-X5 = y_train[:, 4][:, np.newaxis]
-X5a = rescale01(np.min(X5), np.max(X5), X5)
-
-
-XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
 
 #---------------------------------------------------------------
