@@ -13,6 +13,12 @@ from keras.models import Model
 from keras import optimizers
 from keras import losses
 
+import tensorflow as tf
+sess = tf.Session()
+
+from keras import backend as K
+K.set_session(sess)
+
 
 # from keras.objectives import binary_crossentropy
 from keras.callbacks import LearningRateScheduler
@@ -26,7 +32,7 @@ import tensorflow as tf
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim1 = 1024 #
 intermediate_dim = 512 #
-latent_dim = 16
+latent_dim = 6
 
 totalFiles = 256 #256
 TestFiles = 32 #128
@@ -97,11 +103,13 @@ decoder = Model(d_in, d_out)
 def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
     # E[log P(X|z)]
-    # encoder.predict(y_true)
-    latent_z = encoder.predict(y_true)
+    encoder.predict(y_true)
+    latent_z = encoder.predict(y_pred.eval(session=sess))
+    print(latent_z)
+
+
     x_emu = tf.convert_to_tensor(GaussP(latent_z.T))
 
-    # print(latent_z)
 
     # recon = K.sum(K.binary_crossentropy( GaussP(encoder.predict(y_true) ), y_true), axis=1)
     # print(mu)
