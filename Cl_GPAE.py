@@ -104,6 +104,7 @@ def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
     # E[log P(X|z)]
     # encoder.predict(y_true)
+
     latent_z = encoder.predict(y_pred.eval(session=sess))
     print(latent_z)
 
@@ -273,7 +274,7 @@ def GaussP(encoded):
         for j in range(latent_dim):
             gp["fit{0}".format(j)] = george.GP(kernel)
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
-            W_pred[:, j] = gp["fit{0}".format(j)].predict(encoded[j], test_pts)[0]
+            W_pred[:, j] = gp["fit{0}".format(j)].predict(encoded.eval(session=sess)[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
 
