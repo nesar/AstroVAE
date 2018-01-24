@@ -105,11 +105,11 @@ def vae_loss(y_true, y_pred):
     # E[log P(X|z)]
     # encoder.predict(y_true)
 
-    latent_z = encoder.predict(y_pred.eval(session=sess))
-    print(latent_z)
+    # latent_z = encoder.predict(y_pred.eval(session=sess))
+    # print(latent_z)
+    # x_emu = tf.convert_to_tensor(GaussP(latent_z.T))
 
-
-    x_emu = tf.convert_to_tensor(GaussP(latent_z.T))
+    x_emu = tf.convert_to_tensor(GaussP(mu.eval(session=sess)))
 
 
     # recon = K.sum(K.binary_crossentropy( GaussP(encoder.predict(y_true) ), y_true), axis=1)
@@ -250,7 +250,7 @@ kernel = Matern32Kernel(0.5, ndim=5)
 def GaussP(encoded):
     # RealPara = RealParaArray[i]
     # print(10*'-')
-    # print(encoded)
+    print(encoded)
 
     Para = y_train ## To be commented
 
@@ -274,7 +274,7 @@ def GaussP(encoded):
         for j in range(latent_dim):
             gp["fit{0}".format(j)] = george.GP(kernel)
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
-            W_pred[:, j] = gp["fit{0}".format(j)].predict(encoded.eval(session=sess)[j], test_pts)[0]
+            W_pred[:, j] = gp["fit{0}".format(j)].predict(encoded[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
 
