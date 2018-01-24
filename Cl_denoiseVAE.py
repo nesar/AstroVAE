@@ -26,7 +26,7 @@ import tensorflow as tf
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim1 = 1024 #
 intermediate_dim = 512 #
-latent_dim = 16
+latent_dim = 10
 
 totalFiles = 256 #256
 TestFiles = 32 #128
@@ -36,7 +36,7 @@ batch_size = 8
 num_epochs = 50 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-3
+learning_rate = 1e-7
 decay_rate = 0.0
 
 
@@ -64,8 +64,8 @@ z = Lambda(sample_z)([mu, log_sigma])
 
 # P(X|z) -- decoder
 decoder_hidden = Dense(latent_dim, activation='relu')
-decoder_hidden1 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
-decoder_hidden2 = Dense(intermediate_dim, activation='relu') # ADDED intermediate layer
+decoder_hidden1 = Dense(intermediate_dim, activation='relu') # ADDED intermediate layer
+decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
 decoder_out = Dense(original_dim, activation='sigmoid')
 
 h_p1 = decoder_hidden(z)
@@ -84,12 +84,22 @@ vae = Model(inputs, outputs)
 encoder = Model(inputs, mu)
 
 # Generator model, generate new data given latent variable z
-d_in = Input(shape=(latent_dim,))
-d_h = decoder_hidden(d_in)
-d_h1 = decoder_hidden1(d_h)
-d_h2 = decoder_hidden2(d_h1)
-d_out = decoder_out(d_h2)
-decoder = Model(d_in, d_out)
+# d_in = Input(shape=(latent_dim,))
+# d_h = decoder_hidden(d_in)
+# d_h1 = decoder_hidden1(d_h)
+# d_h2 = decoder_hidden2(d_h1)
+# d_out = decoder_out(d_h2)
+# decoder = Model(d_in, d_out)
+
+# build a digit generator that can sample from the learned distribution
+decoder_input = Input(shape=(latent_dim,))
+
+_h_decoded = decoder_hidden(decoder_input)
+_h1_decoded = decoder_hidden1(_h_decoded)    ## ADDED layer_1
+_h0_decoded = decoder_hidden2(_h1_decoded)    ## ADDED --- should replicate decoder arch
+_x_decoded_mean = decoder_out(_h0_decoded)
+decoder = Model(decoder_input, _x_decoded_mean)
+
 
 # -------------------------------------------------------------
 #CUSTOM LOSS
@@ -275,14 +285,14 @@ if SaveModel:
 
     # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
 
-    fileOut = 'Model_'+str(totalFiles)
+    fileOut = 'DenoiseModel_'+str(totalFiles)
     vae.save('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
     encoder.save('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
     decoder.save('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
     np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
 
 
-PlotModel = False
+PlotModel = True
 if PlotModel:
     from keras.utils.vis_utils import plot_model
     fileOut = '../Cl_data/Plots/ArchitectureFullAE.png'

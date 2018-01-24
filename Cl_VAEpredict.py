@@ -34,7 +34,7 @@ def rescale01(xmin, xmax, f):
 totalFiles = 256
 TestFiles = 32
 
-latent_dim = 16
+latent_dim = 10
 
 
 # length_scaleParameter = 1.0
@@ -155,7 +155,7 @@ y = np.load('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy').T
 
 from keras.models import load_model
 
-fileOut = 'Model_'+str(totalFiles)
+fileOut = 'DenoiseModel_'+str(totalFiles)
 # vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
 encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
 decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
