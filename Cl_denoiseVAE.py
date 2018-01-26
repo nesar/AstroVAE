@@ -32,7 +32,7 @@ totalFiles = 256 #256
 TestFiles = 32 #128
 
 
-batch_size = 8
+batch_size = 16
 num_epochs = 50 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
@@ -292,7 +292,7 @@ if SaveModel:
     np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
 
 
-PlotModel = True
+PlotModel = False
 if PlotModel:
     from keras.utils.vis_utils import plot_model
     fileOut = '../Cl_data/Plots/ArchitectureFullAE.png'
