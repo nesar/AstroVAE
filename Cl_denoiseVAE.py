@@ -39,7 +39,9 @@ epsilon_std = 1.0 # 1.0
 learning_rate = 1e-2
 decay_rate = 0.0
 
+noise_factor = 0.001   # 0.0 necessary
 
+# ----------------------------------------------------------------------------
 
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
@@ -195,9 +197,6 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 ## ADD noise
-
-noise_factor = 0.001
-
 x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
 x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
 
