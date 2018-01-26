@@ -32,8 +32,8 @@ totalFiles = 256 #256
 TestFiles = 32 #128
 
 
-batch_size = 8
-num_epochs = 50 #110 #50
+batch_size = 2
+num_epochs = 100 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-7
@@ -196,7 +196,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 ## ADD noise
 
-noise_factor = 0.00
+noise_factor = 0.001
 
 x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
 x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)

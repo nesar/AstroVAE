@@ -198,7 +198,7 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
-PlotSampleID = np.arange(2) #[1, 10]
+PlotSampleID = [10, 31]
 ErrTh = 5
 PlotRatio = True
 if PlotRatio:
@@ -311,6 +311,11 @@ if PlotRatio:
 
 ## Tried avg, didn't help
 ## Try fft ??
+
+
+## Plot GP functions cuz people want to look at it
+
+## Hyper-parameter optimization softwares
 
 for i in range(10):
     plt.plot(np.fft.rfft(x_train[i,:]))
