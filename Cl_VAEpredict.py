@@ -270,7 +270,7 @@ if PlotRatio:
 
         print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
 
-
+    plt.figure(94, figsize=(8,6))
     plt.axhline(y=1, ls='-.', lw=1.5)
     # plt.savefig('../Cl_data/Plots/GP_AE_ratio.png')
 
