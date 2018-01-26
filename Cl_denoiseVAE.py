@@ -32,7 +32,7 @@ totalFiles = 256 #256
 TestFiles = 32 #128
 
 
-batch_size = 16
+batch_size = 2
 num_epochs = 50 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
@@ -216,27 +216,45 @@ vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=nu
 
 # ----------------------------------------------------------------------------
 
-# y_pred = encoder.predict(x_train[10:20,:])
-
-# display a 2D plot of the digit classes in the latent space
-plt.figure(figsize=(6, 6))
-x_train_encoded = encoder.predict(x_train)
-plt.scatter(x_train_encoded[:, 0], x_train_encoded[:, 1], c=y_train[:, 0], cmap='spring')
-plt.colorbar()
-
-x_test_encoded = encoder.predict(x_test)
-plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:, 0], cmap='copper')
-plt.colorbar()
-plt.show()
-
-
-
 x_train_encoded = encoder.predict(x_train)
 x_decoded = decoder.predict(x_train_encoded)
 
 np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
 
-# ----------------------------------------------------------------------------
+
+
+SaveModel = True
+if SaveModel:
+    epochs = np.arange(1, num_epochs+1)
+    train_loss = vae.history.history['loss']
+    val_loss = vae.history.history['val_loss']
+
+    training_hist = np.vstack([epochs, train_loss, val_loss])
+
+    # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
+
+    fileOut = 'DenoiseModel_'+str(totalFiles)
+    vae.save('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
+    encoder.save('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
+    decoder.save('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
+    np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
+
+# -------------------- Plotting routines --------------------------------------------
+PlotScatter = True
+if PlotScatter:
+    # display a 2D plot of latent space (just 2 dimensions)
+    plt.figure(figsize=(6, 6))
+
+    x_train_encoded = encoder.predict(x_train)
+    plt.scatter(x_train_encoded[:, 0], x_train_encoded[:, 1], c=y_train[:, 0], cmap='spring')
+    plt.colorbar()
+
+    x_test_encoded = encoder.predict(x_test)
+    plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:, 0], cmap='copper')
+    plt.colorbar()
+    plt.show()
+
+
 ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
 
 PlotSample = True
@@ -245,7 +263,7 @@ if PlotSample:
         plt.figure(91, figsize=(8,6))
         plt.plot(ls, x_decoded[i], 'r--', alpha = 0.8)
         plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
-        # plt.xscale('log')
+        plt.xscale('log')
         # plt.yscale('log')
         plt.title('reconstructed - red')
 
@@ -272,24 +290,6 @@ if plotLoss:
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
     # plt.savefig('../Cl_data/Plots/Training_loss.png')
-
-plt.show()
-
-SaveModel = True
-if SaveModel:
-    epochs = np.arange(1, num_epochs+1)
-    train_loss = vae.history.history['loss']
-    val_loss = vae.history.history['val_loss']
-
-    training_hist = np.vstack([epochs, train_loss, val_loss])
-
-    # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
-
-    fileOut = 'DenoiseModel_'+str(totalFiles)
-    vae.save('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
-    encoder.save('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
-    decoder.save('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
-    np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
 
 
 PlotModel = False
