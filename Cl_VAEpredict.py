@@ -21,8 +21,8 @@ from matplotlib import pyplot as plt
 # ExpSineSquared, DotProduct,
 # ConstantKernel)
 
-import SetPub
-SetPub.set_pub()
+#import SetPub
+#SetPub.set_pub()
 
 
 
@@ -54,7 +54,7 @@ latent_dim = 10
 # kernel = k1
 
 import george
-from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel
+from george.kernels import Matern32Kernel #, ConstantKernel, WhiteKernel
 
 # kernel = ConstantKernel(0.5, ndim=5) * Matern32Kernel(0.5, ndim=5) + WhiteKernel(0.1, ndim=5)
 kernel = Matern32Kernel(0.5, ndim=5)
