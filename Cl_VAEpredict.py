@@ -86,13 +86,20 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-x_train = x_train[:,2:]
-x_test = x_test[:,2:]
+x_train = np.log10(x_train[:,2:])
+x_test = np.log10(x_test[:,2:])
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
+
+
+# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
+# print('-------mean factor:', meanFactor)
+# x_train = x_train.astype('float32') - meanFactor #/ 255.
+# x_test = x_test.astype('float32') - meanFactor #/ 255.
+#
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
@@ -198,11 +205,11 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
-PlotSampleID = [10, 31]
+PlotSampleID = [10, 1]
 ErrTh = 5
 PlotRatio = True
 if PlotRatio:
-    ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]
+    ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
     PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,2:] # Original
     RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy')
 
@@ -230,7 +237,7 @@ if PlotRatio:
 
         # ------------------------------------------------------------------------------
 
-        x_decoded = decoder.predict(W_pred)
+        x_decoded = decoder.predict(W_pred)# + meanFactor
 
 
         plt.figure(94, figsize=(8,6))

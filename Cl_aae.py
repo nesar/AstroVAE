@@ -210,6 +210,14 @@ class AdversarialAutoencoder():
 
             # Plot the progress
             print ("%d [D loss: %f, acc: %.2f%%] [G loss: %f, mse: %f]" % (epoch, d_loss[0], 100*d_loss[1], g_loss[0], g_loss[1]))
+            plt.figure(1032)
+            plt.plot(epoch, d_loss[0], 'ko')
+            plt.plot(epoch, g_loss[0], 'ro')
+            plt.plot(epoch, d_loss[1], 'go')
+            plt.plot(epoch, g_loss[0], 'bo')
+
+
+
 
             # If at save interval => save generated image samples
             if epoch % save_interval == 0:
@@ -219,7 +227,7 @@ class AdversarialAutoencoder():
                 self.save_imgs(epoch, imgs)
 
     def save_imgs(self, epoch, imgs):
-        r, c = 5, 5
+        r, c = 3, 3
 
         encoded_imgs = self.encoder.predict(imgs)
         gen_imgs = self.decoder.predict(encoded_imgs)
@@ -255,8 +263,8 @@ class AdversarialAutoencoder():
 if __name__ == '__main__':
 
     aae = AdversarialAutoencoder()
-    num_epochs = 1000 #20000
-    batch_size = 8	 #32
+    num_epochs = 2000 #20000
+    batch_size =32	 #32
     save_interval = 200 # 200
     totalFiles = 256
     TestFiles = 32

@@ -1,51 +1,41 @@
 """
 
-this script used NaN loss  -- dunno where
+this script gave NaN loss  -- dunno where
 Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoencoder/
 
 """
-#import SetPub
-#SetPub.set_pub()
-
-from tensorflow.examples.tutorials.mnist import input_data
 from keras.layers import Input, Dense, Lambda
 from keras.models import Model
 from keras import optimizers
-from keras import losses
-
-
-# from keras.objectives import binary_crossentropy
-from keras.callbacks import LearningRateScheduler
 
 import numpy as np
 import matplotlib.pyplot as plt
 import keras.backend as K
-import tensorflow as tf
-
 
 original_dim = 2549 #2551 # mnist ~ 784
-intermediate_dim1 = 1024 #
-intermediate_dim = 512 #
+intermediate_dim2 = 1024 #
+intermediate_dim1 = 512 #
+intermediate_dim = 256 #
 latent_dim = 10
 
 totalFiles = 256 #256
 TestFiles = 32 #128
 
-
 batch_size = 2
-num_epochs = 150 #110 #50
+num_epochs = 50 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-2
+learning_rate = 1e-3
 decay_rate = 0.0
 
-noise_factor = 0.001   # 0.0 necessary
+noise_factor = 0.000  # 0.0 necessary
 
 # ----------------------------------------------------------------------------
 
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
-h_q1 = Dense(intermediate_dim1, activation='relu')(inputs) # ADDED intermediate layer
+h_q2 = Dense(intermediate_dim1, activation='relu')(inputs) # ADDED intermediate layer
+h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
 h_q = Dense(intermediate_dim, activation='relu')(h_q1)
 mu = Dense(latent_dim, activation='linear')(h_q)
 log_sigma = Dense(latent_dim, activation='linear')(h_q)
@@ -54,7 +44,6 @@ log_sigma = Dense(latent_dim, activation='linear')(h_q)
 
 def sample_z(args):
     mu, log_sigma = args
-    ###eps = K.random_normal(shape=(m, n_z), mean=0., std=1.)
     eps = K.random_normal(shape=(batch_size, latent_dim), mean=epsilon_mean, stddev=epsilon_std)
     return mu + K.exp(log_sigma / 2) * eps
 
@@ -68,12 +57,14 @@ z = Lambda(sample_z)([mu, log_sigma])
 decoder_hidden = Dense(latent_dim, activation='relu')
 decoder_hidden1 = Dense(intermediate_dim, activation='relu') # ADDED intermediate layer
 decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
+decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
 decoder_out = Dense(original_dim, activation='sigmoid')
 
 h_p1 = decoder_hidden(z)
 h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
 h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
-outputs = decoder_out(h_p3)
+h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
+outputs = decoder_out(h_p4)
 
 # ----------------------------------------------------------------------------
 
@@ -97,9 +88,10 @@ encoder = Model(inputs, mu)
 decoder_input = Input(shape=(latent_dim,))
 
 _h_decoded = decoder_hidden(decoder_input)
-_h1_decoded = decoder_hidden1(_h_decoded)    ## ADDED layer_1
-_h0_decoded = decoder_hidden2(_h1_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h0_decoded)
+_h0_decoded = decoder_hidden1(_h_decoded)    ## ADDED layer_1
+_h1_decoded = decoder_hidden2(_h0_decoded)    ## ADDED --- should replicate decoder arch
+_h2_decoded = decoder_hidden3(_h1_decoded)    ## ADDED --- should replicate decoder arch
+_x_decoded_mean = decoder_out(_h2_decoded)
 decoder = Model(decoder_input, _x_decoded_mean)
 
 
@@ -161,8 +153,8 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-x_train = x_train[:,2:]
-x_test = x_test[:,2:]
+x_train = np.log10(x_train[:,2:])
+x_test = np.log10(x_test[:,2:])
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -170,7 +162,7 @@ print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
 
-# meanFactor = np.mean( [np.mean(x_train), np.mean(x_test ) ])
+# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
 # print('-------mean factor:', meanFactor)
 # x_train = x_train.astype('float32') - meanFactor #/ 255.
 # x_test = x_test.astype('float32') - meanFactor #/ 255.
@@ -179,7 +171,6 @@ print(y_test.shape, 'test sequences')
 
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-# normFactor = np.mean( [np.std(x_train), np.std(x_test ) ])
 print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
@@ -220,6 +211,7 @@ x_decoded = decoder.predict(x_train_encoded)
 
 np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
 
+# -------------------- Save model/weights --------------------------
 
 
 SaveModel = True
@@ -238,7 +230,7 @@ if SaveModel:
     decoder.save('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
     np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
 
-# -------------------- Plotting routines --------------------------------------------
+# -------------------- Plotting routines --------------------------
 PlotScatter = True
 if PlotScatter:
     # display a 2D plot of latent space (just 2 dimensions)
@@ -254,7 +246,7 @@ if PlotScatter:
     plt.show()
 
 
-ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
+ls = np.log10(np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:])
 
 PlotSample = True
 if PlotSample:
@@ -262,7 +254,7 @@ if PlotSample:
         plt.figure(91, figsize=(8,6))
         plt.plot(ls, x_decoded[i], 'r--', alpha = 0.8)
         plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
-        plt.xscale('log')
+        # plt.xscale('log')
         # plt.yscale('log')
         plt.title('reconstructed - red')
 
