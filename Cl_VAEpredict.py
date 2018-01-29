@@ -264,7 +264,7 @@ if PlotRatio:
             plt.legend()
             # plt.tight_layout()
 
-            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '3')
+            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.1, label='bad eggs', markersize = '1')
             # plt.savefig('../Cl_data/Plots/GP_AE_output.png')
 
 
