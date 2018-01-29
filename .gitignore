@@ -1,0 +1,7 @@
+*.log
+*.hdf5
+*.out
+*.npy
+*.pdf
+*.pyc
+
