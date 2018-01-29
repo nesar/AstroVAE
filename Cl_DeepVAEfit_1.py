@@ -61,7 +61,7 @@ decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after th
 decoder_h1 = Dense(intermediate_dim1, activation='relu') # ADDED layer_1
 decoder_h0 = Dense(intermediate_dim0, activation='relu') # ADDED layer_0
 
-p
+# p
 decoder_mean = Dense(original_dim, activation='sigmoid')
 
 h_decoded = decoder_h(z)
