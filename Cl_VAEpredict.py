@@ -86,8 +86,8 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-x_train = np.log10(x_train[:,2:])
-x_test = np.log10(x_test[:,2:])
+x_train = x_train[:,2:] #np.log10(x_train[:,2:])
+x_test = x_test[:,2:] #np.log10(x_test[:,2:])
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -205,13 +205,16 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
-PlotSampleID = [10, 1]
+PlotSampleID = [23, 26, 17, 12]
 ErrTh = 5
 PlotRatio = True
 if PlotRatio:
-    ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
-    PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,
-                          2:]) # Original
+    # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
+    # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,
+    # 2:]) # Original
+
+    ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]
+    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:, 2:] # Original
     RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
@@ -272,7 +275,7 @@ if PlotRatio:
             plt.legend()
             # plt.tight_layout()
 
-            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.1, label='bad eggs', markersize = '1')
+            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '1')
             # plt.savefig('../Cl_data/Plots/GP_AE_output.png')
 
 

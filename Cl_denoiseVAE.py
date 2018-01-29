@@ -15,8 +15,8 @@ import keras.backend as K
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim2 = 1024 #
 intermediate_dim1 = 512 #
-intermediate_dim = 64 #
-latent_dim = 8
+intermediate_dim = 256 #
+latent_dim = 10
 
 totalFiles = 256 #256
 TestFiles = 32 #128
@@ -25,10 +25,10 @@ batch_size = 2
 num_epochs = 50 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-3
+learning_rate = 1e-2
 decay_rate = 0.0
 
-noise_factor = 0.000  # 0.0 necessary
+noise_factor = 0.001 # 0.0 necessary
 
 # ----------------------------------------------------------------------------
 
@@ -110,28 +110,6 @@ def vae_loss(y_true, y_pred):
 
     return recon + kl
 
-#-------------------------------------------------------------
-# LOAD
-# from keras.datasets import mnist
-#
-# (x_train, y_train), (x_test, y_test) = mnist.load_data()
-#
-# X_train = x_train.astype('float32') / 255.
-# ## X_test = x_test.astype('float32') / 255.
-# X_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-# ## X_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
-
-
-# mnist = input_data.read_data_sets("../MNIST_data/", one_hot=True)
-# X_train = mnist.train.images
-# X_train = X_train.astype('float32') / 255.
-#
-# X_test = mnist.test.images
-# X_test = X_test.astype('float32') / 255.
-# Y_test = mnist.test.labels
-# -------------------------------------------------------------
-
-
 # ----------------------------- i/o ------------------------------------------
 
 import Cl_load
@@ -153,8 +131,8 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-x_train = np.log10(x_train[:,2:])
-x_test = np.log10(x_test[:,2:])
+x_train = x_train[:,2:] #np.log10(x_train[:,2:])
+x_test = x_test[:,2:] # np.log10(x_test[:,2:])
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -246,7 +224,8 @@ if PlotScatter:
     plt.show()
 
 
-ls = np.log10(np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:])
+# ls = np.log10(np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:])
+ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
 
 PlotSample = True
 if PlotSample:
