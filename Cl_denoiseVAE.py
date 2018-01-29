@@ -15,8 +15,8 @@ import keras.backend as K
 original_dim = 2549 #2551 # mnist ~ 784
 intermediate_dim2 = 1024 #
 intermediate_dim1 = 512 #
-intermediate_dim = 256 #
-latent_dim = 10
+intermediate_dim = 64 #
+latent_dim = 8
 
 totalFiles = 256 #256
 TestFiles = 32 #128

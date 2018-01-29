@@ -210,7 +210,8 @@ ErrTh = 5
 PlotRatio = True
 if PlotRatio:
     ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
-    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,2:] # Original
+    PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,
+                          2:]) # Original
     RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
