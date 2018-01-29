@@ -32,11 +32,12 @@ import Cl_load
 
 class AdversarialAutoencoder():
     def __init__(self):
-        self.img_rows = 28
-        self.img_cols = 28
-        self.channels = 1
-        self.img_shape = (self.img_rows, self.img_cols, self.channels)
-        self.encoded_dim = 100
+        # self.img_rows = 28
+        # self.img_cols = 28
+        # self.channels = 1
+        # self.img_shape = (self.img_rows, self.img_cols, self.channels)
+        self.img_shape = (2549 ,1)
+        self.encoded_dim = 10
 
         optimizer = Adam(0.0002, 0.5)
 
@@ -134,26 +135,26 @@ class AdversarialAutoencoder():
 
     def train(self, epochs, batch_size=128, save_interval=50):
 
-	
-	camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
 
-	(x_train, y_train), (x_test, y_test) = camb_in.load_data()
+        camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
 
-	x_train = x_train[:,2:]
-	x_test = x_test[:,2:]
+        (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-	print(x_train.shape, 'train sequences')
-	print(x_test.shape, 'test sequences')
-	print(y_train.shape, 'train sequences')
-	print(y_test.shape, 'test sequences')
+        x_train = x_train[:,2:]
+        x_test = x_test[:,2:]
 
-	normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-	print('-------normalization factor:', normFactor)
+        print(x_train.shape, 'train sequences')
+        print(x_test.shape, 'test sequences')
+        print(y_train.shape, 'train sequences')
+        print(y_test.shape, 'test sequences')
 
-	x_train = x_train.astype('float32')/normFactor #/ 255.
-	x_test = x_test.astype('float32')/normFactor #/ 255.
-	x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-	x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+        normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+        print('-------normalization factor:', normFactor)
+
+        x_train = x_train.astype('float32')/normFactor #/ 255.
+        x_test = x_test.astype('float32')/normFactor #/ 255.
+        x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+        x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
         
@@ -229,10 +230,11 @@ class AdversarialAutoencoder():
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt, :,:,0], cmap='gray')
-                axs[i,j].axis('off')
+                # axs[i,j].imshow(gen_imgs[cnt, :,:,0], cmap='gray')
+                axs[i,j].plot(gen_imgs[cnt])
+                axs[i,j].axis('on')
                 cnt += 1
-        fig.savefig("../AAE/Plots/mnist_%d.png" % epoch)
+        fig.savefig("../AAE/Plots/Cl_%d.png" % epoch)
         plt.close()
 
     def save_model(self):
@@ -251,10 +253,13 @@ class AdversarialAutoencoder():
 
 
 if __name__ == '__main__':
+
     aae = AdversarialAutoencoder()
     num_epochs = 1000 #20000
-    batch_size = 32	 #32
+    batch_size = 8	 #32
     save_interval = 200 # 200
+    totalFiles = 256
+    TestFiles = 32
     
 		    
     train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
