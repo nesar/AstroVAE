@@ -30,7 +30,7 @@ intermediate_dim = 256 #
 latent_dim = 16
 
 batch_size = 2
-num_epochs = 10 #110 #50
+num_epochs = 4 #110 #50
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-5
 decay_rate = 0.09
