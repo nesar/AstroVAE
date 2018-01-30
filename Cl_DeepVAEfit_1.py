@@ -32,7 +32,7 @@ latent_dim = 10
 batch_size = 2
 num_epochs = 100 #110 #50
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-3
+learning_rate = 1e-5
 decay_rate = 0.09
 
 
@@ -94,11 +94,16 @@ class CustomVariationalLayer(Layer):
         return x
 
 y = CustomVariationalLayer()([x, x_decoded_mean])
-rmsprop = optimizers.RMSprop(lr= learning_rate, rho=0.9, epsilon=None, decay=decay_rate) # Added
-# adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
 
 vae = Model(x, y)  #Model(input layer, loss function)??
+
+rmsprop = optimizers.RMSprop() # Added
+# adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
+
 vae.compile(optimizer='rmsprop', loss=None)
+
+K.set_value(vae.optimizer.lr, learning_rate)
+K.set_value(vae.optimizer.decay, decay_rate)
 
 # ----------------------------- i/o ------------------------------------------
 
@@ -156,6 +161,8 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 vae.fit(x_train, shuffle=True, epochs=num_epochs, batch_size=batch_size, validation_data=(x_test, None), verbose = 2)
 print('---- Training done -------')
+
+print('--------learning rate : ', K.eval(vae.optimizer.lr) )
 
 #-------------------------------------------------------------------------------
 
