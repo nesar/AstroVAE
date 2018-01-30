@@ -205,8 +205,8 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
-PlotSampleID = [23, 26, 17, 12]
-ErrTh = 5
+PlotSampleID = [23, 26, 17, 12, 30, 4]
+ErrTh = 10
 PlotRatio = True
 if PlotRatio:
     # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])

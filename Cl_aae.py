@@ -80,7 +80,7 @@ class AdversarialAutoencoder():
         encoder = Sequential()
 
         encoder.add(Flatten(input_shape=self.img_shape))
-        encoder.add(Dense(512))
+        encoder.add(Dense(1024))
         encoder.add(LeakyReLU(alpha=0.2))
         encoder.add(BatchNormalization(momentum=0.8))
         encoder.add(Dense(512))
@@ -102,7 +102,7 @@ class AdversarialAutoencoder():
         decoder.add(Dense(512, input_dim=self.encoded_dim))
         decoder.add(LeakyReLU(alpha=0.2))
         decoder.add(BatchNormalization(momentum=0.8))
-        decoder.add(Dense(512))
+        decoder.add(Dense(1024))
         decoder.add(LeakyReLU(alpha=0.2))
         decoder.add(BatchNormalization(momentum=0.8))
         decoder.add(Dense(np.prod(self.img_shape), activation='tanh'))
@@ -119,7 +119,7 @@ class AdversarialAutoencoder():
 
         model = Sequential()
 
-        model.add(Dense(512, input_dim=self.encoded_dim))
+        model.add(Dense(1024, input_dim=self.encoded_dim))
         model.add(LeakyReLU(alpha=0.2))
         model.add(BatchNormalization(momentum=0.8))
         model.add(Dense(512))
@@ -213,10 +213,10 @@ class AdversarialAutoencoder():
             plt.figure(1032)
             plt.plot(epoch, d_loss[0], 'ko')
             plt.plot(epoch, g_loss[0], 'ro')
-            plt.plot(epoch, d_loss[1], 'go')
             plt.plot(epoch, g_loss[0], 'bo')
 
-
+            plt.figure(1031)
+            plt.plot(epoch, 100*d_loss[1], 'go')
 
 
             # If at save interval => save generated image samples
@@ -263,8 +263,8 @@ class AdversarialAutoencoder():
 if __name__ == '__main__':
 
     aae = AdversarialAutoencoder()
-    num_epochs = 2000 #20000
-    batch_size =32	 #32
+    num_epochs = 4000 #20000
+    batch_size = 4	 #32
     save_interval = 200 # 200
     totalFiles = 256
     TestFiles = 32
