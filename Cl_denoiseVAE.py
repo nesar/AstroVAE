@@ -16,17 +16,17 @@ original_dim = 2549#/2 +1  #2551 # mnist ~ 784
 intermediate_dim2 = 1024#/2 #
 intermediate_dim1 = 512#/2 #
 intermediate_dim = 256#/2 #
-latent_dim = 16
+latent_dim = 10
 
 totalFiles = 512
 TestFiles = 32 #128
 
-batch_size = 4
+batch_size = 16
 num_epochs = 100 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-8
-decay_rate = 0.0
+learning_rate = 1e-6
+decay_rate = 0.01
 
 noise_factor = 0.00 # 0.0 necessary
 
@@ -182,11 +182,22 @@ x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 # ------------------------------------------------------------------------------
 
 #TRAIN       -- NaN losses Uhhh
-adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=decay_rate)
+adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
+                          decay=decay_rate)
+
+
 vae.compile(optimizer='adam', loss=vae_loss)
+
+# vae.optimizer.lr.set_value(learning_rate)
+
+K.set_value(vae.optimizer.lr, learning_rate)
+K.set_value(vae.optimizer.decay, decay_rate)
+
+
 vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
         validation_data=(x_test_noisy, x_test))
 
+print('--------learning rate : ', K.eval(vae.optimizer.lr) )
 # ----------------------------------------------------------------------------
 
 x_train_encoded = encoder.predict(x_train)

@@ -34,7 +34,7 @@ def rescale01(xmin, xmax, f):
 
 totalFiles = 512
 TestFiles = 32
-latent_dim = 16
+latent_dim = 10
 
 
 fileOut = 'DenoiseModel_'+str(totalFiles)
