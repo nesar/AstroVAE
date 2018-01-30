@@ -34,7 +34,7 @@ def rescale01(xmin, xmax, f):
 totalFiles = 256
 TestFiles = 32
 
-latent_dim = 10
+latent_dim = 20
 
 
 # length_scaleParameter = 1.0
@@ -86,8 +86,8 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-x_train = x_train[:,2:] #np.log10(x_train[:,2:])
-x_test = x_test[:,2:] #np.log10(x_test[:,2:])
+x_train = x_train[:,2::2] #np.log10(x_train[:,2:])
+x_test = x_test[:,2::2] #np.log10(x_test[:,2:])
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -213,8 +213,8 @@ if PlotRatio:
     # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,
     # 2:]) # Original
 
-    ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]
-    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:, 2:] # Original
+    ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2::2]
+    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:, 2::2] # Original
     RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
@@ -261,7 +261,6 @@ if PlotRatio:
 
         if i in PlotSampleID:
 
-
             plt.figure(99, figsize=(8,6))
             plt.title('Autoencoder+GP fit')
             # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
@@ -277,6 +276,8 @@ if PlotRatio:
 
             plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '1')
             # plt.savefig('../Cl_data/Plots/GP_AE_output.png')
+
+            plt.show()
 
 
         print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
@@ -328,6 +329,7 @@ if PlotRatio:
 
 ## Hyper-parameter optimization softwares
 
+plt.figure(35)
 for i in range(10):
     plt.plot(np.fft.rfft(x_train[i,:]))
 plt.xscale('log')
