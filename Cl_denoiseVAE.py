@@ -12,13 +12,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import keras.backend as K
 
-original_dim = 2549/2 +1  #2551 # mnist ~ 784
-intermediate_dim2 = 1024/2 #
-intermediate_dim1 = 512/2 #
-intermediate_dim = 256/2 #
-latent_dim = 20
+original_dim = 2549#/2 +1  #2551 # mnist ~ 784
+intermediate_dim2 = 1024#/2 #
+intermediate_dim1 = 512#/2 #
+intermediate_dim = 256#/2 #
+latent_dim = 16
 
-totalFiles = 256 #256
+totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 4
@@ -131,8 +131,11 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-x_train = x_train[:,2::2] #
-x_test =  x_test[:,2::2] #
+x_train = x_train[:,2:] #
+x_test =  x_test[:,2:] #
+
+# x_train = x_train[:,2::2] #
+# x_test =  x_test[:,2::2] #
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -226,8 +229,8 @@ if PlotScatter:
     plt.show()
 
 
-ls = np.log10(np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2::2])
-# ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
+# ls = np.log10(np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2::2])
+ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
 
 PlotSample = True
 if PlotSample:

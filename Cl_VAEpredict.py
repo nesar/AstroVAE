@@ -15,6 +15,7 @@ import numpy as np
 
 
 from matplotlib import pyplot as plt
+from keras.models import load_model
 
 # from sklearn.gaussian_process import GaussianProcessRegressor
 # from sklearn.gaussian_process.kernels import (RBF, Matern, RationalQuadratic,
@@ -31,10 +32,18 @@ def rescale01(xmin, xmax, f):
 
 
 
-totalFiles = 256
+totalFiles = 512
 TestFiles = 32
+latent_dim = 16
 
-latent_dim = 20
+
+fileOut = 'DenoiseModel_'+str(totalFiles)
+# fileOut = 'Model_'+str(totalFiles)
+
+# vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
+encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
+decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
+history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
 
 
 # length_scaleParameter = 1.0
@@ -86,8 +95,11 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-x_train = x_train[:,2::2] #np.log10(x_train[:,2:])
-x_test = x_test[:,2::2] #np.log10(x_test[:,2:])
+x_train = x_train[:,2:]
+x_test = x_test[:,2:]
+
+# x_train = x_train[:,2::2]
+# x_test = x_test[:,2::2]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -100,6 +112,9 @@ print(y_test.shape, 'test sequences')
 # x_train = x_train.astype('float32') - meanFactor #/ 255.
 # x_test = x_test.astype('float32') - meanFactor #/ 255.
 #
+
+# x_train = np.log10(x_train[:,::2]) #x_train[:,2:] #
+# x_test =  np.log10(x_test[:,::2]) #x_test[:,2:] #
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
@@ -160,13 +175,7 @@ y = np.load('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy').T
 # Decoder acts here
 # Have to save and load model architecture, and weights
 
-from keras.models import load_model
 
-fileOut = 'DenoiseModel_'+str(totalFiles)
-# vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
-encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
-decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
-history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
 
 # generator = Model(decoder_input, _x_decoded_mean)
 # x_decoded = generator.predict(W_pred.T[0,:,:])
@@ -205,16 +214,20 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
-PlotSampleID = [23, 26, 17, 12, 30, 4]
-ErrTh = 10
+# PlotSampleID = [23, 26, 17, 12, 30, 4]
+PlotSampleID = [2, 7, 0,  12, 4]
+
+ErrTh = 20
 PlotRatio = True
 if PlotRatio:
     # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
     # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,
     # 2:]) # Original
+    TestFiles = 32
 
-    ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2::2]
-    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:, 2::2] # Original
+    ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]#[2::2]
+    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,2:]#[:,
+    # 2::2] # Original
     RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
@@ -249,7 +262,7 @@ if PlotRatio:
         cl_ratio = normFactor*x_decoded[0]/PkOriginal[i]
         relError = 100*np.abs(cl_ratio - 1)
 
-        plt.plot(ls, cl_ratio, alpha=.5, lw = 1.0)
+        plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
 
         # plt.xscale('log')
         plt.xlabel(r'$l$')
@@ -274,7 +287,7 @@ if PlotRatio:
             plt.legend()
             # plt.tight_layout()
 
-            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.2, label='bad eggs', markersize = '1')
+            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.8, label='bad eggs', markersize = '1')
             # plt.savefig('../Cl_data/Plots/GP_AE_output.png')
 
             plt.show()
