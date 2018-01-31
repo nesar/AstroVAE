@@ -34,11 +34,11 @@ def rescale01(xmin, xmax, f):
 
 totalFiles = 512
 TestFiles = 32
-latent_dim = 10
+latent_dim = 16
 
 
-fileOut = 'DenoiseModel_'+str(totalFiles)
-# fileOut = 'Model_'+str(totalFiles)
+# fileOut = 'DenoiseModel_'+str(totalFiles)
+fileOut = 'Model_'+str(totalFiles)
 
 # vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
 encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')

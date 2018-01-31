@@ -22,7 +22,7 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 4
-num_epochs = 100 #110 #50
+num_epochs = 50 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-5
