@@ -42,7 +42,7 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 4
-num_epochs = 5 #110 #50
+num_epochs = 100 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-5
@@ -316,16 +316,14 @@ if PlotRatio:
 
             plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.8, label='bad eggs', markersize = '1')
             plt.title(fileOut)
-            plt.savefig('../Cl_data/Plots/GP_AE_output'+fileOut+'.png')
 
-            plt.show()
-
-
+            plt.savefig('../Cl_data/Plots/Test'+fileOut+'.png')
+        #plt.show()
         print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
 
     plt.figure(94, figsize=(8,6))
     plt.axhline(y=1, ls='-.', lw=1.5)
-    plt.savefig('../Cl_data/Plots/GP_AE_ratio'+fileOut+'.png')
+    plt.savefig('../Cl_data/Plots/Ratio'+fileOut+'.png')
 
     plt.show()
 

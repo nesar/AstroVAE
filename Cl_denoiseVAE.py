@@ -22,7 +22,7 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 4
-num_epochs = 5 #110 #50
+num_epochs = 100 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-5
@@ -238,6 +238,8 @@ if PlotScatter:
     x_test_encoded = encoder.predict(x_test)
     plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:, 0], cmap='copper')
     plt.colorbar()
+    plt.title(fileOut)
+    plt.savefig('../Cl_data/Plots/Scatter_z'+fileOut+'.png')
     plt.show()
 
 
