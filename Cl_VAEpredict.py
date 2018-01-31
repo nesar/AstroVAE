@@ -32,18 +32,43 @@ def rescale01(xmin, xmax, f):
 
 
 
+original_dim = 2549#/2 +1  #2551 # mnist ~ 784
+intermediate_dim2 = 1024#/2 #
+intermediate_dim1 = 512#/2 #
+intermediate_dim = 256#/2 #
+latent_dim = 10
+
 totalFiles = 512
-TestFiles = 32
-latent_dim = 16
+TestFiles = 32 #128
+
+batch_size = 4
+num_epochs = 5 #110 #50
+epsilon_mean = 1.0 # 1.0
+epsilon_std = 1.0 # 1.0
+learning_rate = 1e-5
+decay_rate = 0.01
+
+noise_factor = 0.00 # 0.0 necessary
 
 
 # fileOut = 'DenoiseModel_'+str(totalFiles)
-fileOut = 'Model_'+str(totalFiles)
+# fileOut = 'Model_'+str(totalFiles)
+
+
+LoadModel = True
+if LoadModel:
+
+    fileOut = 'DenoiseModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
+
+    # vae = load_model('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
+    encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
+    decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
+    history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
 
 # vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
-encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
-decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
-history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
+# encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
+# decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
+# history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
 
 
 # length_scaleParameter = 1.0

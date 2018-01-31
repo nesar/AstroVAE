@@ -22,7 +22,7 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 4
-num_epochs = 50 #110 #50
+num_epochs = 5 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-5
@@ -216,7 +216,6 @@ if SaveModel:
 
     training_hist = np.vstack([epochs, train_loss, val_loss])
 
-    # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
 
     fileOut = 'DenoiseModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str(
         learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
