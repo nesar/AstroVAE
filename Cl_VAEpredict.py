@@ -226,8 +226,9 @@ if plotLoss:
     # ax[0].set_ylim([0,1])
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
+    plt.title(fileOut)
     plt.tight_layout()
-    plt.savefig('../Cl_data/Plots/Training_loss.png')
+    plt.savefig('../Cl_data/Plots/TrainingLoss_'+fileOut+'.png')
 
 plt.show()
 
@@ -292,6 +293,7 @@ if PlotRatio:
         # plt.xscale('log')
         plt.xlabel(r'$l$')
         plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
+        plt.title(fileOut)
         # plt.legend()
         plt.tight_layout()
 
@@ -313,7 +315,8 @@ if PlotRatio:
             # plt.tight_layout()
 
             plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.8, label='bad eggs', markersize = '1')
-            # plt.savefig('../Cl_data/Plots/GP_AE_output.png')
+            plt.title(fileOut)
+            plt.savefig('../Cl_data/Plots/GP_AE_output'+fileOut+'.png')
 
             plt.show()
 
@@ -322,7 +325,7 @@ if PlotRatio:
 
     plt.figure(94, figsize=(8,6))
     plt.axhline(y=1, ls='-.', lw=1.5)
-    # plt.savefig('../Cl_data/Plots/GP_AE_ratio.png')
+    plt.savefig('../Cl_data/Plots/GP_AE_ratio'+fileOut+'.png')
 
     plt.show()
 

@@ -257,7 +257,7 @@ if PlotSample:
     plt.show()
 
 
-plotLoss = True
+plotLoss = False
 if plotLoss:
     import matplotlib.pylab as plt
 
