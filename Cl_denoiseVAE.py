@@ -218,7 +218,9 @@ if SaveModel:
 
     # fileOut = 'Stack_opti' + str(opti_id) + '_loss' + str(loss_id) + '_lr' + str(learning_rate) + '_decay' + str(decay_rate) + '_batch' + str(batch_size) + '_epoch' + str(num_epoch)
 
-    fileOut = 'DenoiseModel_'+str(totalFiles)
+    fileOut = 'DenoiseModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str(
+        learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
+
     vae.save('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
     encoder.save('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
     decoder.save('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
