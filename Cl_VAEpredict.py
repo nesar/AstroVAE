@@ -41,12 +41,12 @@ latent_dim = 10
 totalFiles = 512
 TestFiles = 32 #128
 
-batch_size = 4
-num_epochs = 100 #110 #50
+batch_size = 8
+num_epochs = 200 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
 learning_rate = 1e-5
-decay_rate = 0.01
+decay_rate = 0.00
 
 noise_factor = 0.00 # 0.0 necessary
 
@@ -243,7 +243,7 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # PlotSampleID = [23, 26, 17, 12, 30, 4]
 PlotSampleID = [2, 7, 0,  12, 4]
 
-ErrTh = 20
+ErrTh = 10
 PlotRatio = True
 if PlotRatio:
     # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
