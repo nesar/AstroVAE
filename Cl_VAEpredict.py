@@ -42,11 +42,11 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 8
-num_epochs = 100 #110 #50
+num_epochs = 20 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-3
-decay_rate = 0.01
+learning_rate = 1e-5
+decay_rate = 0.0
 
 noise_factor = 0.00 # 0.0 necessary
 
@@ -206,34 +206,6 @@ y = np.load('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy').T
 # x_decoded = generator.predict(W_pred.T[0,:,:])
 # x_decoded = decoder.predict(W_pred)
 
-
-
-plotLoss = True
-if plotLoss:
-    import matplotlib.pylab as plt
-
-    epochs =  history[0,:]
-    train_loss = history[1,:]
-    val_loss = history[2,:]
-
-
-    fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
-    # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
-    ax.plot(epochs,train_loss, '-', lw =1.5)
-    ax.plot(epochs,val_loss, '-', lw = 1.5)
-    ax.set_ylabel('loss')
-    ax.set_xlabel('epochs')
-    # ax[0].set_ylim([0,1])
-    # ax[0].set_title('Loss')
-    ax.legend(['train loss','val loss'])
-    plt.title(fileOut)
-    plt.tight_layout()
-    plt.savefig('../Cl_data/Plots/TrainingLoss_'+fileOut+'.png')
-
-plt.show()
-
-
-
 # ------------------------------------------------------------------------------
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
@@ -243,6 +215,7 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # PlotSampleID = [23, 26, 17, 12, 30, 4]
 PlotSampleID = [2, 7, 0,  12, 4]
 
+max_relError = 0
 ErrTh = 10
 PlotRatio = True
 if PlotRatio:
@@ -321,6 +294,8 @@ if PlotRatio:
         #plt.show()
         print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
 
+        max_relError = np.max( relError.max(), max_relError )
+
     plt.figure(94, figsize=(8,6))
     plt.axhline(y=1, ls='-.', lw=1.5)
     plt.savefig('../Cl_data/Plots/Ratio'+fileOut+'.png')
@@ -329,6 +304,33 @@ if PlotRatio:
 
 print('file:', fileOut)
 # ------------------------------------------------------------------------------
+
+
+plotLoss = True
+if plotLoss:
+    import matplotlib.pylab as plt
+
+    epochs =  history[0,:]
+    train_loss = history[1,:]
+    val_loss = history[2,:]
+
+
+    fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
+    # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
+    ax.plot(epochs,train_loss, '-', lw =1.5)
+    ax.plot(epochs,val_loss, '-', lw = 1.5)
+    ax.set_ylabel('loss')
+    ax.set_xlabel('epochs')
+    # ax[0].set_ylim([0,1])
+    # ax[0].set_title('Loss')
+    ax.legend(['train loss','val loss'])
+    plt.text(5.75, 0.15, 'MaxrelError: %d'%np.int(max_relError) , fontsize=15)
+    plt.title(fileOut)
+    plt.tight_layout()
+    plt.savefig('../Cl_data/Plots/TrainingLoss_'+fileOut+'relError'+ str( np.int(max_relError) ) +'.png')
+
+plt.show()
+
 # ------------------------------------------------------------------------------
 
 # Cosmic Variance emulator
