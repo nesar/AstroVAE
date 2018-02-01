@@ -7,6 +7,7 @@ Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoenco
 from keras.layers import Input, Dense, Lambda
 from keras.models import Model
 from keras import optimizers
+from keras import losses
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,10 +23,10 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 8
-num_epochs = 200 #110 #50
+num_epochs = 50 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-5
+learning_rate = 1e-3
 decay_rate = 0.00
 
 noise_factor = 0.00 # 0.0 necessary
@@ -101,10 +102,10 @@ decoder = Model(decoder_input, _x_decoded_mean)
 def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
     # E[log P(X|z)]
-    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
-    # recon = K.categorical_crossentropy(y_pred, y_true)
+    #recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
+    ## recon = K.categorical_crossentropy(y_pred, y_true)
 
-    # recon = losses.mean_squared_error(y_pred, y_true)
+    recon = losses.mean_squared_error(y_pred, y_true)
     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
     kl = 0.5*K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
 
