@@ -1,5 +1,5 @@
 """
-GP fit for W matrix - with only 2 eigenvalues
+GP fit for W matrix or latent z (encoded representation)
 
 Uses George - package by Dan Foreman McKay - better integration with his MCMC package.
 pip install george  - http://dan.iel.fm/george/current/user/quickstart/
@@ -327,7 +327,7 @@ if PlotRatio:
 
     plt.show()
 
-
+print('file:', fileOut)
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
