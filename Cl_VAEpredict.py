@@ -294,7 +294,7 @@ if PlotRatio:
         #plt.show()
         print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
 
-        max_relError = np.max( relError.max(), max_relError )
+        max_relError = np.max( [np.max(relError) , max_relError] )
 
     plt.figure(94, figsize=(8,6))
     plt.axhline(y=1, ls='-.', lw=1.5)
@@ -324,7 +324,7 @@ if plotLoss:
     # ax[0].set_ylim([0,1])
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
-    plt.text(5.75, 0.15, 'MaxrelError: %d'%np.int(max_relError) , fontsize=15)
+    plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
     plt.title(fileOut)
     plt.tight_layout()
     plt.savefig('../Cl_data/Plots/TrainingLoss_'+fileOut+'relError'+ str( np.int(max_relError) ) +'.png')
