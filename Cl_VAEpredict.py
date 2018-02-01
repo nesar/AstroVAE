@@ -370,10 +370,10 @@ plt.show()
 
 ## Hyper-parameter optimization softwares
 
-plt.figure(35)
-for i in range(10):
-    plt.plot(np.fft.rfft(x_train[i,:]))
-plt.xscale('log')
+#plt.figure(35)
+#for i in range(10):
+#    plt.plot(np.fft.rfft(x_train[i,:]))
+#plt.xscale('log')
 
-plt.plot( np.fft.irfft( np.fft.rfft(x_train[0,:]) ), 'r' )
-plt.plot(x_train[0,:], 'b-.')
+#plt.plot( np.fft.irfft( np.fft.rfft(x_train[0,:]) ), 'r' )
+#plt.plot(x_train[0,:], 'b-.')
