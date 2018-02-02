@@ -12,17 +12,11 @@ print(__doc__)
 
 import numpy as np
 
-
-
 from matplotlib import pyplot as plt
 from keras.models import load_model
+
 import params
-
-# from sklearn.gaussian_process import GaussianProcessRegressor
-# from sklearn.gaussian_process.kernels import (RBF, Matern, RationalQuadratic,
-# ExpSineSquared, DotProduct,
-# ConstantKernel)
-
+import Cl_load
 #import SetPub
 #SetPub.set_pub()
 
@@ -67,32 +61,11 @@ if LoadModel:
 
     fileOut = 'DenoiseModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
 
-    # vae = load_model('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
-    encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
-    decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
-    history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
+    # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
+    encoder = load_model(ModelDir + 'Encoder_' + fileOut + '.hdf5')
+    decoder = load_model(ModelDir + 'Decoder_' + fileOut + '.hdf5')
+    history = np.load(ModelDir + 'TrainingHistory_'+fileOut+'.npy')
 
-# vae = load_model('../Pk_data/fullAE_' + fileOut + '.hdf5')
-# encoder = load_model('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
-# decoder = load_model('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
-# history = np.load('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy')
-
-
-# length_scaleParameter = 1.0
-# length_scaleBoundMin = 0.1
-# length_scaleBoundMax = 0.3
-
-# kernels = [1.0 * Matern(length_scale=length_scaleParameter, length_scale_bounds=(length_scaleBoundMin, length_scaleBoundMax),
-# nu=1.5)]
-
-# from george import kernels
-
-# k1 = 66.0**2 * kernels.ExpSquaredKernel(67.0**2)
-# k2 = 2.4**2 * kernels.ExpSquaredKernel(90**2) * kernels.ExpSine2Kernel(2.0 / 1.3**2, 1.0)
-# k3 = 0.66**2 * kernels.RationalQuadraticKernel(0.78, 1.2**2)
-# k4 = 0.18**2 * kernels.ExpSquaredKernel(1.6**2) + kernels.WhiteKernel(0.19)
-# kernel = k1 + k2 + k3 + k4
-# kernel = k1
 
 import george
 from george.kernels import Matern32Kernel #, ConstantKernel, WhiteKernel
@@ -101,26 +74,13 @@ from george.kernels import Matern32Kernel #, ConstantKernel, WhiteKernel
 kernel = Matern32Kernel(0.5, ndim=5)
 
 
-# ------------------------------------------------------------------------------
-
-# hmf = np.loadtxt('Data/HMF_5Para.txt')
-# hmf = np.load('../Pk_data/Para5.npy')
-
 # ----------------------------- i/o ------------------------------------------
 
-import Cl_load
 
-# density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
-# density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
-train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
-train_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
-test_path = '../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy'
-test_target_path =  '../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy'
-
-# halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
-# halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
-
-# pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
+train_path = DataDir + 'LatinCl_'+str(totalFiles)+'.npy'
+train_target_path =  DataDir + 'LatinPara5_'+str(totalFiles)+'.npy'
+test_path = DataDir + 'LatinCl_'+str(TestFiles)+'.npy'
+test_target_path =  DataDir + 'LatinPara5_'+str(TestFiles)+'.npy'
 
 camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
 
@@ -181,37 +141,8 @@ X5a = rescale01(np.min(X5), np.max(X5), X5)
 XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
 
-# ------------------------------------------------------------------------------
-# Test Sample
-# This part will go inside likelihood -- Anirban
-# RealPara = np.load('../Cl_data/Data/LatinPara5_2.npy')[0]
-# RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
-# RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
-# # RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2]) ## ns = 0.8 constant while training
-# RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
-# RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
-#
-# test_pts = RealPara.reshape(5, -1).T
-#
 # # ------------------------------------------------------------------------------
-y = np.load('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy').T
-#
-# W_pred = np.array([np.zeros(shape=latent_dim)])
-# gp={}
-# for i in range(latent_dim):
-#     gp["fit{0}".format(i)]= george.GP(kernel)
-#     gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
-#     W_pred[:,i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
-#
-# # ------------------------------------------------------------------------------
-# Decoder acts here
-# Have to save and load model architecture, and weights
-
-
-
-# generator = Model(decoder_input, _x_decoded_mean)
-# x_decoded = generator.predict(W_pred.T[0,:,:])
-# x_decoded = decoder.predict(W_pred)
+y = np.load(DataDir + 'encoded_xtrain_'+str(totalFiles)+'.npy').T
 
 # ------------------------------------------------------------------------------
 np.set_printoptions(precision=3)
@@ -231,10 +162,10 @@ if PlotRatio:
     # 2:]) # Original
     TestFiles = 32
 
-    ls = np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:]#[2::2]
-    PkOriginal = np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,2:]#[:,
+    ls = np.load(DataDir + 'Latinls_' + str(TestFiles) + '.npy')[2:]#[2::2]
+    PkOriginal = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]#[:,
     # 2::2] # Original
-    RealParaArray = np.load('../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy')
+    RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
 
@@ -297,7 +228,7 @@ if PlotRatio:
             plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.8, label='bad eggs', markersize = '1')
             plt.title(fileOut)
 
-            plt.savefig('../Cl_data/Plots/Test'+fileOut+'.png')
+            plt.savefig(PlotsDir + 'Test'+fileOut+'.png')
         #plt.show()
         print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
 
@@ -305,7 +236,7 @@ if PlotRatio:
 
     plt.figure(94, figsize=(8,6))
     plt.axhline(y=1, ls='-.', lw=1.5)
-    plt.savefig('../Cl_data/Plots/Ratio'+fileOut+'.png')
+    plt.savefig(PlotsDir + 'Ratio'+fileOut+'.png')
 
     plt.show()
 print(50*'-')
@@ -334,7 +265,7 @@ if plotLoss:
     plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
     plt.title(fileOut)
     plt.tight_layout()
-    plt.savefig('../Cl_data/Plots/TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
+    plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
 
 plt.show()
 

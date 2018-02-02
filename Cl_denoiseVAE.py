@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import keras.backend as K
 
 import params
+import Cl_load
 # import SetPub
 # SetPub.set_pub()
 
@@ -125,9 +126,6 @@ def vae_loss(y_true, y_pred):
     return recon + kl
 
 # ----------------------------- i/o ------------------------------------------
-
-import Cl_load
-
 
 train_path = DataDir+'LatinCl_'+str(totalFiles)+'.npy'
 train_target_path =  DataDir+'LatinPara5_'+str(totalFiles)+'.npy'
