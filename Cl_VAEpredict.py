@@ -42,10 +42,10 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 8
-num_epochs = 20 #110 #50
+num_epochs = 100 #110 #50
 epsilon_mean = 1.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate = 1e-5
+learning_rate = 1e-3
 decay_rate = 0.0
 
 noise_factor = 0.00 # 0.0 necessary
@@ -327,7 +327,7 @@ if plotLoss:
     plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
     plt.title(fileOut)
     plt.tight_layout()
-    plt.savefig('../Cl_data/Plots/TrainingLoss_'+fileOut+'relError'+ str( np.int(max_relError) ) +'.png')
+    plt.savefig('../Cl_data/Plots/TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
 
 plt.show()
 
