@@ -264,7 +264,7 @@ if PlotSample:
     plt.show()
 
 
-plotLoss = True
+plotLoss = False
 if plotLoss:
     import matplotlib.pylab as plt
 
@@ -286,7 +286,7 @@ if plotLoss:
     plt.savefig(PlotsDir+'Training_loss.png')
 
 
-PlotModel = True
+PlotModel = False
 if PlotModel:
     from keras.utils.vis_utils import plot_model
     fileOut = PlotsDir + 'ArchitectureFullAE.png'
