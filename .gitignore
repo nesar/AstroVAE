@@ -4,6 +4,7 @@
 *.npy
 *.pdf
 *.pyc
+*.txt
 
 Old
 __pycache__
