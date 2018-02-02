@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH -p cp100
+#SBATCH -n 1 -N 1
 
 echo [$SECONDS] setting up environment
 
