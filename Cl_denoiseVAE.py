@@ -16,7 +16,7 @@ import params
 # import SetPub
 # SetPub.set_pub()
 
-########################## PARAMETERS ##############################
+###################### PARAMETERS ##############################
 
 original_dim = params.original_dim # 2549
 intermediate_dim2 = params.intermediate_dim2 # 1024
@@ -266,7 +266,7 @@ if PlotSample:
     plt.show()
 
 
-plotLoss = False
+plotLoss = True
 if plotLoss:
     import matplotlib.pylab as plt
 
@@ -285,10 +285,10 @@ if plotLoss:
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
-    # plt.savefig('../Cl_data/Plots/Training_loss.png')
+    plt.savefig(PlotsDir+'Training_loss.png')
 
 
-PlotModel = False
+PlotModel = True
 if PlotModel:
     from keras.utils.vis_utils import plot_model
     fileOut = PlotsDir + 'ArchitectureFullAE.png'

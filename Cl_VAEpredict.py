@@ -33,23 +33,7 @@ def rescale01(xmin, xmax, f):
 
 
 
-# original_dim = 2549#/2 +1  #2551 # mnist ~ 784
-# intermediate_dim2 = 1024#/2 #
-# intermediate_dim1 = 512#/2 #
-# intermediate_dim = 256#/2 #
-# latent_dim = 10
-#
-# totalFiles = 512
-# TestFiles = 32 #128
-#
-# batch_size = 8
-# num_epochs = 100 #110 #50
-# epsilon_mean = 1.0 # 1.0
-# epsilon_std = 1.0 # 1.0
-# learning_rate = 1e-3
-# decay_rate = 0.0
-#
-# noise_factor = 0.00 # 0.0 necessary
+###################### PARAMETERS ##############################
 
 original_dim = params.original_dim # 2549
 intermediate_dim2 = params.intermediate_dim2 # 1024
@@ -69,9 +53,13 @@ decay_rate = params.decay_rate # 0.0
 
 noise_factor = params.noise_factor # 0.00
 
+######################## I/O ##################################
 
-# fileOut = 'DenoiseModel_'+str(totalFiles)
-# fileOut = 'Model_'+str(totalFiles)
+DataDir = params.DataDir
+PlotsDir = params.PlotsDir
+ModelDir = params.ModelDir
+
+################# ARCHITECTURE ###############################
 
 
 LoadModel = True
