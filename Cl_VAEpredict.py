@@ -262,7 +262,7 @@ if plotLoss:
     # ax[0].set_ylim([0,1])
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
-    plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
+    #plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
     plt.title(fileOut)
     plt.tight_layout()
     plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
