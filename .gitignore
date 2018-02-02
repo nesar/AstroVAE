@@ -5,6 +5,8 @@
 *.pdf
 *.pyc
 *.txt
+*.xml
 
 Old
 __pycache__
+.idea
