@@ -12,23 +12,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 import keras.backend as K
 
-original_dim = 2549#/2 +1  #2551 # mnist ~ 784
-intermediate_dim2 = 1024#/2 #
-intermediate_dim1 = 512#/2 #
-intermediate_dim = 256#/2 #
-latent_dim = 10
+import params
+# import SetPub
+# SetPub.set_pub()
 
-totalFiles = 512
-TestFiles = 32 #128
+########################## PARAMETERS ##############################
 
-batch_size = 32
-num_epochs = 150 #110 #50
-epsilon_mean = 1.0 # 1.0
-epsilon_std = 1.0 # 1.0
-learning_rate = 1e-4
-decay_rate = 0.0
+original_dim = params.original_dim # 2549
+intermediate_dim2 = params.intermediate_dim2 # 1024
+intermediate_dim1 = params.intermediate_dim1 # 512
+intermediate_dim = params.intermediate_dim # 256
+latent_dim = params.latent_dim # 10
 
-noise_factor = 0.00 # 0.0 necessary
+totalFiles = params.totalFiles # 512
+TestFiles = params.TestFiles # 32
+
+batch_size = params.batch_size # 8
+num_epochs = params.num_epochs # 100
+epsilon_mean = params.epsilon_mean # 1.0
+epsilon_std = params.epsilon_std # 1.0
+learning_rate = params.learning_rate # 1e-3
+decay_rate = params.decay_rate # 0.0
+
+noise_factor = params.noise_factor # 0.00
+
+######################## I/O ##################################
+
+DataDir = params.DataDir
+PlotsDir = params.PlotsDir
+ModelDir = params.ModelDir
+
+################# ARCHITECTURE ###############################
 
 # ----------------------------------------------------------------------------
 
@@ -114,17 +128,11 @@ def vae_loss(y_true, y_pred):
 
 import Cl_load
 
-# density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
-# density_file = '../Cl_data/LatinCl_'+str(nsize)+'.npy'
-train_path = '../Cl_data/Data/LatinCl_'+str(totalFiles)+'.npy'
-train_target_path =  '../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy'
-test_path = '../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy'
-test_target_path =  '../Cl_data/Data/LatinPara5_'+str(TestFiles)+'.npy'
 
-# halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
-# halo_para_file = '../Cl_data/LatinPara5_'+str(nsize)+'.npy'
-
-# pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
+train_path = DataDir+'LatinCl_'+str(totalFiles)+'.npy'
+train_target_path =  DataDir+'LatinPara5_'+str(totalFiles)+'.npy'
+test_path = DataDir+'LatinCl_'+str(TestFiles)+'.npy'
+test_target_path =  DataDir+'LatinPara5_'+str(TestFiles)+'.npy'
 
 camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
 
@@ -147,7 +155,7 @@ print(y_test.shape, 'test sequences')
 # print('-------mean factor:', meanFactor)
 # x_train = x_train.astype('float32') - meanFactor #/ 255.
 # x_test = x_test.astype('float32') - meanFactor #/ 255.
-# np.save('../Cl_data/Data/meanfactor_'+str(totalFiles)+'.npy', meanFactor)
+# np.save(DataDir+'meanfactor_'+str(totalFiles)+'.npy', meanFactor)
 #
 
 # x_train = np.log10(x_train[:,::2]) #x_train[:,2:] #
@@ -157,7 +165,7 @@ normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
-np.save('../Cl_data/Data/normfactor_'+str(totalFiles)+'.npy', normFactor)
+np.save(DataDir+'normfactor_'+str(totalFiles)+'.npy', normFactor)
 
 
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
@@ -181,14 +189,13 @@ x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 # plt.plot(x_train_noisy.T)
 # ------------------------------------------------------------------------------
 
-#TRAIN       -- NaN losses Uhhh
+#TRAIN
 adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
                           decay=decay_rate)
 
 
 vae.compile(optimizer='adam', loss=vae_loss)
 
-# vae.optimizer.lr.set_value(learning_rate)
 
 K.set_value(vae.optimizer.lr, learning_rate)
 K.set_value(vae.optimizer.decay, decay_rate)
@@ -203,7 +210,7 @@ print('--------learning rate : ', K.eval(vae.optimizer.lr) )
 x_train_encoded = encoder.predict(x_train)
 x_decoded = decoder.predict(x_train_encoded)
 
-np.save('../Cl_data/Data/encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
+np.save(DataDir+'encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
 
 # -------------------- Save model/weights --------------------------
 
@@ -220,10 +227,10 @@ if SaveModel:
     fileOut = 'DenoiseModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str(
         learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
 
-    vae.save('../Cl_data/Model/fullAE_' + fileOut + '.hdf5')
-    encoder.save('../Cl_data/Model/Encoder_' + fileOut + '.hdf5')
-    decoder.save('../Cl_data/Model/Decoder_' + fileOut + '.hdf5')
-    np.save('../Cl_data/Model/TrainingHistory_'+fileOut+'.npy', training_hist)
+    vae.save(ModelDir+'fullAE_' + fileOut + '.hdf5')
+    encoder.save(ModelDir + 'Encoder_' + fileOut + '.hdf5')
+    decoder.save(ModelDir + 'Decoder_' + fileOut + '.hdf5')
+    np.save(ModelDir + 'TrainingHistory_'+fileOut+'.npy', training_hist)
 
 # -------------------- Plotting routines --------------------------
 PlotScatter = True
@@ -239,12 +246,12 @@ if PlotScatter:
     plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:, 0], cmap='copper')
     plt.colorbar()
     plt.title(fileOut)
-    plt.savefig('../Cl_data/Plots/Scatter_z'+fileOut+'.png')
+    plt.savefig( PlotsDir + 'Scatter_z'+fileOut+'.png')
     plt.show()
 
 
-# ls = np.log10(np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2::2])
-ls = np.load('../Cl_data/Data/ls_'+str(totalFiles)+'.npy')[2:]
+# ls = np.log10(np.load(DataDir+'ls_'+str(totalFiles)+'.npy')[2::2])
+ls = np.load(DataDir+'ls_'+str(totalFiles)+'.npy')[2:]
 
 PlotSample = True
 if PlotSample:
@@ -284,11 +291,11 @@ if plotLoss:
 PlotModel = False
 if PlotModel:
     from keras.utils.vis_utils import plot_model
-    fileOut = '../Cl_data/Plots/ArchitectureFullAE.png'
+    fileOut = PlotsDir + 'ArchitectureFullAE.png'
     plot_model(vae, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-    fileOut = '../Cl_data/Plots/ArchitectureEncoder.png'
+    fileOut = PlotsDir + 'ArchitectureEncoder.png'
     plot_model(encoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-    fileOut = '../Cl_data/Plots/ArchitectureDecoder.png'
+    fileOut = PlotsDir + 'ArchitectureDecoder.png'
     plot_model(decoder, to_file=fileOut, show_shapes=True, show_layer_names=True)

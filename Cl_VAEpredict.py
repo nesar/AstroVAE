@@ -16,6 +16,7 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 from keras.models import load_model
+import params
 
 # from sklearn.gaussian_process import GaussianProcessRegressor
 # from sklearn.gaussian_process.kernels import (RBF, Matern, RationalQuadratic,
@@ -32,23 +33,41 @@ def rescale01(xmin, xmax, f):
 
 
 
-original_dim = 2549#/2 +1  #2551 # mnist ~ 784
-intermediate_dim2 = 1024#/2 #
-intermediate_dim1 = 512#/2 #
-intermediate_dim = 256#/2 #
-latent_dim = 10
+# original_dim = 2549#/2 +1  #2551 # mnist ~ 784
+# intermediate_dim2 = 1024#/2 #
+# intermediate_dim1 = 512#/2 #
+# intermediate_dim = 256#/2 #
+# latent_dim = 10
+#
+# totalFiles = 512
+# TestFiles = 32 #128
+#
+# batch_size = 8
+# num_epochs = 100 #110 #50
+# epsilon_mean = 1.0 # 1.0
+# epsilon_std = 1.0 # 1.0
+# learning_rate = 1e-3
+# decay_rate = 0.0
+#
+# noise_factor = 0.00 # 0.0 necessary
 
-totalFiles = 512
-TestFiles = 32 #128
+original_dim = params.original_dim # 2549
+intermediate_dim2 = params.intermediate_dim2 # 1024
+intermediate_dim1 = params.intermediate_dim1 # 512
+intermediate_dim = params.intermediate_dim # 256
+latent_dim = params.latent_dim # 10
 
-batch_size = 8
-num_epochs = 100 #110 #50
-epsilon_mean = 1.0 # 1.0
-epsilon_std = 1.0 # 1.0
-learning_rate = 1e-3
-decay_rate = 0.0
+totalFiles = params.totalFiles # 512
+TestFiles = params.TestFiles # 32
 
-noise_factor = 0.00 # 0.0 necessary
+batch_size = params.batch_size # 8
+num_epochs = params.num_epochs # 100
+epsilon_mean = params.epsilon_mean # 1.0
+epsilon_std = params.epsilon_std # 1.0
+learning_rate = params.learning_rate # 1e-3
+decay_rate = params.decay_rate # 0.0
+
+noise_factor = params.noise_factor # 0.00
 
 
 # fileOut = 'DenoiseModel_'+str(totalFiles)
