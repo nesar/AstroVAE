@@ -12,7 +12,10 @@ print(__doc__)
 
 import numpy as np
 
-from matplotlib import pyplot as plt
+import matplotlib as mpl
+mpl.use('Agg')
+import matplotlib.pyplot as plt
+
 from keras.models import load_model
 
 import params
@@ -238,7 +241,7 @@ if PlotRatio:
     plt.axhline(y=1, ls='-.', lw=1.5)
     plt.savefig(PlotsDir + 'Ratio'+fileOut+'.png')
 
-    plt.show()
+    #plt.show()
 print(50*'-')
 print('file:', fileOut)
 # ------------------------------------------------------------------------------
@@ -267,7 +270,7 @@ if plotLoss:
     plt.tight_layout()
     plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
 
-plt.show()
+#plt.show()
 
 # ------------------------------------------------------------------------------
 

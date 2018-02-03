@@ -9,6 +9,8 @@ from keras import optimizers
 from keras import losses
 
 import numpy as np
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 import keras.backend as K
 
@@ -245,7 +247,7 @@ if PlotScatter:
     plt.colorbar()
     plt.title(fileOut)
     plt.savefig( PlotsDir + 'Scatter_z'+fileOut+'.png')
-    plt.show()
+    #plt.show()
 
 
 # ls = np.log10(np.load(DataDir+'ls_'+str(totalFiles)+'.npy')[2::2])
@@ -261,7 +263,7 @@ if PlotSample:
         # plt.yscale('log')
         plt.title('reconstructed - red')
 
-    plt.show()
+    #plt.show()
 
 
 plotLoss = False
