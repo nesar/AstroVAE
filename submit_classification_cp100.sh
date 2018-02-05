@@ -9,10 +9,10 @@ export PYTHONPATH=/cosmo/software/anaconda3/lib/python3.6/site-packages/:$HOME/.
 mkdir slurm-$SLURM_JOBID
 cd slurm-$SLURM_JOBID
 
-cp ../classification2label.py ./
+#cp ../classification2label.py ./
 #cp ../ConvNetLensJPG_noAugment.py ./
  
-srun -p cp100 python classification2label.py
+srun -p cp100 python Cl_VAEpredict.py
 #srun -p cp100 python ConvNetLensJPG_noAugment.py
 
 echo [$SECONDS] job completed
