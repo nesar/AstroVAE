@@ -8,5 +8,6 @@
 *.xml
 
 Old
+OutSlurm
 __pycache__
 .idea
