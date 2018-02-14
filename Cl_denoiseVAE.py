@@ -254,7 +254,7 @@ if PlotScatter:
 
 
 # ls = np.log10(np.load(DataDir+'ls_'+str(totalFiles)+'.npy')[2::2])
-ls = np.load(DataDir+'ls_'+str(totalFiles)+'.npy')[2:]
+ls = np.load(DataDir+'Latinls_'+str(totalFiles)+'.npy')[2:]
 
 PlotSample = True
 if PlotSample:
