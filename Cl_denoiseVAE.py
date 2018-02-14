@@ -3,12 +3,15 @@
 Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoencoder/
 
 """
+import numpy as np
+np.random.seed(1337) # for reproducibility
+
+
 from keras.layers import Input, Dense, Lambda
 from keras.models import Model
 from keras import optimizers
 from keras import losses
 
-import numpy as np
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
