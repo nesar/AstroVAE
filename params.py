@@ -10,11 +10,11 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 8
-num_epochs = 20 #110 #50
+num_epochs = 50 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate =  5e-4
-decay_rate = 1.0
+learning_rate =  1e-4
+decay_rate = 0.0
 
 noise_factor = 0.0 # 0.0 necessary
 
