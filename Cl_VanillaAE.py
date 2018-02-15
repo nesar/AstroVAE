@@ -205,7 +205,7 @@ if PlotScatter:
     plt.colorbar()
     plt.title(fileOut)
     plt.savefig( PlotsDir + 'Scatter_z'+fileOut+'.png')
-    #plt.show()
+    plt.show()
 
 
 # ls = np.log10(np.load(DataDir+'ls_'+str(totalFiles)+'.npy')[2::2])
