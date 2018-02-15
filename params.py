@@ -3,13 +3,13 @@
 original_dim = 2549#/2 +1  #2551 # mnist ~ 784
 intermediate_dim2 = 1024#/2 #
 intermediate_dim1 = 512#/2 #
-intermediate_dim = 256#/2 #
+intermediate_dim = 128#/2 #
 latent_dim = 16
 
 totalFiles = 512
 TestFiles = 32 #128
 
-batch_size = 4
+batch_size = 8
 num_epochs = 50 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 0.0 # 1.0

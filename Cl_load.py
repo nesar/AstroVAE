@@ -41,7 +41,7 @@ class cmb_profile:
         print('training data:', self.x_train.shape)
 
         num_test = len(testData)
-        np.random.seed(123)
+        # np.random.seed(123)
         shuffleOrder = np.arange(num_test)
         np.random.shuffle(shuffleOrder)
         self.x_test = testData[shuffleOrder]
