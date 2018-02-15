@@ -225,6 +225,7 @@ if PlotSample:
         # plt.xscale('log')
         # plt.yscale('log')
         plt.title('reconstructed/real')
+        plt.savefig(PlotsDir + 'Ratio_tt'+fileOut+'.png')
 
         if (i%3 == 1):
             plt.figure(654, figsize=(8,6))
@@ -233,9 +234,10 @@ if PlotSample:
             # plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
             # plt.xscale('log')
             # plt.yscale('log')
-            plt.title('reconstructed/real')
+            plt.title('reconstructed (red) and real (blue)')
+            plt.savefig(PlotsDir + 'decoderTest' + fileOut + '.png')
 
-    #plt.show()
+            #plt.show()
 
 
 plotLoss = True
