@@ -133,6 +133,17 @@ def vae_loss(y_true, y_pred):
 
     return recon + kl
 
+
+
+adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
+                          decay=decay_rate)
+
+vae.compile(optimizer='adam', loss=vae_loss)
+
+K.set_value(vae.optimizer.lr, learning_rate)
+K.set_value(vae.optimizer.decay, decay_rate)
+
+
 # ----------------------------- i/o ------------------------------------------
 
 train_path = DataDir+'LatinCl_'+str(totalFiles)+'.npy'
@@ -195,16 +206,6 @@ plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
 # ------------------------------------------------------------------------------
 
 #TRAIN
-adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
-                          decay=decay_rate)
-
-
-vae.compile(optimizer='adam', loss=vae_loss)
-
-
-K.set_value(vae.optimizer.lr, learning_rate)
-K.set_value(vae.optimizer.decay, decay_rate)
-
 
 vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
         validation_data=(x_test_noisy, x_test))

@@ -153,17 +153,10 @@ adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
 # vae.compile(optimizer='adam', loss=vae_loss)
 
 
-
-
-
 vae.compile(optimizer='adam', loss=None)
 
 K.set_value(vae.optimizer.lr, learning_rate)
 K.set_value(vae.optimizer.decay, decay_rate)
-
-
-
-
 
 
 # ----------------------------- i/o ------------------------------------------
