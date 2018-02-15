@@ -145,8 +145,8 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-x_train = x_train[:,2:] #
-x_test =  x_test[:,2:] #
+x_train = x_train[:,5:] #
+x_test =  x_test[:,5:] #
 
 # x_train = x_train[:,2::2] #
 # x_test =  x_test[:,2::2] #
@@ -190,8 +190,8 @@ x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size
 # x_train_noisy = np.clip(x_train_noisy, 0., 1.)
 # x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 
-# plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
-# plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
+plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
+plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
 # ------------------------------------------------------------------------------
 
 #TRAIN
