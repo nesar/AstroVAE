@@ -10,10 +10,10 @@ totalFiles = 512
 TestFiles = 32 #128
 
 batch_size = 8
-num_epochs = 20 #110 #50
+num_epochs = 100 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1.0 # 1.0
-learning_rate =  1e-5
+learning_rate =  1e-3
 decay_rate = 0.0
 
 noise_factor = 0.0 # 0.0 necessary
@@ -23,5 +23,9 @@ noise_factor = 0.0 # 0.0 necessary
 DataDir = '../Cl_data/Data/'
 PlotsDir = '../Cl_data/Plots/'
 ModelDir = '../Cl_data/Model/'
+
+fileOut = 'DenoiseModel_tot' + str(totalFiles) + '_batch' + str(batch_size) + '_lr' + str(
+    learning_rate) + '_decay' + str(decay_rate) + '_z' + str(latent_dim) + '_epoch' + str(
+    num_epochs)
 
 ##############################################################

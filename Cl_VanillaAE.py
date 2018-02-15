@@ -48,89 +48,46 @@ DataDir = params.DataDir
 PlotsDir = params.PlotsDir
 ModelDir = params.ModelDir
 
-fileOut = params.fileOut
-
 ################# ARCHITECTURE ###############################
 
-# ----------------------------------------------------------------------------
+input_img = Input(shape=(original_dim,))
+encoded = Dense(intermediate_dim2, activation='relu')(input_img)
+encoded = Dense(intermediate_dim1, activation='relu')(encoded)
+encoded = Dense(intermediate_dim, activation='relu')(encoded)
+encoded = Dense(latent_dim, activation='relu')(encoded)
 
-# Q(z|X) -- encoder
-inputs = Input(shape=(original_dim,))
-h_q2 = Dense(intermediate_dim1, activation='relu')(inputs) # ADDED intermediate layer
-h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
-h_q = Dense(intermediate_dim, activation='relu')(h_q1)
-mu = Dense(latent_dim, activation='linear')(h_q)
-log_sigma = Dense(latent_dim, activation='linear')(h_q)
-
-# ----------------------------------------------------------------------------
-
-def sample_z(args):
-    mu, log_sigma = args
-    eps = K.random_normal(shape=(batch_size, latent_dim), mean=epsilon_mean, stddev=epsilon_std)
-    return mu + K.exp(log_sigma / 2) * eps
+decoded = Dense(intermediate_dim, activation='relu')(encoded)
+decoded = Dense(intermediate_dim1, activation='relu')(decoded)
+decoded = Dense(intermediate_dim2, activation='sigmoid')(decoded)
+decoded = Dense(original_dim, activation='sigmoid')(decoded)
 
 
-# Sample z ~ Q(z|X)
-z = Lambda(sample_z)([mu, log_sigma])
+ae = Model(input_img, decoded)
 
-# ----------------------------------------------------------------------------
+ae.compile(optimizer='adadelta', loss='binary_crossentropy')
 
-# P(X|z) -- decoder
-decoder_hidden = Dense(latent_dim, activation='relu')
-decoder_hidden1 = Dense(intermediate_dim, activation='relu') # ADDED intermediate layer
-decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
-decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
-decoder_out = Dense(original_dim, activation='sigmoid')
-
-h_p1 = decoder_hidden(z)
-h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
-h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
-h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
-outputs = decoder_out(h_p4)
-
-# ----------------------------------------------------------------------------
+K.set_value(ae.optimizer.lr, learning_rate)
+K.set_value(ae.optimizer.decay, decay_rate)
 
 
-# Overall VAE model, for reconstruction and training
-vae = Model(inputs, outputs)
+# create the encoder model
+encoder = Model(inputs=input_img, outputs=encoded)
 
-# Encoder model, to encode input into latent variable
-# We use the mean as the output as it is the center point, the representative of the gaussian
-encoder = Model(inputs, mu)
+# create a placeholder for an encoded (32-dimensional) input
+latent_input = Input(shape=(latent_dim,))
+# retrieve the last layer of the autoencoder model
+# decoder_layer = ae.layers[-1]
 
-# Generator model, generate new data given latent variable z
-# d_in = Input(shape=(latent_dim,))
-# d_h = decoder_hidden(d_in)
-# d_h1 = decoder_hidden1(d_h)
-# d_h2 = decoder_hidden2(d_h1)
-# d_out = decoder_out(d_h2)
-# decoder = Model(d_in, d_out)
+deco = ae.layers[-4](latent_input)
+deco = ae.layers[-3](deco)
+deco = ae.layers[-2](deco)
+deco = ae.layers[-1](deco)
+# create the decoder model
+decoder = Model(latent_input, deco)
 
-# build a digit generator that can sample from the learned distribution
-decoder_input = Input(shape=(latent_dim,))
+# create the decoder model
+decoder = Model(inputs=latent_input, outputs=decoder(latent_input))
 
-_h_decoded = decoder_hidden(decoder_input)
-_h0_decoded = decoder_hidden1(_h_decoded)    ## ADDED layer_1
-_h1_decoded = decoder_hidden2(_h0_decoded)    ## ADDED --- should replicate decoder arch
-_h2_decoded = decoder_hidden3(_h1_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h2_decoded)
-decoder = Model(decoder_input, _x_decoded_mean)
-
-
-# -------------------------------------------------------------
-#CUSTOM LOSS
-
-def vae_loss(y_true, y_pred):
-    """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
-    # E[log P(X|z)]
-    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
-    ## recon = K.categorical_crossentropy(y_pred, y_true)
-
-    #recon = losses.mean_squared_error(y_pred, y_true)
-    # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
-    kl = 0.5*K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
-
-    return recon + kl
 
 # ----------------------------- i/o ------------------------------------------
 
@@ -195,21 +152,17 @@ x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 # ------------------------------------------------------------------------------
 
 #TRAIN
-adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
-                          decay=decay_rate)
+
+ae.fit(x_train_noisy, x_train,
+                epochs=num_epochs,
+                batch_size=batch_size,
+                shuffle=True,
+                validation_data=(x_test_noisy, x_test), verbose=2)
+
+print('--------learning rate : ', K.eval(ae.optimizer.lr) )
 
 
-vae.compile(optimizer='adam', loss=vae_loss)
 
-
-K.set_value(vae.optimizer.lr, learning_rate)
-K.set_value(vae.optimizer.decay, decay_rate)
-
-
-vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
-        validation_data=(x_test_noisy, x_test))
-
-print('--------learning rate : ', K.eval(vae.optimizer.lr) )
 # ----------------------------------------------------------------------------
 
 x_train_encoded = encoder.predict(x_train)
@@ -223,13 +176,16 @@ np.save(DataDir+'encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
 SaveModel = True
 if SaveModel:
     epochs = np.arange(1, num_epochs+1)
-    train_loss = vae.history.history['loss']
-    val_loss = vae.history.history['val_loss']
+    train_loss = ae.history.history['loss']
+    val_loss = ae.history.history['val_loss']
 
     training_hist = np.vstack([epochs, train_loss, val_loss])
 
 
-    vae.save(ModelDir+'fullAE_' + fileOut + '.hdf5')
+    fileOut = 'VanillaModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str(
+        learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
+
+    ae.save(ModelDir+'fullAE_' + fileOut + '.hdf5')
     encoder.save(ModelDir + 'Encoder_' + fileOut + '.hdf5')
     decoder.save(ModelDir + 'Decoder_' + fileOut + '.hdf5')
     np.save(ModelDir + 'TrainingHistory_'+fileOut+'.npy', training_hist)
@@ -268,13 +224,13 @@ if PlotSample:
     #plt.show()
 
 
-plotLoss = False
+plotLoss = True
 if plotLoss:
     import matplotlib.pylab as plt
 
     epochs = np.arange(1, num_epochs+1)
-    train_loss = vae.history.history['loss']
-    val_loss = vae.history.history['val_loss']
+    train_loss = ae.history.history['loss']
+    val_loss = ae.history.history['val_loss']
 
 
     fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
@@ -287,6 +243,7 @@ if plotLoss:
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
+    plt.show()
     plt.savefig(PlotsDir+'Training_loss.png')
 
 
@@ -294,7 +251,7 @@ PlotModel = False
 if PlotModel:
     from keras.utils.vis_utils import plot_model
     fileOut = PlotsDir + 'ArchitectureFullAE.png'
-    plot_model(vae, to_file=fileOut, show_shapes=True, show_layer_names=True)
+    plot_model(ae, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
     fileOut = PlotsDir + 'ArchitectureEncoder.png'
     plot_model(encoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
