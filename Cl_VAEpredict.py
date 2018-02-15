@@ -12,8 +12,8 @@ print(__doc__)
 
 import numpy as np
 
-import matplotlib as mpl
-mpl.use('Agg')
+# import matplotlib as mpl
+# mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 from keras.models import load_model
@@ -166,10 +166,9 @@ if PlotRatio:
     # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
     # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,
     # 2:]) # Original
-    TestFiles = 32
 
     ls = np.load(DataDir + 'Latinls_' + str(TestFiles) + '.npy')[2:]#[2::2]
-    PkOriginal = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]#[:,
+    Cl_Original = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]#[:,
     # 2::2] # Original
     RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
 
@@ -202,7 +201,7 @@ if PlotRatio:
 
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
-        cl_ratio = normFactor*x_decoded[0]/PkOriginal[i]
+        cl_ratio = normFactor*x_decoded[0]/Cl_Original[i]
         relError = 100*np.abs(cl_ratio - 1)
 
         plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
@@ -223,7 +222,7 @@ if PlotRatio:
             # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
 
             plt.plot(ls, normFactor*x_decoded[0], 'r--', alpha= 0.5, lw = 1, label = 'emulated')
-            plt.plot(ls, PkOriginal[i], 'b--', alpha=0.5, lw = 1, label = 'original')
+            plt.plot(ls, Cl_Original[i], 'b--', alpha=0.5, lw = 1, label = 'original')
 
             # plt.xscale('log')
             plt.xlabel(r'$l$')
@@ -273,7 +272,8 @@ if plotLoss:
     plt.tight_layout()
     plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
 
-#plt.show()
+plt.show()
+
 
 # ------------------------------------------------------------------------------
 

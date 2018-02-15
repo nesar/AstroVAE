@@ -12,8 +12,9 @@ from keras.models import Model
 from keras import optimizers
 from keras import losses
 
-import matplotlib as mpl
-mpl.use('Agg')
+# import matplotlib as mpl
+# mpl.use('Agg')
+
 import matplotlib.pyplot as plt
 import keras.backend as K
 
@@ -123,10 +124,10 @@ decoder = Model(decoder_input, _x_decoded_mean)
 def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
     # E[log P(X|z)]
-    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
-    ## recon = K.categorical_crossentropy(y_pred, y_true)
+    # recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
+    # recon = K.categorical_crossentropy(y_pred, y_true)
 
-    #recon = losses.mean_squared_error(y_pred, y_true)
+    recon = losses.mean_squared_error(y_pred, y_true)
     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
     kl = 0.5*K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
 
@@ -190,8 +191,8 @@ x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size
 x_train_noisy = np.clip(x_train_noisy, 0., 1.)
 x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 
-
-# plt.plot(x_train_noisy.T)
+plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
+plt.plot(x_test_noisy.T/(y_test[:,2]**2), 'b', alpha = 0.3)
 # ------------------------------------------------------------------------------
 
 #TRAIN
