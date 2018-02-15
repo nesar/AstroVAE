@@ -1,6 +1,6 @@
 """
 
-Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoencoder/
+Adapted from Keras examples
 
 """
 import numpy as np
@@ -262,7 +262,7 @@ if PlotSample:
         plt.title('reconstructed/real')
         plt.savefig(PlotsDir + 'Ratio_tt'+fileOut+'.png')
 
-        if (i%3 == 1):
+        if (i%2 == 1):
             plt.figure(654, figsize=(8,6))
             plt.plot(ls, x_test_decoded[i], 'r-', alpha = 0.8)
             plt.plot(ls, x_test[i], 'b--', alpha = 0.8)

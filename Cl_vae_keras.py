@@ -7,10 +7,11 @@ import numpy as np
 np.random.seed(1337) # for reproducibility
 
 
-from keras.layers import Input, Dense, Lambda
+from keras.layers import Input, Dense, Lambda, Layer
 from keras.models import Model
 from keras import optimizers
 from keras import losses
+from keras import metrics
 
 # import matplotlib as mpl
 # mpl.use('Agg')
@@ -55,83 +56,115 @@ fileOut = params.fileOut
 
 # ----------------------------------------------------------------------------
 
-# Q(z|X) -- encoder
-inputs = Input(shape=(original_dim,))
-h_q2 = Dense(intermediate_dim1, activation='relu')(inputs) # ADDED intermediate layer
-h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
-h_q = Dense(intermediate_dim, activation='relu')(h_q1)
-mu = Dense(latent_dim, activation='linear')(h_q)
-log_sigma = Dense(latent_dim, activation='linear')(h_q)
-
-# ----------------------------------------------------------------------------
-
-def sample_z(args):
-    mu, log_sigma = args
-    eps = K.random_normal(shape=(batch_size, latent_dim), mean=epsilon_mean, stddev=epsilon_std)
-    return mu + K.exp(log_sigma / 2) * eps
 
 
-# Sample z ~ Q(z|X)
-z = Lambda(sample_z)([mu, log_sigma])
-
-# ----------------------------------------------------------------------------
-
-# P(X|z) -- decoder
-decoder_hidden = Dense(latent_dim, activation='relu')
-decoder_hidden1 = Dense(intermediate_dim, activation='relu') # ADDED intermediate layer
-decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
-decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
-decoder_out = Dense(original_dim, activation='sigmoid')
-
-h_p1 = decoder_hidden(z)
-h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
-h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
-h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
-outputs = decoder_out(h_p4)
-
-# ----------------------------------------------------------------------------
+# x = Input(shape=(original_dim,))
+# h = Dense(intermediate_dim, activation='relu')(x)
+# z_mean = Dense(latent_dim)(h)
+# z_log_var = Dense(latent_dim)(h)
 
 
-# Overall VAE model, for reconstruction and training
-vae = Model(inputs, outputs)
+x = Input(shape=(original_dim,)) # Deepen encoder after this
+h0 = Dense(intermediate_dim, activation = 'relu')(x) # ADDED intermediate_layer_0
+h1 = Dense(intermediate_dim1, activation = 'relu')(h0) # ADDED intermediate_layer_1
+h = Dense(intermediate_dim2, activation='relu')(h1)
+z_mean = Dense(latent_dim)(h)
+z_log_var = Dense(latent_dim)(h0)
+# h = Dropout(.5)(h)
 
-# Encoder model, to encode input into latent variable
-# We use the mean as the output as it is the center point, the representative of the gaussian
-encoder = Model(inputs, mu)
 
-# Generator model, generate new data given latent variable z
-# d_in = Input(shape=(latent_dim,))
-# d_h = decoder_hidden(d_in)
-# d_h1 = decoder_hidden1(d_h)
-# d_h2 = decoder_hidden2(d_h1)
-# d_out = decoder_out(d_h2)
-# decoder = Model(d_in, d_out)
+def sampling(args):
+    z_mean, z_log_var = args
+    epsilon = K.random_normal(shape=(K.shape(z_mean)[0], latent_dim), mean=0.,
+                              stddev=epsilon_std)
+    return z_mean + K.exp(z_log_var / 2) * epsilon
+
+# note that "output_shape" isn't necessary with the TensorFlow backend
+z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+
+# we instantiate these layers separately so as to reuse them later
+# decoder_h = Dense(intermediate_dim, activation='relu')
+# decoder_mean = Dense(original_dim, activation='sigmoid')
+# h_decoded = decoder_h(z)
+# x_decoded_mean = decoder_mean(h_decoded)
+
+# we instantiate these layers separately so as to reuse them later
+decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
+decoder_h1 = Dense(intermediate_dim1, activation='relu') # ADDED layer_1
+decoder_h0 = Dense(intermediate_dim2, activation='relu') # ADDED layer_0
+
+# p
+decoder_mean = Dense(original_dim, activation='sigmoid')
+
+h_decoded = decoder_h(z)
+h1_decoded = decoder_h1(h_decoded)
+h0_decoded = decoder_h0(h1_decoded)
+x_decoded_mean = decoder_mean(h0_decoded)
+
+
+# Custom loss layer
+class CustomVariationalLayer(Layer):
+    def __init__(self, **kwargs):
+        self.is_placeholder = True
+        super(CustomVariationalLayer, self).__init__(**kwargs)
+
+    def vae_loss(self, x, x_decoded_mean):
+        xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
+        kl_loss = - 0.5 * K.sum(1 + z_log_var - K.square(z_mean) - K.exp(z_log_var), axis=-1)
+        return K.mean(xent_loss + kl_loss)
+
+    def call(self, inputs):
+        x = inputs[0]
+        x_decoded_mean = inputs[1]
+        loss = self.vae_loss(x, x_decoded_mean)
+        self.add_loss(loss, inputs=inputs)
+        # We won't actually use the output.
+        return x
+
+y = CustomVariationalLayer()([x, x_decoded_mean])
+vae = Model(x, y)
+
+# build a model to project inputs on the latent space
+encoder = Model(x, z_mean)
+
+
+# # build a digit generator that can sample from the learned distribution
+# decoder_input = Input(shape=(latent_dim,))
+# _h_decoded = decoder_h(decoder_input)
+# _x_decoded_mean = decoder_mean(_h_decoded)
+# decoder = Model(decoder_input, _x_decoded_mean)
+
 
 # build a digit generator that can sample from the learned distribution
 decoder_input = Input(shape=(latent_dim,))
 
-_h_decoded = decoder_hidden(decoder_input)
-_h0_decoded = decoder_hidden1(_h_decoded)    ## ADDED layer_1
-_h1_decoded = decoder_hidden2(_h0_decoded)    ## ADDED --- should replicate decoder arch
-_h2_decoded = decoder_hidden3(_h1_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h2_decoded)
+_h_decoded = decoder_h(decoder_input)
+_h1_decoded = decoder_h1(_h_decoded)    ## ADDED layer_1
+_h0_decoded = decoder_h0(_h1_decoded)    ## ADDED --- should replicate decoder arch
+_x_decoded_mean = decoder_mean(_h0_decoded)
 decoder = Model(decoder_input, _x_decoded_mean)
 
 
-# -------------------------------------------------------------
-#CUSTOM LOSS
 
-def vae_loss(y_true, y_pred):
-    """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
-    # E[log P(X|z)]
-    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
-    # recon = K.categorical_crossentropy(y_pred, y_true)
+adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
+                          decay=decay_rate)
 
-    # recon = losses.mean_squared_error(y_pred, y_true)
-    # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
-    kl = 0.5*K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
 
-    return recon + kl
+# vae.compile(optimizer='adam', loss=vae_loss)
+
+
+
+
+
+vae.compile(optimizer='adam', loss=None)
+
+K.set_value(vae.optimizer.lr, learning_rate)
+K.set_value(vae.optimizer.decay, decay_rate)
+
+
+
+
+
 
 # ----------------------------- i/o ------------------------------------------
 
@@ -190,21 +223,11 @@ x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size
 # x_train_noisy = np.clip(x_train_noisy, 0., 1.)
 # x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 
-plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
-plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
+# plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
+# plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
 # ------------------------------------------------------------------------------
 
 #TRAIN
-adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
-                          decay=decay_rate)
-
-
-vae.compile(optimizer='adam', loss=vae_loss)
-
-
-K.set_value(vae.optimizer.lr, learning_rate)
-K.set_value(vae.optimizer.decay, decay_rate)
-
 
 vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
         validation_data=(x_test_noisy, x_test))
@@ -266,9 +289,9 @@ if PlotSample:
         # plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
         # plt.xscale('log')
         # plt.yscale('log')
+        # plt.ylim(0.7, 1.3)
         plt.title('reconstructed/real')
         plt.savefig(PlotsDir + 'Ratio_tt'+fileOut+'.png')
-
 
         if (i%2 == 1):
             plt.figure(654, figsize=(8,6))
