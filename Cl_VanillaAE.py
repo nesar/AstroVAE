@@ -12,8 +12,8 @@ from keras.models import Model
 from keras import optimizers
 from keras import losses
 
-import matplotlib as mpl
-mpl.use('Agg')
+# import matplotlib as mpl
+# mpl.use('Agg')
 import matplotlib.pyplot as plt
 import keras.backend as K
 
@@ -169,7 +169,10 @@ print('--------learning rate : ', K.eval(ae.optimizer.lr) )
 # ----------------------------------------------------------------------------
 
 x_train_encoded = encoder.predict(x_train)
-x_decoded = decoder.predict(x_train_encoded)
+x_train_decoded = decoder.predict(x_train_encoded)
+
+x_test_encoded = encoder.predict(x_test)
+x_test_decoded = decoder.predict(x_test_encoded)
 
 np.save(DataDir+'encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
 
@@ -211,15 +214,26 @@ if PlotScatter:
 # ls = np.log10(np.load(DataDir+'ls_'+str(totalFiles)+'.npy')[2::2])
 ls = np.load(DataDir+'Latinls_'+str(totalFiles)+'.npy')[2:]
 
+
 PlotSample = True
 if PlotSample:
-    for i in range(3,10):
+    for i in range(10):
         plt.figure(91, figsize=(8,6))
-        plt.plot(ls, x_decoded[i], 'r--', alpha = 0.8)
-        plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
+        plt.plot(ls, x_train_decoded[i]/x_train[i], 'b-', alpha = 0.8)
+        plt.plot(ls, x_test_decoded[i]/x_test[i], 'k-', alpha = 0.8)
+        # plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
         # plt.xscale('log')
         # plt.yscale('log')
-        plt.title('reconstructed - red')
+        plt.title('reconstructed/real')
+
+        if (i%3 == 1):
+            plt.figure(654, figsize=(8,6))
+            plt.plot(ls, x_test_decoded[i], 'r-', alpha = 0.8)
+            plt.plot(ls, x_test[i], 'b--', alpha = 0.8)
+            # plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
+            # plt.xscale('log')
+            # plt.yscale('log')
+            plt.title('reconstructed/real')
 
     #plt.show()
 
@@ -243,7 +257,6 @@ if plotLoss:
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
-    plt.show()
     plt.savefig(PlotsDir+'Training_loss.png')
 
 
@@ -258,3 +271,5 @@ if PlotModel:
 
     fileOut = PlotsDir + 'ArchitectureDecoder.png'
     plot_model(decoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
+
+plt.show()
