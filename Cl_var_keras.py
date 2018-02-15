@@ -192,8 +192,8 @@ x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size
 # x_train_noisy = np.clip(x_train_noisy, 0., 1.)
 # x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 
-plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
-plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
+# plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
+# plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
 # ------------------------------------------------------------------------------
 
 #TRAIN
@@ -258,6 +258,7 @@ if PlotSample:
         # plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
         # plt.xscale('log')
         # plt.yscale('log')
+        # plt.ylim(0.7, 1.3)
         plt.title('reconstructed/real')
 
         if (i%3 == 1):
