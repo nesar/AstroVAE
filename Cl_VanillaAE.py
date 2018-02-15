@@ -48,6 +48,9 @@ DataDir = params.DataDir
 PlotsDir = params.PlotsDir
 ModelDir = params.ModelDir
 
+fileOut = params.fileOut
+
+
 ################# ARCHITECTURE ###############################
 
 input_img = Input(shape=(original_dim,))
@@ -181,9 +184,6 @@ if SaveModel:
 
     training_hist = np.vstack([epochs, train_loss, val_loss])
 
-
-    fileOut = 'VanillaModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str(
-        learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
 
     ae.save(ModelDir+'fullAE_' + fileOut + '.hdf5')
     encoder.save(ModelDir + 'Encoder_' + fileOut + '.hdf5')

@@ -56,13 +56,16 @@ DataDir = params.DataDir
 PlotsDir = params.PlotsDir
 ModelDir = params.ModelDir
 
+fileOut = params.fileOut
+
+
 ################# ARCHITECTURE ###############################
 
 
 LoadModel = True
 if LoadModel:
 
-    fileOut = 'VanillaModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
+    # fileOut = 'VanillaModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
 
     # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
     encoder = load_model(ModelDir + 'Encoder_' + fileOut + '.hdf5')
