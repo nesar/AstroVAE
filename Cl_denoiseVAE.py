@@ -269,6 +269,7 @@ if PlotSample:
         plt.plot(ls, x_train_decoded[i]/x_train[i], 'r-', alpha = 0.8)
         plt.plot(ls, x_test_decoded[i]/x_test[i], 'k-', alpha = 0.8)
 
+        # plt.ylim(0.80, 1.2)
 
         # plt.xscale('log')
         # plt.yscale('log')
@@ -288,7 +289,7 @@ if PlotSample:
 
             # plt.xscale('log')
             # plt.yscale('log')
-            plt.title('reconstructed (red) and real (blue)')
+            plt.title('Testing: reconstructed (red) and real (blue)')
             plt.savefig(PlotsDir + 'decoderTest' + fileOut + '.png')
 
     plt.show()
