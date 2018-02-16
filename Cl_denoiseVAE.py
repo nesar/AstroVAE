@@ -313,7 +313,7 @@ if plotLoss:
     # ax[0].set_title('Loss')
     ax.legend(['train loss','val loss'])
     plt.tight_layout()
-    plt.savefig(PlotsDir+'Training_loss.png')
+    # plt.savefig(PlotsDir+'Training_loss.png')
 
 
 PlotModel = False

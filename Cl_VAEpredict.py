@@ -110,8 +110,8 @@ print(y_test.shape, 'test sequences')
 # x_test = x_test.astype('float32') - meanFactor #/ 255.
 #
 
-x_train = np.log10(x_train) #x_train[:,2:] #
-x_test =  np.log10(x_test) #x_test[:,2:] #
+# x_train = np.log10(x_train) #x_train[:,2:] #
+# x_test =  np.log10(x_test) #x_test[:,2:] #
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
@@ -169,7 +169,7 @@ if PlotRatio:
     ls = np.load(DataDir + 'Latinls_' + str(TestFiles) + '.npy')[2:]#[2::2]
     Cl_Original = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]#[:,
     # 2::2] # Original
-    Cl_Original = np.log10(Cl_Original)
+    # Cl_Original = np.log10(Cl_Original)
     RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
@@ -201,9 +201,9 @@ if PlotRatio:
 
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
-        cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
+        # cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
 
-        # cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
+        cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
 
 
         relError = 100*np.abs(cl_ratio - 1)
@@ -225,11 +225,11 @@ if PlotRatio:
             plt.title('Autoencoder+GP fit')
             # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
 
-            plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
-            plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
+            # plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+            # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
 
-            # plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
-            # plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
+            plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+            plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
 
 
             # plt.xscale('log')
