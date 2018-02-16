@@ -202,6 +202,10 @@ if PlotRatio:
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
         cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
+
+        # cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
+
+
         relError = 100*np.abs(cl_ratio - 1)
 
         plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
@@ -221,9 +225,12 @@ if PlotRatio:
             plt.title('Autoencoder+GP fit')
             # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
 
-            plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, \
-                                                                               label = 'emulated')
+            plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
             plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
+
+            # plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+            # plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
+
 
             # plt.xscale('log')
             plt.xlabel(r'$l$')

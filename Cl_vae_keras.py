@@ -68,6 +68,7 @@ x = Input(shape=(original_dim,)) # Deepen encoder after this
 h0 = Dense(intermediate_dim, activation = 'relu')(x) # ADDED intermediate_layer_0
 h1 = Dense(intermediate_dim1, activation = 'relu')(h0) # ADDED intermediate_layer_1
 h = Dense(intermediate_dim2, activation='relu')(h1)
+# h = Dense(intermediate_dim2, activation=None)(h1)
 z_mean = Dense(latent_dim)(h)
 z_log_var = Dense(latent_dim)(h0)
 # h = Dropout(.5)(h)
@@ -90,11 +91,13 @@ z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
 
 # we instantiate these layers separately so as to reuse them later
 decoder_h = Dense(intermediate_dim, activation='relu') # Deepen decoder after this
+# decoder_h = Dense(intermediate_dim, activation=None) # Deepen decoder after this
 decoder_h1 = Dense(intermediate_dim1, activation='relu') # ADDED layer_1
 decoder_h0 = Dense(intermediate_dim2, activation='relu') # ADDED layer_0
 
 # p
 decoder_mean = Dense(original_dim, activation='sigmoid')
+# decoder_mean = Dense(original_dim, activation=None)
 
 h_decoded = decoder_h(z)
 h1_decoded = decoder_h1(h_decoded)
@@ -190,8 +193,8 @@ print(y_test.shape, 'test sequences')
 # np.save(DataDir+'meanfactor_'+str(totalFiles)+'.npy', meanFactor)
 #
 
-x_train = np.log10(x_train) #x_train[:,2:] #
-x_test =  np.log10(x_test) #x_test[:,2:] #
+# x_train = np.log10(x_train) #x_train[:,2:] #
+# x_test =  np.log10(x_test) #x_test[:,2:] #
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
