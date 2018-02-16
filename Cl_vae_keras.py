@@ -190,8 +190,8 @@ print(y_test.shape, 'test sequences')
 # np.save(DataDir+'meanfactor_'+str(totalFiles)+'.npy', meanFactor)
 #
 
-# x_train = np.log10(x_train[:,::2]) #x_train[:,2:] #
-# x_test =  np.log10(x_test[:,::2]) #x_test[:,2:] #
+x_train = np.log10(x_train) #x_train[:,2:] #
+x_test =  np.log10(x_test) #x_test[:,2:] #
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)

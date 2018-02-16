@@ -201,7 +201,7 @@ if PlotRatio:
 
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
-        cl_ratio = normFactor*x_decoded[0]/Cl_Original[i]
+        cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
         relError = 100*np.abs(cl_ratio - 1)
 
         plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
