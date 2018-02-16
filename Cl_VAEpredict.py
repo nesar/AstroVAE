@@ -74,10 +74,10 @@ if LoadModel:
 
 
 import george
-from george.kernels import Matern32Kernel #, ConstantKernel, WhiteKernel
+from george.kernels import Matern32Kernel , ConstantKernel, WhiteKernel, Matern52Kernel
 
-# kernel = ConstantKernel(0.5, ndim=5) * Matern32Kernel(0.5, ndim=5) + WhiteKernel(0.1, ndim=5)
-kernel = Matern32Kernel(0.5, ndim=5)
+kernel = ConstantKernel(0.5, ndim=5) * Matern52Kernel(0.9, ndim=5) + WhiteKernel(0.1, ndim=5)
+# kernel = Matern32Kernel(0.5, ndim=5)
 
 # ----------------------------- i/o ------------------------------------------
 
