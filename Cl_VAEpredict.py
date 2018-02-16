@@ -79,7 +79,6 @@ from george.kernels import Matern32Kernel #, ConstantKernel, WhiteKernel
 # kernel = ConstantKernel(0.5, ndim=5) * Matern32Kernel(0.5, ndim=5) + WhiteKernel(0.1, ndim=5)
 kernel = Matern32Kernel(0.5, ndim=5)
 
-
 # ----------------------------- i/o ------------------------------------------
 
 
@@ -111,8 +110,8 @@ print(y_test.shape, 'test sequences')
 # x_test = x_test.astype('float32') - meanFactor #/ 255.
 #
 
-# x_train = np.log10(x_train[:,::2]) #x_train[:,2:] #
-# x_test =  np.log10(x_test[:,::2]) #x_test[:,2:] #
+x_train = np.log10(x_train) #x_train[:,2:] #
+x_test =  np.log10(x_test) #x_test[:,2:] #
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
@@ -156,11 +155,11 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
-# PlotSampleID = [23, 26, 17, 12, 30, 4]
-PlotSampleID = [2, 7, 0,  12, 4]
+PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
+# PlotSampleID = [2, 7, 0,  12, 4]
 
 max_relError = 0
-ErrTh = 10
+ErrTh = 5
 PlotRatio = True
 if PlotRatio:
     # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
@@ -170,6 +169,7 @@ if PlotRatio:
     ls = np.load(DataDir + 'Latinls_' + str(TestFiles) + '.npy')[2:]#[2::2]
     Cl_Original = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]#[:,
     # 2::2] # Original
+    Cl_Original = np.log10(Cl_Original)
     RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
 
     for i in range(np.shape(RealParaArray)[0]):
@@ -221,8 +221,9 @@ if PlotRatio:
             plt.title('Autoencoder+GP fit')
             # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
 
-            plt.plot(ls, normFactor*x_decoded[0], 'r--', alpha= 0.5, lw = 1, label = 'emulated')
-            plt.plot(ls, Cl_Original[i], 'b--', alpha=0.5, lw = 1, label = 'original')
+            plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, \
+                                                                               label = 'emulated')
+            plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
 
             # plt.xscale('log')
             plt.xlabel(r'$l$')

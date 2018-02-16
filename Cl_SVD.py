@@ -19,9 +19,9 @@ SetPub.set_pub()
 
 
 nsize = 2
-totalFiles = nsize**5 #32
+totalFiles = 512
 
-NoEigenComp = 5
+NoEigenComp = 16
 
 
 # ------------------------------------------------------------------------------

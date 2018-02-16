@@ -175,8 +175,8 @@ print(y_test.shape, 'test sequences')
 # np.save(DataDir+'meanfactor_'+str(totalFiles)+'.npy', meanFactor)
 #
 
-# x_train = np.log10(x_train[:,::2]) #x_train[:,2:] #
-# x_test =  np.log10(x_test[:,::2]) #x_test[:,2:] #
+x_train = np.log10(x_train) #x_train[:,2:] #
+x_test =  np.log10(x_test) #x_test[:,2:] #
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
@@ -201,8 +201,8 @@ x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size
 # x_train_noisy = np.clip(x_train_noisy, 0., 1.)
 # x_test_noisy = np.clip(x_test_noisy, 0., 1.)
 
-plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
-plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
+# plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
+# plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
 # ------------------------------------------------------------------------------
 
 #TRAIN
@@ -273,8 +273,8 @@ if PlotSample:
 
         if (i%2 == 1):
             plt.figure(654, figsize=(8,6))
-            plt.plot(ls, x_test_decoded[i], 'r-', alpha = 0.8)
-            plt.plot(ls, x_test[i], 'b--', alpha = 0.8)
+            plt.plot(ls, 10**(x_test_decoded[i]), 'r-', alpha = 0.8)
+            plt.plot(ls, 10**(x_test[i]), 'b--', alpha = 0.8)
             # plt.plot(ls, x_train[i], 'b--', alpha = 0.8)
             # plt.xscale('log')
             # plt.yscale('log')
