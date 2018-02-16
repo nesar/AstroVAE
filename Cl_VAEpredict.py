@@ -123,6 +123,18 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 # ------------------------------------------------------------------------------
+# PLOTTING y_train and y_test
+
+# import pandas as pd
+# plt.figure(431)
+# AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
+# df = pd.DataFrame(y_train, columns=AllLabels)
+# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
+# df = pd.DataFrame(y_test, columns=AllLabels)
+# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
+# plt.tight_layout()
+# plt.savefig('scatter_matrix.png')
+
 # ------------------------------------------------------------------------------
 
 
@@ -159,7 +171,7 @@ PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
 # PlotSampleID = [2, 7, 0,  12, 4]
 
 max_relError = 0
-ErrTh = 5
+ErrTh = 10
 PlotRatio = True
 if PlotRatio:
     # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
