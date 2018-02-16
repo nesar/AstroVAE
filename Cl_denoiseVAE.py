@@ -175,8 +175,8 @@ print(y_test.shape, 'test sequences')
 # np.save(DataDir+'meanfactor_'+str(totalFiles)+'.npy', meanFactor)
 #
 
-x_train = np.log10(x_train) #x_train[:,2:] #
-x_test =  np.log10(x_test) #x_test[:,2:] #
+# x_train = np.log10(x_train) #x_train[:,2:] #
+# x_test =  np.log10(x_test) #x_test[:,2:] #
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 # normFactor = 1
@@ -263,11 +263,11 @@ PlotSample = True
 if PlotSample:
     for i in range(10):
         plt.figure(91, figsize=(8,6))
-        plt.plot(ls, 10**(normFactor*x_train_decoded[i])/10**(normFactor*x_train[i]), 'r-', alpha = 0.8)
-        plt.plot(ls, 10**(normFactor*x_test_decoded[i])/10**(normFactor*x_test[i]), 'k-', alpha = 0.8)
+        # plt.plot(ls, 10**(normFactor*x_train_decoded[i])/10**(normFactor*x_train[i]), 'r-', alpha = 0.8)
+        # plt.plot(ls, 10**(normFactor*x_test_decoded[i])/10**(normFactor*x_test[i]), 'k-', alpha = 0.8)
 
-        # plt.plot(ls, x_train_decoded[i]/x_train[i], 'r-', alpha = 0.8)
-        # plt.plot(ls, x_test_decoded[i]/x_test[i], 'k-', alpha = 0.8)
+        plt.plot(ls, x_train_decoded[i]/x_train[i], 'r-', alpha = 0.8)
+        plt.plot(ls, x_test_decoded[i]/x_test[i], 'k-', alpha = 0.8)
 
 
         # plt.xscale('log')
@@ -279,11 +279,11 @@ if PlotSample:
 
         if (i%2 == 1):
             plt.figure(654, figsize=(8,6))
-            plt.plot(ls, 10**(normFactor*x_test_decoded[i]), 'r-', alpha = 0.8)
-            plt.plot(ls, 10**(normFactor*x_test[i]), 'b--', alpha = 0.8)
+            # plt.plot(ls, 10**(normFactor*x_test_decoded[i]), 'r-', alpha = 0.8)
+            # plt.plot(ls, 10**(normFactor*x_test[i]), 'b--', alpha = 0.8)
 
-            # plt.plot(ls, (normFactor*x_test_decoded[i]), 'r-', alpha = 0.8)
-            # plt.plot(ls, (normFactor*x_test[i]), 'b--', alpha = 0.8)
+            plt.plot(ls, (normFactor*x_test_decoded[i]), 'r-', alpha = 0.8)
+            plt.plot(ls, (normFactor*x_test[i]), 'b--', alpha = 0.8)
 
 
             # plt.xscale('log')
