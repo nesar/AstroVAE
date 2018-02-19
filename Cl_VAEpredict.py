@@ -271,13 +271,13 @@ print('file:', fileOut)
 
 plotLoss = True
 if plotLoss:
-    import matplotlib.pylab as plt
 
     epochs =  history[0,:]
     train_loss = history[1,:]
     val_loss = history[2,:]
 
 
+    fig = plt.figure(867)
     fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
     # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
     ax.plot(epochs,train_loss, '-', lw =1.5)
@@ -294,6 +294,7 @@ if plotLoss:
 
 plt.show()
 
+print('max rel error:', str( (max_relError) ) )
 
 # ------------------------------------------------------------------------------
 

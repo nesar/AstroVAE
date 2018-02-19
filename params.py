@@ -14,7 +14,7 @@ num_epochs = 200 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 0.0 # 1.0
 learning_rate =  1e-4
-decay_rate = 1.0
+decay_rate = 0.1
 
 noise_factor = 0.0 # 0.0 necessary
 
