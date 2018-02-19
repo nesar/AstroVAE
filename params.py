@@ -9,7 +9,7 @@ latent_dim = 16
 totalFiles = 512
 TestFiles = 32 #128
 
-batch_size = 4
+batch_size = 8
 num_epochs = 200 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1e-3 #0.0 # 1.0

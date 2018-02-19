@@ -10,7 +10,7 @@ CAMBFast maybe better?
 CosmoMC works well with CAMB
 """
 
-totalFiles = 512
+totalFiles = 32
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmo'+str(totalFiles)+'.txt')
 

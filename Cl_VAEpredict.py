@@ -168,7 +168,7 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = [2, 7]
+PlotSampleID = [2, 4, 7]
 
 max_relError = 0
 ErrTh = 10
