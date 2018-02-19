@@ -24,6 +24,7 @@ from matplotlib import pyplot as plt
 # ConstantKernel)
 
 import george
+import Cl_load
 
 import SetPub
 SetPub.set_pub()
@@ -35,9 +36,10 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-nsize = 2
-totalFiles = nsize**5 #32
-NoEigenComp = 5
+totalFiles = 512
+TestFiles = 32
+
+NoEigenComp = 8
 
 
 
@@ -65,30 +67,49 @@ kernel = Matern32Kernel(0.5, ndim=5)
 # hmf = np.loadtxt('Data/HMF_5Para.txt')
 
 
-# Load from pk load instead
-# ------------------------------------------------------------------------------
 
-import pk_load
 
-density_file = '../Cl_data/Cl_'+str(nsize)+'.npy'
-halo_para_file = '../Cl_data/Para5_'+str(nsize)+'.npy'
-pk = pk_load.density_profile(data_path = density_file, para_path = halo_para_file)
 
-(x_train, y_train), (x_test, y_test) = pk.load_data()
+# ----------------------------- i/o ------------------------------------------
 
-x_train = x_train[:totalFiles][:,2:]
-x_test = x_test[:np.int(0.2*totalFiles)][:,2:]
-y_train = y_train[:totalFiles]
-y_test = y_test[:np.int(0.2*totalFiles)]
+DataDir = '../Cl_data/Data/'
+PlotsDir = '../Cl_data/Plots/'
+ModelDir = '../Cl_data/Model/'
 
+
+train_path = DataDir + 'LatinCl_'+str(totalFiles)+'.npy'
+train_target_path =  DataDir + 'LatinPara5_'+str(totalFiles)+'.npy'
+test_path = DataDir + 'LatinCl_'+str(TestFiles)+'.npy'
+test_target_path =  DataDir + 'LatinPara5_'+str(TestFiles)+'.npy'
+
+camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+
+
+(x_train, y_train), (x_test, y_test) = camb_in.load_data()
+
+x_train = x_train[:,2:]
+x_test = x_test[:,2:]
+
+# x_train = x_train[:,2::2]
+# x_test = x_test[:,2::2]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 
+# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
+# print('-------mean factor:', meanFactor)
+# x_train = x_train.astype('float32') - meanFactor #/ 255.
+# x_test = x_test.astype('float32') - meanFactor #/ 255.
+#
+
+# x_train = np.log10(x_train) #x_train[:,2:] #
+# x_test =  np.log10(x_test) #x_test[:,2:] #
+
+normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+print('-------normalization factor:', normFactor)
 
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
@@ -142,7 +163,7 @@ X4a = rescale01(np.min(X4), np.max(X4), X4)
 X5 = hmf[:, 4][:, np.newaxis]
 X5a = rescale01(np.min(X5), np.max(X5), X5)
 
-y = np.loadtxt('../Cl_data/W_for2Eval.txt', dtype=float)  #
+y = np.loadtxt(DataDir + 'W_for2Eval.txt', dtype=float)  #
 
 XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
@@ -192,26 +213,27 @@ for i in range(NoEigenComp):
 #
 # W_pred = np.array([W_interpol1, W_interpol2])
 
-K = np.loadtxt('../Cl_data/K_for2Eval.txt')
+K = np.loadtxt(DataDir + 'K_for2Eval.txt')
 Prediction = np.matmul(K, W_pred.T)
 
 # Plots for comparison ---------------------------
 
-normFactor = np.load('../Cl_data/normfactor_'+str(nsize)+'.npy')
-stdy = np.loadtxt('../Cl_data/stdy.txt')
-yRowMean = np.loadtxt('../Cl_data/yRowMean.txt')
+normFactor = np.load(DataDir + 'normfactor_'+str(totalFiles)+'.npy')
+stdy = np.loadtxt(DataDir + 'stdy.txt')
+yRowMean = np.loadtxt(DataDir + 'yRowMean.txt')
 
 # k = np.load('../Cl_data/k5.npy')
-# ls = np.load('../Cl_data/ls_' + str(nsize) + '.npy')[2:]
+ls = np.load(DataDir + 'ls_' + str(TestFiles) + '.npy')[2:]
 # EMU0 = np.loadtxt('../Cl_data/EMU0.txt')[:,1] # Generated from CosmicEmu -- original value
 
 PlotSample = True
 if PlotSample:
-        nsize0 = 0  ## SAMPLE
-        ls = np.load('../Cl_data/ls_' + str(nsize0) + '.npy')[2:]
-        EMU0 = np.load('../Cl_data/Cl_' + str(nsize0) + '.npy')[0, 2:]  # Generated from CosmicEmu --
+        nsize0 = 32  ## SAMPLE
+        # ls = np.load(DataDir + 'ls_' + str(nsize0) + '.npy')[2:]
+        EMU0 = np.load(DataDir+ 'LatinCl_' + str(TestFiles) + '.npy')[0, 2:]  # Generated from
+        # CosmicEmu --
     # original value
-        normFactor = np.load('../Cl_data/normfactor_' + str(nsize) + '.npy')
+    #     normFactor = np.load(DataDir + 'normfactor_' + str(TestFiles) + '.npy')
 
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
@@ -226,7 +248,7 @@ if PlotSample:
         plt.ylabel(r'$C_l$')
         plt.legend()
         plt.tight_layout()
-        plt.savefig('../Cl_data/GP_PCA_output.png')
+        plt.savefig(PlotsDir + 'GP_PCA_output.png')
 
 plt.show()
 
@@ -237,9 +259,11 @@ plt.show()
 PlotRatio = True
 if PlotRatio:
 
-    PkOriginal = np.load('../Cl_data/Cl_'+str(nsize)+'.npy')[:,2:] # Generated from CosmicEmu -- original
+    PkOriginal = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:] # Generated from
+    # CosmicEmu --
+    # original
     # value
-    RealParaArray = np.load('../Cl_data/Para5_'+str(nsize)+'.npy')
+    RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
 
     # RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
 
@@ -281,6 +305,6 @@ if PlotRatio:
                 # plt.legend()
                 # plt.tight_layout()
     plt.axhline(y=1, ls = '-.', lw = 1.5)
-    plt.savefig('../Cl_data/GP_PCA_ratio.png')
+    plt.savefig(PlotsDir + 'GP_PCA_ratio.png')
 
     plt.show()

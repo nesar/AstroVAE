@@ -167,8 +167,8 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
-PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-# PlotSampleID = [2, 7, 0,  12, 4]
+# PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
+PlotSampleID = [2, 7]
 
 max_relError = 0
 ErrTh = 10
@@ -179,10 +179,13 @@ if PlotRatio:
     # 2:]) # Original
 
     ls = np.load(DataDir + 'Latinls_' + str(TestFiles) + '.npy')[2:]#[2::2]
-    Cl_Original = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]#[:,
-    # 2::2] # Original
-    # Cl_Original = np.log10(Cl_Original)
-    RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
+
+    # Cl_Original = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]
+    # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
+
+    Cl_Original = normFactor*x_test
+    RealParaArray = y_test
+
 
     for i in range(np.shape(RealParaArray)[0]):
 
@@ -277,7 +280,7 @@ if plotLoss:
     val_loss = history[2,:]
 
 
-    fig = plt.figure(867)
+    plt.figure(867)
     fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
     # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
     ax.plot(epochs,train_loss, '-', lw =1.5)
@@ -294,7 +297,11 @@ if plotLoss:
 
 plt.show()
 
+print(50*'#')
+print(fileOut)
+print
 print('max rel error:', str( (max_relError) ) )
+print(50*'#')
 
 # ------------------------------------------------------------------------------
 
