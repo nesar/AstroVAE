@@ -33,9 +33,9 @@ class cmb_profile:
         # num_train = int((1 - self.test_split) * num_files)
 
         num_train = len(trainData)
-        np.random.seed(1234)
+        # np.random.seed(1234)
         shuffleOrder = np.arange(num_train)
-        np.random.shuffle(shuffleOrder)
+        # np.random.shuffle(shuffleOrder)
         self.x_train = trainData[shuffleOrder]
         self.y_train = trainPara[shuffleOrder]
         print('training data:', self.x_train.shape)
@@ -43,7 +43,7 @@ class cmb_profile:
         num_test = len(testData)
         # np.random.seed(123)
         shuffleOrder = np.arange(num_test)
-        np.random.shuffle(shuffleOrder)
+        # np.random.shuffle(shuffleOrder)
         self.x_test = testData[shuffleOrder]
         self.y_test = testPara[shuffleOrder]
         print('validation data:', self.y_test.shape)
