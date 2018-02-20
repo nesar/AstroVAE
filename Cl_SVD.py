@@ -105,7 +105,7 @@ W = np.matmul(W1, y)
 Pred = np.matmul(K,W)
 
 # ls = np.load('../Cl_data/k5.npy')
-ls = np.load(DataDir + 'ls_' + str(TestFiles) + '.npy')[2:]
+ls = np.load(DataDir + 'Latinls_' + str(TestFiles) + '.npy')[2:]
 for i in range(10, 20):
     plt.figure(10)
     plt.plot(ls, y[:,i]*stdy + yRowMean, 'x', label = 'data')

@@ -222,7 +222,9 @@ x_test_encoded = encoder.predict(x_test)
 x_test_decoded = decoder.predict(x_test_encoded)
 
 np.save(DataDir+'encoded_xtrain_'+str(totalFiles)+'.npy', x_train_encoded)
+np.save(DataDir+'encoded_xtest_'+str(totalFiles)+'.npy', x_test_encoded)
 
+# np.save(DataDir+'para5_'+str(totalFiles)+'.npy', y_train)
 # -------------------- Save model/weights --------------------------
 
 

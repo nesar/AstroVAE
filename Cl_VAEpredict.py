@@ -92,6 +92,7 @@ camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = trai
 
 (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
+
 x_train = x_train[:,2:]
 x_test = x_test[:,2:]
 
@@ -137,6 +138,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 # ------------------------------------------------------------------------------
 
+# y_train1 = np.load(DataDir+'para5_'+str(totalFiles)+'.npy')
 
 
 X1 = y_train[:, 0][:, np.newaxis]
@@ -160,6 +162,7 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
 # # ------------------------------------------------------------------------------
 y = np.load(DataDir + 'encoded_xtrain_'+str(totalFiles)+'.npy').T
+encoded_xtest_original = np.load(DataDir+'encoded_xtest_'+str(totalFiles)+'.npy')
 
 # ------------------------------------------------------------------------------
 np.set_printoptions(precision=3)
@@ -173,6 +176,10 @@ PlotSampleID = [2, 20, 12, 0, 18, 4, 7]
 max_relError = 0
 ErrTh = 10
 PlotRatio = True
+
+W_predArray = np.zeros(shape=(TestFiles,latent_dim))
+
+
 if PlotRatio:
     # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
     # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,
@@ -183,8 +190,13 @@ if PlotRatio:
     # Cl_Original = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]
     # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
 
-    Cl_Original = normFactor*x_test
-    RealParaArray = y_test
+    Cl_Original = (normFactor*x_test)#[2:3]
+    RealParaArray = y_test#[2:3]
+
+
+    # Cl_Original = (normFactor*x_train)[0:10]
+    # RealParaArray = y_train[0:10]
+
 
 
     for i in range(np.shape(RealParaArray)[0]):
@@ -211,6 +223,7 @@ if PlotRatio:
 
         # ------------------------------------------------------------------------------
 
+        W_predArray[i] = W_pred
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
 
@@ -302,6 +315,36 @@ print(fileOut)
 print
 print('max rel error:', str( (max_relError) ) )
 print(50*'#')
+
+
+
+
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+plt.figure(5343)
+plt.plot(W_predArray/encoded_xtest_original)
+
+
+
+(x_train1, y_train1), (x_test1, y_test1) = camb_in.load_data()
+
+# para5_train, encoded_train
+
+para5_train = y_train1
+encoded_train = np.load(DataDir + 'encoded_xtrain_'+str(totalFiles)+'.npy').T
+
+
+
+
+# para5_new, encoded_testing_new ( to check encoded_test_original
+
+para5_new = y_test1
+encoded_test_original = np.load(DataDir+'encoded_xtest_'+str(totalFiles)+'.npy')
+
+
+
+
 
 # ------------------------------------------------------------------------------
 
