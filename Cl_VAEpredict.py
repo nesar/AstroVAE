@@ -332,7 +332,7 @@ plt.plot(W_predArray/encoded_xtest_original)
 # para5_train, encoded_train
 
 para5_train = y_train1
-encoded_train = np.load(DataDir + 'encoded_xtrain_'+str(totalFiles)+'.npy').T
+encoded_train = np.load(DataDir + 'encoded_xtrain_'+str(totalFiles)+'.npy')
 
 
 
