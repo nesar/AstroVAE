@@ -23,6 +23,14 @@ import Cl_load
 # import SetPub
 # SetPub.set_pub()
 
+
+############### Setting same float, random seeds ##############
+
+np.random.seed(1)
+from tensorflow import set_random_seed
+set_random_seed(2)
+K.set_floatx('float32')
+
 ###################### PARAMETERS ##############################
 
 original_dim = params.original_dim # 2549
@@ -205,6 +213,9 @@ x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size
 
 # plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
 # plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
+
+x_train_noisy = K.cast_to_floatx(x_train_noisy)
+x_train = K.cast_to_floatx(x_train)
 # ------------------------------------------------------------------------------
 
 #TRAIN

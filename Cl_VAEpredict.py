@@ -354,14 +354,20 @@ np.savetxt('encoded_test_original.txt', encoded_test_original)
 
 
 plt.figure(1542)
-plt.plot(encoded_train.T, 'b', alpha = 0.02 )
-plt.plot(encoded_test_original.T, 'r', alpha = 0.2)
-plt.plot(W_predArray.T, 'k--', alpha = 0.3)
+# plt.plot(encoded_train.T, 'b', alpha = 0.02 )
+plt.plot(encoded_test_original.T, 'o', alpha = 0.2)
+plt.plot(W_predArray.T, 'ko', alpha = 0.3)
 plt.show()
 
 
 plt.figure(5343)
-plt.plot(W_predArray/encoded_xtest_original)
+plt.plot(W_predArray/encoded_xtest_original, 'ko', markersize=2)
+plt.yscale('symlog')
+
+
+# plt.figure(5343)
+indCheck = 6
+plt.scatter(W_predArray[:,indCheck], encoded_xtest_original[:,indCheck], c = para5_new[:,0])
 
 
 
@@ -444,3 +450,5 @@ plt.plot(W_predArray/encoded_xtest_original)
 # GP Doesn't seem to interpolate z space
 # Even training points aren't mapped properly!!!
 # Is the z space too weird?
+
+# Is the problems with epison_std being too small??
