@@ -39,7 +39,7 @@ def rescale01(xmin, xmax, f):
 totalFiles = 512
 TestFiles = 32
 
-NoEigenComp = 8
+NoEigenComp = 20
 
 
 
@@ -242,7 +242,7 @@ if PlotSample:
         plt.plot(ls, normFactor*(Prediction[:, 0] * stdy + yRowMean), 'b--', lw = 2, alpha=1.0,
                  label='decoded')
         plt.plot(ls, EMU0, 'r--', alpha=1.0, lw = 2, label='original')
-        plt.xscale('log')
+        # plt.xscale('log')
         # plt.yscale('log')
         plt.xlabel(r'$l$')
         plt.ylabel(r'$C_l$')
@@ -298,7 +298,7 @@ if PlotRatio:
         plt.title('Truncated PCA+GP fit')
         plt.plot(ls, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], alpha=.9,
                  lw = 1.5)
-        plt.xscale('log')
+        # plt.xscale('log')
                 # plt.yscale('log')
         plt.xlabel('l')
         plt.ylabel(r'$C_l^{GP}$/$C_l^_{Original}$')

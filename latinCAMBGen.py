@@ -73,7 +73,7 @@ for i in range(para5.shape[0]):
     sigma8_input = para5[i, 2]
 
     r = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
-
+    # r = 1
     #---------------------------------------------------
 
 

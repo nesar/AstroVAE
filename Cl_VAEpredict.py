@@ -451,4 +451,5 @@ plt.scatter(W_predArray[:,indCheck], encoded_xtest_original[:,indCheck], c = par
 # Even training points aren't mapped properly!!!
 # Is the z space too weird?
 
+# Same problem with my PCA+GP analysis
 # Is the problems with epison_std being too small??

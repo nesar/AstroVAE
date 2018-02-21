@@ -21,7 +21,7 @@ import Cl_load
 totalFiles = 512
 TestFiles = 32
 
-NoEigenComp = 8
+NoEigenComp = 20
 
 
 # ----------------------------- i/o ------------------------------------------
@@ -108,11 +108,11 @@ Pred = np.matmul(K,W)
 ls = np.load(DataDir + 'Latinls_' + str(TestFiles) + '.npy')[2:]
 for i in range(10, 20):
     plt.figure(10)
-    plt.plot(ls, y[:,i]*stdy + yRowMean, 'x', label = 'data')
-    plt.plot(ls, Pred[:,i]*stdy + yRowMean, 'k')
+    plt.plot(ls, y[:,i]*stdy + yRowMean, 'r--', label = 'data', alpha = 0.7)
+    plt.plot(ls, Pred[:,i]*stdy + yRowMean, 'b', alpha = 0.3)
 
-    plt.xscale('log')
-    plt.yscale('log')
+    # plt.xscale('log')
+    # plt.yscale('log')
 
 plt.show()
 
