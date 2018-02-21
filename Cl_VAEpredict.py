@@ -164,6 +164,10 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 y = np.load(DataDir + 'encoded_xtrain_'+str(totalFiles)+'.npy').T
 encoded_xtest_original = np.load(DataDir+'encoded_xtest_'+str(totalFiles)+'.npy')
 
+
+# ymax = y.max()
+# y = y/ymax
+
 # ------------------------------------------------------------------------------
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
@@ -171,7 +175,7 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = [2, 20, 12, 0, 18, 4, 7]
+PlotSampleID = [0, 1, 2, 20, 12, 0, 18, 4, 7]
 
 max_relError = 0
 ErrTh = 10
@@ -224,6 +228,7 @@ if PlotRatio:
         # ------------------------------------------------------------------------------
 
         W_predArray[i] = W_pred
+        # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
 
@@ -322,9 +327,8 @@ print(50*'#')
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-plt.figure(5343)
-plt.plot(W_predArray/encoded_xtest_original)
 
+## Sent to Mickeal  #---------------------------------------------
 
 
 (x_train1, y_train1), (x_test1, y_test1) = camb_in.load_data()
@@ -335,12 +339,52 @@ para5_train = y_train1
 encoded_train = np.load(DataDir + 'encoded_xtrain_'+str(totalFiles)+'.npy')
 
 
-
-
 # para5_new, encoded_testing_new ( to check encoded_test_original
 
 para5_new = y_test1
 encoded_test_original = np.load(DataDir+'encoded_xtest_'+str(totalFiles)+'.npy')
+
+
+
+np.savetxt('para5_train.txt', para5_train)
+np.savetxt('para5_new.txt', para5_new)
+
+np.savetxt('encoded_train.txt', encoded_train)
+np.savetxt('encoded_test_original.txt', encoded_test_original)
+
+
+plt.figure(1542)
+plt.plot(encoded_train.T, 'b', alpha = 0.02 )
+plt.plot(encoded_test_original.T, 'r', alpha = 0.2)
+plt.plot(W_predArray.T, 'k--', alpha = 0.3)
+plt.show()
+
+
+plt.figure(5343)
+plt.plot(W_predArray/encoded_xtest_original)
+
+
+
+# plt.figure(431)
+# import pandas as pd
+#
+# AllLabels = []
+# for ind in np.arange(1, latent_dim+1):
+#     AllLabels.append(str("z{0}".format(ind)))
+#
+# # AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
+# df = pd.DataFrame(encoded_test_original, columns=AllLabels)
+# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
+# df = pd.DataFrame(W_predArray, columns=AllLabels)
+# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
+# plt.show()
+
+
+
+
+
+
+
 
 
 
@@ -392,3 +436,11 @@ encoded_test_original = np.load(DataDir+'encoded_xtest_'+str(totalFiles)+'.npy')
 
 #plt.plot( np.fft.irfft( np.fft.rfft(x_train[0,:]) ), 'r' )
 #plt.plot(x_train[0,:], 'b-.')
+
+
+
+################3333333
+
+# GP Doesn't seem to interpolate z space
+# Even training points aren't mapped properly!!!
+# Is the z space too weird?

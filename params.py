@@ -12,7 +12,7 @@ TestFiles = 32 #128
 batch_size = 8
 num_epochs = 200 #110 #50
 epsilon_mean = 0.0 # 1.0
-epsilon_std = 1e-4 #0.0 # 1.0
+epsilon_std = 0.01 ## original = 1.0, smaller the better 1e-4
 learning_rate =  1e-4
 decay_rate = 1.0
 
