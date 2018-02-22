@@ -25,7 +25,7 @@ DataDir = '../Cl_data/Data/'
 PlotsDir = '../Cl_data/Plots/'
 ModelDir = '../Cl_data/Model/'
 
-fileOut = 'P4LinearModel_tot' + str(num_train) + '_batch' + str(batch_size) + '_lr' + str(
+fileOut = 'P'+str(num_para)+'Model_tot' + str(num_train) + '_batch' + str(batch_size) + '_lr' + str(
     learning_rate) + '_decay' + str(decay_rate) + '_z' + str(latent_dim) + '_epoch' + str(
     num_epochs)
 

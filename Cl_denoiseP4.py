@@ -157,8 +157,8 @@ K.set_value(vae.optimizer.decay, decay_rate)
 # ----------------------------- i/o ------------------------------------------
 
 
-Trainfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_test)+'.txt')
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
 
 x_train = Trainfiles[:, num_para+2:]
 x_test = Testfiles[:, num_para+2:]
@@ -170,7 +170,7 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-ls = np.loadtxt('../Cl_data/Data/P4ls_'+str(num_train)+'.txt')[2:]
+ls = np.loadtxt('../Cl_data/Data/P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 
@@ -189,7 +189,7 @@ normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
-np.savetxt(DataDir+'normfactorP4_'+ fileOut +'.txt', [normFactor])
+np.savetxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt', [normFactor])
 
 
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
@@ -229,8 +229,8 @@ x_train_decoded = decoder.predict(x_train_encoded)
 x_test_encoded = encoder.predict(x_test)
 x_test_decoded = decoder.predict(x_test_encoded)
 
-np.savetxt(DataDir+'encoded_xtrainP4_'+ fileOut +'.txt', x_train_encoded)
-np.savetxt(DataDir+'encoded_xtestP4_'+ fileOut +'.txt', x_test_encoded)
+np.savetxt(DataDir+'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt', x_train_encoded)
+np.savetxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt', x_test_encoded)
 
 # np.save(DataDir+'para5_'+str(num_train)+'.npy', y_train)
 # -------------------- Save model/weights --------------------------
@@ -245,10 +245,10 @@ if SaveModel:
     training_hist = np.vstack([epochs, train_loss, val_loss])
 
 
-    vae.save(ModelDir+'fullAEP4_' + fileOut + '.hdf5')
-    encoder.save(ModelDir + 'EncoderP4_' + fileOut + '.hdf5')
-    decoder.save(ModelDir + 'DecoderP4_' + fileOut + '.hdf5')
-    np.savetxt(ModelDir + 'TrainingHistoryP4_'+fileOut+'.txt', training_hist)
+    vae.save(ModelDir+'fullAEP'+str(num_para)+'_' + fileOut + '.hdf5')
+    encoder.save(ModelDir + 'EncoderP'+str(num_para)+'_' + fileOut + '.hdf5')
+    decoder.save(ModelDir + 'DecoderP'+str(num_para)+'_' + fileOut + '.hdf5')
+    np.savetxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt', training_hist)
 
 # -------------------- Plotting routines --------------------------
 PlotScatter = True
@@ -284,7 +284,7 @@ if PlotSample:
         # plt.yscale('log')
         plt.ylabel('reconstructed/real')
         plt.title('train(red) and test (black)')
-        plt.savefig(PlotsDir + 'Ratio_ttP4'+fileOut+'.png')
+        plt.savefig(PlotsDir + 'Ratio_ttP'+str(num_para)+''+fileOut+'.png')
 
 
         if (i%2 == 1):
@@ -299,7 +299,7 @@ if PlotSample:
             # plt.xscale('log')
             # plt.yscale('log')
             plt.title('Testing: reconstructed (red) and real (blue)')
-            plt.savefig(PlotsDir + 'decoderTestP4' + fileOut + '.png')
+            plt.savefig(PlotsDir + 'decoderTestP'+str(num_para)+'' + fileOut + '.png')
 
     plt.show()
 

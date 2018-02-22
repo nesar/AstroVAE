@@ -69,9 +69,9 @@ if LoadModel:
     # fileOut = 'VanillaModel_tot'+str(num_train)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
 
     # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
-    encoder = load_model(ModelDir + 'EncoderP4_' + fileOut + '.hdf5')
-    decoder = load_model(ModelDir + 'DecoderP4_' + fileOut + '.hdf5')
-    history = np.loadtxt(ModelDir + 'TrainingHistoryP4_'+fileOut+'.txt')
+    encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+'_' + fileOut + '.hdf5')
+    decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+'_' + fileOut + '.hdf5')
+    history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt')
 
 
 import george
@@ -84,8 +84,8 @@ kernel = Matern32Kernel(0.5, ndim=num_para)
 # ----------------------------- i/o ------------------------------------------
 
 
-Trainfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_test)+'.txt')
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
 
 x_train = Trainfiles[:, num_para+2:]
 x_test = Testfiles[:, num_para+2:]
@@ -97,7 +97,7 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-ls = np.loadtxt('../Cl_data/Data/P4ls_'+str(num_train)+'.txt')[2:]
+ls = np.loadtxt('../Cl_data/Data/P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 
@@ -112,7 +112,7 @@ ls = np.loadtxt('../Cl_data/Data/P4ls_'+str(num_train)+'.txt')[2:]
 
 # normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 
-normFactor = np.loadtxt(DataDir+'normfactorP4_'+ fileOut +'.txt')
+normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
 print('-------normalization factor:', normFactor)
 
 x_train = x_train.astype('float32')/normFactor #/ 255.
@@ -159,8 +159,8 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a])[:, :, 0])[:, np.newaxis]
 
 
 # # ------------------------------------------------------------------------------
-y = np.loadtxt(DataDir + 'encoded_xtrainP4_'+ fileOut +'.txt').T
-encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP4_'+ fileOut +'.txt')
+y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
+encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
 
 
 # ymax = y.max()
@@ -187,7 +187,7 @@ if PlotRatio:
     # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(num_test)+'.npy')[:,
     # 2:]) # Original
 
-    # ls = np.loadtxt(DataDir + 'LatinlsP4_' + str(num_test) + '.txt')[2:]#[2::2]
+    # ls = np.loadtxt(DataDir + 'LatinlsP'+str(num_para)+'_' + str(num_test) + '.txt')[2:]#[2::2]
 
     # Cl_Original = np.load(DataDir + 'LatinCl_'+str(num_test)+'.npy')[:,2:]
     # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')
@@ -273,7 +273,7 @@ if PlotRatio:
                      alpha=0.7, label='bad eggs', markersize = '1')
             plt.title(fileOut)
 
-            plt.savefig(PlotsDir + 'TestP4'+fileOut+'.png')
+            plt.savefig(PlotsDir + 'TestP'+str(num_para)+''+fileOut+'.png')
         #plt.show()
         print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
 
@@ -281,7 +281,7 @@ if PlotRatio:
 
     plt.figure(94, figsize=(8,6))
     plt.axhline(y=1, ls='-.', lw=1.5)
-    plt.savefig(PlotsDir + 'RatioP4'+fileOut+'.png')
+    plt.savefig(PlotsDir + 'RatioP'+str(num_para)+''+fileOut+'.png')
 
     #plt.show()
 print(50*'-')
@@ -335,21 +335,21 @@ print(50*'#')
 # # para5_train, encoded_train
 #
 # para5_train = y_train1
-# encoded_train = np.load(DataDir + 'encoded_xtrainP4_'+str(num_train)+'.npy')
+# encoded_train = np.load(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+str(num_train)+'.npy')
 #
 #
 # # para5_new, encoded_testing_new ( to check encoded_test_original
 #
 # para5_new = y_test1
-# encoded_test_original = np.load(DataDir+'encoded_xtestP4_'+str(num_train)+'.npy')
+# encoded_test_original = np.load(DataDir+'encoded_xtestP'+str(num_para)+'_'+str(num_train)+'.npy')
 #
 #
 #
 # np.savetxt('para4_train.txt', para5_train)
 # np.savetxt('para4_new.txt', para5_new)
 #
-# np.savetxt('encoded_trainP4.txt', encoded_train)
-# np.savetxt('encoded_test_originalP4.txt', encoded_test_original)
+# np.savetxt('encoded_trainP'+str(num_para)+'.txt', encoded_train)
+# np.savetxt('encoded_test_originalP'+str(num_para)+'.txt', encoded_test_original)
 #
 #
 # plt.figure(1542)
