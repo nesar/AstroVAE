@@ -13,13 +13,13 @@ Gotta save RowMean, std.dev etc
 import numpy as np
 import scipy.linalg as SL
 import matplotlib.pyplot as plt
-import Cl_load
+# import Cl_load
 # import SetPub
 # SetPub.set_pub()
 
 
-totalFiles = 256
-TestFiles = 16
+num_train = 256
+num_test = 16
 
 NoEigenComp = 16
 
@@ -31,10 +31,10 @@ PlotsDir = '../Cl_data/Plots/'
 ModelDir = '../Cl_data/Model/'
 
 
-train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
-train_target_path =  DataDir + 'LatinCosmoP4'+str(totalFiles)+'.txt'
-test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
-test_target_path =  DataDir + 'LatinCosmoP4'+str(TestFiles)+'.txt'
+# train_path = DataDir + 'LatinClP4_'+str(num_train)+'.npy'
+# train_target_path =  DataDir + 'LatinCosmoP4'+str(num_train)+'.txt'
+# test_path = DataDir + 'LatinClP4_'+str(num_test)+'.npy'
+# test_target_path =  DataDir + 'LatinCosmoP4'+str(num_test)+'.txt'
 
 
 # camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
@@ -43,10 +43,10 @@ test_target_path =  DataDir + 'LatinCosmoP4'+str(TestFiles)+'.txt'
 # (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
 
-x_train = np.load(train_path)
-y_train = np.load(train_target_path)
-x_test = np.load(test_path)
-y_test = np.load(test_target_path)
+# x_train = np.load(train_path)
+# y_train = np.load(train_target_path)
+# x_test = np.load(test_path)
+# y_test = np.load(test_target_path)
 
 
 # Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
@@ -62,8 +62,18 @@ y_test = np.load(test_target_path)
 
 
 
-x_train = x_train[:,2:]
-x_test = x_test[:,2:]
+Trainfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_test)+'.txt')
+
+x_train = Trainfiles[:,6:]
+x_test = Testfiles[:,6:]
+y_train = Trainfiles[:, 0:4]
+y_test =  Testfiles[:, 0:4]
+
+
+
+# x_train = x_train[:,2:]
+# x_test = x_test[:,2:]
 
 # x_train = x_train[:,2::2]
 # x_test = x_test[:,2::2]
@@ -126,7 +136,7 @@ W = np.matmul(W1, y)
 Pred = np.matmul(K,W)
 
 # ls = np.load('../Cl_data/k5.npy')
-ls = np.load(DataDir + 'LatinlsP4_' + str(TestFiles) + '.npy')[2:]
+ls = np.load(DataDir + 'LatinlsP4_' + str(num_test) + '.npy')[2:]
 for i in range(10, 20):
     plt.figure(10)
     plt.plot(ls, y[:,i]*stdy + yRowMean, 'r--', label = 'data', alpha = 0.7)

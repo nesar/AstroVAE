@@ -22,7 +22,7 @@ SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 32
+totalFiles = 16
 
 # OmegaM = np.linspace(0.12, 0.155, totalFiles)
 # Omegab = np.linspace(0.0215, 0.0235, totalFiles)

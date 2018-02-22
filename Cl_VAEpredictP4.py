@@ -257,7 +257,7 @@ if PlotRatio:
         relError = 100*(np.abs(cl_ratio) - 1)
 
         plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
-        # plt.xlim(0.85, 1.15)
+        plt.ylim(0.85, 1.15)
         # plt.xscale('log')
         plt.xlabel(r'$l$')
         plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')

@@ -10,12 +10,17 @@ CAMBFast maybe better?
 CosmoMC works well with CAMB
 """
 
-totalFiles = 1024
+numpara = 4
+ndim = 2551
+totalFiles = 16
+lmax = 2500
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP4'+str(totalFiles)+'.txt')
 
+# print(para5)
+
+
 #Set up a new set of parameters for CAMB
-pars = camb.CAMBparams()
 
 #----------- for sigma_8---------------
 
@@ -41,15 +46,17 @@ pars = camb.CAMBparams()
 # print(results.get_sigma8())
 
 #---------------------------------------
+Allfiles = np.zeros(shape=(totalFiles, numpara + ndim) )
 
+for i in range(totalFiles):
+    print(para5[i])
 
-for i in range(para5.shape[0]):
-    print(i)
+    pars = camb.CAMBparams()
 
     pars.set_cosmology(H0=100*para5[i, 2], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
                        tau=0.06)
     pars.InitPower.set_params(ns=para5[i, 3], r=0)
-    pars.set_for_lmax(2500, lens_potential_accuracy=0);
+    pars.set_for_lmax(lmax, lens_potential_accuracy=0);
 
 
 
@@ -87,12 +94,16 @@ for i in range(para5.shape[0]):
     totCL = powers['total']*r
     unlensedCL = powers['unlensed_scalar']*r
 
-    np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
-    np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
+    Allfiles[i] = np.hstack([para5[i], totCL[:,0] ])
+
+
+    # np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
+    # np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 
 ls = np.arange(totCL.shape[0])
 
-np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
-np.save('../Cl_data/Data/LatinlsP4_'+str(totalFiles)+'.npy', ls)
+# np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
+np.savetxt('../Cl_data/Data/P4ls_'+str(totalFiles)+'.txt', ls)
 
+np.savetxt('../Cl_data/Data/P4Cl_'+str(totalFiles)+'.txt', Allfiles)
 

@@ -36,8 +36,8 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 256
-TestFiles = 16
+num_train = 256
+num_test = 16
 
 NoEigenComp = 16
 
@@ -67,9 +67,6 @@ kernel = Matern32Kernel(0.5, ndim=4)
 # hmf = np.loadtxt('Data/HMF_5Para.txt')
 
 
-
-
-
 # ----------------------------- i/o ------------------------------------------
 
 DataDir = '../Cl_data/Data/'
@@ -77,35 +74,15 @@ PlotsDir = '../Cl_data/Plots/'
 ModelDir = '../Cl_data/Model/'
 
 
-# train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
-# train_target_path =  DataDir + 'LatinPara5P4_'+str(totalFiles)+'.npy'
-# test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
-# test_target_path =  DataDir + 'LatinPara5P4_'+str(TestFiles)+'.npy'
-#
-# camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
-#
-#
-# (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
+Trainfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_test)+'.txt')
 
-Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
-Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
+x_train = Trainfiles[:,6:]
+x_test = Testfiles[:,6:]
+y_train = Trainfiles[:, 0:4]
+y_test =  Testfiles[:, 0:4]
 
-Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
-Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
-
-x_train = Mod256
-x_test = Mod16
-y_train = Para256
-y_test = Para16
-
-
-
-x_train = x_train[:,2:]
-x_test = x_test[:,2:]
-
-# x_train = x_train[:,2::2]
-# x_test = x_test[:,2::2]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
@@ -233,22 +210,22 @@ Prediction = np.matmul(K, W_pred.T)
 
 # Plots for comparison ---------------------------
 
-normFactor = np.load(DataDir + 'normfactorP4_'+str(totalFiles)+'.npy')
+normFactor = np.load(DataDir + 'normfactorP4_'+str(num_train)+'.npy')
 stdy = np.loadtxt(DataDir + 'stdyP4.txt')
 yRowMean = np.loadtxt(DataDir + 'yRowMeanP4.txt')
 
 # k = np.load('../Cl_data/k5.npy')
-ls = np.load(DataDir + 'LatinlsP4_' + str(TestFiles) + '.npy')[2:]
+ls = np.load(DataDir + 'P4ls_' + str(num_test) + '.npy')[2:]
 # EMU0 = np.loadtxt('../Cl_data/EMU0.txt')[:,1] # Generated from CosmicEmu -- original value
 
 PlotSample = True
 if PlotSample:
         nsize0 = 16  ## SAMPLE
         # ls = np.load(DataDir + 'ls_' + str(nsize0) + '.npy')[2:]
-        EMU0 = np.load(DataDir+ 'LatinClP4_' + str(TestFiles) + '.npy')[0, 2:]  # Generated from
+        EMU0 = np.load(DataDir+ 'LatinClP4_' + str(num_test) + '.npy')[0, 2:]  # Generated from
         # CosmicEmu --
     # original value
-    #     normFactor = np.load(DataDir + 'normfactor_' + str(TestFiles) + '.npy')
+    #     normFactor = np.load(DataDir + 'normfactor_' + str(num_test) + '.npy')
 
     # for i in range(2):
         plt.figure(91, figsize=(8,6))
@@ -275,11 +252,11 @@ max_relError = 0
 PlotRatio = True
 if PlotRatio:
 
-    PkOriginal = np.load(DataDir + 'LatinClP4_'+str(TestFiles)+'.npy')[:,2:] # Generated from
+    PkOriginal = np.load(DataDir + 'LatinClP4_'+str(num_test)+'.npy')[:,2:] # Generated from
     # CosmicEmu --
     # original
     # value
-    RealParaArray = np.load(DataDir + 'LatinPara5P4_'+str(TestFiles)+'.npy')
+    RealParaArray = np.load(DataDir + 'LatinPara5P4_'+str(num_test)+'.npy')
 
     # RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
 
@@ -336,7 +313,7 @@ if PlotRatio:
 
 
 
-PlotScatter = True
+PlotScatter = False
 if PlotScatter:
     plt.figure(431)
     import pandas as pd
