@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import keras.backend as K
 
 import params
-import Cl_load
+# import Cl_load
 # import SetPub
 # SetPub.set_pub()
 
@@ -38,8 +38,10 @@ intermediate_dim1 = params.intermediate_dim1 # 512
 intermediate_dim = params.intermediate_dim # 256
 latent_dim = params.latent_dim # 10
 
-totalFiles = params.totalFiles # 512
-TestFiles = params.TestFiles # 32
+num_train = params.num_train # 512
+num_test = params.num_test # 32
+num_para = params.num_para # 5
+
 
 batch_size = params.batch_size # 8
 num_epochs = params.num_epochs # 100
@@ -154,48 +156,27 @@ K.set_value(vae.optimizer.decay, decay_rate)
 
 # ----------------------------- i/o ------------------------------------------
 
-# train_path = DataDir+'LatinClP4_'+str(totalFiles)+'.npy'
-# train_target_path =  DataDir+'LatinPara5P4_'+str(totalFiles)+'.npy'
-# test_path = DataDir+'LatinClP4_'+str(TestFiles)+'.npy'
-# test_target_path =  DataDir+'LatinPara5P4_'+str(TestFiles)+'.npy'
-#
-# camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
-#
-#
-# (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-#----------------------------------- Data from Mickael -------------------------------------
+Trainfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_test)+'.txt')
 
-Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
-Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
-
-Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
-Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
-
-x_train = Mod256
-x_test = Mod16
-y_train = Para256
-y_test = Para16
-#---------------------------------------------------------------------------------------
-
-
-x_train = x_train[:,2:] #
-x_test =  x_test[:,2:] #
-
-# x_train = x_train[:,2::2] #
-# x_test =  x_test[:,2::2] #
+x_train = Trainfiles[:, num_para+2:]
+x_test = Testfiles[:, num_para+2:]
+y_train = Trainfiles[:, 0: num_para]
+y_test =  Testfiles[:, 0: num_para]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
+#----------------------------------------------------------------------------
 
 # meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
 # print('-------mean factor:', meanFactor)
 # x_train = x_train.astype('float32') - meanFactor #/ 255.
 # x_test = x_test.astype('float32') - meanFactor #/ 255.
-# np.save(DataDir+'meanfactor_'+str(totalFiles)+'.npy', meanFactor)
+# np.save(DataDir+'meanfactor_'+str(num_train)+'.npy', meanFactor)
 #
 
 # x_train = np.log10(x_train) #x_train[:,2:] #
@@ -206,7 +187,7 @@ normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
-np.save(DataDir+'normfactorP4_'+str(totalFiles)+'.npy', normFactor)
+np.save(DataDir+'normfactorP4_'+str(num_train)+'.npy', normFactor)
 
 
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
@@ -246,10 +227,10 @@ x_train_decoded = decoder.predict(x_train_encoded)
 x_test_encoded = encoder.predict(x_test)
 x_test_decoded = decoder.predict(x_test_encoded)
 
-np.save(DataDir+'encoded_xtrainP4_'+str(totalFiles)+'.npy', x_train_encoded)
-np.save(DataDir+'encoded_xtestP4_'+str(totalFiles)+'.npy', x_test_encoded)
+np.save(DataDir+'encoded_xtrainP4_'+str(num_train)+'.npy', x_train_encoded)
+np.save(DataDir+'encoded_xtestP4_'+str(num_train)+'.npy', x_test_encoded)
 
-# np.save(DataDir+'para5_'+str(totalFiles)+'.npy', y_train)
+# np.save(DataDir+'para5_'+str(num_train)+'.npy', y_train)
 # -------------------- Save model/weights --------------------------
 
 
@@ -284,8 +265,8 @@ if PlotScatter:
     plt.savefig( PlotsDir + 'Scatter_z'+fileOut+'.png')
 
 
-# ls = np.log10(np.load(DataDir+'ls_'+str(totalFiles)+'.npy')[2::2])
-ls = np.load(DataDir+'LatinlsP4_'+str(totalFiles)+'.npy')[2:]
+# ls = np.log10(np.load(DataDir+'ls_'+str(num_train)+'.npy')[2::2])
+ls = np.load(DataDir+'LatinlsP4_'+str(num_train)+'.npy')[2:]
 
 PlotSample = True
 if PlotSample:

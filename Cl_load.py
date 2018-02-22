@@ -33,7 +33,7 @@ class cmb_profile:
         # num_train = int((1 - self.test_split) * num_files)
 
         num_train = len(trainData)
-        # np.random.seed(1234)
+        np.random.seed(1234)
         shuffleOrder = np.arange(num_train)
         # np.random.shuffle(shuffleOrder)
         self.x_train = trainData[shuffleOrder]

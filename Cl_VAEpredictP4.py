@@ -38,8 +38,9 @@ intermediate_dim1 = params.intermediate_dim1 # 512
 intermediate_dim = params.intermediate_dim # 256
 latent_dim = params.latent_dim # 10
 
-totalFiles = params.totalFiles # 512
-TestFiles = params.TestFiles # 32
+num_train = params.num_train # 512
+num_test = params.num_test # 32
+num_para = params.num_para # 5
 
 batch_size = params.batch_size # 8
 num_epochs = params.num_epochs # 100
@@ -65,7 +66,7 @@ fileOut = params.fileOut
 LoadModel = True
 if LoadModel:
 
-    # fileOut = 'VanillaModel_tot'+str(totalFiles)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
+    # fileOut = 'VanillaModel_tot'+str(num_train)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
 
     # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
     encoder = load_model(ModelDir + 'EncoderP4_' + fileOut + '.hdf5')
@@ -76,49 +77,28 @@ if LoadModel:
 import george
 from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel, Matern52Kernel
 
-kernel = ConstantKernel(0.5, ndim=4) * Matern52Kernel(0.9, ndim=4) + WhiteKernel(0.1, ndim=4)
-# kernel = Matern32Kernel(0.5, ndim=4)
+kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel(0.1,
+                                                                                         ndim=num_para)
+# kernel = Matern32Kernel(0.5, ndim=num_para)
+
 
 # ----------------------------- i/o ------------------------------------------
 
 
-# train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
-# train_target_path =  DataDir + 'LatinPara5P4_'+str(totalFiles)+'.npy'
-# test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
-# test_target_path =  DataDir + 'LatinPara5P4_'+str(TestFiles)+'.npy'
-#
-# camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
-#
-#
-# (x_train, y_train), (x_test, y_test) = camb_in.load_data()
+Trainfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_test)+'.txt')
 
-#----------------------------------- Data from Mickael -------------------------------------
-
-Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
-Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
-
-Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
-Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
-
-x_train = Mod256
-x_test = Mod16
-y_train = Para256
-y_test = Para16
-#---------------------------------------------------------------------------------------
-
-
-
-x_train = x_train[:,2:]
-x_test = x_test[:,2:]
-
-# x_train = x_train[:,2::2]
-# x_test = x_test[:,2::2]
+x_train = Trainfiles[:, num_para+2:]
+x_test = Testfiles[:, num_para+2:]
+y_train = Trainfiles[:, 0: num_para]
+y_test =  Testfiles[:, 0: num_para]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
+#----------------------------------------------------------------------------
 
 # meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
 # print('-------mean factor:', meanFactor)
@@ -153,7 +133,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 # ------------------------------------------------------------------------------
 
-# y_train1 = np.load(DataDir+'para5_'+str(totalFiles)+'.npy')
+# y_train1 = np.load(DataDir+'para5_'+str(num_train)+'.npy')
 
 
 X1 = y_train[:, 0][:, np.newaxis]
@@ -176,8 +156,8 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a])[:, :, 0])[:, np.newaxis]
 
 
 # # ------------------------------------------------------------------------------
-y = np.load(DataDir + 'encoded_xtrainP4_'+str(totalFiles)+'.npy').T
-encoded_xtest_original = np.load(DataDir+'encoded_xtestP4_'+str(totalFiles)+'.npy')
+y = np.load(DataDir + 'encoded_xtrainP4_'+str(num_train)+'.npy').T
+encoded_xtest_original = np.load(DataDir+'encoded_xtestP4_'+str(num_train)+'.npy')
 
 
 # ymax = y.max()
@@ -196,18 +176,18 @@ max_relError = 0
 ErrTh = 1
 PlotRatio = True
 
-W_predArray = np.zeros(shape=(TestFiles,latent_dim))
+W_predArray = np.zeros(shape=(num_test,latent_dim))
 
 
 if PlotRatio:
-    # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(TestFiles) + '.npy')[2:])
-    # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(TestFiles)+'.npy')[:,
+    # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(num_test) + '.npy')[2:])
+    # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(num_test)+'.npy')[:,
     # 2:]) # Original
 
-    ls = np.load(DataDir + 'LatinlsP4_' + str(TestFiles) + '.npy')[2:]#[2::2]
+    ls = np.load(DataDir + 'LatinlsP4_' + str(num_test) + '.npy')[2:]#[2::2]
 
-    # Cl_Original = np.load(DataDir + 'LatinCl_'+str(TestFiles)+'.npy')[:,2:]
-    # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(TestFiles)+'.npy')
+    # Cl_Original = np.load(DataDir + 'LatinCl_'+str(num_test)+'.npy')[:,2:]
+    # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')
 
     Cl_Original = (normFactor*x_test)#[2:3]
     RealParaArray = y_test#[2:3]
@@ -352,13 +332,13 @@ print(50*'#')
 # # para5_train, encoded_train
 #
 # para5_train = y_train1
-# encoded_train = np.load(DataDir + 'encoded_xtrainP4_'+str(totalFiles)+'.npy')
+# encoded_train = np.load(DataDir + 'encoded_xtrainP4_'+str(num_train)+'.npy')
 #
 #
 # # para5_new, encoded_testing_new ( to check encoded_test_original
 #
 # para5_new = y_test1
-# encoded_test_original = np.load(DataDir+'encoded_xtestP4_'+str(totalFiles)+'.npy')
+# encoded_test_original = np.load(DataDir+'encoded_xtestP4_'+str(num_train)+'.npy')
 #
 #
 #

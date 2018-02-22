@@ -6,8 +6,9 @@ intermediate_dim1 = 512#/2 #
 intermediate_dim = 256#/2 #
 latent_dim = 16
 
-totalFiles = 256
-TestFiles = 16 #128
+num_train = 256
+num_test = 16 #128
+num_para = 4
 
 batch_size = 4
 num_epochs = 200 #110 #50
@@ -24,7 +25,7 @@ DataDir = '../Cl_data/Data/'
 PlotsDir = '../Cl_data/Plots/'
 ModelDir = '../Cl_data/Model/'
 
-fileOut = 'P4LinearModel_tot' + str(totalFiles) + '_batch' + str(batch_size) + '_lr' + str(
+fileOut = 'P4LinearModel_tot' + str(num_train) + '_batch' + str(batch_size) + '_lr' + str(
     learning_rate) + '_decay' + str(decay_rate) + '_z' + str(latent_dim) + '_epoch' + str(
     num_epochs)
 
