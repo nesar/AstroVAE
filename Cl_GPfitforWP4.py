@@ -39,7 +39,7 @@ def rescale01(xmin, xmax, f):
 totalFiles = 256
 TestFiles = 16
 
-NoEigenComp = 20
+NoEigenComp = 16
 
 
 
@@ -215,10 +215,10 @@ test_pts = RealPara.reshape(4, -1).T
 
 W_pred = np.array([np.zeros(shape=NoEigenComp)])
 gp={}
-for i in range(NoEigenComp):
-    gp["fit{0}".format(i)]= george.GP(kernel)
-    gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
-    W_pred[:,i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
+for j in range(NoEigenComp):
+    gp["fit{0}".format(j)]= george.GP(kernel)
+    gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
+    W_pred[:,j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
 # ------------------------------------------------------------------------------
 
@@ -270,6 +270,7 @@ plt.show()
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
+max_relError = 0
 
 PlotRatio = True
 if PlotRatio:
@@ -308,17 +309,24 @@ if PlotRatio:
         # K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
         Prediction = np.matmul(K, W_pred.T)
 
+        cl_ratio = normFactor * (Prediction[:, 0] * stdy + yRowMean) / PkOriginal[i]
+
 
         plt.figure(94, figsize=(8,6))
         plt.title('Truncated PCA+GP fit')
-        plt.plot(ls, normFactor*(Prediction[:, 0] * stdy + yRowMean)/PkOriginal[i], alpha=.9,
-                 lw = 1.5)
+        plt.plot(ls, cl_ratio , alpha=.9, lw = 1.5)
         # plt.xscale('log')
                 # plt.yscale('log')
         plt.xlabel('l')
         plt.ylabel(r'$C_l^{GP}$/$C_l^{Original}$')
                 # plt.legend()
                 # plt.tight_layout()
+
+        relError = 100*(np.abs(cl_ratio) - 1)
+
+        max_relError = np.max( [np.max(relError) , max_relError] )
+
+
     plt.axhline(y=1, ls = '-.', lw = 1.5)
     plt.savefig(PlotsDir + 'GP_PCA_ratioP4.png')
 
@@ -328,7 +336,7 @@ if PlotRatio:
 
 
 
-PlotScatter = False
+PlotScatter = True
 if PlotScatter:
     plt.figure(431)
     import pandas as pd
@@ -356,3 +364,7 @@ if PlotScatter:
 
 
 
+print(50*'#')
+print
+print('max rel error:', str( (max_relError) ) )
+print(50*'#')

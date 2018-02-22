@@ -21,7 +21,7 @@ import Cl_load
 totalFiles = 256
 TestFiles = 16
 
-NoEigenComp = 20
+NoEigenComp = 16
 
 
 # ----------------------------- i/o ------------------------------------------
@@ -31,10 +31,10 @@ PlotsDir = '../Cl_data/Plots/'
 ModelDir = '../Cl_data/Model/'
 
 
-# train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
-# train_target_path =  DataDir + 'LatinPara5P4_'+str(totalFiles)+'.npy'
-# test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
-# test_target_path =  DataDir + 'LatinPara5P4_'+str(TestFiles)+'.npy'
+train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
+train_target_path =  DataDir + 'LatinCosmoP4'+str(totalFiles)+'.txt'
+test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
+test_target_path =  DataDir + 'LatinCosmoP4'+str(TestFiles)+'.txt'
 
 
 # camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
@@ -43,17 +43,22 @@ ModelDir = '../Cl_data/Model/'
 # (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
 
+x_train = np.load(train_path)
+y_train = np.load(train_target_path)
+x_test = np.load(test_path)
+y_test = np.load(test_target_path)
 
-Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
-Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
 
-Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
-Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
-
-x_train = Mod256
-x_test = Mod16
-y_train = Para256
-y_test = Para16
+# Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
+# Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
+#
+# Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
+# Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
+#
+# x_train = Mod256
+# x_test = Mod16
+# y_train = Para256
+# y_test = Para16
 
 
 

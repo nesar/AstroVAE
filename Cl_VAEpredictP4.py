@@ -76,8 +76,8 @@ if LoadModel:
 import george
 from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel, Matern52Kernel
 
-# kernel = ConstantKernel(0.5, ndim=4) * Matern52Kernel(0.9, ndim=4) + WhiteKernel(0.1, ndim=4)
-kernel = Matern32Kernel(0.5, ndim=4)
+kernel = ConstantKernel(0.5, ndim=4) * Matern52Kernel(0.9, ndim=4) + WhiteKernel(0.1, ndim=4)
+# kernel = Matern32Kernel(0.5, ndim=4)
 
 # ----------------------------- i/o ------------------------------------------
 
@@ -193,7 +193,7 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 PlotSampleID = [0, 1, 2,  12, 0, 4, 7]
 
 max_relError = 0
-ErrTh = 5
+ErrTh = 1
 PlotRatio = True
 
 W_predArray = np.zeros(shape=(TestFiles,latent_dim))
@@ -254,10 +254,10 @@ if PlotRatio:
         cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
 
 
-        relError = 100*np.abs(cl_ratio - 1)
+        relError = 100*(np.abs(cl_ratio) - 1)
 
         plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
-
+        # plt.xlim(0.85, 1.15)
         # plt.xscale('log')
         plt.xlabel(r'$l$')
         plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
@@ -276,8 +276,8 @@ if PlotRatio:
             # plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
             # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
 
-            plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
-            plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
+            plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+            plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1, label = 'original')
 
 
             # plt.xscale('log')
@@ -286,7 +286,8 @@ if PlotRatio:
             plt.legend()
             # plt.tight_layout()
 
-            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.3, label='bad eggs', markersize = '1')
+            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx',
+                     alpha=0.7, label='bad eggs', markersize = '1')
             plt.title(fileOut)
 
             plt.savefig(PlotsDir + 'TestP4'+fileOut+'.png')
@@ -389,7 +390,7 @@ print(50*'#')
 # plt.scatter(W_predArray[:,indCheck], encoded_xtest_original[:,indCheck], c = para5_new[:,0])
 
 
-PlotScatter = True
+PlotScatter = False
 if PlotScatter:
     plt.figure(431)
     import pandas as pd
