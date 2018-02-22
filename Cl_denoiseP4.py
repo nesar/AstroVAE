@@ -170,6 +170,8 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
+ls = np.loadtxt('../Cl_data/Data/P4ls_'+str(num_train)+'.txt')[2:]
+
 #----------------------------------------------------------------------------
 
 # meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
@@ -187,7 +189,7 @@ normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
-np.save(DataDir+'normfactorP4_'+str(num_train)+'.npy', normFactor)
+np.savetxt(DataDir+'normfactorP4_'+ fileOut +'.txt', [normFactor])
 
 
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
@@ -227,8 +229,8 @@ x_train_decoded = decoder.predict(x_train_encoded)
 x_test_encoded = encoder.predict(x_test)
 x_test_decoded = decoder.predict(x_test_encoded)
 
-np.save(DataDir+'encoded_xtrainP4_'+str(num_train)+'.npy', x_train_encoded)
-np.save(DataDir+'encoded_xtestP4_'+str(num_train)+'.npy', x_test_encoded)
+np.savetxt(DataDir+'encoded_xtrainP4_'+ fileOut +'.txt', x_train_encoded)
+np.savetxt(DataDir+'encoded_xtestP4_'+ fileOut +'.txt', x_test_encoded)
 
 # np.save(DataDir+'para5_'+str(num_train)+'.npy', y_train)
 # -------------------- Save model/weights --------------------------
@@ -246,7 +248,7 @@ if SaveModel:
     vae.save(ModelDir+'fullAEP4_' + fileOut + '.hdf5')
     encoder.save(ModelDir + 'EncoderP4_' + fileOut + '.hdf5')
     decoder.save(ModelDir + 'DecoderP4_' + fileOut + '.hdf5')
-    np.save(ModelDir + 'TrainingHistoryP4_'+fileOut+'.npy', training_hist)
+    np.savetxt(ModelDir + 'TrainingHistoryP4_'+fileOut+'.txt', training_hist)
 
 # -------------------- Plotting routines --------------------------
 PlotScatter = True
@@ -265,8 +267,6 @@ if PlotScatter:
     plt.savefig( PlotsDir + 'Scatter_z'+fileOut+'.png')
 
 
-# ls = np.log10(np.load(DataDir+'ls_'+str(num_train)+'.npy')[2::2])
-ls = np.load(DataDir+'LatinlsP4_'+str(num_train)+'.npy')[2:]
 
 PlotSample = True
 if PlotSample:

@@ -4,13 +4,13 @@ original_dim = 2549#/2 +1  #2551 # mnist ~ 784
 intermediate_dim2 = 1024#/2 #
 intermediate_dim1 = 512#/2 #
 intermediate_dim = 256#/2 #
-latent_dim = 16
+latent_dim = 20
 
 num_train = 256
 num_test = 16 #128
 num_para = 4
 
-batch_size = 4
+batch_size = 8
 num_epochs = 200 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1e-4 ## original = 1.0, smaller the better 1e-4

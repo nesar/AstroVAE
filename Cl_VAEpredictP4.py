@@ -71,15 +71,14 @@ if LoadModel:
     # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
     encoder = load_model(ModelDir + 'EncoderP4_' + fileOut + '.hdf5')
     decoder = load_model(ModelDir + 'DecoderP4_' + fileOut + '.hdf5')
-    history = np.load(ModelDir + 'TrainingHistoryP4_'+fileOut+'.npy')
+    history = np.loadtxt(ModelDir + 'TrainingHistoryP4_'+fileOut+'.txt')
 
 
 import george
 from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel, Matern52Kernel
 
-kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel(0.1,
-                                                                                         ndim=num_para)
-# kernel = Matern32Kernel(0.5, ndim=num_para)
+# kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
+kernel = Matern32Kernel(0.5, ndim=num_para)
 
 
 # ----------------------------- i/o ------------------------------------------
@@ -98,6 +97,8 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
+ls = np.loadtxt('../Cl_data/Data/P4ls_'+str(num_train)+'.txt')[2:]
+
 #----------------------------------------------------------------------------
 
 # meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
@@ -109,7 +110,9 @@ print(y_test.shape, 'test sequences')
 # x_train = np.log10(x_train) #x_train[:,2:] #
 # x_test =  np.log10(x_test) #x_test[:,2:] #
 
-normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+# normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+
+normFactor = np.loadtxt(DataDir+'normfactorP4_'+ fileOut +'.txt')
 print('-------normalization factor:', normFactor)
 
 x_train = x_train.astype('float32')/normFactor #/ 255.
@@ -156,8 +159,8 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a])[:, :, 0])[:, np.newaxis]
 
 
 # # ------------------------------------------------------------------------------
-y = np.load(DataDir + 'encoded_xtrainP4_'+str(num_train)+'.npy').T
-encoded_xtest_original = np.load(DataDir+'encoded_xtestP4_'+str(num_train)+'.npy')
+y = np.loadtxt(DataDir + 'encoded_xtrainP4_'+ fileOut +'.txt').T
+encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP4_'+ fileOut +'.txt')
 
 
 # ymax = y.max()
@@ -184,7 +187,7 @@ if PlotRatio:
     # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(num_test)+'.npy')[:,
     # 2:]) # Original
 
-    ls = np.load(DataDir + 'LatinlsP4_' + str(num_test) + '.npy')[2:]#[2::2]
+    # ls = np.loadtxt(DataDir + 'LatinlsP4_' + str(num_test) + '.txt')[2:]#[2::2]
 
     # Cl_Original = np.load(DataDir + 'LatinCl_'+str(num_test)+'.npy')[:,2:]
     # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')

@@ -10,12 +10,14 @@ CAMBFast maybe better?
 CosmoMC works well with CAMB
 """
 
-totalFiles = 32
+num_para = 5
+ndim = 2551
+totalFiles = 16
+lmax = 2500
 
-para5 = np.loadtxt('../Cl_data/Data/LatinCosmo'+str(totalFiles)+'.txt')
+para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 
 #Set up a new set of parameters for CAMB
-pars = camb.CAMBparams()
 
 #----------- for sigma_8---------------
 
@@ -43,8 +45,12 @@ pars = camb.CAMBparams()
 #---------------------------------------
 
 
-for i in range(para5.shape[0]):
-    # print(i)
+Allfiles = np.zeros(shape=(totalFiles, num_para + ndim) )
+
+for i in range(totalFiles):
+    print(para5[i])
+
+    pars = camb.CAMBparams()
 
     pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0, tau=0.06)
     pars.InitPower.set_params(ns=para5[i, 4], r=0)
@@ -77,21 +83,29 @@ for i in range(para5.shape[0]):
     #---------------------------------------------------
 
 
-    #calculate results for these parameters
+
+    # calculate results for these parameters
     results = camb.get_results(pars)
 
-    #get dictionary of CAMB power spectra
-    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
+    # get dictionary of CAMB power spectra
+    powers = results.get_cmb_power_spectra(pars, CMB_unit='muK')
 
-    totCL = powers['total']*r
-    unlensedCL = powers['unlensed_scalar']*r
+    totCL = powers['total'] * r
+    unlensedCL = powers['unlensed_scalar'] * r
 
-    np.save('../Cl_data/Data/LatintotCL'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
-    np.save('../Cl_data/Data/LatinunlensedCL'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
+    Allfiles[i] = np.hstack([para5[i], totCL[:, 0]])
+
+
+    # np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
+    # np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 
 ls = np.arange(totCL.shape[0])
 
-np.save('../Cl_data/Data/LatinPara5_'+str(totalFiles)+'.npy', para5)
-np.save('../Cl_data/Data/Latinls_'+str(totalFiles)+'.npy', ls)
+# np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
+np.savetxt('../Cl_data/Data/P5ls_' + str(totalFiles) + '.txt', ls)
+
+np.savetxt('../Cl_data/Data/P5Cl_' + str(totalFiles) + '.txt', Allfiles)
+
+
 
 
