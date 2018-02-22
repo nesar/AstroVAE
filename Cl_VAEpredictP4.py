@@ -74,9 +74,9 @@ if LoadModel:
 
 
 import george
-from george.kernels import Matern32Kernel #, ConstantKernel, WhiteKernel, Matern52Kernel
+from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel, Matern52Kernel
 
-# kernel = ConstantKernel(0.5, ndim=5) * Matern52Kernel(0.9, ndim=5) + WhiteKernel(0.1, ndim=5)
+# kernel = ConstantKernel(0.5, ndim=4) * Matern52Kernel(0.9, ndim=4) + WhiteKernel(0.1, ndim=4)
 kernel = Matern32Kernel(0.5, ndim=4)
 
 # ----------------------------- i/o ------------------------------------------
@@ -271,7 +271,7 @@ if PlotRatio:
             plt.legend()
             # plt.tight_layout()
 
-            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.8, label='bad eggs', markersize = '1')
+            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx', alpha=0.3, label='bad eggs', markersize = '1')
             plt.title(fileOut)
 
             plt.savefig(PlotsDir + 'TestP4'+fileOut+'.png')
@@ -346,8 +346,8 @@ encoded_test_original = np.load(DataDir+'encoded_xtestP4_'+str(totalFiles)+'.npy
 
 
 
-np.savetxt('para5_trainP4.txt', para5_train)
-np.savetxt('para5_newP4.txt', para5_new)
+np.savetxt('para4_train.txt', para5_train)
+np.savetxt('para4_new.txt', para5_new)
 
 np.savetxt('encoded_trainP4.txt', encoded_train)
 np.savetxt('encoded_test_originalP4.txt', encoded_test_original)
@@ -355,45 +355,46 @@ np.savetxt('encoded_test_originalP4.txt', encoded_test_original)
 
 plt.figure(1542)
 # plt.plot(encoded_train.T, 'b', alpha = 0.02 )
-plt.plot(encoded_test_original.T, 'o', alpha = 0.2)
-plt.plot(W_predArray.T, 'ko', alpha = 0.3)
+plt.plot(encoded_test_original.T, 'r', alpha = 0.2)
+plt.plot(W_predArray.T, 'k--', alpha = 0.3)
 plt.show()
-
-
-plt.figure(5343)
-plt.plot(W_predArray/encoded_xtest_original, 'ko', markersize=2)
-plt.yscale('symlog')
-
-
+#
+#
 # plt.figure(5343)
-indCheck = 6
-plt.scatter(W_predArray[:,indCheck], encoded_xtest_original[:,indCheck], c = para5_new[:,0])
+# plt.plot(W_predArray/encoded_xtest_original, 'ko', markersize=2)
+# plt.yscale('symlog')
+#
+#
+# # plt.figure(5343)
+# indCheck = 6
+# plt.scatter(W_predArray[:,indCheck], encoded_xtest_original[:,indCheck], c = para5_new[:,0])
 
 
+PlotScatter = False
+if PlotScatter:
+    plt.figure(431)
+    import pandas as pd
 
-plt.figure(431)
-import pandas as pd
+    AllLabels = []
 
-AllLabels = []
+    for ind in np.arange(1, 4+1):
+        AllLabels.append(str("v{0}".format(ind)))
 
-for ind in np.arange(1, 4+1):
-    AllLabels.append(str("v{0}".format(ind)))
-
-for ind in np.arange(1, latent_dim+1):
-    AllLabels.append(str("z{0}".format(ind)))
-
-
-inputArray = np.hstack([y_train, encoded_train])
-df = pd.DataFrame(inputArray, columns=AllLabels)
-axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
+    for ind in np.arange(1, latent_dim+1):
+        AllLabels.append(str("z{0}".format(ind)))
 
 
-# AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
-# df = pd.DataFrame(encoded_test_original, columns=AllLabels)
-# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
-# df = pd.DataFrame(  W_predArray, columns=AllLabels)
-# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
-plt.show()
+    inputArray = np.hstack([y_train, encoded_train])
+    df = pd.DataFrame(inputArray, columns=AllLabels)
+    axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
+
+
+    # AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
+    # df = pd.DataFrame(encoded_test_original, columns=AllLabels)
+    # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
+    # df = pd.DataFrame(  W_predArray, columns=AllLabels)
+    # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
+    plt.show()
 
 
 

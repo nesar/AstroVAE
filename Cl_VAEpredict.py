@@ -371,19 +371,34 @@ plt.scatter(W_predArray[:,indCheck], encoded_xtest_original[:,indCheck], c = par
 
 
 
-# plt.figure(431)
-# import pandas as pd
-#
-# AllLabels = []
-# for ind in np.arange(1, latent_dim+1):
-#     AllLabels.append(str("z{0}".format(ind)))
-#
-# # AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
-# df = pd.DataFrame(encoded_test_original, columns=AllLabels)
-# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
-# df = pd.DataFrame(W_predArray, columns=AllLabels)
-# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
-# plt.show()
+
+PlotScatter = True
+if PlotScatter:
+    plt.figure(431)
+    import pandas as pd
+
+    AllLabels = []
+
+    for ind in np.arange(1, 5+1):
+        AllLabels.append(str("v{0}".format(ind)))
+
+    for ind in np.arange(1, latent_dim+1):
+        AllLabels.append(str("z{0}".format(ind)))
+
+
+    inputArray = np.hstack([y_train, encoded_train])
+    df = pd.DataFrame(inputArray, columns=AllLabels)
+    axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
+
+
+    # AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
+    # df = pd.DataFrame(encoded_test_original, columns=AllLabels)
+    # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
+    # df = pd.DataFrame(  W_predArray, columns=AllLabels)
+    # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
+    plt.show()
+
+
 
 
 

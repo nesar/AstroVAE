@@ -10,7 +10,7 @@ CAMBFast maybe better?
 CosmoMC works well with CAMB
 """
 
-totalFiles = 256
+totalFiles = 1024
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP4'+str(totalFiles)+'.txt')
 
@@ -44,7 +44,7 @@ pars = camb.CAMBparams()
 
 
 for i in range(para5.shape[0]):
-    # print(i)
+    print(i)
 
     pars.set_cosmology(H0=100*para5[i, 2], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
                        tau=0.06)
