@@ -4,7 +4,6 @@ Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoenco
 
 """
 import numpy as np
-np.random.seed(1337) # for reproducibility
 
 
 from keras.layers import Input, Dense, Lambda
@@ -155,15 +154,30 @@ K.set_value(vae.optimizer.decay, decay_rate)
 
 # ----------------------------- i/o ------------------------------------------
 
-train_path = DataDir+'LatinClP4_'+str(totalFiles)+'.npy'
-train_target_path =  DataDir+'LatinPara5P4_'+str(totalFiles)+'.npy'
-test_path = DataDir+'LatinClP4_'+str(TestFiles)+'.npy'
-test_target_path =  DataDir+'LatinPara5P4_'+str(TestFiles)+'.npy'
+# train_path = DataDir+'LatinClP4_'+str(totalFiles)+'.npy'
+# train_target_path =  DataDir+'LatinPara5P4_'+str(totalFiles)+'.npy'
+# test_path = DataDir+'LatinClP4_'+str(TestFiles)+'.npy'
+# test_target_path =  DataDir+'LatinPara5P4_'+str(TestFiles)+'.npy'
+#
+# camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+#
+#
+# (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+#----------------------------------- Data from Mickael -------------------------------------
 
+Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
+Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
 
-(x_train, y_train), (x_test, y_test) = camb_in.load_data()
+Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
+Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
+
+x_train = Mod256
+x_test = Mod16
+y_train = Para256
+y_test = Para16
+#---------------------------------------------------------------------------------------
+
 
 x_train = x_train[:,2:] #
 x_test =  x_test[:,2:] #

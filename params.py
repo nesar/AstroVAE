@@ -4,10 +4,10 @@ original_dim = 2549#/2 +1  #2551 # mnist ~ 784
 intermediate_dim2 = 1024#/2 #
 intermediate_dim1 = 512#/2 #
 intermediate_dim = 256#/2 #
-latent_dim = 16
+latent_dim = 20
 
-totalFiles = 512
-TestFiles = 32 #128
+totalFiles = 256
+TestFiles = 16 #128
 
 batch_size = 8
 num_epochs = 200 #110 #50
@@ -24,7 +24,7 @@ DataDir = '../Cl_data/Data/'
 PlotsDir = '../Cl_data/Plots/'
 ModelDir = '../Cl_data/Model/'
 
-fileOut = 'LinearModel_tot' + str(totalFiles) + '_batch' + str(batch_size) + '_lr' + str(
+fileOut = 'P4LinearModel_tot' + str(totalFiles) + '_batch' + str(batch_size) + '_lr' + str(
     learning_rate) + '_decay' + str(decay_rate) + '_z' + str(latent_dim) + '_epoch' + str(
     num_epochs)
 

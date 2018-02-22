@@ -39,7 +39,7 @@ def rescale01(xmin, xmax, f):
 totalFiles = 256
 TestFiles = 16
 
-NoEigenComp = 16
+NoEigenComp = 20
 
 
 
@@ -77,15 +77,29 @@ PlotsDir = '../Cl_data/Plots/'
 ModelDir = '../Cl_data/Model/'
 
 
-train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
-train_target_path =  DataDir + 'LatinPara5P4_'+str(totalFiles)+'.npy'
-test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
-test_target_path =  DataDir + 'LatinPara5P4_'+str(TestFiles)+'.npy'
+# train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
+# train_target_path =  DataDir + 'LatinPara5P4_'+str(totalFiles)+'.npy'
+# test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
+# test_target_path =  DataDir + 'LatinPara5P4_'+str(TestFiles)+'.npy'
+#
+# camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+#
+#
+# (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+
+Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
+Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
+
+Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
+Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
+
+x_train = Mod256
+x_test = Mod16
+y_train = Para256
+y_test = Para16
 
 
-(x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
 x_train = x_train[:,2:]
 x_test = x_test[:,2:]
@@ -116,7 +130,8 @@ x_test = x_test.astype('float32')/normFactor #/ 255.
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
-
+y_train = y_train.astype('float32')
+y_test = y_test.astype('float32')
 # ------------------------------------------------------------------------------
 
 hmf = y_train
@@ -283,10 +298,10 @@ if PlotRatio:
 
         W_pred = np.array([np.zeros(shape=NoEigenComp)])
         gp = {}
-        for i in range(NoEigenComp):
-            gp["fit{0}".format(i)] = george.GP(kernel)
-            gp["fit{0}".format(i)].compute(XY[:, 0, :].T)
-            W_pred[:, i] = gp["fit{0}".format(i)].predict(y[i], test_pts)[0]
+        for j in range(NoEigenComp):
+            gp["fit{0}".format(j)] = george.GP(kernel)
+            gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
+            W_pred[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
 

@@ -82,15 +82,30 @@ kernel = Matern32Kernel(0.5, ndim=4)
 # ----------------------------- i/o ------------------------------------------
 
 
-train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
-train_target_path =  DataDir + 'LatinPara5P4_'+str(totalFiles)+'.npy'
-test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
-test_target_path =  DataDir + 'LatinPara5P4_'+str(TestFiles)+'.npy'
+# train_path = DataDir + 'LatinClP4_'+str(totalFiles)+'.npy'
+# train_target_path =  DataDir + 'LatinPara5P4_'+str(totalFiles)+'.npy'
+# test_path = DataDir + 'LatinClP4_'+str(TestFiles)+'.npy'
+# test_target_path =  DataDir + 'LatinPara5P4_'+str(TestFiles)+'.npy'
+#
+# camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+#
+#
+# (x_train, y_train), (x_test, y_test) = camb_in.load_data()
 
-camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+#----------------------------------- Data from Mickael -------------------------------------
 
+Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
+Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
 
-(x_train, y_train), (x_test, y_test) = camb_in.load_data()
+Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
+Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
+
+x_train = Mod256
+x_test = Mod16
+y_train = Para256
+y_test = Para16
+#---------------------------------------------------------------------------------------
+
 
 
 x_train = x_train[:,2:]
@@ -328,36 +343,40 @@ print(50*'#')
 # ------------------------------------------------------------------------------
 
 
-## Sent to Mickeal  #---------------------------------------------
+################### Sent to Mickeal  #---------------------------------------------
+
+#
+# (x_train1, y_train1), (x_test1, y_test1) = camb_in.load_data()
+#
+# # para5_train, encoded_train
+#
+# para5_train = y_train1
+# encoded_train = np.load(DataDir + 'encoded_xtrainP4_'+str(totalFiles)+'.npy')
+#
+#
+# # para5_new, encoded_testing_new ( to check encoded_test_original
+#
+# para5_new = y_test1
+# encoded_test_original = np.load(DataDir+'encoded_xtestP4_'+str(totalFiles)+'.npy')
+#
+#
+#
+# np.savetxt('para4_train.txt', para5_train)
+# np.savetxt('para4_new.txt', para5_new)
+#
+# np.savetxt('encoded_trainP4.txt', encoded_train)
+# np.savetxt('encoded_test_originalP4.txt', encoded_test_original)
+#
+#
+# plt.figure(1542)
+# # plt.plot(encoded_train.T, 'b', alpha = 0.02 )
+# plt.plot(encoded_test_original.T, 'r', alpha = 0.2)
+# plt.plot(W_predArray.T, 'k--', alpha = 0.3)
+# plt.show()
+
+##---------------------------------------------
 
 
-(x_train1, y_train1), (x_test1, y_test1) = camb_in.load_data()
-
-# para5_train, encoded_train
-
-para5_train = y_train1
-encoded_train = np.load(DataDir + 'encoded_xtrainP4_'+str(totalFiles)+'.npy')
-
-
-# para5_new, encoded_testing_new ( to check encoded_test_original
-
-para5_new = y_test1
-encoded_test_original = np.load(DataDir+'encoded_xtestP4_'+str(totalFiles)+'.npy')
-
-
-
-np.savetxt('para4_train.txt', para5_train)
-np.savetxt('para4_new.txt', para5_new)
-
-np.savetxt('encoded_trainP4.txt', encoded_train)
-np.savetxt('encoded_test_originalP4.txt', encoded_test_original)
-
-
-plt.figure(1542)
-# plt.plot(encoded_train.T, 'b', alpha = 0.02 )
-plt.plot(encoded_test_original.T, 'r', alpha = 0.2)
-plt.plot(W_predArray.T, 'k--', alpha = 0.3)
-plt.show()
 #
 #
 # plt.figure(5343)
@@ -370,7 +389,7 @@ plt.show()
 # plt.scatter(W_predArray[:,indCheck], encoded_xtest_original[:,indCheck], c = para5_new[:,0])
 
 
-PlotScatter = False
+PlotScatter = True
 if PlotScatter:
     plt.figure(431)
     import pandas as pd
@@ -384,7 +403,7 @@ if PlotScatter:
         AllLabels.append(str("z{0}".format(ind)))
 
 
-    inputArray = np.hstack([y_train, encoded_train])
+    inputArray = np.hstack([y_train, y.T])
     df = pd.DataFrame(inputArray, columns=AllLabels)
     axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
 
