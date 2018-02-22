@@ -4,7 +4,7 @@ original_dim = 2549#/2 +1  #2551 # mnist ~ 784
 intermediate_dim2 = 1024#/2 #
 intermediate_dim1 = 512#/2 #
 intermediate_dim = 256#/2 #
-latent_dim = 20
+latent_dim = 16
 
 totalFiles = 256
 TestFiles = 16 #128

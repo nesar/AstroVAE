@@ -322,6 +322,9 @@ if PlotSample:
 
     plt.show()
 
+print('--------max ratio (train) : ', np.max(x_train_decoded/x_train) )
+print('--------max ratio (test)  : ', np.max(x_test_decoded/x_test) )
+
 
 plotLoss = True
 if plotLoss:
