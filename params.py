@@ -7,8 +7,8 @@ intermediate_dim = 256#/2 #
 latent_dim = 20
 
 num_train = 256
-num_test = 16 #128
-num_para = 4
+num_test = 32 #128
+num_para = 5
 
 batch_size = 8
 num_epochs = 200 #110 #50

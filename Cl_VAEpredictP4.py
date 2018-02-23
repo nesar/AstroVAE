@@ -151,11 +151,11 @@ X3a = rescale01(np.min(X3), np.max(X3), X3)
 X4 = y_train[:, 3][:, np.newaxis]
 X4a = rescale01(np.min(X4), np.max(X4), X4)
 
-# X5 = y_train[:, 4][:, np.newaxis]
-# X5a = rescale01(np.min(X5), np.max(X5), X5)
+X5 = y_train[:, 4][:, np.newaxis]
+X5a = rescale01(np.min(X5), np.max(X5), X5)
 
 
-XY = np.array(np.array([X1a, X2a, X3a, X4a])[:, :, 0])[:, np.newaxis]
+XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
 
 # # ------------------------------------------------------------------------------
@@ -209,9 +209,9 @@ if PlotRatio:
         RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
         RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
         RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
-        # RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
+        RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
 
-        test_pts = RealPara[:4].reshape(4, -1).T
+        test_pts = RealPara[:num_para].reshape(num_para, -1).T
 
         # ------------------------------------------------------------------------------
         # y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
