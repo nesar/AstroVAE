@@ -132,6 +132,8 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 # df = pd.DataFrame(y_test, columns=AllLabels)
 # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
 # plt.tight_layout()
+
+
 # plt.savefig('scatter_matrix.png')
 
 # ------------------------------------------------------------------------------
@@ -173,7 +175,7 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = [0, 1, 2,  12, 0, 4, 7]
+PlotSampleID = [0, 1, 2,  5, 9, 4, 7]
 
 max_relError = 0
 ErrTh = 1
@@ -237,7 +239,7 @@ if PlotRatio:
         cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
 
 
-        relError = 100*(np.abs(cl_ratio) - 1)
+        relError = 100*((cl_ratio) - 1)
 
         plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
         plt.ylim(0.85, 1.15)
@@ -269,15 +271,16 @@ if PlotRatio:
             plt.legend()
             # plt.tight_layout()
 
-            plt.plot(ls[relError > ErrTh], normFactor*x_decoded[0][relError > ErrTh], 'gx',
+            plt.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
+                                                                          ErrTh], 'gx',
                      alpha=0.7, label='bad eggs', markersize = '1')
             plt.title(fileOut)
 
             plt.savefig(PlotsDir + 'TestP'+str(num_para)+''+fileOut+'.png')
         #plt.show()
-        print(i, 'ERR0R min max (per cent):', np.array([(relError).min(), (relError).max()]) )
+        print(i, 'ERR min max:', np.array([(relError).min(), (relError).max()]) )
 
-        max_relError = np.max( [np.max(relError) , max_relError] )
+        max_relError = np.max( [np.max(np.abs(relError)) , max_relError] )
 
     plt.figure(94, figsize=(8,6))
     plt.axhline(y=1, ls='-.', lw=1.5)
@@ -316,8 +319,10 @@ plt.show()
 
 print(50*'#')
 print(fileOut)
+print('train loss: ', train_loss[-1])
+print('test loss: ', val_loss[-1])
 print
-print('max rel error:', str( (max_relError) ) )
+print('max rel error:', max_relError)
 print(50*'#')
 
 
@@ -380,7 +385,7 @@ if PlotScatter:
 
     AllLabels = []
 
-    for ind in np.arange(1, 4+1):
+    for ind in np.arange(1, num_para+1):
         AllLabels.append(str("v{0}".format(ind)))
 
     for ind in np.arange(1, latent_dim+1):
