@@ -1,11 +1,11 @@
 ######################## PARAMETERS ##########################
 
 original_dim = 2549#/2 +1  #2551 # mnist ~ 784
-intermediate_dim2 = 1800 # 1024
-intermediate_dim1 = 784 # 512
-intermediate_dim0 = 512 # 256
-intermediate_dim = 256 # 128
-latent_dim = 20
+intermediate_dim2 = 1024
+intermediate_dim1 = 512
+intermediate_dim0 = 256
+intermediate_dim = 128
+latent_dim = 25
 
 num_train = 1024
 num_test = 16
