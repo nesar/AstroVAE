@@ -5,7 +5,7 @@ intermediate_dim2 = 1024
 intermediate_dim1 = 512
 intermediate_dim0 = 256
 intermediate_dim = 128
-latent_dim = 25
+latent_dim = 20
 
 num_train = 1024
 num_test = 16
