@@ -16,6 +16,8 @@ print(__doc__)
 
 import numpy as np
 
+import matplotlib as mpl
+mpl.use('Agg')
 from matplotlib import pyplot as plt
 
 # from sklearn.gaussian_process import GaussianProcessRegressor
