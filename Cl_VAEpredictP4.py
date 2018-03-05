@@ -32,10 +32,10 @@ def rescale01(xmin, xmax, f):
 
 ###################### PARAMETERS ##############################
 
-original_dim = params.original_dim # 2549
-intermediate_dim2 = params.intermediate_dim2 # 1024
-intermediate_dim1 = params.intermediate_dim1 # 512
-intermediate_dim = params.intermediate_dim # 256
+#original_dim = params.original_dim # 2549
+#intermediate_dim2 = params.intermediate_dim2 # 1024
+#intermediate_dim1 = params.intermediate_dim1 # 512
+#intermediate_dim = params.intermediate_dim # 256
 latent_dim = params.latent_dim # 10
 
 num_train = params.num_train # 512
