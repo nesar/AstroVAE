@@ -61,7 +61,7 @@ length_scaleBoundMax = 0.3
 # kernel = k1 + k2 + k3 + k4
 # kernel = k1
 
-from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel
+from george.kernels import Matern32Kernel#, ConstantKernel, WhiteKernel
 
 # kernel = ConstantKernel(0.5, ndim=5) * Matern32Kernel(0.5, ndim=5) + WhiteKernel(0.1, ndim=5)
 kernel = Matern32Kernel(0.5, ndim=4)
