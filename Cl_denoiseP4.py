@@ -25,9 +25,9 @@ import params
 
 ############### Setting same float, random seeds ##############
 
-np.random.seed(1)
+np.random.seed(42)
 from tensorflow import set_random_seed
-set_random_seed(2)
+set_random_seed(42)
 K.set_floatx('float32')
 
 ###################### PARAMETERS ##############################
