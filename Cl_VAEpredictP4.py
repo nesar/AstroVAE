@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from keras.models import load_model
 
 import params
-import Cl_load
+#import Cl_load
 #import SetPub
 #SetPub.set_pub()
 
@@ -97,7 +97,7 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-ls = np.loadtxt('../Cl_data/Data/P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 

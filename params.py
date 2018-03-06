@@ -26,7 +26,7 @@ MainDir = '../../Cl_data/'
 
 DataDir = MainDir+'Data/'
 PlotsDir = MainDir+'Plots/'
-ModelDir = MainDair+'Model/'
+ModelDir = MainDir+'Model/'
 
 fileOut = 'P'+str(num_para)+'Model_tot' + str(num_train) + '_batch' + str(batch_size) + '_lr' + str(
     learning_rate) + '_decay' + str(decay_rate) + '_z' + str(latent_dim) + '_epoch' + str(
