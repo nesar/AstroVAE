@@ -12,8 +12,8 @@ print(__doc__)
 
 import numpy as np
 
-# import matplotlib as mpl
-# mpl.use('Agg')
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 from keras.models import load_model
@@ -75,7 +75,7 @@ if LoadModel:
 
 
 import george
-from george.kernels import Matern32Kernel, ConstantKernel, WhiteKernel, Matern52Kernel
+from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
 
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
 kernel = Matern32Kernel(0.5, ndim=num_para)
