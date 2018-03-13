@@ -13,7 +13,7 @@ num_test = 16
 num_para = 5
 
 batch_size = 8
-num_epochs = 7000 #110 #50
+num_epochs = 7500 #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1e-4 ## original = 1.0, smaller the better 1e-4
 learning_rate =  1e-4
@@ -22,7 +22,7 @@ decay_rate = 1.0
 noise_factor = 0.0 # 0.0 necessary
 
 ######################## I/O #################################
-MainDir = '../../Cl_data/'
+MainDir = '../Cl_data/'
 
 DataDir = MainDir+'Data/'
 PlotsDir = MainDir+'Plots/'

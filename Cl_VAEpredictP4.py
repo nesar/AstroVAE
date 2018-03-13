@@ -12,8 +12,8 @@ print(__doc__)
 
 import numpy as np
 
-import matplotlib as mpl
-mpl.use('Agg')
+# import matplotlib as mpl
+# mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 from keras.models import load_model
@@ -78,7 +78,7 @@ import george
 from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
 
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-kernel = Matern32Kernel(0.5, ndim=num_para)
+kernel = Matern32Kernel(100, ndim=num_para)
 
 
 # ----------------------------- i/o ------------------------------------------
@@ -141,6 +141,35 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 # y_train1 = np.load(DataDir+'para5_'+str(num_train)+'.npy')
 
 
+
+
+
+
+
+
+# maxP0 = np.max(np.append( y_train[:0], y_test[:,0]))
+# maxP1 = np.max(np.append( y_train[:1], y_test[:,1]))
+# maxP2 = np.max(np.append( y_train[:2], y_test[:,2]))
+# maxP3 = np.max(np.append( y_train[:3], y_test[:,3]))
+# maxP4 = np.max(np.append( y_train[:5], y_test[:,4]))
+#
+# minP0 = np.min(np.append( y_train[:0], y_test[:,0]))
+# minP1 = np.min(np.append( y_train[:1], y_test[:,1]))
+# minP2 = np.min(np.append( y_train[:2], y_test[:,2]))
+# minP3 = np.min(np.append( y_train[:3], y_test[:,3]))
+# minP4 = np.min(np.append( y_train[:5], y_test[:,4]))
+#
+#
+#
+# X1a = rescale01(minP0, maxP0, y_train[:, 0][:, np.newaxis])
+# X2a = rescale01(minP1, maxP1, y_train[:, 1][:, np.newaxis])
+# X3a = rescale01(minP2, maxP2, y_train[:, 2][:, np.newaxis])
+# X4a = rescale01(minP3, maxP3, y_train[:, 3][:, np.newaxis])
+# X5a = rescale01(minP4, maxP4, y_train[:, 4][:, np.newaxis])
+
+
+
+
 X1 = y_train[:, 0][:, np.newaxis]
 X1a = rescale01(np.min(X1), np.max(X1), X1)
 
@@ -164,10 +193,6 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
 encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
 
-
-# ymax = y.max()
-# y = y/ymax
-
 # ------------------------------------------------------------------------------
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
@@ -175,10 +200,10 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = [0, 1, 2,  5, 9, 4, 7]
+PlotSampleID = [0, 1, 2,  5, 9, 4, 7, 12, 14]
 
 max_relError = 0
-ErrTh = 1
+ErrTh = 0.5
 PlotRatio = True
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
@@ -206,6 +231,13 @@ if PlotRatio:
     for i in range(np.shape(RealParaArray)[0]):
 
         RealPara = RealParaArray[i]
+
+        # RealPara[0] = rescale01(min, maxP0, RealPara[0])
+        # RealPara[1] = rescale01(minP1, maxP1, RealPara[1])
+        # RealPara[2] = rescale01(minP2, maxP2, RealPara[2])
+        # RealPara[3] = rescale01(minP3, maxP3, RealPara[3])
+        # RealPara[4] = rescale01(minP4, maxP4, RealPara[4])
+
 
         RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
         RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
@@ -242,7 +274,7 @@ if PlotRatio:
         relError = 100*((cl_ratio) - 1)
 
         plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
-        plt.ylim(0.85, 1.15)
+        plt.ylim(0.95, 1.05)
         # plt.xscale('log')
         plt.xlabel(r'$l$')
         plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
@@ -334,33 +366,63 @@ print(50*'#')
 
 ################### Sent to Mickeal  #---------------------------------------------
 
-#
+
 # (x_train1, y_train1), (x_test1, y_test1) = camb_in.load_data()
-#
-# # para5_train, encoded_train
-#
-# para5_train = y_train1
-# encoded_train = np.load(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+str(num_train)+'.npy')
-#
-#
-# # para5_new, encoded_testing_new ( to check encoded_test_original
-#
-# para5_new = y_test1
-# encoded_test_original = np.load(DataDir+'encoded_xtestP'+str(num_para)+'_'+str(num_train)+'.npy')
-#
-#
-#
-# np.savetxt('para4_train.txt', para5_train)
-# np.savetxt('para4_new.txt', para5_new)
-#
-# np.savetxt('encoded_trainP'+str(num_para)+'.txt', encoded_train)
-# np.savetxt('encoded_test_originalP'+str(num_para)+'.txt', encoded_test_original)
+
+# para5_train, encoded_train
+
+
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
+
+para5_train = Trainfiles[:, 0: num_para]
+para5_new =  Testfiles[:, 0: num_para]
+
+encoded_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
+encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
+
+np.savetxt('para4_train.txt', para5_train)
+np.savetxt('para4_new.txt', para5_new)
+
+np.savetxt('encoded_trainP'+str(num_para)+'.txt', encoded_train)
+np.savetxt('encoded_test_originalP'+str(num_para)+'.txt', encoded_xtest_original)
+
+
+
+
+PlotParamsScatter = False
+
+if PlotParamsScatter:
+
+    plt.figure(433)
+
+    import pandas as pd
+
+    AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
+    inputArray = para5_new
+    df = pd.DataFrame(inputArray, columns=AllLabels)
+    pd.tools.plotting.scatter_matrix(df, alpha=0.8, color='b', diagonal='kde')
+
+    inputArray = para5_train
+    df = pd.DataFrame(inputArray, columns=AllLabels)
+    pd.tools.plotting.scatter_matrix(df, alpha=0.2, color='r', diagonal='kde')
+
+
+
 #
 #
 # plt.figure(1542)
 # # plt.plot(encoded_train.T, 'b', alpha = 0.02 )
 # plt.plot(encoded_test_original.T, 'r', alpha = 0.2)
 # plt.plot(W_predArray.T, 'k--', alpha = 0.3)
+# plt.show()
+
+#
+# plt.figure(423)
+# plt.scatter(encoded_xtest_original[:,0], encoded_xtest_original[:,1], c = para5_new[:,0],
+#             cmap=plt.cm.afmhot, s = 10)
+# plt.scatter(encoded_train[:,0], encoded_train[:,1], c = para5_train[:,0], s = 5, alpha = 0.3)
+#
 # plt.show()
 
 ##---------------------------------------------
@@ -383,10 +445,13 @@ if PlotScatter:
     plt.figure(431)
     import pandas as pd
 
-    AllLabels = []
+    # AllLabels = []
 
-    for ind in np.arange(1, num_para+1):
-        AllLabels.append(str("v{0}".format(ind)))
+    # for ind in np.arange(1, num_para+1):
+    #     AllLabels.append(str("v{0}".format(ind)))
+
+    AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
+
 
     for ind in np.arange(1, latent_dim+1):
         AllLabels.append(str("z{0}".format(ind)))
@@ -397,7 +462,6 @@ if PlotScatter:
     axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
 
 
-    # AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
     # df = pd.DataFrame(encoded_test_original, columns=AllLabels)
     # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
     # df = pd.DataFrame(  W_predArray, columns=AllLabels)
