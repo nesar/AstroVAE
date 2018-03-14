@@ -383,24 +383,29 @@ print(50*'#')
 # np.savetxt('encoded_test_originalP'+str(num_para)+'.txt', encoded_xtest_original)
 
 
+#
+#
+# PlotParamsScatter = False
+#
+# if PlotParamsScatter:
+#
+#     plt.figure(433)
+#
+#     import pandas as pd
+#
+#     AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
+#     inputArray = para5_new
+#     df = pd.DataFrame(inputArray, columns=AllLabels)
+#     pd.tools.plotting.scatter_matrix(df, alpha=0.8, color='b', diagonal='kde')
+#
+#     inputArray = para5_train
+#     df = pd.DataFrame(inputArray, columns=AllLabels)
+#     pd.tools.plotting.scatter_matrix(df, alpha=0.2, color='r', diagonal='kde')
 
 
-PlotParamsScatter = False
 
-if PlotParamsScatter:
-
-    plt.figure(433)
-
-    import pandas as pd
-
-    AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
-    inputArray = para5_new
-    df = pd.DataFrame(inputArray, columns=AllLabels)
-    pd.tools.plotting.scatter_matrix(df, alpha=0.8, color='b', diagonal='kde')
-
-    inputArray = para5_train
-    df = pd.DataFrame(inputArray, columns=AllLabels)
-    pd.tools.plotting.scatter_matrix(df, alpha=0.2, color='r', diagonal='kde')
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 

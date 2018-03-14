@@ -24,12 +24,6 @@ import params
 #SetPub.set_pub()
 
 
-
-def rescale01(xmin, xmax, f):
-    return (f - xmin) / (xmax - xmin)
-
-
-
 ###################### PARAMETERS ##############################
 
 #original_dim = params.original_dim # 2549
@@ -74,15 +68,6 @@ if LoadModel:
     history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt')
 
 
-import george
-from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
-
-# kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-kernel = Matern32Kernel(100, ndim=num_para)
-
-
-# ----------------------------- i/o ------------------------------------------
-
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
@@ -101,17 +86,6 @@ ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 
-# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
-# print('-------mean factor:', meanFactor)
-# x_train = x_train.astype('float32') - meanFactor #/ 255.
-# x_test = x_test.astype('float32') - meanFactor #/ 255.
-#
-
-# x_train = np.log10(x_train) #x_train[:,2:] #
-# x_test =  np.log10(x_test) #x_test[:,2:] #
-
-# normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-
 normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
 print('-------normalization factor:', normFactor)
 
@@ -122,72 +96,6 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 # ------------------------------------------------------------------------------
-# PLOTTING y_train and y_test
-
-# import pandas as pd
-# plt.figure(431)
-# AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
-# df = pd.DataFrame(y_train, columns=AllLabels)
-# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
-# df = pd.DataFrame(y_test, columns=AllLabels)
-# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
-# plt.tight_layout()
-
-
-# plt.savefig('scatter_matrix.png')
-
-# ------------------------------------------------------------------------------
-
-# y_train1 = np.load(DataDir+'para5_'+str(num_train)+'.npy')
-
-
-
-
-
-
-
-
-# maxP0 = np.max(np.append( y_train[:0], y_test[:,0]))
-# maxP1 = np.max(np.append( y_train[:1], y_test[:,1]))
-# maxP2 = np.max(np.append( y_train[:2], y_test[:,2]))
-# maxP3 = np.max(np.append( y_train[:3], y_test[:,3]))
-# maxP4 = np.max(np.append( y_train[:5], y_test[:,4]))
-#
-# minP0 = np.min(np.append( y_train[:0], y_test[:,0]))
-# minP1 = np.min(np.append( y_train[:1], y_test[:,1]))
-# minP2 = np.min(np.append( y_train[:2], y_test[:,2]))
-# minP3 = np.min(np.append( y_train[:3], y_test[:,3]))
-# minP4 = np.min(np.append( y_train[:5], y_test[:,4]))
-#
-#
-#
-# X1a = rescale01(minP0, maxP0, y_train[:, 0][:, np.newaxis])
-# X2a = rescale01(minP1, maxP1, y_train[:, 1][:, np.newaxis])
-# X3a = rescale01(minP2, maxP2, y_train[:, 2][:, np.newaxis])
-# X4a = rescale01(minP3, maxP3, y_train[:, 3][:, np.newaxis])
-# X5a = rescale01(minP4, maxP4, y_train[:, 4][:, np.newaxis])
-
-
-
-
-X1 = y_train[:, 0][:, np.newaxis]
-X1a = rescale01(np.min(X1), np.max(X1), X1)
-
-X2 = y_train[:, 1][:, np.newaxis]
-X2a = rescale01(np.min(X2), np.max(X2), X2)
-
-X3 = y_train[:, 2][:, np.newaxis]
-X3a = rescale01(np.min(X3), np.max(X3), X3)
-
-X4 = y_train[:, 3][:, np.newaxis]
-X4a = rescale01(np.min(X4), np.max(X4), X4)
-
-X5 = y_train[:, 4][:, np.newaxis]
-X5a = rescale01(np.min(X5), np.max(X5), X5)
-
-
-XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
-
 
 # # ------------------------------------------------------------------------------
 y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
@@ -206,21 +114,15 @@ max_relError = 0
 ErrTh = 0.5
 PlotRatio = True
 
-W_predArray = np.zeros(shape=(num_test,latent_dim))
+W_predArray = np.load('encoded_test_GP.npy')
 
 
 if PlotRatio:
-    # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(num_test) + '.npy')[2:])
-    # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(num_test)+'.npy')[:,
-    # 2:]) # Original
 
-    # ls = np.loadtxt(DataDir + 'LatinlsP'+str(num_para)+'_' + str(num_test) + '.txt')[2:]#[2::2]
-
-    # Cl_Original = np.load(DataDir + 'LatinCl_'+str(num_test)+'.npy')[:,2:]
-    # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')
 
     Cl_Original = (normFactor*x_test)#[2:3]
     RealParaArray = y_test#[2:3]
+
 
 
     # Cl_Original = (normFactor*x_train)[0:10]
@@ -232,34 +134,8 @@ if PlotRatio:
 
         RealPara = RealParaArray[i]
 
-        # RealPara[0] = rescale01(min, maxP0, RealPara[0])
-        # RealPara[1] = rescale01(minP1, maxP1, RealPara[1])
-        # RealPara[2] = rescale01(minP2, maxP2, RealPara[2])
-        # RealPara[3] = rescale01(minP3, maxP3, RealPara[3])
-        # RealPara[4] = rescale01(minP4, maxP4, RealPara[4])
 
-
-        RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
-        RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
-        RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
-        RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
-        RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
-
-        test_pts = RealPara[:num_para].reshape(num_para, -1).T
-
-        # ------------------------------------------------------------------------------
-        # y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
-
-        W_pred = np.array([np.zeros(shape=latent_dim)])
-        gp = {}
-        for j in range(latent_dim):
-            gp["fit{0}".format(j)] = george.GP(kernel)
-            gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
-            W_pred[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
-
-        # ------------------------------------------------------------------------------
-
-        W_predArray[i] = W_pred
+        W_pred = W_predArray[i]
         # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
@@ -364,77 +240,6 @@ print(50*'#')
 # ------------------------------------------------------------------------------
 
 
-################### Sent to Mickeal  #---------------------------------------------
-
-
-# Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
-# Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
-#
-# para5_train = Trainfiles[:, 0: num_para]
-# para5_new =  Testfiles[:, 0: num_para]
-#
-# encoded_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
-# encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
-#
-# np.savetxt('para4_train.txt', para5_train)
-# np.savetxt('para4_new.txt', para5_new)
-#
-# np.savetxt('encoded_trainP'+str(num_para)+'.txt', encoded_train)
-# np.savetxt('encoded_test_originalP'+str(num_para)+'.txt', encoded_xtest_original)
-
-
-
-
-PlotParamsScatter = False
-
-if PlotParamsScatter:
-
-    plt.figure(433)
-
-    import pandas as pd
-
-    AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
-    inputArray = para5_new
-    df = pd.DataFrame(inputArray, columns=AllLabels)
-    pd.tools.plotting.scatter_matrix(df, alpha=0.8, color='b', diagonal='kde')
-
-    inputArray = para5_train
-    df = pd.DataFrame(inputArray, columns=AllLabels)
-    pd.tools.plotting.scatter_matrix(df, alpha=0.2, color='r', diagonal='kde')
-
-
-
-#
-#
-# plt.figure(1542)
-# # plt.plot(encoded_train.T, 'b', alpha = 0.02 )
-# plt.plot(encoded_test_original.T, 'r', alpha = 0.2)
-# plt.plot(W_predArray.T, 'k--', alpha = 0.3)
-# plt.show()
-
-#
-# plt.figure(423)
-# plt.scatter(encoded_xtest_original[:,0], encoded_xtest_original[:,1], c = para5_new[:,0],
-#             cmap=plt.cm.afmhot, s = 10)
-# plt.scatter(encoded_train[:,0], encoded_train[:,1], c = para5_train[:,0], s = 5, alpha = 0.3)
-#
-# plt.show()
-
-##---------------------------------------------
-
-
-#
-#
-# plt.figure(5343)
-# plt.plot(W_predArray/encoded_xtest_original, 'ko', markersize=2)
-# plt.yscale('symlog')
-#
-#
-# # plt.figure(5343)
-# indCheck = 6
-# plt.scatter(W_predArray[:,indCheck], encoded_xtest_original[:,indCheck], c = para5_new[:,0])
-
-
 PlotScatter = False
 if PlotScatter:
     plt.figure(431)
@@ -466,68 +271,4 @@ if PlotScatter:
 
 
 
-
-
-
-
-
-
-
-
 # ------------------------------------------------------------------------------
-
-# Cosmic Variance emulator
-
-
-# Next step -- uncertainty quantification -- check Laurence et al
-# Parameter estimation  -- mcmc or variational bayes
-# Go back to check P(k) -- we may just use the simulation suite data.
-# Generate better data sampling - latin hc?
-#
-# Deeper network!
-# adding hidden layers seems to be fixed -- check again
-
-# Talk to Jason
-# CAMB install gfortran issue in Phoenix
-# Generate lots of outputs
-# training check using 32 files.
-# Why emulate when there's a theoretical model?
-
-# Still haven't figured how to change sigma_8 in CAMB
-
-# CAMB - linear theory -- good for demonstration
-# Future -- use simulations for a proper cmb power spectrum
-
-# Change loss function and see if it changes anything
-## can loss include something from GP?
-
-# combine a few files -- one for io, one for training (AE+GP), one for testing?
-
-## encoded arrays are all same!!!
-
-## Tried avg, didn't help
-## Try fft ??
-
-
-## Plot GP functions cuz people want to look at it
-
-## Hyper-parameter optimization softwares
-
-#plt.figure(35)
-#for i in range(10):
-#    plt.plot(np.fft.rfft(x_train[i,:]))
-#plt.xscale('log')
-
-#plt.plot( np.fft.irfft( np.fft.rfft(x_train[0,:]) ), 'r' )
-#plt.plot(x_train[0,:], 'b-.')
-
-
-
-################3333333
-
-# GP Doesn't seem to interpolate z space
-# Even training points aren't mapped properly!!!
-# Is the z space too weird?
-
-# Same problem with my PCA+GP analysis
-# Is the problems with epison_std being too small??
