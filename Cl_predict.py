@@ -1,8 +1,5 @@
 """
-GP fit for W matrix or latent z (encoded representation)
-
-Uses George - package by Dan Foreman McKay - better integration with his MCMC package.
-pip install george  - http://dan.iel.fm/george/current/user/quickstart/
+For testing models from Mickael
 
 """
 print(__doc__)
@@ -114,7 +111,7 @@ max_relError = 0
 ErrTh = 0.5
 PlotRatio = True
 
-W_predArray = np.load('encoded_test_GP.npy')
+W_predArray = np.load('encoded_test_GP.npy')  ## From Mickael
 
 
 if PlotRatio:
@@ -135,7 +132,7 @@ if PlotRatio:
         RealPara = RealParaArray[i]
 
 
-        W_pred = W_predArray[i]
+        W_pred = np.array([W_predArray[i]])
         # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
@@ -252,10 +249,8 @@ if PlotScatter:
 
     AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
 
-
     for ind in np.arange(1, latent_dim+1):
         AllLabels.append(str("z{0}".format(ind)))
-
 
     inputArray = np.hstack([y_train, y.T])
     df = pd.DataFrame(inputArray, columns=AllLabels)

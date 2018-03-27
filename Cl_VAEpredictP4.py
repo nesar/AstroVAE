@@ -78,7 +78,8 @@ import george
 from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
 
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-kernel = Matern32Kernel(100, ndim=num_para)
+# kernel = Matern32Kernel(100, ndim=num_para)
+kernel = Matern32Kernel(10000, ndim=num_para)
 
 
 # ----------------------------- i/o ------------------------------------------
@@ -254,6 +255,10 @@ if PlotRatio:
         gp = {}
         for j in range(latent_dim):
             gp["fit{0}".format(j)] = george.GP(kernel)
+
+            # gp["fit{0}".format(j)].optimize( XY[:,0,:].T, y[j], verbose=True)
+            ###### optimizes parameters, takes longer
+
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
             W_pred[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
