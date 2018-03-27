@@ -78,7 +78,8 @@ import george
 from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
 
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-kernel = Matern32Kernel(100, ndim=num_para)
+# kernel = Matern32Kernel(100, ndim=num_para)
+kernel = Matern32Kernel(10000, ndim=num_para)
 
 
 # ----------------------------- i/o ------------------------------------------
@@ -254,6 +255,10 @@ if PlotRatio:
         gp = {}
         for j in range(latent_dim):
             gp["fit{0}".format(j)] = george.GP(kernel)
+
+            # gp["fit{0}".format(j)].optimize( XY[:,0,:].T, y[j], verbose=True)
+            ###### optimizes parameters, takes longer
+
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
             W_pred[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
@@ -367,45 +372,45 @@ print(50*'#')
 ################### Sent to Mickeal  #---------------------------------------------
 
 
-# (x_train1, y_train1), (x_test1, y_test1) = camb_in.load_data()
-
-# para5_train, encoded_train
-
-
-Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
-
-para5_train = Trainfiles[:, 0: num_para]
-para5_new =  Testfiles[:, 0: num_para]
-
-encoded_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
-encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
-
-np.savetxt('para4_train.txt', para5_train)
-np.savetxt('para4_new.txt', para5_new)
-
-np.savetxt('encoded_trainP'+str(num_para)+'.txt', encoded_train)
-np.savetxt('encoded_test_originalP'+str(num_para)+'.txt', encoded_xtest_original)
+# Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
+# Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
+#
+# para5_train = Trainfiles[:, 0: num_para]
+# para5_new =  Testfiles[:, 0: num_para]
+#
+# encoded_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
+# encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
+#
+# np.savetxt('para4_train.txt', para5_train)
+# np.savetxt('para4_new.txt', para5_new)
+#
+# np.savetxt('encoded_trainP'+str(num_para)+'.txt', encoded_train)
+# np.savetxt('encoded_test_originalP'+str(num_para)+'.txt', encoded_xtest_original)
 
 
+#
+#
+# PlotParamsScatter = False
+#
+# if PlotParamsScatter:
+#
+#     plt.figure(433)
+#
+#     import pandas as pd
+#
+#     AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
+#     inputArray = para5_new
+#     df = pd.DataFrame(inputArray, columns=AllLabels)
+#     pd.tools.plotting.scatter_matrix(df, alpha=0.8, color='b', diagonal='kde')
+#
+#     inputArray = para5_train
+#     df = pd.DataFrame(inputArray, columns=AllLabels)
+#     pd.tools.plotting.scatter_matrix(df, alpha=0.2, color='r', diagonal='kde')
 
 
-PlotParamsScatter = False
 
-if PlotParamsScatter:
-
-    plt.figure(433)
-
-    import pandas as pd
-
-    AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
-    inputArray = para5_new
-    df = pd.DataFrame(inputArray, columns=AllLabels)
-    pd.tools.plotting.scatter_matrix(df, alpha=0.8, color='b', diagonal='kde')
-
-    inputArray = para5_train
-    df = pd.DataFrame(inputArray, columns=AllLabels)
-    pd.tools.plotting.scatter_matrix(df, alpha=0.2, color='r', diagonal='kde')
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 
