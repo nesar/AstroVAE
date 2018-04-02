@@ -47,13 +47,13 @@ for fileID in [0, 1, 2]:
 
 				
     plt.figure(10)
-    plt.errorbar(l, Cl, yerr=[emax, emin], fmt='x', label = allfiles[fileID][2:-4], alpha = 0.3, ms=1)
+    plt.errorbar(l, Cl, yerr=[emax, emin], fmt='x', label = allfiles[fileID][2:-4], alpha = 0.2, ms=1)
 
 
 #plt.yscale('log')
 #plt.xscale('log')
 plt.xlim([0,3500])
-plt.ylim([0,8000])
+plt.ylim([-1000,10000])
 plt.legend()
 plt.show()
 

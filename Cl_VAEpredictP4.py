@@ -352,7 +352,7 @@ if plotLoss:
     plt.tight_layout()
     plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
 
-plt.show()
+#plt.show()
 
 print(50*'#')
 print(fileOut)
@@ -471,7 +471,7 @@ if PlotScatter:
     # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
     # df = pd.DataFrame(  W_predArray, columns=AllLabels)
     # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
-    plt.show()
+    #plt.show()
 
 
 
