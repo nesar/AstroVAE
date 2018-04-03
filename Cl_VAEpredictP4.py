@@ -201,7 +201,8 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = [0, 1, 2,  5, 9, 4, 7, 12, 14]
+PlotSampleID = [0, 1, 2, 3, 4,  5, 6, 7, 8, 9]
+
 
 max_relError = 0
 ErrTh = 0.5
@@ -290,6 +291,40 @@ if PlotRatio:
 
 
         if i in PlotSampleID:
+
+
+
+            plt.figure(999, figsize=(6,8))
+            from matplotlib import gridspec
+
+            gs = gridspec.GridSpec(2, 1, height_ratios=[2, 1])
+            gs.update(hspace=0.01) # set the spacing between axes.
+            ax0 = plt.subplot(gs[0])
+            ax1 = plt.subplot(gs[1])
+
+
+
+            ax0.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+            ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'original')
+
+            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '--', label = 'ratio')
+
+            ax0.set_ylabel(r'$C_l$')
+            ax0.legend()
+
+            # ax1.legend()
+            ax1.axhline(y=1, ls='dashed')
+            ax1.set_xlabel(r'$l$')
+
+
+            ax1.set_ylabel(r'$C_l^{GPVAE}$/$C_l^{camb}$')
+            ax1.set_ylim(0.95, 1.05)
+
+            ax0.set_title(fileOut)
+
+            # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
+
+
 
             plt.figure(99, figsize=(8,6))
             plt.title('Autoencoder+GP fit')

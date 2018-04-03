@@ -46,7 +46,7 @@ for fileID in [0, 1, 2]:
 
 
 				
-    plt.figure(10)
+    plt.figure(99)
     plt.errorbar(l, Cl, yerr=[emax, emin], fmt='x', label = allfiles[fileID][2:-4], alpha = 0.2, ms=1)
 
 
@@ -55,6 +55,6 @@ for fileID in [0, 1, 2]:
 plt.xlim([0,3500])
 plt.ylim([-1000,10000])
 plt.legend()
-plt.show()
+#plt.show()
 
 #print allCl.shape
