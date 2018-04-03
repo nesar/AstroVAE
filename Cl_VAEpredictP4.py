@@ -205,16 +205,16 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 
 
 
-plt.figure(999, figsize=(6, 8))
+plt.figure(999, figsize=(6, 6))
 from matplotlib import gridspec
 
-gs = gridspec.GridSpec(2, 1, height_ratios=[2, 1])
+gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
 gs.update(hspace=0.01)  # set the spacing between axes.
 ax0 = plt.subplot(gs[0])
 ax1 = plt.subplot(gs[1])
 
 ax0.set_ylabel(r'$C_l$')
-ax0.set_title(fileOut)
+# ax0.set_title( r'$\text{' +fileOut + '}$')
 
 ax1.axhline(y=1, ls='dashed')
 ax1.set_xlabel(r'$l$')
@@ -278,6 +278,9 @@ if PlotRatio:
         # y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
 
         W_pred = np.array([np.zeros(shape=latent_dim)])
+        W_pred_var = np.array([np.zeros(shape=latent_dim)])
+
+
         gp = {}
         for j in range(latent_dim):
             gp["fit{0}".format(j)] = george.GP(kernel)
@@ -286,7 +289,8 @@ if PlotRatio:
             ###### optimizes parameters, takes longer
 
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
-            W_pred[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
+            W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)#[0]
+            # W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
 
