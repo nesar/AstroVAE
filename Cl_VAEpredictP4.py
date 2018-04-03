@@ -20,8 +20,8 @@ from keras.models import load_model
 
 import params
 #import Cl_load
-#import SetPub
-#SetPub.set_pub()
+import SetPub
+SetPub.set_pub()
 
 
 
@@ -226,7 +226,7 @@ ax1.set_ylim(0.95, 1.05)
 
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = [0, 1, 2, 3, 4,  5, 6, 7, 8, 9]
+PlotSampleID = np.arange(y_test.shape[0])[::2]
 
 
 max_relError = 0
@@ -321,9 +321,12 @@ if PlotRatio:
             ax0.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
             ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'original')
 
+            ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
+                                                                           ErrTh], 'gx', alpha=0.7, label='bad eggs', markersize = '1')
+
+
             ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5, label = 'ratio')
 
-            ax0.legend()
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
 
@@ -361,6 +364,12 @@ if PlotRatio:
     plt.savefig(PlotsDir + 'RatioP'+str(num_para)+''+fileOut+'.png')
 
     #plt.show()
+
+plt.figure(999)
+plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
+
+
+
 print(50*'-')
 print('file:', fileOut)
 # ------------------------------------------------------------------------------
