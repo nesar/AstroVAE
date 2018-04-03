@@ -31,7 +31,7 @@ print allfiles
 import numpy as np
 
 
-for fileID in [0, 1, 2]:
+for fileID in [2]:
     with open( dirIn + allfiles[fileID]) as f:
 
 				    lines = (line for line in f if not line.startswith('#'))
@@ -47,7 +47,7 @@ for fileID in [0, 1, 2]:
 
 				
     plt.figure(99)
-    plt.errorbar(l, Cl, yerr=[emax, emin], fmt='x', label = allfiles[fileID][2:-4], alpha = 0.2, ms=1)
+    plt.errorbar(l, Cl, yerr=[emax, emin], fmt='x', label = allfiles[fileID][2:-4], alpha = 0.8, ms=1)
 
 
 #plt.yscale('log')

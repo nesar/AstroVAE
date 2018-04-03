@@ -20,8 +20,8 @@ from keras.models import load_model
 
 import params
 #import Cl_load
-#import SetPub
-#SetPub.set_pub()
+import SetPub
+SetPub.set_pub()
 
 
 
@@ -200,8 +200,33 @@ np.set_printoptions(suppress=True)
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
+
+
+
+
+
+plt.figure(999, figsize=(6, 6))
+from matplotlib import gridspec
+
+gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
+gs.update(hspace=0.01)  # set the spacing between axes.
+ax0 = plt.subplot(gs[0])
+ax1 = plt.subplot(gs[1])
+
+ax0.set_ylabel(r'$C_l$')
+# ax0.set_title( r'$\text{' +fileOut + '}$')
+
+ax1.axhline(y=1, ls='dashed')
+ax1.set_xlabel(r'$l$')
+
+ax1.set_ylabel(r'$C_l^{GPVAE}$/$C_l^{camb}$')
+ax1.set_ylim(0.95, 1.05)
+
+
+
+
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = [0, 1, 2, 3, 4,  5, 6, 7, 8, 9]
+PlotSampleID = np.arange(y_test.shape[0])[::2]
 
 
 max_relError = 0
@@ -253,6 +278,9 @@ if PlotRatio:
         # y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
 
         W_pred = np.array([np.zeros(shape=latent_dim)])
+        W_pred_var = np.array([np.zeros(shape=latent_dim)])
+
+
         gp = {}
         for j in range(latent_dim):
             gp["fit{0}".format(j)] = george.GP(kernel)
@@ -261,7 +289,8 @@ if PlotRatio:
             ###### optimizes parameters, takes longer
 
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
-            W_pred[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
+            W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)#[0]
+            # W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
 
@@ -293,34 +322,14 @@ if PlotRatio:
         if i in PlotSampleID:
 
 
-
-            plt.figure(999, figsize=(6,8))
-            from matplotlib import gridspec
-
-            gs = gridspec.GridSpec(2, 1, height_ratios=[2, 1])
-            gs.update(hspace=0.01) # set the spacing between axes.
-            ax0 = plt.subplot(gs[0])
-            ax1 = plt.subplot(gs[1])
-
-
-
             ax0.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
             ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'original')
 
-            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '--', label = 'ratio')
-
-            ax0.set_ylabel(r'$C_l$')
-            ax0.legend()
-
-            # ax1.legend()
-            ax1.axhline(y=1, ls='dashed')
-            ax1.set_xlabel(r'$l$')
+            ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
+                                                                           ErrTh], 'gx', alpha=0.7, label='bad eggs', markersize = '1')
 
 
-            ax1.set_ylabel(r'$C_l^{GPVAE}$/$C_l^{camb}$')
-            ax1.set_ylim(0.95, 1.05)
-
-            ax0.set_title(fileOut)
+            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5, label = 'ratio')
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
@@ -359,6 +368,12 @@ if PlotRatio:
     plt.savefig(PlotsDir + 'RatioP'+str(num_para)+''+fileOut+'.png')
 
     #plt.show()
+
+plt.figure(999)
+plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
+
+
+
 print(50*'-')
 print('file:', fileOut)
 # ------------------------------------------------------------------------------
@@ -516,7 +531,7 @@ if PlotScatter:
 
 
 
-
+plt.show()
 
 
 # ------------------------------------------------------------------------------
