@@ -80,7 +80,7 @@ from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
 # kernel = Matern32Kernel(100, ndim=num_para)
 # kernel = Matern32Kernel(1000, ndim=num_para)
-kernel = Matern32Kernel( [1000,2000,100,100,100], ndim=num_para)
+kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
 # kernel = Matern32Kernel(ndim=num_para)
 
 
@@ -212,7 +212,7 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 
 
 
-plt.figure(999, figsize=(6, 6))
+plt.figure(999, figsize=(7, 6))
 from matplotlib import gridspec
 
 gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
@@ -226,8 +226,8 @@ ax0.set_ylabel(r'$C_l$')
 ax1.axhline(y=1, ls='dashed')
 ax1.set_xlabel(r'$l$')
 
-ax1.set_ylabel(r'$C_l^{GPVAE}$/$C_l^{camb}$')
-ax1.set_ylim(0.95, 1.05)
+ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
+ax1.set_ylim(0.98, 1.02)
 
 
 
@@ -331,16 +331,18 @@ if PlotRatio:
 
 
             ax0.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-            ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'original')
+            ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
 
             cl_ratio = (normFactor * x_decoded[0]) / (Cl_Original[i])
             relError = 100 * ((cl_ratio) - 1)
 
             ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                                                                           ErrTh], 'gx', alpha=0.7, label='bad eggs', markersize = '1')
+                                                                           ErrTh], 'gx',
+                     alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5, label = 'ratio')
+            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5,
+                     label = 'emu/camb')
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
@@ -381,6 +383,7 @@ if PlotRatio:
     #plt.show()
 
 plt.figure(999)
+plt.tight_layout()
 plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
 
@@ -390,13 +393,12 @@ print('file:', fileOut)
 # ------------------------------------------------------------------------------
 
 
+epochs = history[0, :]
+train_loss = history[1, :]
+val_loss = history[2, :]
+
 plotLoss = False
 if plotLoss:
-
-    epochs =  history[0,:]
-    train_loss = history[1,:]
-    val_loss = history[2,:]
-
 
     plt.figure(867)
     fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
@@ -410,7 +412,7 @@ if plotLoss:
     ax.legend(['train loss','val loss'])
     #plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
     plt.title(fileOut)
-    plt.tight_layout()
+    # plt.tight_layout()
     plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
 
 #plt.show()
