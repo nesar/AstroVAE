@@ -79,7 +79,14 @@ from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern
 
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
 # kernel = Matern32Kernel(100, ndim=num_para)
-kernel = Matern32Kernel(1000, ndim=num_para)
+# kernel = Matern32Kernel(1000, ndim=num_para)
+kernel = Matern32Kernel( [1000,2000,100,100,100], ndim=num_para)
+# kernel = Matern32Kernel(ndim=num_para)
+
+
+# This kernel (and more importantly its subclasses) computes the distance between two samples in an arbitrary metric and applies a radial function to this distance.
+
+# metric – The specification of the metric. This can be a float, in which case the metric is considered isotropic with the variance in each dimension given by the value of metric. Alternatively, metric can be a list of variances for each dimension. In this case, it should have length ndim. The fully general (not axis-aligned) metric hasn’t been implemented yet but it’s on the to do list!
 
 
 # ----------------------------- i/o ------------------------------------------
@@ -195,9 +202,9 @@ y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
 encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
 
 # ------------------------------------------------------------------------------
-np.set_printoptions(precision=3)
+np.set_printoptions(precision=6)
 np.set_printoptions(suppress=True)
-np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
+np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 # ------------------------------------------------------------------------------
 
 
@@ -290,6 +297,7 @@ if PlotRatio:
 
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
             W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)#[0]
+            print 20*'-', gp["fit{0}".format(j)].predict(y[j], test_pts)
             # W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
@@ -335,37 +343,37 @@ if PlotRatio:
 
 
 
-            plt.figure(99, figsize=(8,6))
-            plt.title('Autoencoder+GP fit')
-            # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
-
-            # plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
-            # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
-
-            plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-            plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1, label = 'original')
-
-
-            # plt.xscale('log')
-            plt.xlabel(r'$l$')
-            plt.ylabel(r'$C_l$')
-            plt.legend()
-            # plt.tight_layout()
-
-            plt.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                                                                          ErrTh], 'gx',
-                     alpha=0.7, label='bad eggs', markersize = '1')
-            plt.title(fileOut)
-
-            plt.savefig(PlotsDir + 'TestP'+str(num_para)+''+fileOut+'.png')
+            # plt.figure(99, figsize=(8,6))
+            # plt.title('Autoencoder+GP fit')
+            # # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
+            #
+            # # plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+            # # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
+            #
+            # plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+            # plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1, label = 'original')
+            #
+            #
+            # # plt.xscale('log')
+            # plt.xlabel(r'$l$')
+            # plt.ylabel(r'$C_l$')
+            # plt.legend()
+            # # plt.tight_layout()
+            # 
+            # plt.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
+            #                                                               ErrTh], 'gx',
+            #          alpha=0.7, label='bad eggs', markersize = '1')
+            # plt.title(fileOut)
+            #
+            # plt.savefig(PlotsDir + 'TestP'+str(num_para)+''+fileOut+'.png')
         #plt.show()
         print(i, 'ERR min max:', np.array([(relError).min(), (relError).max()]) )
 
         max_relError = np.max( [np.max(np.abs(relError)) , max_relError] )
 
-    plt.figure(94, figsize=(8,6))
-    plt.axhline(y=1, ls='-.', lw=1.5)
-    plt.savefig(PlotsDir + 'RatioP'+str(num_para)+''+fileOut+'.png')
+    # plt.figure(94, figsize=(8,6))
+    # plt.axhline(y=1, ls='-.', lw=1.5)
+    # plt.savefig(PlotsDir + 'RatioP'+str(num_para)+''+fileOut+'.png')
 
     #plt.show()
 
