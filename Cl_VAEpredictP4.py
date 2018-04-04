@@ -307,23 +307,23 @@ if PlotRatio:
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
 
-        plt.figure(94, figsize=(8,6))
-        plt.title('Autoencoder+GP fit')
-        # cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
-
-        cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
-
-
-        relError = 100*((cl_ratio) - 1)
-
-        plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
-        plt.ylim(0.95, 1.05)
-        # plt.xscale('log')
-        plt.xlabel(r'$l$')
-        plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
-        plt.title(fileOut)
-        # plt.legend()
-        plt.tight_layout()
+        # plt.figure(94, figsize=(8,6))
+        # plt.title('Autoencoder+GP fit')
+        # # cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
+        #
+        # cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
+        #
+        #
+        # relError = 100*((cl_ratio) - 1)
+        #
+        # plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
+        # plt.ylim(0.95, 1.05)
+        # # plt.xscale('log')
+        # plt.xlabel(r'$l$')
+        # plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
+        # plt.title(fileOut)
+        # # plt.legend()
+        # plt.tight_layout()
 
 
 
@@ -332,6 +332,9 @@ if PlotRatio:
 
             ax0.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
             ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'original')
+
+            cl_ratio = (normFactor * x_decoded[0]) / (Cl_Original[i])
+            relError = 100 * ((cl_ratio) - 1)
 
             ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
                                                                            ErrTh], 'gx', alpha=0.7, label='bad eggs', markersize = '1')
@@ -359,7 +362,7 @@ if PlotRatio:
             # plt.ylabel(r'$C_l$')
             # plt.legend()
             # # plt.tight_layout()
-            # 
+            #
             # plt.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
             #                                                               ErrTh], 'gx',
             #          alpha=0.7, label='bad eggs', markersize = '1')
@@ -387,7 +390,7 @@ print('file:', fileOut)
 # ------------------------------------------------------------------------------
 
 
-plotLoss = True
+plotLoss = False
 if plotLoss:
 
     epochs =  history[0,:]
