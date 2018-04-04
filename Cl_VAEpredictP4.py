@@ -78,9 +78,10 @@ import george
 from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
 
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-# kernel = Matern32Kernel(100, ndim=num_para)
 # kernel = Matern32Kernel(1000, ndim=num_para)
-kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
+# kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
+kernel = Matern32Kernel( [1000,3000,2000,1000,2000], ndim=num_para)
+
 # kernel = Matern32Kernel(ndim=num_para)
 
 
@@ -216,7 +217,7 @@ plt.figure(999, figsize=(7, 6))
 from matplotlib import gridspec
 
 gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
-gs.update(hspace=0.01)  # set the spacing between axes.
+gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
 ax0 = plt.subplot(gs[0])
 ax1 = plt.subplot(gs[1])
 
@@ -227,7 +228,7 @@ ax1.axhline(y=1, ls='dashed')
 ax1.set_xlabel(r'$l$')
 
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
-ax1.set_ylim(0.98, 1.02)
+ax1.set_ylim(0.976, 1.024)
 
 
 
@@ -383,7 +384,7 @@ if PlotRatio:
     #plt.show()
 
 plt.figure(999)
-plt.tight_layout()
+# plt.tight_layout()
 plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
 
