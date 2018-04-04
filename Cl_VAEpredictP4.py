@@ -80,7 +80,7 @@ from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
 # kernel = Matern32Kernel(1000, ndim=num_para)
 # kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
-kernel = Matern32Kernel( [1000,3000,2000,1000,4000], ndim=num_para)
+kernel = Matern32Kernel( [1000,3000,2000,4000,4000], ndim=num_para)
 
 # kernel = Matern32Kernel(ndim=num_para)
 
