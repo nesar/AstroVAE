@@ -79,7 +79,14 @@ from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern
 
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
 # kernel = Matern32Kernel(100, ndim=num_para)
-kernel = Matern32Kernel(1000, ndim=num_para)
+# kernel = Matern32Kernel(1000, ndim=num_para)
+kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
+# kernel = Matern32Kernel(ndim=num_para)
+
+
+# This kernel (and more importantly its subclasses) computes the distance between two samples in an arbitrary metric and applies a radial function to this distance.
+
+# metric – The specification of the metric. This can be a float, in which case the metric is considered isotropic with the variance in each dimension given by the value of metric. Alternatively, metric can be a list of variances for each dimension. In this case, it should have length ndim. The fully general (not axis-aligned) metric hasn’t been implemented yet but it’s on the to do list!
 
 
 # ----------------------------- i/o ------------------------------------------
@@ -195,9 +202,9 @@ y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
 encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
 
 # ------------------------------------------------------------------------------
-np.set_printoptions(precision=3)
+np.set_printoptions(precision=6)
 np.set_printoptions(suppress=True)
-np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
+np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 # ------------------------------------------------------------------------------
 
 
@@ -205,7 +212,7 @@ np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 
 
 
-plt.figure(999, figsize=(6, 6))
+plt.figure(999, figsize=(7, 6))
 from matplotlib import gridspec
 
 gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
@@ -219,8 +226,8 @@ ax0.set_ylabel(r'$C_l$')
 ax1.axhline(y=1, ls='dashed')
 ax1.set_xlabel(r'$l$')
 
-ax1.set_ylabel(r'$C_l^{GPVAE}$/$C_l^{camb}$')
-ax1.set_ylim(0.95, 1.05)
+ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
+ax1.set_ylim(0.98, 1.02)
 
 
 
@@ -290,6 +297,7 @@ if PlotRatio:
 
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
             W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)#[0]
+            print 20*'-', gp["fit{0}".format(j)].predict(y[j], test_pts)
             # W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
@@ -299,23 +307,23 @@ if PlotRatio:
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
 
-        plt.figure(94, figsize=(8,6))
-        plt.title('Autoencoder+GP fit')
-        # cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
-
-        cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
-
-
-        relError = 100*((cl_ratio) - 1)
-
-        plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
-        plt.ylim(0.95, 1.05)
-        # plt.xscale('log')
-        plt.xlabel(r'$l$')
-        plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
-        plt.title(fileOut)
-        # plt.legend()
-        plt.tight_layout()
+        # plt.figure(94, figsize=(8,6))
+        # plt.title('Autoencoder+GP fit')
+        # # cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
+        #
+        # cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
+        #
+        #
+        # relError = 100*((cl_ratio) - 1)
+        #
+        # plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
+        # plt.ylim(0.95, 1.05)
+        # # plt.xscale('log')
+        # plt.xlabel(r'$l$')
+        # plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
+        # plt.title(fileOut)
+        # # plt.legend()
+        # plt.tight_layout()
 
 
 
@@ -323,53 +331,59 @@ if PlotRatio:
 
 
             ax0.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-            ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'original')
+            ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
+
+            cl_ratio = (normFactor * x_decoded[0]) / (Cl_Original[i])
+            relError = 100 * ((cl_ratio) - 1)
 
             ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                                                                           ErrTh], 'gx', alpha=0.7, label='bad eggs', markersize = '1')
+                                                                           ErrTh], 'gx',
+                     alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5, label = 'ratio')
+            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5,
+                     label = 'emu/camb')
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
 
 
-            plt.figure(99, figsize=(8,6))
-            plt.title('Autoencoder+GP fit')
-            # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
-
-            # plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
-            # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
-
-            plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-            plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1, label = 'original')
-
-
-            # plt.xscale('log')
-            plt.xlabel(r'$l$')
-            plt.ylabel(r'$C_l$')
-            plt.legend()
-            # plt.tight_layout()
-
-            plt.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                                                                          ErrTh], 'gx',
-                     alpha=0.7, label='bad eggs', markersize = '1')
-            plt.title(fileOut)
-
-            plt.savefig(PlotsDir + 'TestP'+str(num_para)+''+fileOut+'.png')
+            # plt.figure(99, figsize=(8,6))
+            # plt.title('Autoencoder+GP fit')
+            # # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
+            #
+            # # plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+            # # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
+            #
+            # plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+            # plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1, label = 'original')
+            #
+            #
+            # # plt.xscale('log')
+            # plt.xlabel(r'$l$')
+            # plt.ylabel(r'$C_l$')
+            # plt.legend()
+            # # plt.tight_layout()
+            #
+            # plt.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
+            #                                                               ErrTh], 'gx',
+            #          alpha=0.7, label='bad eggs', markersize = '1')
+            # plt.title(fileOut)
+            #
+            # plt.savefig(PlotsDir + 'TestP'+str(num_para)+''+fileOut+'.png')
         #plt.show()
         print(i, 'ERR min max:', np.array([(relError).min(), (relError).max()]) )
 
         max_relError = np.max( [np.max(np.abs(relError)) , max_relError] )
 
-    plt.figure(94, figsize=(8,6))
-    plt.axhline(y=1, ls='-.', lw=1.5)
-    plt.savefig(PlotsDir + 'RatioP'+str(num_para)+''+fileOut+'.png')
+    # plt.figure(94, figsize=(8,6))
+    # plt.axhline(y=1, ls='-.', lw=1.5)
+    # plt.savefig(PlotsDir + 'RatioP'+str(num_para)+''+fileOut+'.png')
 
     #plt.show()
 
 plt.figure(999)
+plt.tight_layout()
 plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
 
@@ -379,13 +393,12 @@ print('file:', fileOut)
 # ------------------------------------------------------------------------------
 
 
-plotLoss = True
+epochs = history[0, :]
+train_loss = history[1, :]
+val_loss = history[2, :]
+
+plotLoss = False
 if plotLoss:
-
-    epochs =  history[0,:]
-    train_loss = history[1,:]
-    val_loss = history[2,:]
-
 
     plt.figure(867)
     fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
@@ -399,7 +412,7 @@ if plotLoss:
     ax.legend(['train loss','val loss'])
     #plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
     plt.title(fileOut)
-    plt.tight_layout()
+    # plt.tight_layout()
     plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
 
 #plt.show()
