@@ -80,16 +80,17 @@ from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
 # kernel = Matern32Kernel(1000, ndim=num_para)
 # kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
-kernel = Matern32Kernel( [1000,3000,2000,1000,2000], ndim=num_para)
+kernel = Matern32Kernel( [1000,4000,3000,1000,2000], ndim=num_para)
+# kernel = Matern32Kernel( [1,0.5,1,1.4,0.5], ndim=num_para)
 
 # kernel = Matern32Kernel(ndim=num_para)
 
-
-# This kernel (and more importantly its subclasses) computes the distance between two samples in an arbitrary metric and applies a radial function to this distance.
-
-# metric – The specification of the metric. This can be a float, in which case the metric is considered isotropic with the variance in each dimension given by the value of metric. Alternatively, metric can be a list of variances for each dimension. In this case, it should have length ndim. The fully general (not axis-aligned) metric hasn’t been implemented yet but it’s on the to do list!
-
-
+# This kernel (and more importantly its subclasses) computes
+# the distance between two samples in an arbitrary metric and applies a radial function to this distance.
+# metric: The specification of the metric. This can be a float, in which case the metric is considered isotropic
+# with the variance in each dimension given by the value of metric. 
+# Alternatively, metric can be a list of variances for each dimension. In this case, it should have length ndim.
+# The fully general not axis aligned metric hasn't been implemented yet
 # ----------------------------- i/o ------------------------------------------
 
 
@@ -605,3 +606,39 @@ plt.show()
 
 # Same problem with my PCA+GP analysis
 # Is the problems with epison_std being too small??
+
+
+
+###---------------- Plot delta z vs delta x_train
+
+## to check how well encoding does
+
+delta_z = np.zeros(shape=y.shape[1] )
+delta_xtrain = np.zeros(shape=y.shape[1] )
+
+for i in range(y.shape[1]):
+    delta_z[i] = np.sqrt( np.mean(   (y.T[0] - y.T[i])**2  )  )
+    delta_xtrain[i] = np.sqrt( np.mean(   (x_train[0] -  x_train[i])**2  )  )
+
+delta_ztest = np.zeros(shape=encoded_xtest_original.shape[0] )
+delta_xtest = np.zeros(shape=encoded_xtest_original.shape[0] )
+
+for i in range(encoded_xtest_original.shape[0]):
+    delta_ztest[i] = np.sqrt( np.mean(   (encoded_xtest_original[0] - encoded_xtest_original[i])**2  )  )
+    delta_xtest[i] = np.sqrt( np.mean(   (x_test[0] -  x_test[i])**2  )  )
+
+
+
+plt.figure(143, figsize=((5,5)))
+plt.plot(delta_z, delta_xtrain, 'bx', markersize = 1, alpha = 0.5, label = 'train')
+plt.plot(delta_ztest, delta_xtest, 'rx', markersize = 4, label = 'test')
+
+
+
+
+plt.xlabel(r'$\bigtriangleup z$')
+plt.ylabel(r'$\bigtriangleup$ $x$')
+
+plt.legend()
+plt.tight_layout()
+plt.savefig(PlotsDir + 'SensitivityP'+str(num_para)+''+fileOut+'.png')
