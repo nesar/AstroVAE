@@ -138,6 +138,16 @@ if PlotRatio:
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
 
+        W_predmax = np.array( [W_predArray[i]] ) + W_varArray[i]
+        # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
+        x_decodedmax = decoder.predict(W_predmax)# + meanFactor
+
+        W_predmin = np.array( [W_predArray[i]] ) - W_varArray[i]
+        # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
+        x_decodedmin = decoder.predict(W_predmin)# + meanFactor
+
+
+
         plt.figure(94, figsize=(8,6))
         plt.title('Autoencoder+GP fit')
         # cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
@@ -167,7 +177,9 @@ if PlotRatio:
             # plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
             # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
 
-            plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+            # plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+            plt.fill_between(ls,  (normFactor*x_decodedmin[0]) , (normFactor*x_decodedmax[0]))
+
             plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1, label = 'original')
 
 
@@ -198,7 +210,7 @@ print('file:', fileOut)
 # ------------------------------------------------------------------------------
 
 
-plotLoss = True
+plotLoss = False
 if plotLoss:
 
     epochs =  history[0,:]
@@ -225,4 +237,4 @@ plt.show()
 
 print(50*'#')
 print(fileOut)
-print('train loss: ', train_loss[-1])
+# print('train loss: ', train_loss[-1])
