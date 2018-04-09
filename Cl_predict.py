@@ -112,7 +112,7 @@ ErrTh = 0.5
 PlotRatio = True
 
 W_predArray = np.load('encoded_test_GP.npy')  ## From Mickael
-W_varArray = np.load('Var_preds.npy').T  ## From Mickael
+# W_varArray = np.load('Var_preds.npy')  ## From Mickael
 
 
 if PlotRatio:
