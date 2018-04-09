@@ -99,9 +99,9 @@ y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
 encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
 
 # ------------------------------------------------------------------------------
-np.set_printoptions(precision=3)
-np.set_printoptions(suppress=True)
-np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
+# np.set_printoptions(precision=3)
+# np.set_printoptions(suppress=True)
+# np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 # ------------------------------------------------------------------------------
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
@@ -178,7 +178,11 @@ if PlotRatio:
             # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
 
             # plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-            plt.fill_between(ls,  (normFactor*x_decodedmin[0]) , (normFactor*x_decodedmax[0]))
+
+
+            x_decoded_lower     
+
+            plt.fill_between(ls,  (normFactor*x_decodedmin[0]) , (normFactor*x_decodedmax[0]), linewidth=4, linestyle='dashdot', antialiased=True)
 
             plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1, label = 'original')
 
