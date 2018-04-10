@@ -226,6 +226,9 @@ ax0.set_ylabel(r'$C_l$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
 
 ax1.axhline(y=1, ls='dashed')
+ax1.axhline(y=1.01, ls='dotted')
+ax1.axhline(y=0.99, ls='dashed')
+
 ax1.set_xlabel(r'$l$')
 
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
@@ -339,8 +342,7 @@ if PlotRatio:
             relError = 100 * ((cl_ratio) - 1)
 
             ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                                                                           ErrTh], 'gx',
-                     alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
+                    ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
             ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5,
