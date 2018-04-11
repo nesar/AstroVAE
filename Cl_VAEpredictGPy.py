@@ -135,86 +135,9 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 
-
-
-# ------------------------------------------------------------------------------
-# PLOTTING y_train and y_test
-
-# import pandas as pd
-# plt.figure(431)
-# AllLabels = [r'$\Omega_m$', r'$\Omega_b$', r'$\sigma_8$', r'$h$', r'$n_s$']
-# df = pd.DataFrame(y_train, columns=AllLabels)
-# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
-# df = pd.DataFrame(y_test, columns=AllLabels)
-# axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
-# plt.tight_layout()
-
-
-# plt.savefig('scatter_matrix.png')
-
-# ------------------------------------------------------------------------------
-
-# y_train1 = np.load(DataDir+'para5_'+str(num_train)+'.npy')
-
-
-
-
-
-
-
-
-# maxP0 = np.max(np.append( y_train[:0], y_test[:,0]))
-# maxP1 = np.max(np.append( y_train[:1], y_test[:,1]))
-# maxP2 = np.max(np.append( y_train[:2], y_test[:,2]))
-# maxP3 = np.max(np.append( y_train[:3], y_test[:,3]))
-# maxP4 = np.max(np.append( y_train[:5], y_test[:,4]))
-#
-# minP0 = np.min(np.append( y_train[:0], y_test[:,0]))
-# minP1 = np.min(np.append( y_train[:1], y_test[:,1]))
-# minP2 = np.min(np.append( y_train[:2], y_test[:,2]))
-# minP3 = np.min(np.append( y_train[:3], y_test[:,3]))
-# minP4 = np.min(np.append( y_train[:5], y_test[:,4]))
-#
-#
-#
-# X1a = rescale01(minP0, maxP0, y_train[:, 0][:, np.newaxis])
-# X2a = rescale01(minP1, maxP1, y_train[:, 1][:, np.newaxis])
-# X3a = rescale01(minP2, maxP2, y_train[:, 2][:, np.newaxis])
-# X4a = rescale01(minP3, maxP3, y_train[:, 3][:, np.newaxis])
-# X5a = rescale01(minP4, maxP4, y_train[:, 4][:, np.newaxis])
-
-
-
-
-X1 = y_train[:, 0][:, np.newaxis]
-X1a = rescale01(np.min(X1), np.max(X1), X1)
-
-X2 = y_train[:, 1][:, np.newaxis]
-X2a = rescale01(np.min(X2), np.max(X2), X2)
-
-X3 = y_train[:, 2][:, np.newaxis]
-X3a = rescale01(np.min(X3), np.max(X3), X3)
-
-X4 = y_train[:, 3][:, np.newaxis]
-X4a = rescale01(np.min(X4), np.max(X4), X4)
-
-X5 = y_train[:, 4][:, np.newaxis]
-X5a = rescale01(np.min(X5), np.max(X5), X5)
-
-
-XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
-
-
 # # ------------------------------------------------------------------------------
-y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
+y_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
 encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
-
-
-
-
-
-
-
 
 
 # xtrain = np.loadtxt("../Cl_data/Data/para4_train.txt") # P5Cl_32
@@ -223,14 +146,10 @@ encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ 
 # ytest = np.loadtxt("../Cl_data/Data/encoded_test_originalP5.txt") # encoded_xtest_original
 
 
-xtrain = x_train
-ytrain = y
-xtest = x_test
+# xtrain = x_train
+# ytrain = y
+# xtest = x_test
 ytest = encoded_xtest_original
-
-
-
-
 
 
 
@@ -257,13 +176,13 @@ ax0.set_ylabel(r'$C_l$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
 
 ax1.axhline(y=1, ls='dotted')
-ax1.axhline(y=1.01, ls='dashed')
-ax1.axhline(y=0.99, ls='dashed')
+# ax1.axhline(y=1.01, ls='dashed')
+# ax1.axhline(y=0.99, ls='dashed')
 
 ax1.set_xlabel(r'$l$')
 
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
-ax1.set_ylim(0.976, 1.024)
+# ax1.set_ylim(0.976, 1.024)
 
 
 
@@ -280,156 +199,55 @@ W_predArray = np.zeros(shape=(num_test,latent_dim))
 
 
 if PlotRatio:
-    # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(num_test) + '.npy')[2:])
-    # PkOriginal = np.log10(np.load('../Cl_data/Data/LatinCl_'+str(num_test)+'.npy')[:,
-    # 2:]) # Original
-
-    # ls = np.loadtxt(DataDir + 'LatinlsP'+str(num_para)+'_' + str(num_test) + '.txt')[2:]#[2::2]
-
-    # Cl_Original = np.load(DataDir + 'LatinCl_'+str(num_test)+'.npy')[:,2:]
-    # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')
 
     Cl_Original = (normFactor*x_test)#[2:3]
     RealParaArray = y_test#[2:3]
 
+    W_pred = np.array([np.zeros(shape=latent_dim)])
+    W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
-    # Cl_Original = (normFactor*x_train)[0:10]
-    # RealParaArray = y_train[0:10]
-
-
-
-    for i in range(np.shape(RealParaArray)[0]):
-
-        RealPara = RealParaArray[i]
-
-        # RealPara[0] = rescale01(min, maxP0, RealPara[0])
-        # RealPara[1] = rescale01(minP1, maxP1, RealPara[1])
-        # RealPara[2] = rescale01(minP2, maxP2, RealPara[2])
-        # RealPara[3] = rescale01(minP3, maxP3, RealPara[3])
-        # RealPara[4] = rescale01(minP4, maxP4, RealPara[4])
+    m1 = GPy.models.GPRegression(x_train, y_train)
+    m1.Gaussian_noise.variance.constrain_fixed(1e-6)
+    m1.optimize()
+    m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive variance
 
 
-        RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
-        RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
-        RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
-        RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
-        RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
+    W_pred = m1p[0]
+    # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
+    x_decoded = decoder.predict(W_pred)# + meanFactor
 
-        test_pts = RealPara[:num_para].reshape(num_para, -1).T
-
-        # ------------------------------------------------------------------------------
-        # y = np.load('../Pk_data/SVDvsVAE/encoded_xtrain.npy').T
-
-        W_pred = np.array([np.zeros(shape=latent_dim)])
-        W_pred_var = np.array([np.zeros(shape=latent_dim)])
+    # W_predmax = np.array([W_predArray[i]]) + W_varArray[i]
+    # # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
+    # x_decodedmax = decoder.predict(W_predmax)  # + meanFactor
+    #
+    # W_predmin = np.array([W_predArray[i]]) - W_varArray[i]
+    # # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
+    # x_decodedmin = decoder.predict(W_predmin)  # + meanFactor
 
 
-        gp = {}
-        for j in range(latent_dim):
+    for i in range(16):
+
+        ax0.plot(ls, (normFactor*x_decoded[i]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+        ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
+
+        cl_ratio = (normFactor * x_decoded[i]) / (Cl_Original[i])
+        relError = 100 * ((cl_ratio) - 1)
+
+        ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
+                        ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-
-            m1 = GPy.models.GPRegression(xtrain, np.reshape(ytrain[:, 0], [-1, 1]))
-            m1.Gaussian_noise.variance.constrain_fixed(1e-6)
-            m1.optimize()
-            m1p = m1.predict(xtest)  # [0] is the mean and [1] the predictive variance
+        ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5,
+                         label = 'emu/camb')
 
 
-
-            gp["fit{0}".format(j)] = george.GP(kernel)
-
-            # gp["fit{0}".format(j)].optimize( XY[:,0,:].T, y[j], verbose=True)
-            ###### optimizes parameters, takes longer
-
-            gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
-            W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)#[0]
-            print 20*'-', gp["fit{0}".format(j)].predict(y[j], test_pts)
-            # W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
-
-        # ------------------------------------------------------------------------------
-
-        W_predArray[i] = W_pred
-        # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
-        x_decoded = decoder.predict(W_pred)# + meanFactor
-
-
-        # plt.figure(94, figsize=(8,6))
-        # plt.title('Autoencoder+GP fit')
-        # # cl_ratio = 10**(normFactor*x_decoded[0])/10**(Cl_Original[i])
-        #
-        # cl_ratio = (normFactor*x_decoded[0])/(Cl_Original[i])
-        #
-        #
-        # relError = 100*((cl_ratio) - 1)
-        #
-        # plt.plot(ls, cl_ratio, alpha=.8, lw = 1.0)
-        # plt.ylim(0.95, 1.05)
-        # # plt.xscale('log')
-        # plt.xlabel(r'$l$')
-        # plt.ylabel(r'$C_l^{GPAE}$/$C_l^{Original}$')
-        # plt.title(fileOut)
-        # # plt.legend()
-        # plt.tight_layout()
-
-
-
-        if i in PlotSampleID:
-
-
-            ax0.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-            ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
-
-            cl_ratio = (normFactor * x_decoded[0]) / (Cl_Original[i])
-            relError = 100 * ((cl_ratio) - 1)
-
-            ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                    ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
-
-
-            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5,
-                     label = 'emu/camb')
-
-            # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
-
-
-
-            # plt.figure(99, figsize=(8,6))
-            # plt.title('Autoencoder+GP fit')
-            # # plt.plot(ls, normFactor * x_test[::].T, 'gray', alpha=0.1)
-            #
-            # # plt.plot(ls, 10**(normFactor*x_decoded[0]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
-            # # plt.plot(ls, 10**(Cl_Original[i]), 'b--', alpha=0.5, lw = 1, label = 'original')
-            #
-            # plt.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-            # plt.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1, label = 'original')
-            #
-            #
-            # # plt.xscale('log')
-            # plt.xlabel(r'$l$')
-            # plt.ylabel(r'$C_l$')
-            # plt.legend()
-            # # plt.tight_layout()
-            #
-            # plt.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-            #                                                               ErrTh], 'gx',
-            #          alpha=0.7, label='bad eggs', markersize = '1')
-            # plt.title(fileOut)
-            #
-            # plt.savefig(PlotsDir + 'TestP'+str(num_para)+''+fileOut+'.png')
-        #plt.show()
         print(i, 'ERR min max:', np.array([(relError).min(), (relError).max()]) )
-
         max_relError = np.max( [np.max(np.abs(relError)) , max_relError] )
 
-    # plt.figure(94, figsize=(8,6))
-    # plt.axhline(y=1, ls='-.', lw=1.5)
-    # plt.savefig(PlotsDir + 'RatioP'+str(num_para)+''+fileOut+'.png')
-
-    #plt.show()
 
 plt.figure(999)
 # plt.tight_layout()
-plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
+plt.savefig(PlotsDir + 'TestGPy'+str(num_para)+''+fileOut+'.png')
 
 
 
@@ -570,7 +388,7 @@ if PlotScatter:
         AllLabels.append(str("z{0}".format(ind)))
 
 
-    inputArray = np.hstack([y_train, y.T])
+    inputArray = np.hstack([y_train, y_train])
     df = pd.DataFrame(inputArray, columns=AllLabels)
     axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
 
@@ -656,11 +474,11 @@ plt.show()
 
 ## to check how well encoding does
 
-delta_z = np.zeros(shape=y.shape[1] )
-delta_xtrain = np.zeros(shape=y.shape[1] )
+delta_z = np.zeros(shape=y_train.shape[0] )
+delta_xtrain = np.zeros(shape=y_train.shape[0] )
 
-for i in range(y.shape[1]):
-    delta_z[i] = np.sqrt( np.mean(   (y.T[0] - y.T[i])**2  )  )
+for i in range(y_train.shape[1]):
+    delta_z[i] = np.sqrt( np.mean(   (y_train[0] - y_train[i])**2  )  )
     delta_xtrain[i] = np.sqrt( np.mean(   (x_train[0] -  x_train[i])**2  )  )
 
 delta_ztest = np.zeros(shape=encoded_xtest_original.shape[0] )
