@@ -170,6 +170,11 @@ PlotRatio = True
 W_predArray = np.zeros(shape=(num_test,latent_dim))
 
 
+# k = GPy.kern.Matern52(1, .3)
+K=GPy.kern.RBF(1)
+
+
+
 if PlotRatio:
 
     Cl_Original = (normFactor*x_test)#[2:3]
@@ -179,8 +184,10 @@ if PlotRatio:
     W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
     m1 = GPy.models.GPRegression(x_train, y_train)
-    # m1.Gaussian_noise.variance.constrain_fixed(1e-6)
-    m1.optimize()
+    k = GPy.kern.Matern52(1, .3)
+
+    m1.Gaussian_noise.variance.constrain_fixed(1e-10)
+    m1.optimize(messages=True)
     m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive variance
 
 
