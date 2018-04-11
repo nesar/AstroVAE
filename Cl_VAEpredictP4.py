@@ -225,8 +225,8 @@ ax1 = plt.subplot(gs[1])
 ax0.set_ylabel(r'$C_l$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
 
-ax1.axhline(y=1, ls='dashed')
-ax1.axhline(y=1.01, ls='dotted')
+ax1.axhline(y=1, ls='dotted')
+ax1.axhline(y=1.01, ls='dashed')
 ax1.axhline(y=0.99, ls='dashed')
 
 ax1.set_xlabel(r'$l$')
