@@ -171,7 +171,7 @@ W_predArray = np.zeros(shape=(num_test,latent_dim))
 
 
 # k = GPy.kern.Matern52(1, .3)
-K=GPy.kern.RBF(1)
+# K=GPy.kern.RBF(1)
 
 
 
@@ -184,8 +184,7 @@ if PlotRatio:
     W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
     m1 = GPy.models.GPRegression(x_train, y_train)
-    k = GPy.kern.Matern52(1, .3)
-
+    # k = GPy.kern.Matern52(1, .3)
     m1.Gaussian_noise.variance.constrain_fixed(1e-10)
     m1.optimize(messages=True)
     m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive variance
@@ -206,14 +205,14 @@ if PlotRatio:
 
     for i in range(16):
 
-        ax0.plot(ls, (normFactor*x_decoded[i]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-        ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
+        ax0.plot(ls, (normFactor*x_decoded[i]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+        ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1,  label = 'camb')
 
         cl_ratio = (normFactor * x_decoded[i]) / (Cl_Original[i])
         relError = 100 * ((cl_ratio) - 1)
 
         ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                        ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
+                        ErrTh], 'gx', alpha=0.5, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
         ax1.plot(ls, (normFactor*x_decoded[i])/ (Cl_Original[i]), '-', lw = 0.5,
