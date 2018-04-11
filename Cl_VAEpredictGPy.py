@@ -74,26 +74,9 @@ if LoadModel:
     history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt')
 
 
-# import george
-# from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
 
 import GPy
 
-
-# kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-# kernel = Matern32Kernel(1000, ndim=num_para)
-# kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
-# kernel = Matern32Kernel( [1000,4000,3000,1000,2000], ndim=num_para)
-# kernel = Matern32Kernel( [1,0.5,1,1.4,0.5], ndim=num_para)
-
-# kernel = Matern32Kernel(ndim=num_para)
-
-# This kernel (and more importantly its subclasses) computes
-# the distance between two samples in an arbitrary metric and applies a radial function to this distance.
-# metric: The specification of the metric. This can be a float, in which case the metric is considered isotropic
-# with the variance in each dimension given by the value of metric.
-# Alternatively, metric can be a list of variances for each dimension. In this case, it should have length ndim.
-# The fully general not axis aligned metric hasn't been implemented yet
 # ----------------------------- i/o ------------------------------------------
 
 
@@ -114,17 +97,6 @@ ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 
-# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
-# print('-------mean factor:', meanFactor)
-# x_train = x_train.astype('float32') - meanFactor #/ 255.
-# x_test = x_test.astype('float32') - meanFactor #/ 255.
-#
-
-# x_train = np.log10(x_train) #x_train[:,2:] #
-# x_test =  np.log10(x_test) #x_test[:,2:] #
-
-# normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-
 normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
 print('-------normalization factor:', normFactor)
 
@@ -137,7 +109,7 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 # # ------------------------------------------------------------------------------
 y_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
-encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
+y_test = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
 
 
 # xtrain = np.loadtxt("../Cl_data/Data/para4_train.txt") # P5Cl_32
@@ -149,7 +121,7 @@ encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ 
 # xtrain = x_train
 # ytrain = y
 # xtest = x_test
-ytest = encoded_xtest_original
+# ytest = encoded_xtest_original
 
 
 
@@ -176,13 +148,13 @@ ax0.set_ylabel(r'$C_l$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
 
 ax1.axhline(y=1, ls='dotted')
-# ax1.axhline(y=1.01, ls='dashed')
-# ax1.axhline(y=0.99, ls='dashed')
+ax1.axhline(y=1.01, ls='dashed')
+ax1.axhline(y=0.99, ls='dashed')
 
 ax1.set_xlabel(r'$l$')
 
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
-# ax1.set_ylim(0.976, 1.024)
+ax1.set_ylim(0.976, 1.024)
 
 
 
@@ -207,7 +179,7 @@ if PlotRatio:
     W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
     m1 = GPy.models.GPRegression(x_train, y_train)
-    m1.Gaussian_noise.variance.constrain_fixed(1e-6)
+    # m1.Gaussian_noise.variance.constrain_fixed(1e-6)
     m1.optimize()
     m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive variance
 
@@ -237,7 +209,7 @@ if PlotRatio:
                         ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-        ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5,
+        ax1.plot(ls, (normFactor*x_decoded[i])/ (Cl_Original[i]), '-', lw = 0.5,
                          label = 'emu/camb')
 
 
@@ -481,11 +453,11 @@ for i in range(y_train.shape[1]):
     delta_z[i] = np.sqrt( np.mean(   (y_train[0] - y_train[i])**2  )  )
     delta_xtrain[i] = np.sqrt( np.mean(   (x_train[0] -  x_train[i])**2  )  )
 
-delta_ztest = np.zeros(shape=encoded_xtest_original.shape[0] )
-delta_xtest = np.zeros(shape=encoded_xtest_original.shape[0] )
+delta_ztest = np.zeros(shape=y_test.shape[0] )
+delta_xtest = np.zeros(shape=y_test.shape[0] )
 
-for i in range(encoded_xtest_original.shape[0]):
-    delta_ztest[i] = np.sqrt( np.mean(   (encoded_xtest_original[0] - encoded_xtest_original[i])**2  )  )
+for i in range(y_test.shape[0]):
+    delta_ztest[i] = np.sqrt( np.mean(   (y_test[0] - y_test[i])**2  )  )
     delta_xtest[i] = np.sqrt( np.mean(   (x_test[0] -  x_test[i])**2  )  )
 
 
