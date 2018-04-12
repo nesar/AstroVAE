@@ -191,8 +191,8 @@ if PlotRatio:
 
     else:  # With Variance run ---> Expensive
 
-        # for i in range(x_test.shape[0]):
-        for i in range(2):
+        for i in range(x_test.shape[0]):
+        # for i in range(2):
 
             x_test_point = x_test[i].reshape(num_para, -1).T
             m = {}
@@ -215,7 +215,7 @@ if PlotRatio:
         np.savetxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) + '.txt', W_varArray)
 
 
-
+#### ------------------------ Can be analyzed separately too ----------------------- ###
 
 plt.figure(999, figsize=(7, 6))
 from matplotlib import gridspec
@@ -240,8 +240,8 @@ ax1.set_ylim(0.976, 1.024)
 
 
 
-
-for i in range(16):
+for i in range(x_test.shape[0]):
+# for i in range(2):
 
 
         # x_decoded = decoder.predict(W_pred)# + meanFactor
@@ -432,7 +432,7 @@ if PlotScatter:
 
 
 
-plt.show()
+# plt.show()
 
 
 # ------------------------------------------------------------------------------
