@@ -135,7 +135,7 @@ ErrTh = 0.5
 PlotRatio = True
 
 W_predArray = np.load('encoded_test_GP.npy')  ## From Mickael
-W_varArray = 10*np.load('Var_preds.npy').T  ## From Mickael
+W_varArray = (np.load('Var_preds.npy')).T  ## From Mickael
 
 
 if PlotRatio:
@@ -161,11 +161,11 @@ if PlotRatio:
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
 
-        W_predmax = np.array( [W_predArray[i]] ) + W_varArray[i]
+        W_predmax = np.array( [W_predArray[i]] ) + 0.5*np.sqrt(W_varArray[i])
         # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
         x_decodedmax = decoder.predict(W_predmax)# + meanFactor
 
-        W_predmin = np.array( [W_predArray[i]] ) - W_varArray[i]
+        W_predmin = np.array( [W_predArray[i]] ) - 0.5*np.sqrt(W_varArray[i])
         # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
         x_decodedmin = decoder.predict(W_predmin)# + meanFactor
 
@@ -184,7 +184,7 @@ if PlotRatio:
             x_decoded_upper = np.max(x_decoded_fill, axis=0)
 
             ax0.fill_between(ls,  (normFactor*x_decoded_lower) , (normFactor*x_decoded_upper),
-                             alpha = 0.9, linewidth=1, linestyle='dashdot', facecolor='red')
+                             alpha = 0.4, linewidth=1, linestyle='dashdot', facecolor='red')
 
 
 
@@ -203,14 +203,14 @@ if PlotRatio:
             ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 1,
                      label = 'emu/camb')
 
-            # ax1.fill_between(ls, (normFactor*x_decoded_lower[0])/ (Cl_Original[i]),
-            #                  (normFactor*x_decoded_upper[0])/ (Cl_Original[i]), alpha = 0.8,
-            #                  facecolor = 'red')
+            ax1.fill_between(ls, (normFactor*x_decoded_lower[0])/ (Cl_Original[i]),
+                             (normFactor*x_decoded_upper[0])/ (Cl_Original[i]), alpha = 0.4,
+                             facecolor = 'red')
 
 
 
-            ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                    ErrTh], 'gx', alpha=0.5, label='bad eggs', markersize = '1')
+            # ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
+            #         ErrTh], 'gx', alpha=0.5, label='bad eggs', markersize = '1')
 
             # plt.savefig(PlotsDir + 'TestP'+str(num_para)+''+fileOut+'.png')
         #plt.show()

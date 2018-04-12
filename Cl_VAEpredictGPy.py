@@ -32,7 +32,7 @@ def rescale01(xmin, xmax, f):
 
 ###################### PARAMETERS ##############################
 
-#original_dim = params.original_dim # 2549
+original_dim = params.original_dim # 2549
 #intermediate_dim2 = params.intermediate_dim2 # 1024
 #intermediate_dim1 = params.intermediate_dim1 # 512
 #intermediate_dim = params.intermediate_dim # 256
@@ -83,22 +83,29 @@ import GPy
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
 
-x_train = Trainfiles[:, num_para+2:]
-x_test = Testfiles[:, num_para+2:]
-y_train = Trainfiles[:, 0: num_para]
-y_test =  Testfiles[:, 0: num_para]
+# x_train = Trainfiles[:, num_para+2:]
+# x_test = Testfiles[:, num_para+2:]
+# y_train = Trainfiles[:, 0: num_para]
+# y_test =  Testfiles[:, 0: num_para]
 
-print(x_train.shape, 'train sequences')
-print(x_test.shape, 'test sequences')
-print(y_train.shape, 'train sequences')
-print(y_test.shape, 'test sequences')
+# print(x_train.shape, 'train sequences')
+# print(x_test.shape, 'test sequences')
+# print(y_train.shape, 'train sequences')
+# print(y_test.shape, 'test sequences')
 
 ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 
+x_train = Trainfiles[:, 0: num_para]
+x_test =  Testfiles[:, 0: num_para]
+
 normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
 print('-------normalization factor:', normFactor)
+
+
+Cl_Original = (Testfiles[:, num_para+2:])  # [2:3]
+
 
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
@@ -108,6 +115,9 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 # # ------------------------------------------------------------------------------
+
+
+
 y_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
 y_test = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
 
@@ -168,6 +178,11 @@ ErrTh = 0.5
 PlotRatio = True
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
+W_varArray = np.zeros(shape=(num_test,latent_dim))
+
+x_decoded = np.zeros(shape=(num_test,original_dim))
+x_decodedmax = np.zeros(shape=(num_test,original_dim))
+x_decodedmin = np.zeros(shape=(num_test,original_dim))
 
 
 # k = GPy.kern.Matern52(1, .3)
@@ -177,30 +192,48 @@ W_predArray = np.zeros(shape=(num_test,latent_dim))
 
 if PlotRatio:
 
-    Cl_Original = (normFactor*x_test)#[2:3]
-    RealParaArray = y_test#[2:3]
-
     W_pred = np.array([np.zeros(shape=latent_dim)])
     W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
-    m1 = GPy.models.GPRegression(x_train, y_train)
-    # k = GPy.kern.Matern52(1, .3)
-    m1.Gaussian_noise.variance.constrain_fixed(1e-10)
-    m1.optimize(messages=True)
-    m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive variance
+
+    kern = GPy.kern.Matern52(input_dim= num_para)
+    # kern = GPy.kern.Matern52(5, 0.3)
 
 
-    W_pred = m1p[0]
-    # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
-    x_decoded = decoder.predict(W_pred)# + meanFactor
 
-    # W_predmax = np.array([W_predArray[i]]) + W_varArray[i]
-    # # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
-    # x_decodedmax = decoder.predict(W_predmax)  # + meanFactor
-    #
-    # W_predmin = np.array([W_predArray[i]]) - W_varArray[i]
-    # # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
-    # x_decodedmin = decoder.predict(W_predmin)  # + meanFactor
+
+
+    for i in range(x_test.shape[0]):
+
+
+        x_test_point = x_test[i].reshape(num_para, -1).T
+
+
+        m = {}
+        m_pred = {}
+
+        for j in range(latent_dim):
+            m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
+                y_train.shape[0], -1), kernel=kern)
+            m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
+            # m["fit{0}".format(j)].optimize(messages=True)
+            m_pred["fit{0}".format(j)] = m["fit{0}".format(j)].predict(x_test_point)
+
+        # m1 = GPy.models.GPRegression(x_train, y_train, kernel=kern)
+        # m1.Gaussian_noise.variance.constrain_fixed(1e-12)
+        # m1.optimize(messages=True)
+        # m1p = m1.predict(x_test_point)  # [0] is the mean and [1] the predictive
+        ## variance
+
+
+            W_predArray[i, j] = m_pred["fit{0}".format(j)][0]
+        # W_pred = m1p[0]
+        # x_decoded = decoder.predict(W_pred)# + meanFactor
+        x_decoded[i] = decoder.predict(  W_predArray[i].reshape(latent_dim, -1).T   )# + meanFactor
+
+        # x_decodedmax[i] = decoder.predict(np.array( [W_predArray[i]] ) + np.sqrt(W_varArray[i]))
+        # x_decodedmin[i] = decoder.predict(np.array( [W_predArray[i]] ) - np.sqrt(W_varArray[i]))
+
 
 
     for i in range(16):
@@ -452,19 +485,19 @@ plt.show()
 
 ## to check how well encoding does
 
-delta_z = np.zeros(shape=y_train.shape[0] )
-delta_xtrain = np.zeros(shape=y_train.shape[0] )
+delta_z = np.zeros(shape=x_train.shape[0] )
+delta_xtrain = np.zeros(shape=x_train.shape[0] )
 
 for i in range(y_train.shape[1]):
-    delta_z[i] = np.sqrt( np.mean(   (y_train[0] - y_train[i])**2  )  )
-    delta_xtrain[i] = np.sqrt( np.mean(   (x_train[0] -  x_train[i])**2  )  )
+    delta_z[i] = np.sqrt( np.mean(   (x_train[0] - x_train[i])**2  )  )
+    delta_xtrain[i] = np.sqrt( np.mean(   (y_train[0] -  y_train[i])**2  )  )
 
-delta_ztest = np.zeros(shape=y_test.shape[0] )
-delta_xtest = np.zeros(shape=y_test.shape[0] )
+delta_ztest = np.zeros(shape=x_test.shape[0] )
+delta_xtest = np.zeros(shape=x_test.shape[0] )
 
 for i in range(y_test.shape[0]):
-    delta_ztest[i] = np.sqrt( np.mean(   (y_test[0] - y_test[i])**2  )  )
-    delta_xtest[i] = np.sqrt( np.mean(   (x_test[0] -  x_test[i])**2  )  )
+    delta_ztest[i] = np.sqrt( np.mean(   (x_test[0] - x_test[i])**2  )  )
+    delta_xtest[i] = np.sqrt( np.mean(   (y_test[0] -  y_test[i])**2  )  )
 
 
 
