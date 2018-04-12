@@ -234,6 +234,25 @@ if PlotRatio:
 
         ##########################################################################################
 
+
+
+np.savetxt(DataDir + 'WPredArray_GPy'+ str(latent_dim) + '.txt', W_predArray)
+np.savetxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) + '.txt', W_varArray)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             # W_predArray[i, j] = m_pred["fit{0}".format(j)][0]
             # W_varArray[i, j] = m_pred["fit{0}".format(j)][1]
         # W_pred = m1p[0]
@@ -242,6 +261,11 @@ if PlotRatio:
 
         # x_decodedmax[i] = decoder.predict(np.array( [W_predArray[i]] ) + np.sqrt(W_varArray[i]))
         # x_decodedmin[i] = decoder.predict(np.array( [W_predArray[i]] ) - np.sqrt(W_varArray[i]))
+
+
+
+
+
 
 
 
