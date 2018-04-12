@@ -192,8 +192,8 @@ x_decodedmin = np.zeros(shape=(num_test,original_dim))
 
 if PlotRatio:
 
-    W_pred = np.array([np.zeros(shape=latent_dim)])
-    W_pred_var = np.array([np.zeros(shape=latent_dim)])
+    # W_pred = np.array([np.zeros(shape=latent_dim)])
+    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
 
     kern = GPy.kern.Matern52(input_dim= num_para)
@@ -203,8 +203,8 @@ if PlotRatio:
 
 
 
-    for i in range(x_test.shape[0]):
-
+    # for i in range(x_test.shape[0]):
+    for i in range(2):
 
         x_test_point = x_test[i].reshape(num_para, -1).T
 
@@ -215,9 +215,9 @@ if PlotRatio:
         for j in range(latent_dim):
             m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
                 y_train.shape[0], -1), kernel=kern)
-            m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
+            # m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
             # m["fit{0}".format(j)].optimize(messages=True)
-            m_pred["fit{0}".format(j)] = m["fit{0}".format(j)].predict(x_test_point)
+            W_predArray[i, j], W_varArray[i, j] = m["fit{0}".format(j)].predict(x_test_point)
 
         # m1 = GPy.models.GPRegression(x_train, y_train, kernel=kern)
         # m1.Gaussian_noise.variance.constrain_fixed(1e-12)
@@ -226,7 +226,8 @@ if PlotRatio:
         ## variance
 
 
-            W_predArray[i, j] = m_pred["fit{0}".format(j)][0]
+            # W_predArray[i, j] = m_pred["fit{0}".format(j)][0]
+            # W_varArray[i, j] = m_pred["fit{0}".format(j)][1]
         # W_pred = m1p[0]
         # x_decoded = decoder.predict(W_pred)# + meanFactor
         x_decoded[i] = decoder.predict(  W_predArray[i].reshape(latent_dim, -1).T   )# + meanFactor
