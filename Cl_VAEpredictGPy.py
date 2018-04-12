@@ -171,7 +171,7 @@ if PlotRatio:
     # kern = GPy.kern.Matern52(5, 0.3)
 
 
-    if IfVariance == False:
+    if (IfVariance == False):
 
         #########################################################################################
         ## All GP fitting together -- workes fine, except we get one value of variance for all
@@ -198,6 +198,8 @@ if PlotRatio:
             m = {}
 
             for j in range(latent_dim):
+                
+                print '========= GP fit run -- test case:', i, 'output dim:', j, '========'
                 m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
                     y_train.shape[0], -1), kernel=kern)
                 m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
