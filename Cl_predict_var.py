@@ -159,7 +159,7 @@ if PlotRatio:
 
     for i in range(np.shape(RealParaArray)[0]):
 
-        RealPara = RealParaArray[i]
+        # RealPara = RealParaArray[i]
 
 
         W_pred = np.array([W_predArray[i]])

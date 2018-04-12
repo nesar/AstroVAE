@@ -142,6 +142,72 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 # ------------------------------------------------------------------------------
 
 
+max_relError = 0
+ErrTh = 0.5
+PlotRatio = True
+IfVariance = True
+
+
+W_predArray = np.zeros(shape=(num_test,latent_dim))
+W_varArray = np.zeros(shape=(num_test,latent_dim))
+
+x_decoded = np.zeros(shape=(num_test,original_dim))
+x_decodedmax = np.zeros(shape=(num_test,original_dim))
+x_decodedmin = np.zeros(shape=(num_test,original_dim))
+
+
+# k = GPy.kern.Matern52(1, .3)
+# K=GPy.kern.RBF(1)
+
+
+
+if PlotRatio:
+
+    # W_pred = np.array([np.zeros(shape=latent_dim)])
+    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
+
+
+    kern = GPy.kern.Matern52(input_dim= num_para)
+    # kern = GPy.kern.Matern52(5, 0.3)
+
+
+    if IfVariance == False:
+
+        #########################################################################################
+        ## All GP fitting together -- workes fine, except we get one value of variance for all
+        # output dimensions, since they're considered independant
+
+
+        m1 = GPy.models.GPRegression(x_train, y_train, kernel=kern)
+        m1.Gaussian_noise.variance.constrain_fixed(1e-12)
+        m1.optimize(messages=True)
+        m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive
+        W_predArray = m1p[0]
+
+
+        np.savetxt(DataDir + 'WPredArray_GPyNoVariance'+ str(latent_dim) + '.txt', W_predArray)
+
+        #########################################################################################
+
+    else:
+
+        for i in range(x_test.shape[0]):
+        # for i in range(2):
+
+            x_test_point = x_test[i].reshape(num_para, -1).T
+            m = {}
+
+            for j in range(latent_dim):
+                m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
+                    y_train.shape[0], -1), kernel=kern)
+                m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
+                m["fit{0}".format(j)].optimize(messages=True)
+                W_predArray[i, j], W_varArray[i, j] = m["fit{0}".format(j)].predict(x_test_point)
+
+
+
+        np.savetxt(DataDir + 'WPredArray_GPy'+ str(latent_dim) + '.txt', W_predArray)
+        np.savetxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) + '.txt', W_varArray)
 
 
 
@@ -169,93 +235,10 @@ ax1.set_ylim(0.976, 1.024)
 
 
 
-# PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = np.arange(y_test.shape[0])[::2]
+
+for i in range(16):
 
 
-max_relError = 0
-ErrTh = 0.5
-PlotRatio = True
-
-W_predArray = np.zeros(shape=(num_test,latent_dim))
-W_varArray = np.zeros(shape=(num_test,latent_dim))
-
-x_decoded = np.zeros(shape=(num_test,original_dim))
-x_decodedmax = np.zeros(shape=(num_test,original_dim))
-x_decodedmin = np.zeros(shape=(num_test,original_dim))
-
-
-# k = GPy.kern.Matern52(1, .3)
-# K=GPy.kern.RBF(1)
-
-
-
-if PlotRatio:
-
-    # W_pred = np.array([np.zeros(shape=latent_dim)])
-    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
-
-
-    kern = GPy.kern.Matern52(input_dim= num_para)
-    # kern = GPy.kern.Matern52(5, 0.3)
-
-
-
-
-
-    for i in range(x_test.shape[0]):
-    # for i in range(2):
-
-        x_test_point = x_test[i].reshape(num_para, -1).T
-
-
-        m = {}
-        # m_pred = {}
-
-        for j in range(latent_dim):
-            m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
-                y_train.shape[0], -1), kernel=kern)
-            m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
-            m["fit{0}".format(j)].optimize(messages=True)
-            W_predArray[i, j], W_varArray[i, j] = m["fit{0}".format(j)].predict(x_test_point)
-
-
-
-        ##########################################################################################
-        #  All GP fitting together -- workes fine, except we get one value of variance for all output
-        # dimensions, since they're considered independant
-
-
-        # m1 = GPy.models.GPRegression(x_train, y_train, kernel=kern)
-        # m1.Gaussian_noise.variance.constrain_fixed(1e-12)
-        # m1.optimize(messages=True)
-        # m1p = m1.predict(x_test_point)  # [0] is the mean and [1] the predictive
-
-
-        ##########################################################################################
-
-
-
-np.savetxt(DataDir + 'WPredArray_GPy'+ str(latent_dim) + '.txt', W_predArray)
-np.savetxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) + '.txt', W_varArray)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            # W_predArray[i, j] = m_pred["fit{0}".format(j)][0]
-            # W_varArray[i, j] = m_pred["fit{0}".format(j)][1]
-        # W_pred = m1p[0]
         # x_decoded = decoder.predict(W_pred)# + meanFactor
         x_decoded[i] = decoder.predict(  W_predArray[i].reshape(latent_dim, -1).T   )# + meanFactor
 
@@ -263,13 +246,6 @@ np.savetxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) + '.txt', W_varArray)
         # x_decodedmin[i] = decoder.predict(np.array( [W_predArray[i]] ) - np.sqrt(W_varArray[i]))
 
 
-
-
-
-
-
-
-    for i in range(16):
 
         ax0.plot(ls, (normFactor*x_decoded[i]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
         ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1,  label = 'camb')
