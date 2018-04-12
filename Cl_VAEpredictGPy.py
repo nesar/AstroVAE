@@ -199,7 +199,7 @@ if PlotRatio:
 
             for j in range(latent_dim):
 
-                print '========= GP fit run -- test case:', i, 'output dim:', j, '========'
+                print '========= GP fit run -- test case:', i, ' output dim:', j, '========'
                 print
 
 
