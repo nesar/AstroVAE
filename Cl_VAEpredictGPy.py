@@ -145,7 +145,7 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 max_relError = 0
 ErrTh = 0.5
 PlotRatio = True
-IfVariance = True
+IfVariance = True   # Computation is a lot slower with Variance
 
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
@@ -189,17 +189,20 @@ if PlotRatio:
 
         #########################################################################################
 
-    else:
+    else:  # With Variance run ---> Expensive
 
-        for i in range(x_test.shape[0]):
-        # for i in range(2):
+        # for i in range(x_test.shape[0]):
+        for i in range(2):
 
             x_test_point = x_test[i].reshape(num_para, -1).T
             m = {}
 
             for j in range(latent_dim):
-                
+
                 print '========= GP fit run -- test case:', i, 'output dim:', j, '========'
+                print
+
+
                 m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
                     y_train.shape[0], -1), kernel=kern)
                 m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
