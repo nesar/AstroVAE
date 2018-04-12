@@ -302,7 +302,7 @@ if PlotRatio:
 
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
             W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)#[0]
-            print 20*'-', gp["fit{0}".format(j)].predict(y[j], test_pts)
+            print 20*'-', W_pred[:, j], W_pred_var[:, j]
             # W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------

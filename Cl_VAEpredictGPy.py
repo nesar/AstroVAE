@@ -32,7 +32,7 @@ def rescale01(xmin, xmax, f):
 
 ###################### PARAMETERS ##############################
 
-#original_dim = params.original_dim # 2549
+original_dim = params.original_dim # 2549
 #intermediate_dim2 = params.intermediate_dim2 # 1024
 #intermediate_dim1 = params.intermediate_dim1 # 512
 #intermediate_dim = params.intermediate_dim # 256
@@ -74,59 +74,38 @@ if LoadModel:
     history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt')
 
 
-# import george
-# from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
 
 import GPy
 
-
-# kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-# kernel = Matern32Kernel(1000, ndim=num_para)
-# kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
-# kernel = Matern32Kernel( [1000,4000,3000,1000,2000], ndim=num_para)
-# kernel = Matern32Kernel( [1,0.5,1,1.4,0.5], ndim=num_para)
-
-# kernel = Matern32Kernel(ndim=num_para)
-
-# This kernel (and more importantly its subclasses) computes
-# the distance between two samples in an arbitrary metric and applies a radial function to this distance.
-# metric: The specification of the metric. This can be a float, in which case the metric is considered isotropic
-# with the variance in each dimension given by the value of metric.
-# Alternatively, metric can be a list of variances for each dimension. In this case, it should have length ndim.
-# The fully general not axis aligned metric hasn't been implemented yet
 # ----------------------------- i/o ------------------------------------------
 
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
 
-x_train = Trainfiles[:, num_para+2:]
-x_test = Testfiles[:, num_para+2:]
-y_train = Trainfiles[:, 0: num_para]
-y_test =  Testfiles[:, 0: num_para]
+# x_train = Trainfiles[:, num_para+2:]
+# x_test = Testfiles[:, num_para+2:]
+# y_train = Trainfiles[:, 0: num_para]
+# y_test =  Testfiles[:, 0: num_para]
 
-print(x_train.shape, 'train sequences')
-print(x_test.shape, 'test sequences')
-print(y_train.shape, 'train sequences')
-print(y_test.shape, 'test sequences')
+# print(x_train.shape, 'train sequences')
+# print(x_test.shape, 'test sequences')
+# print(y_train.shape, 'train sequences')
+# print(y_test.shape, 'test sequences')
 
 ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 
-# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
-# print('-------mean factor:', meanFactor)
-# x_train = x_train.astype('float32') - meanFactor #/ 255.
-# x_test = x_test.astype('float32') - meanFactor #/ 255.
-#
-
-# x_train = np.log10(x_train) #x_train[:,2:] #
-# x_test =  np.log10(x_test) #x_test[:,2:] #
-
-# normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+x_train = Trainfiles[:, 0: num_para]
+x_test =  Testfiles[:, 0: num_para]
 
 normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
 print('-------normalization factor:', normFactor)
+
+
+Cl_Original = (Testfiles[:, num_para+2:])  # [2:3]
+
 
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
@@ -136,8 +115,11 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 # # ------------------------------------------------------------------------------
+
+
+
 y_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
-encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
+y_test = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
 
 
 # xtrain = np.loadtxt("../Cl_data/Data/para4_train.txt") # P5Cl_32
@@ -149,7 +131,7 @@ encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ 
 # xtrain = x_train
 # ytrain = y
 # xtest = x_test
-ytest = encoded_xtest_original
+# ytest = encoded_xtest_original
 
 
 
@@ -176,13 +158,13 @@ ax0.set_ylabel(r'$C_l$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
 
 ax1.axhline(y=1, ls='dotted')
-# ax1.axhline(y=1.01, ls='dashed')
-# ax1.axhline(y=0.99, ls='dashed')
+ax1.axhline(y=1.01, ls='dashed')
+ax1.axhline(y=0.99, ls='dashed')
 
 ax1.set_xlabel(r'$l$')
 
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
-# ax1.set_ylim(0.976, 1.024)
+ax1.set_ylim(0.976, 1.024)
 
 
 
@@ -196,48 +178,110 @@ ErrTh = 0.5
 PlotRatio = True
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
+W_varArray = np.zeros(shape=(num_test,latent_dim))
+
+x_decoded = np.zeros(shape=(num_test,original_dim))
+x_decodedmax = np.zeros(shape=(num_test,original_dim))
+x_decodedmin = np.zeros(shape=(num_test,original_dim))
+
+
+# k = GPy.kern.Matern52(1, .3)
+# K=GPy.kern.RBF(1)
+
 
 
 if PlotRatio:
 
-    Cl_Original = (normFactor*x_test)#[2:3]
-    RealParaArray = y_test#[2:3]
-
-    W_pred = np.array([np.zeros(shape=latent_dim)])
-    W_pred_var = np.array([np.zeros(shape=latent_dim)])
-
-    m1 = GPy.models.GPRegression(x_train, y_train)
-    m1.Gaussian_noise.variance.constrain_fixed(1e-6)
-    m1.optimize()
-    m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive variance
+    # W_pred = np.array([np.zeros(shape=latent_dim)])
+    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
 
-    W_pred = m1p[0]
-    # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
-    x_decoded = decoder.predict(W_pred)# + meanFactor
+    kern = GPy.kern.Matern52(input_dim= num_para)
+    # kern = GPy.kern.Matern52(5, 0.3)
 
-    # W_predmax = np.array([W_predArray[i]]) + W_varArray[i]
-    # # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
-    # x_decodedmax = decoder.predict(W_predmax)  # + meanFactor
-    #
-    # W_predmin = np.array([W_predArray[i]]) - W_varArray[i]
-    # # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
-    # x_decodedmin = decoder.predict(W_predmin)  # + meanFactor
+
+
+
+
+    for i in range(x_test.shape[0]):
+    # for i in range(2):
+
+        x_test_point = x_test[i].reshape(num_para, -1).T
+
+
+        m = {}
+        # m_pred = {}
+
+        for j in range(latent_dim):
+            m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
+                y_train.shape[0], -1), kernel=kern)
+            m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
+            m["fit{0}".format(j)].optimize(messages=True)
+            W_predArray[i, j], W_varArray[i, j] = m["fit{0}".format(j)].predict(x_test_point)
+
+
+
+        ##########################################################################################
+        #  All GP fitting together -- workes fine, except we get one value of variance for all output
+        # dimensions, since they're considered independant
+
+
+        # m1 = GPy.models.GPRegression(x_train, y_train, kernel=kern)
+        # m1.Gaussian_noise.variance.constrain_fixed(1e-12)
+        # m1.optimize(messages=True)
+        # m1p = m1.predict(x_test_point)  # [0] is the mean and [1] the predictive
+
+
+        ##########################################################################################
+
+
+
+np.savetxt(DataDir + 'WPredArray_GPy'+ str(latent_dim) + '.txt', W_predArray)
+np.savetxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) + '.txt', W_varArray)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            # W_predArray[i, j] = m_pred["fit{0}".format(j)][0]
+            # W_varArray[i, j] = m_pred["fit{0}".format(j)][1]
+        # W_pred = m1p[0]
+        # x_decoded = decoder.predict(W_pred)# + meanFactor
+        x_decoded[i] = decoder.predict(  W_predArray[i].reshape(latent_dim, -1).T   )# + meanFactor
+
+        # x_decodedmax[i] = decoder.predict(np.array( [W_predArray[i]] ) + np.sqrt(W_varArray[i]))
+        # x_decodedmin[i] = decoder.predict(np.array( [W_predArray[i]] ) - np.sqrt(W_varArray[i]))
+
+
+
+
+
+
 
 
     for i in range(16):
 
-        ax0.plot(ls, (normFactor*x_decoded[i]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
-        ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
+        ax0.plot(ls, (normFactor*x_decoded[i]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+        ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1,  label = 'camb')
 
         cl_ratio = (normFactor * x_decoded[i]) / (Cl_Original[i])
         relError = 100 * ((cl_ratio) - 1)
 
         ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                        ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
+                        ErrTh], 'gx', alpha=0.5, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-        ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5,
+        ax1.plot(ls, (normFactor*x_decoded[i])/ (Cl_Original[i]), '-', lw = 0.5,
                          label = 'emu/camb')
 
 
@@ -474,19 +518,19 @@ plt.show()
 
 ## to check how well encoding does
 
-delta_z = np.zeros(shape=y_train.shape[0] )
-delta_xtrain = np.zeros(shape=y_train.shape[0] )
+delta_z = np.zeros(shape=x_train.shape[0] )
+delta_xtrain = np.zeros(shape=x_train.shape[0] )
 
 for i in range(y_train.shape[1]):
-    delta_z[i] = np.sqrt( np.mean(   (y_train[0] - y_train[i])**2  )  )
-    delta_xtrain[i] = np.sqrt( np.mean(   (x_train[0] -  x_train[i])**2  )  )
+    delta_z[i] = np.sqrt( np.mean(   (x_train[0] - x_train[i])**2  )  )
+    delta_xtrain[i] = np.sqrt( np.mean(   (y_train[0] -  y_train[i])**2  )  )
 
-delta_ztest = np.zeros(shape=encoded_xtest_original.shape[0] )
-delta_xtest = np.zeros(shape=encoded_xtest_original.shape[0] )
+delta_ztest = np.zeros(shape=x_test.shape[0] )
+delta_xtest = np.zeros(shape=x_test.shape[0] )
 
-for i in range(encoded_xtest_original.shape[0]):
-    delta_ztest[i] = np.sqrt( np.mean(   (encoded_xtest_original[0] - encoded_xtest_original[i])**2  )  )
-    delta_xtest[i] = np.sqrt( np.mean(   (x_test[0] -  x_test[i])**2  )  )
+for i in range(y_test.shape[0]):
+    delta_ztest[i] = np.sqrt( np.mean(   (x_test[0] - x_test[i])**2  )  )
+    delta_xtest[i] = np.sqrt( np.mean(   (y_test[0] -  y_test[i])**2  )  )
 
 
 
