@@ -101,7 +101,6 @@ print('-------normalization factor:', normFactor)
 print('-------rescaling factor:', meanFactor)
 
 
-print('-------normalization factor:', normFactor)
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
 
