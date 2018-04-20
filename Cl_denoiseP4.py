@@ -11,8 +11,8 @@ from keras.models import Model
 from keras import optimizers
 from keras import losses
 
-import matplotlib as mpl
-mpl.use('Agg')
+# import matplotlib as mpl
+# mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 import keras.backend as K
@@ -61,6 +61,77 @@ PlotsDir = params.PlotsDir
 ModelDir = params.ModelDir
 
 fileOut = params.fileOut
+
+
+# ----------------------------- i/o ------------------------------------------
+ClID = ['TT', 'EE', 'BB', 'TE'][0]
+
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
+
+x_train = Trainfiles[:, num_para+2:]
+x_test = Testfiles[:, num_para+2:]
+y_train = Trainfiles[:, 0: num_para]
+y_test =  Testfiles[:, 0: num_para]
+
+print(x_train.shape, 'train sequences')
+print(x_test.shape, 'test sequences')
+print(y_train.shape, 'train sequences')
+print(y_test.shape, 'test sequences')
+
+ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
+#----------------------------------------------------------------------------
+
+
+
+# x_train = np.log10(x_train) #x_train[:,2:] #
+# x_test =  np.log10(x_test) #x_test[:,2:] #
+
+normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+# normFactor = 1
+print('-------normalization factor:', normFactor)
+x_train = x_train.astype('float32')/normFactor #/ 255.
+x_test = x_test.astype('float32')/normFactor #/ 255.
+
+
+minVal = np.min( [np.min(x_train), np.min(x_test ) ])
+meanFactor = minVal if minVal < 0 else 0
+# meanFactor = 0.0
+print('-------mean factor:', meanFactor)
+x_train = x_train - meanFactor #/ 255.
+x_test = x_test - meanFactor #/ 255.
+
+
+
+np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
+np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
+
+
+
+
+x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
+
+# # Trying to get x_train ~ (-1, 1) -- doesn't work well
+# x_mean = np.mean(x_train, axis = 0)
+# x_train = x_train - x_mean
+# x_test = x_test - x_mean
+
+
+## ADD noise
+x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
+x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
+# x_train_noisy = np.clip(x_train_noisy, 0., 1.)
+# x_test_noisy = np.clip(x_test_noisy, 0., 1.)
+
+# plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
+# plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
+
+x_train_noisy = K.cast_to_floatx(x_train_noisy)
+x_train = K.cast_to_floatx(x_train)
+# ------------------------------------------------------------------------------
 
 ################# ARCHITECTURE ###############################
 
@@ -166,66 +237,7 @@ K.set_value(vae.optimizer.decay, decay_rate)
 
 print(vae.summary())
 
-# ----------------------------- i/o ------------------------------------------
 
-
-Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
-
-x_train = Trainfiles[:, num_para+2:]
-x_test = Testfiles[:, num_para+2:]
-y_train = Trainfiles[:, 0: num_para]
-y_test =  Testfiles[:, 0: num_para]
-
-print(x_train.shape, 'train sequences')
-print(x_test.shape, 'test sequences')
-print(y_train.shape, 'train sequences')
-print(y_test.shape, 'test sequences')
-
-ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
-
-#----------------------------------------------------------------------------
-
-# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
-# print('-------mean factor:', meanFactor)
-# x_train = x_train.astype('float32') - meanFactor #/ 255.
-# x_test = x_test.astype('float32') - meanFactor #/ 255.
-# np.save(DataDir+'meanfactor_'+str(num_train)+'.npy', meanFactor)
-#
-
-# x_train = np.log10(x_train) #x_train[:,2:] #
-# x_test =  np.log10(x_test) #x_test[:,2:] #
-
-normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-# normFactor = 1
-print('-------normalization factor:', normFactor)
-x_train = x_train.astype('float32')/normFactor #/ 255.
-x_test = x_test.astype('float32')/normFactor #/ 255.
-np.savetxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt', [normFactor])
-
-
-x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
-
-
-# # Trying to get x_train ~ (-1, 1) -- doesn't work well
-# x_mean = np.mean(x_train, axis = 0)
-# x_train = x_train - x_mean
-# x_test = x_test - x_mean
-
-
-## ADD noise
-x_train_noisy = x_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_train.shape)
-x_test_noisy = x_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=x_test.shape)
-# x_train_noisy = np.clip(x_train_noisy, 0., 1.)
-# x_test_noisy = np.clip(x_test_noisy, 0., 1.)
-
-# plt.plot(x_test_noisy.T, 'r', alpha = 0.3)
-# plt.plot(x_test_noisy.T*(y_test[:,2]**2), 'b', alpha = 0.3)
-
-x_train_noisy = K.cast_to_floatx(x_train_noisy)
-x_train = K.cast_to_floatx(x_train)
-# ------------------------------------------------------------------------------
 
 #TRAIN
 
@@ -241,8 +253,8 @@ x_train_decoded = decoder.predict(x_train_encoded)
 x_test_encoded = encoder.predict(x_test)
 x_test_decoded = decoder.predict(x_test_encoded)
 
-np.savetxt(DataDir+'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt', x_train_encoded)
-np.savetxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt', x_test_encoded)
+np.savetxt(DataDir+'encoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.txt', x_train_encoded)
+np.savetxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt', x_test_encoded)
 
 # np.save(DataDir+'para5_'+str(num_train)+'.npy', y_train)
 # -------------------- Save model/weights --------------------------
@@ -257,10 +269,10 @@ if SaveModel:
     training_hist = np.vstack([epochs, train_loss, val_loss])
 
 
-    vae.save(ModelDir+'fullAEP'+str(num_para)+'_' + fileOut + '.hdf5')
-    encoder.save(ModelDir + 'EncoderP'+str(num_para)+'_' + fileOut + '.hdf5')
-    decoder.save(ModelDir + 'DecoderP'+str(num_para)+'_' + fileOut + '.hdf5')
-    np.savetxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt', training_hist)
+    vae.save(ModelDir+'fullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    encoder.save(ModelDir + 'EncoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    decoder.save(ModelDir + 'DecoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    np.savetxt(ModelDir + 'TrainingHistoryP'+str(num_para)+ClID+'_'+fileOut+'.txt', training_hist)
 
 # -------------------- Plotting routines --------------------------
 PlotScatter = True
@@ -276,7 +288,7 @@ if PlotScatter:
     plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:, 0], cmap='copper')
     plt.colorbar()
     plt.title(fileOut)
-    plt.savefig( PlotsDir + 'Scatter_z'+fileOut+'.png')
+    plt.savefig( PlotsDir + 'Scatter_z'+ClID+fileOut+'.png')
 
 
 
@@ -296,7 +308,7 @@ if PlotSample:
         # plt.yscale('log')
         plt.ylabel('reconstructed/real')
         plt.title('train(red) and test (black)')
-        plt.savefig(PlotsDir + 'Ratio_ttP'+str(num_para)+''+fileOut+'.png')
+        plt.savefig(PlotsDir + 'Ratio_ttP'+str(num_para)+ClID+fileOut+'.png')
 
 
         if (i%2 == 1):
@@ -304,14 +316,14 @@ if PlotSample:
             # plt.plot(ls, 10**(normFactor*x_test_decoded[i]), 'r-', alpha = 0.8)
             # plt.plot(ls, 10**(normFactor*x_test[i]), 'b--', alpha = 0.8)
 
-            plt.plot(ls, (normFactor*x_test_decoded[i]), 'r-', alpha = 0.8)
-            plt.plot(ls, (normFactor*x_test[i]), 'b--', alpha = 0.8)
+            plt.plot(ls, (normFactor*(x_test_decoded[i] + meanFactor)), 'r-', alpha = 0.8)
+            plt.plot(ls, (normFactor*(x_test[i] + meanFactor)), 'b--', alpha = 0.8)
 
 
             # plt.xscale('log')
             # plt.yscale('log')
             plt.title('Testing: reconstructed (red) and real (blue)')
-            plt.savefig(PlotsDir + 'decoderTestP'+str(num_para)+'' + fileOut + '.png')
+            plt.savefig(PlotsDir + 'decoderTestP'+str(num_para)+ClID+ fileOut + '.png')
 
     plt.show()
 

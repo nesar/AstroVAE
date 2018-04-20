@@ -60,42 +60,14 @@ ModelDir = params.ModelDir
 fileOut = params.fileOut
 
 
-################# ARCHITECTURE ###############################
-
-
-LoadModel = True
-if LoadModel:
-
-    # fileOut = 'VanillaModel_tot'+str(num_train)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
-
-    # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
-    encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+'_' + fileOut + '.hdf5')
-    decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+'_' + fileOut + '.hdf5')
-    history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt')
-
-
-import george
-from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
-
-# kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-# kernel = Matern32Kernel(1000, ndim=num_para)
-# kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
-kernel = Matern32Kernel( [1000,4000,3000,1000,2000], ndim=num_para)
-# kernel = Matern32Kernel( [1,0.5,1,1.4,0.5], ndim=num_para)
-
-# kernel = Matern32Kernel(ndim=num_para)
-
-# This kernel (and more importantly its subclasses) computes
-# the distance between two samples in an arbitrary metric and applies a radial function to this distance.
-# metric: The specification of the metric. This can be a float, in which case the metric is considered isotropic
-# with the variance in each dimension given by the value of metric. 
-# Alternatively, metric can be a list of variances for each dimension. In this case, it should have length ndim.
-# The fully general not axis aligned metric hasn't been implemented yet
 # ----------------------------- i/o ------------------------------------------
 
 
-Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
+ClID = ['TT', 'EE', 'BB', 'TE'][3]
+
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
+
 
 x_train = Trainfiles[:, num_para+2:]
 x_test = Testfiles[:, num_para+2:]
@@ -122,16 +94,60 @@ ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 # normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 
-normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
+normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+meanFactor = np.loadtxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
 print('-------normalization factor:', normFactor)
+print('-------rescaling factor:', meanFactor)
+
 
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
+
+x_train = x_train - meanFactor #/ 255.
+x_test = x_test - meanFactor #/ 255.
+
+
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 # ------------------------------------------------------------------------------
+
+
+################# ARCHITECTURE ###############################
+
+
+
+LoadModel = True
+if LoadModel:
+
+    # fileOut = 'VanillaModel_tot'+str(num_train)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
+
+    # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
+    encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+ClID+'_'+fileOut+'.txt')
+
+
+import george
+from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
+
+# kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
+# kernel = Matern32Kernel(1000, ndim=num_para)
+# kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
+kernel = Matern32Kernel( [1000,4000,3000,1000,2000], ndim=num_para)
+# kernel = Matern32Kernel( [1,0.5,1,1.4,0.5], ndim=num_para)
+
+# kernel = Matern32Kernel(ndim=num_para)
+
+# This kernel (and more importantly its subclasses) computes
+# the distance between two samples in an arbitrary metric and applies a radial function to this distance.
+# metric: The specification of the metric. This can be a float, in which case the metric is considered isotropic
+# with the variance in each dimension given by the value of metric. 
+# Alternatively, metric can be a list of variances for each dimension. In this case, it should have length ndim.
+# The fully general not axis aligned metric hasn't been implemented yet
+
 # PLOTTING y_train and y_test
 
 # import pandas as pd
@@ -200,8 +216,8 @@ XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
 
 # # ------------------------------------------------------------------------------
-y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
-encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
+y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.txt').T
+encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
 
 # ------------------------------------------------------------------------------
 np.set_printoptions(precision=6)
@@ -222,8 +238,12 @@ gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
 ax0 = plt.subplot(gs[0])
 ax1 = plt.subplot(gs[1])
 
-ax0.set_ylabel(r'$C_l$')
+ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
+ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='center',
+         transform = ax0.transAxes, fontsize = 20)
+
+
 
 ax1.axhline(y=1, ls='dotted')
 ax1.axhline(y=1.01, ls='dashed')
@@ -242,7 +262,7 @@ PlotSampleID = np.arange(y_test.shape[0])[::2]
 
 
 max_relError = 0
-ErrTh = 0.5
+ErrTh = 1.0
 PlotRatio = True
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
@@ -258,7 +278,7 @@ if PlotRatio:
     # Cl_Original = np.load(DataDir + 'LatinCl_'+str(num_test)+'.npy')[:,2:]
     # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')
 
-    Cl_Original = (normFactor*x_test)#[2:3]
+    Cl_Original = (normFactor* (x_test +meanFactor  ))#[2:3]
     RealParaArray = y_test#[2:3]
 
 
@@ -335,17 +355,17 @@ if PlotRatio:
         if i in PlotSampleID:
 
 
-            ax0.plot(ls, (normFactor*x_decoded[0]), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+            ax0.plot(ls, (normFactor* (x_decoded[0]+meanFactor  )), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
             ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
 
-            cl_ratio = (normFactor * x_decoded[0]) / (Cl_Original[i])
+            cl_ratio = (normFactor * (x_decoded[0]+meanFactor  )) / (Cl_Original[i])
             relError = 100 * ((cl_ratio) - 1)
 
-            ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
+            ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*(x_decoded[0]+meanFactor  )[np.abs(relError) >
                     ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 0.5,
+            ax1.plot(ls, (normFactor*(x_decoded[0]+meanFactor  ))/ (Cl_Original[i]), '-', lw = 0.5,
                      label = 'emu/camb')
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
@@ -388,7 +408,7 @@ if PlotRatio:
 
 plt.figure(999)
 # plt.tight_layout()
-plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
+plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+ClID+fileOut+'.png')
 
 
 
@@ -417,7 +437,7 @@ if plotLoss:
     #plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
     plt.title(fileOut)
     # plt.tight_layout()
-    plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
+    plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+ClID+'_relError'+ str( np.int(max_relError) ) +'.png')
 
 #plt.show()
 
@@ -643,4 +663,4 @@ plt.ylabel(r'$\bigtriangleup$ $x$')
 
 plt.legend()
 plt.tight_layout()
-plt.savefig(PlotsDir + 'SensitivityP'+str(num_para)+''+fileOut+'.png')
+plt.savefig(PlotsDir + 'SensitivityP'+str(num_para)+ClID+fileOut+'.png')
