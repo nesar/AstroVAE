@@ -64,7 +64,7 @@ fileOut = params.fileOut
 
 
 # ----------------------------- i/o ------------------------------------------
-ClID = ['TT', 'EE', 'BB', 'TE'][2]
+ClID = ['TT', 'EE', 'BB', 'TE'][3]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
