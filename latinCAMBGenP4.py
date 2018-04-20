@@ -10,17 +10,22 @@ CAMBFast maybe better?
 CosmoMC works well with CAMB
 """
 
-numpara = 4
+numpara = 5
 ndim = 2551
-totalFiles = 512
+totalFiles = 16
 lmax = 2500
 
-para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP4'+str(totalFiles)+'.txt')
+para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 
 # print(para5)
 
-
+#
 #Set up a new set of parameters for CAMB
+#
+# Get CMB power spectra, as requested by the spectra argument. All power spectra are l(l+1)C_l/2pi
+# self owned numpy arrays (0..lmax, 0..3), where 0..3 index are TT, EE, BB TT,
+# unless raw_cl is True in which case return just C_l.
+# For the lens_potential the power spectrum returned is that of the deflection.
 
 #----------- for sigma_8---------------
 
@@ -46,7 +51,10 @@ para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP4'+str(totalFiles)+'.txt')
 # print(results.get_sigma8())
 
 #---------------------------------------
-Allfiles = np.zeros(shape=(totalFiles, numpara + ndim) )
+AllTT = np.zeros(shape=(totalFiles, numpara + ndim) ) # TT
+AllEE = np.zeros(shape=(totalFiles, numpara + ndim) ) #
+AllBB = np.zeros(shape=(totalFiles, numpara + ndim) )
+AllTE = np.zeros(shape=(totalFiles, numpara + ndim) )
 
 for i in range(totalFiles):
     print(para5[i])
@@ -60,28 +68,28 @@ for i in range(totalFiles):
 
 
 
-    #
-    # #-------- sigma_8 --------------------------
-    # pars.set_matter_power(redshifts=[0.], kmax=2.0)
-    # # Linear spectra
-    # pars.NonLinear = model.NonLinear_none
-    # results = camb.get_results(pars)
-    # kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
-    # s8 = np.array(results.get_sigma8())
-    #
-    # # Non-Linear spectra (Halofit)
-    # pars.NonLinear = model.NonLinear_both
-    # results.calc_power_spectra(pars)
-    # kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1,
-    #                                                                    npoints=200)
-    #
-    # sigma8_camb = results.get_sigma8()  # present value of sigma_8 --- check kman, mikh etc
-    # #---------------------------------------------------
-    #
-    # sigma8_input = para5[i, 2]
-    #
-    # r = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
-    r = 1
+
+    #-------- sigma_8 --------------------------
+    pars.set_matter_power(redshifts=[0.], kmax=2.0)
+    # Linear spectra
+    pars.NonLinear = model.NonLinear_none
+    results = camb.get_results(pars)
+    kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
+    s8 = np.array(results.get_sigma8())
+
+    # Non-Linear spectra (Halofit)
+    pars.NonLinear = model.NonLinear_both
+    results.calc_power_spectra(pars)
+    kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1,
+                                                                       npoints=200)
+
+    sigma8_camb = results.get_sigma8()  # present value of sigma_8 --- check kman, mikh etc
+    #---------------------------------------------------
+
+    sigma8_input = para5[i, 2]
+
+    r = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
+    # r = 1
     # #---------------------------------------------------
 
 
@@ -94,7 +102,10 @@ for i in range(totalFiles):
     totCL = powers['total']*r
     unlensedCL = powers['unlensed_scalar']*r
 
-    Allfiles[i] = np.hstack([para5[i], totCL[:,0] ])
+    AllTT[i] = np.hstack([para5[i], totCL[:,0] ])
+    AllEE[i] = np.hstack([para5[i], totCL[:,1] ])
+    AllBB[i] = np.hstack([para5[i], totCL[:,2] ])
+    AllTE[i] = np.hstack([para5[i], totCL[:,3] ])
 
 
     # np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
@@ -103,7 +114,10 @@ for i in range(totalFiles):
 ls = np.arange(totCL.shape[0])
 
 # np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
-np.savetxt('../Cl_data/Data/P4ls_'+str(totalFiles)+'.txt', ls)
+np.savetxt('../Cl_data/Data/P5ls_'+str(totalFiles)+'.txt', ls)
 
-np.savetxt('../Cl_data/Data/P4Cl_'+str(totalFiles)+'.txt', Allfiles)
+np.savetxt('../Cl_data/Data/P5TTCl_'+str(totalFiles)+'.txt', AllTT)
+np.savetxt('../Cl_data/Data/P5EECl_'+str(totalFiles)+'.txt', AllEE)
+np.savetxt('../Cl_data/Data/P5BBCl_'+str(totalFiles)+'.txt', AllBB)
+np.savetxt('../Cl_data/Data/P5TECl_'+str(totalFiles)+'.txt', AllTE)
 

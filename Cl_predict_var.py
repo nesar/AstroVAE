@@ -17,8 +17,8 @@ from keras.models import load_model
 
 import params
 #import Cl_load
-#import SetPub
-#SetPub.set_pub()
+import SetPub
+SetPub.set_pub()
 
 
 ###################### PARAMETERS ##############################
@@ -117,18 +117,18 @@ ax1 = plt.subplot(gs[1])
 ax0.set_ylabel(r'$C_l$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
 
-ax1.axhline(y=1, ls='dashed')
-ax1.axhline(y=1.01, ls='dotted')
+ax1.axhline(y=1, ls='dotted')
+ax1.axhline(y=1.01, ls='dashed')
 ax1.axhline(y=0.99, ls='dashed')
 
 ax1.set_xlabel(r'$l$')
 
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
-# ax1.set_ylim(0.976, 1.024)
+ax1.set_ylim(0.976, 1.024)
 
 
-# PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = [0, 1, 2,  5, 9, 4, 7, 12, 14]
+PlotSampleID = np.array([ 0, 3, 4, 5, 11, 12])
+#PlotSampleID = np.arange(x_test.shape[0])
 
 max_relError = 0
 ErrTh = 0.5
@@ -138,10 +138,10 @@ PlotRatio = True
 # W_varArray = (np.load('Var_preds.npy')).T  ## From Mickael
 
 
-W_predArray = np.loadtxt(DataDir + 'WPredArray_GPy'+ str(latent_dim) + '.txt')
-W_varArray = np.loadtxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) + '.txt')
+W_predArray = np.loadtxt(DataDir + 'W2PredArray_GPy'+ str(latent_dim) + '.txt')
+W_varArray = np.loadtxt(DataDir + 'W2varArray_GPy'+ str(latent_dim) + '.txt')
 
-nsigma = 500
+nsigma = 5.
 
 
 if PlotRatio:
@@ -190,27 +190,27 @@ if PlotRatio:
             x_decoded_upper = np.max(x_decoded_fill, axis=0)
 
             ax0.fill_between(ls,  (normFactor*x_decoded_lower) , (normFactor*x_decoded_upper),
-                             alpha = 1.0, linewidth=10, linestyle='dashdot', facecolor='red')
+                             alpha = 1.0, linewidth=1, linestyle='dashdot', facecolor='red')
 
 
 
 
-            # ax0.plot(ls, normFactor*x_decoded[0], 'k--', alpha= 0.8, lw = 1, label = 'emulated')
-            # ax0.plot(ls, Cl_Original[i], 'b--', alpha=0.8, lw = 1,  label = 'camb'  )
+            ax0.plot(ls, normFactor*x_decoded[0], 'r-', alpha= 0.4, lw = 1, label = 'emulated')
+            ax0.plot(ls, Cl_Original[i], 'b--', alpha=0.5, lw = 1,  label = 'camb'  )
 
             cl_ratio = normFactor*x_decoded[0]/Cl_Original[i]
 
-            relError = 100 * ((cl_ratio) - 1)
+            relError = 100.0*((cl_ratio) - 1)
 
             ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
             ErrTh], 'gx', alpha=0.2, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), '-', lw = 1,
+            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), 'k-', lw = 0.2,
                      label = 'emu/camb')
 
             ax1.fill_between(ls, (normFactor*x_decoded_lower)/ (Cl_Original[i]),
-                             (normFactor*x_decoded_upper)/ (Cl_Original[i]), alpha = 1.0,
+                             (normFactor*x_decoded_upper)/ (Cl_Original[i]), alpha = 0.2,
                              facecolor = 'red')
 
 
@@ -260,5 +260,5 @@ if plotLoss:
 plt.show()
 
 
-print(fileOut)
+print('max rel error', max_relError)
 # print('train loss: ', train_loss[-1])
