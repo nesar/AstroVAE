@@ -54,7 +54,8 @@ para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 AllTT = np.zeros(shape=(totalFiles, numpara + ndim) ) # TT
 AllEE = np.zeros(shape=(totalFiles, numpara + ndim) ) #
 AllBB = np.zeros(shape=(totalFiles, numpara + ndim) )
-AllTE = np.zeros(shape=(totalFiles, numpara + ndim) )
+AllTE = np.zeros(shape=(totalFiles, numpara + ndim) ) # Check if this is actually TE -- negative
+# values and CAMB documentation incorrect.
 
 for i in range(totalFiles):
     print(para5[i])
