@@ -101,12 +101,12 @@ print('-------normalization factor:', normFactor)
 print('-------rescaling factor:', meanFactor)
 
 
-x_train = x_train.astype('float32')/normFactor #/ 255.
-x_test = x_test.astype('float32')/normFactor #/ 255.
-
 x_train = x_train - meanFactor #/ 255.
 x_test = x_test - meanFactor #/ 255.
 
+
+x_train = x_train.astype('float32')/normFactor #/ 255.
+x_test = x_test.astype('float32')/normFactor #/ 255.
 
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
@@ -245,14 +245,14 @@ ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='cente
 
 
 
-ax1.axhline(y=1, ls='dotted')
-ax1.axhline(y=1.01, ls='dashed')
-ax1.axhline(y=0.99, ls='dashed')
+# ax1.axhline(y=1, ls='dotted')
+# ax1.axhline(y=1.01, ls='dashed')
+# ax1.axhline(y=0.99, ls='dashed')
+# ax1.set_ylim(0.976, 1.024)
+
 
 ax1.set_xlabel(r'$l$')
-
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
-ax1.set_ylim(0.976, 1.024)
 
 
 
@@ -278,7 +278,7 @@ if PlotRatio:
     # Cl_Original = np.load(DataDir + 'LatinCl_'+str(num_test)+'.npy')[:,2:]
     # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')
 
-    Cl_Original = (normFactor* (x_test +meanFactor  ))#[2:3]
+    Cl_Original = (normFactor* x_test) + meanFactor  #[2:3]
     RealParaArray = y_test#[2:3]
 
 
@@ -355,17 +355,24 @@ if PlotRatio:
         if i in PlotSampleID:
 
 
-            ax0.plot(ls, (normFactor* (x_decoded[0]+meanFactor  )), 'r--', alpha= 0.8, lw = 1, label = 'emulated')
+            ax0.plot(ls, (normFactor* x_decoded[0])+meanFactor  , 'r--', alpha= 0.8, lw = 1, \
+                                                                                            label = 'emulated')
             ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
 
-            cl_ratio = (normFactor * (x_decoded[0]+meanFactor  )) / (Cl_Original[i])
+            cl_ratio = (1000+ (normFactor * x_decoded[0])+meanFactor) / (1000+Cl_Original[i])
             relError = 100 * ((cl_ratio) - 1)
 
-            ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*(x_decoded[0]+meanFactor  )[np.abs(relError) >
-                    ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
+            # cl_ratio = 2.*(((normFactor * x_decoded[0])+meanFactor) - Cl_Original[i])/\
+            #            (((normFactor * x_decoded[0])+meanFactor) + Cl_Original[i])
+            #
+            # relError = 100 * ((cl_ratio) - 1)
 
 
-            ax1.plot(ls, (normFactor*(x_decoded[0]+meanFactor  ))/ (Cl_Original[i]), '-', lw = 0.5,
+            ax0.plot(ls[np.abs(relError) > ErrTh], ( (normFactor*x_decoded[0])+meanFactor  )[np.abs(
+                relError) > ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
+
+
+            ax1.plot(ls, cl_ratio - 1, '-', lw = 0.5,
                      label = 'emu/camb')
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')

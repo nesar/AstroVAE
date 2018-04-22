@@ -83,7 +83,12 @@ ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 
-
+minVal = np.min( [np.min(x_train), np.min(x_test ) ])
+meanFactor = 1.1*minVal if minVal < 0 else 0
+# meanFactor = 0.0
+print('-------mean factor:', meanFactor)
+x_train = x_train - meanFactor #/ 255.
+x_test = x_test - meanFactor #/ 255.
 
 # x_train = np.log10(x_train) #x_train[:,2:] #
 # x_test =  np.log10(x_test) #x_test[:,2:] #
@@ -95,17 +100,8 @@ x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
 
 
-minVal = np.min( [np.min(x_train), np.min(x_test ) ])
-meanFactor = minVal if minVal < 0 else 0
-# meanFactor = 0.0
-print('-------mean factor:', meanFactor)
-x_train = x_train - meanFactor #/ 255.
-x_test = x_test - meanFactor #/ 255.
-
-
-
-np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
+np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
 
 
@@ -316,8 +312,8 @@ if PlotSample:
             # plt.plot(ls, 10**(normFactor*x_test_decoded[i]), 'r-', alpha = 0.8)
             # plt.plot(ls, 10**(normFactor*x_test[i]), 'b--', alpha = 0.8)
 
-            plt.plot(ls, (normFactor*(x_test_decoded[i] + meanFactor)), 'r-', alpha = 0.8)
-            plt.plot(ls, (normFactor*(x_test[i] + meanFactor)), 'b--', alpha = 0.8)
+            plt.plot(ls, ( normFactor*x_test_decoded[i] ) + meanFactor, 'r-', alpha = 0.8)
+            plt.plot(ls, ( normFactor*x_test[i] ) + meanFactor, 'b--', alpha = 0.8)
 
 
             # plt.xscale('log')
