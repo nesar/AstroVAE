@@ -12,16 +12,16 @@ print(__doc__)
 
 import numpy as np
 
-# import matplotlib as mpl
-# mpl.use('Agg')
+#import matplotlib as mpl
+#mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 from keras.models import load_model
 
 import params
 #import Cl_load
-import SetPub
-SetPub.set_pub()
+#import SetPub
+#SetPub.set_pub()
 
 
 
@@ -220,9 +220,9 @@ y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.tx
 encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
 
 # ------------------------------------------------------------------------------
-np.set_printoptions(precision=6)
-np.set_printoptions(suppress=True)
-np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
+#np.set_printoptions(precision=10)
+#np.set_printoptions(suppress=True)
+#np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 # ------------------------------------------------------------------------------
 
 
@@ -240,17 +240,22 @@ ax1 = plt.subplot(gs[1])
 
 ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
-ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='center',
-         transform = ax0.transAxes, fontsize = 20)
+ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='center', transform = ax0.transAxes, fontsize = 20)
 
 
 
 ax1.axhline(y=1, ls='dotted')
+<<<<<<< HEAD
 # ax1.axhline(y=1.01, ls='dashed')
 # ax1.axhline(y=0.99, ls='dashed')
 # ax1.set_ylim(0.976, 1.024)
 ax1.set_yscale('log')
 
+=======
+#ax1.axhline(y=1.0001, ls='dashed')
+#ax1.axhline(y=0.9999, ls='dashed')
+#ax1.set_ylim(0.976, 1.024)
+>>>>>>> 5df1752bcc95c5427bf895e439a3220fbb066398
 
 
 ax1.set_xlabel(r'$l$')
@@ -324,7 +329,7 @@ if PlotRatio:
 
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
             W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)#[0]
-            print 20*'-', W_pred[:, j], W_pred_var[:, j]
+            print(20*'-', W_pred[:, j], W_pred_var[:, j])
             # W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------
