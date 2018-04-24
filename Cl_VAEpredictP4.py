@@ -63,7 +63,7 @@ fileOut = params.fileOut
 # ----------------------------- i/o ------------------------------------------
 
 
-ClID = ['TT', 'EE', 'BB', 'TE'][0]
+ClID = ['TT', 'EE', 'BB', 'TE'][2]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
@@ -245,10 +245,12 @@ ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='cente
 
 
 
-# ax1.axhline(y=1, ls='dotted')
+ax1.axhline(y=1, ls='dotted')
 # ax1.axhline(y=1.01, ls='dashed')
 # ax1.axhline(y=0.99, ls='dashed')
 # ax1.set_ylim(0.976, 1.024)
+ax1.set_yscale('log')
+
 
 
 ax1.set_xlabel(r'$l$')
@@ -372,7 +374,7 @@ if PlotRatio:
                 relError) > ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, cl_ratio - 1, '-', lw = 0.5,
+            ax1.plot(ls, cl_ratio, '-', lw = 0.5,
                      label = 'emu/camb')
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
