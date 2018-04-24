@@ -12,7 +12,7 @@ CosmoMC works well with CAMB
 
 numpara = 5
 ndim = 2551
-totalFiles = 16
+totalFiles = 25
 lmax = 2500
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')

@@ -9,7 +9,7 @@ intermediate_dim = 128
 latent_dim = 32
 
 num_train = 1024
-num_test = 16
+num_test = 25
 num_para = 5
 
 batch_size = 8
