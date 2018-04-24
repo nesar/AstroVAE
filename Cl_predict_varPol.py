@@ -1,5 +1,6 @@
 """
-For testing models from Mickael
+For testing decoder output
+input encoded_xtest from trained GP models
 
 """
 print(__doc__)
