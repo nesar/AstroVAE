@@ -63,7 +63,7 @@ fileOut = params.fileOut
 # ----------------------------- i/o ------------------------------------------
 
 
-ClID = ['TT', 'EE', 'BB', 'TE'][0]
+ClID = ['TT', 'EE', 'BB', 'TE'][2]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
@@ -245,9 +245,17 @@ ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='cente
 
 
 ax1.axhline(y=1, ls='dotted')
+<<<<<<< HEAD
+# ax1.axhline(y=1.01, ls='dashed')
+# ax1.axhline(y=0.99, ls='dashed')
+# ax1.set_ylim(0.976, 1.024)
+ax1.set_yscale('log')
+
+=======
 #ax1.axhline(y=1.0001, ls='dashed')
 #ax1.axhline(y=0.9999, ls='dashed')
 #ax1.set_ylim(0.976, 1.024)
+>>>>>>> 5df1752bcc95c5427bf895e439a3220fbb066398
 
 
 ax1.set_xlabel(r'$l$')
