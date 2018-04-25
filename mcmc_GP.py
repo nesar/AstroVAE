@@ -193,8 +193,6 @@ def GPcompute(XY, latent_dim):
     return gp
 
 
-computedGP = GPcompute(XY, latent_dim)
-
 def GPfit(computedGP, y_params):
     RealPara = y_params
 
@@ -221,50 +219,78 @@ def GPfit(computedGP, y_params):
     return (normFactor* x_decoded[0])+meanFactor
 
 
+computedGP = GPcompute(XY, latent_dim)
 
+x_decoded = GPfit(computedGP, y_test[10])
 
-x_decoded = GPfit(computedGP, y_test[0])
-
-
-
+#
+# plt.figure(1423)
+# plt.plot(l, x_decoded[28:2507])
+# plt.plot(x, y, alpha = 0.4)
+# plt.show()
 
 
 ########################################################################################################################
 ########################################################################################################################
 
+
+## **** checl camb generate pars[2]
+
+### recheck the values!!
 
 ### Try using just 2 parameters --- m, b  -- 0(omega_m), 2(sigma_8)
 ### x should cut the x_decoded part
 ### GPfit(computedGP, y_test[0]) should be in lnlike -- in model
 
-m_true = -0.9594
-b_true = 4.294
-f_true = 0.534
+m_true = 0.128  # omch2
+b_true = 0.8  #sigma8
+f_true = 0.534  #dunno what this should do
 
 ######### MCMC #######################
 
+# OmegaM = np.linspace(0.12, 0.155, totalFiles)
+# Omegab = np.linspace(0.0215, 0.0235, totalFiles)
+# sigma8 = np.linspace(0.7, 0.9, totalFiles)
+# h = np.linspace(0.55, 0.85, totalFiles)
+# ns = np.linspace(0.85, 1.05, totalFiles)
+
+
+# def lnlike(theta, x, y, yerr):
+#     m, b, lnf = theta
+#     model = m * x + b
+#     inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf))
+#     return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
 
 # log likelihood function -- to be replaced by the emulator as a function of cosmological parameters
+
 def lnlike(theta, x, y, yerr):
     m, b, lnf = theta
-    model = m * x + b
+    new_params = np.array([m, 0.022, b, 0.7, 0.9])
+    model = GPfit(computedGP, new_params)[28:2507]
     inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf))
     return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
-
 
 import scipy.optimize as op
 nll = lambda *args: -lnlike(*args)
 result = op.minimize(nll, [m_true, b_true, np.log(f_true)], args=(x, y, yerr))
-m_ml, b_ml, lnf_ml = result["x"]
+# m_ml, b_ml, lnf_ml = result["x"]   ## max likelihood
 
 
 #############################################################
 # Use flat prior ?
+# def lnprior(theta):
+#     m, b, lnf = theta
+#     if -5.0 < m < 0.5 and 0.0 < b < 10.0 and -10.0 < lnf < 1.0:
+#         return 0.0
+#     return -np.inf
+
+
 def lnprior(theta):
     m, b, lnf = theta
-    if -5.0 < m < 0.5 and 0.0 < b < 10.0 and -10.0 < lnf < 1.0:
+    if 0.12 < m < 0.155 and 0.7 < b < 0.9 and -10.0 < lnf < 1.0:
         return 0.0
     return -np.inf
+
 
 # Dunno what to do here  -- just a combination of likelihood and prior?
 def lnprob(theta, x, y, yerr):
@@ -275,7 +301,7 @@ def lnprob(theta, x, y, yerr):
 
 
 
-ndim, nwalkers = 3, 100
+ndim, nwalkers = 3, 100  # 3,100
 pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
 
 
@@ -283,10 +309,12 @@ pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
 import emcee
 sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
 
+# sampler.run_mcmc(pos, 500)
 sampler.run_mcmc(pos, 500)
 
 
-samples = sampler.chain[:, 50:, :].reshape((-1, ndim))
+# samples = sampler.chain[:, 50:, :].reshape((-1, ndim))
+samples = sampler.chain[:, 50:, 0:2].reshape((-1, ndim-1))
 
 
 
@@ -294,9 +322,13 @@ samples = sampler.chain[:, 50:, :].reshape((-1, ndim))
 
 
 import corner
-fig = corner.corner(samples, labels=["$m$", "$b$", "$\ln\,f$"],
-                      truths=[m_true, b_true, np.log(f_true)])
-fig.savefig("triangle.png")
+# fig = corner.corner(samples, labels=["$\Omega_c h^2$", "$\sigma_8$", "$\ln\,f$"],
+#                       truths=[m_true, b_true, np.log(f_true)])
+
+fig = corner.corner(samples, labels=["$\Omega_c h^2$", "$\sigma_8$"],
+                      truths=[m_true, b_true])
+
+fig.savefig('Triangle_'+fileOut+'.png')
 
 
 ####### FINAL PARAMETER ESTIMATES #######################################
