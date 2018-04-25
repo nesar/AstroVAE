@@ -6,23 +6,18 @@ import matplotlib.pylab as plt
 
 # cosmological parameters here
 
-m_true = -0.9594
-b_true = 4.294
-f_true = 0.534
-
 
 ########## REAL DATA with ERRORS #############################
 # Generate some synthetic data from the model.
 
 
-N = 50
-x = np.sort(10*np.random.rand(N))
-yerr = 0.1+0.5*np.random.rand(N)
-y = m_true*x+b_true
-y += np.abs(f_true*y) * np.random.randn(N)
-y += yerr * np.random.randn(N)
+# N = 50
+# x = np.sort(10*np.random.rand(N))
+# yerr = 0.1+0.5*np.random.rand(N)
+# y = m_true*x+b_true
+# y += np.abs(f_true*y) * np.random.randn(N)
+# y += yerr * np.random.randn(N)
 
-allfiles = ['./BICEP.txt', './WMAP.txt', './SPTpol.txt', './PLANCKlegacy.txt']
 
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
@@ -59,18 +54,197 @@ y = Cl
 yerr = emax
 
 
-######### LEAST SQUARE #######################################
-
-# A = np.vstack((np.ones_like(x), x)).T
-# C = np.diag(yerr * yerr)
-# cov = np.linalg.inv(np.dot(A.T, np.linalg.solve(C, A)))
-# b_ls, m_ls = np.dot(cov, np.dot(A.T, np.linalg.solve(C, y)))
-
-#############################################################
+############## GP FITTING ################################################################################
+##########################################################################################################
 
 
-######### MAX LIKELIHOOD ESTIMATION #######################
+from keras.models import load_model
 
+import params
+#import Cl_load
+import SetPub
+SetPub.set_pub()
+
+
+
+def rescale01(xmin, xmax, f):
+    return (f - xmin) / (xmax - xmin)
+
+
+
+###################### PARAMETERS ##############################
+
+
+latent_dim = params.latent_dim # 10
+
+num_train = params.num_train # 512
+num_test = params.num_test # 32
+num_para = params.num_para # 5
+
+batch_size = params.batch_size # 8
+num_epochs = params.num_epochs # 100
+epsilon_mean = params.epsilon_mean # 1.0
+epsilon_std = params.epsilon_std # 1.0
+learning_rate = params.learning_rate # 1e-3
+decay_rate = params.decay_rate # 0.0
+
+noise_factor = params.noise_factor # 0.00
+
+######################## I/O ##################################
+
+DataDir = params.DataDir
+PlotsDir = params.PlotsDir
+ModelDir = params.ModelDir
+
+fileOut = params.fileOut
+
+
+# ----------------------------- i/o ------------------------------------------
+
+
+ClID = ['TT', 'EE', 'BB', 'TE'][0]
+
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
+
+
+x_train = Trainfiles[:, num_para+2:]
+x_test = Testfiles[:, num_para+2:]
+y_train = Trainfiles[:, 0: num_para]
+y_test =  Testfiles[:, 0: num_para]
+
+print(x_train.shape, 'train sequences')
+print(x_test.shape, 'test sequences')
+print(y_train.shape, 'train sequences')
+print(y_test.shape, 'test sequences')
+
+ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
+#----------------------------------------------------------------------------
+
+normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+meanFactor = np.loadtxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
+print('-------normalization factor:', normFactor)
+print('-------rescaling factor:', meanFactor)
+
+
+x_train = x_train - meanFactor #/ 255.
+x_test = x_test - meanFactor #/ 255.
+
+
+x_train = x_train.astype('float32')/normFactor #/ 255.
+x_test = x_test.astype('float32')/normFactor #/ 255.
+
+x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
+
+# ------------------------------------------------------------------------------
+
+
+################# ARCHITECTURE ###############################
+
+
+
+LoadModel = True
+if LoadModel:
+    encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+ClID+'_'+fileOut+'.txt')
+
+
+import george
+from george.kernels import Matern32Kernel
+
+kernel = Matern32Kernel( [1000,4000,3000,1000,2000], ndim=num_para)
+
+
+X1 = y_train[:, 0][:, np.newaxis]
+X1a = rescale01(np.min(X1), np.max(X1), X1)
+
+X2 = y_train[:, 1][:, np.newaxis]
+X2a = rescale01(np.min(X2), np.max(X2), X2)
+
+X3 = y_train[:, 2][:, np.newaxis]
+X3a = rescale01(np.min(X3), np.max(X3), X3)
+
+X4 = y_train[:, 3][:, np.newaxis]
+X4a = rescale01(np.min(X4), np.max(X4), X4)
+
+X5 = y_train[:, 4][:, np.newaxis]
+X5a = rescale01(np.min(X5), np.max(X5), X5)
+
+
+XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
+
+
+# # ------------------------------------------------------------------------------
+encoded_xtrain = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.txt').T
+encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
+# ------------------------------------------------------------------------------
+
+def GPcompute(XY, latent_dim):
+    gp = {}
+    for j in range(latent_dim):
+        gp["fit{0}".format(j)] = george.GP(kernel)
+        gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
+    return gp
+
+
+computedGP = GPcompute(XY, latent_dim)
+
+def GPfit(computedGP, y_params):
+    RealPara = y_params
+
+
+    RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
+    RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
+    RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
+    RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
+    RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
+
+    test_pts = RealPara[:num_para].reshape(num_para, -1).T
+
+    # ------------------------------------------------------------------------------
+
+    W_pred = np.array([np.zeros(shape=latent_dim)])
+    W_pred_var = np.array([np.zeros(shape=latent_dim)])
+
+    gp = computedGP
+    for j in range(latent_dim):
+        W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(encoded_xtrain[j], test_pts)
+
+    x_decoded = decoder.predict(W_pred)
+
+    return (normFactor* x_decoded[0])+meanFactor
+
+
+
+
+x_decoded = GPfit(computedGP, y_test[0])
+
+
+
+
+
+########################################################################################################################
+########################################################################################################################
+
+
+### Try using just 2 parameters --- m, b  -- 0(omega_m), 2(sigma_8)
+### x should cut the x_decoded part
+### GPfit(computedGP, y_test[0]) should be in lnlike -- in model
+
+m_true = -0.9594
+b_true = 4.294
+f_true = 0.534
+
+######### MCMC #######################
+
+
+# log likelihood function -- to be replaced by the emulator as a function of cosmological parameters
 def lnlike(theta, x, y, yerr):
     m, b, lnf = theta
     model = m * x + b
@@ -85,18 +259,6 @@ m_ml, b_ml, lnf_ml = result["x"]
 
 
 #############################################################
-
-
-######### MCMC #######################
-
-# log likelihood function -- to be replaced by the emulator as a function of cosmological parameters
-# def lnlike(theta, x, y, yerr):
-#     m, b, lnf = theta
-#     model = m * x + b
-#     inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf))
-#     return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
-
-
 # Use flat prior ?
 def lnprior(theta):
     m, b, lnf = theta

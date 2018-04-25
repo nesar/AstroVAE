@@ -63,7 +63,7 @@ fileOut = params.fileOut
 # ----------------------------- i/o ------------------------------------------
 
 
-ClID = ['TT', 'EE', 'BB', 'TE'][3]
+ClID = ['TT', 'EE', 'BB', 'TE'][0]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
@@ -215,6 +215,17 @@ X5a = rescale01(np.min(X5), np.max(X5), X5)
 XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
 
+
+minmax_rescale_ytrain =  [[np.min(X1), np.max(X1)], [np.min(X2), np.max(X2)],
+[np.min(X3), np.max(X3)],
+[np.min(X4), np.max(X4)],
+[np.min(X5), np.max(X5)] ]
+
+
+np.savetxt(DataDir+'rescale_ytrain'+str(num_train)+ClID+'.txt', minmax_rescale_ytrain)
+
+
+
 # # ------------------------------------------------------------------------------
 y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.txt').T
 encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
@@ -281,7 +292,7 @@ if PlotRatio:
     # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')
 
     Cl_Original = (normFactor* x_test) + meanFactor  #[2:3]
-    RealParaArray = y_test#[2:3]
+    RealParaArray = y_test[0:1]#[2:3]
 
 
     # Cl_Original = (normFactor*x_train)[0:10]
