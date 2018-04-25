@@ -19,7 +19,7 @@ import matplotlib.pylab as plt
 # y += yerr * np.random.randn(N)
 
 
-dirIn = '../Cl_data/RealData/'
+dirIn = '../../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
 
 # lID = np.array([1, 0, 2, 0])
@@ -304,17 +304,18 @@ def lnprob(theta, x, y, yerr):
 ndim, nwalkers = 3, 100  # 3,100
 pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
 
-
+nrun = 500
 
 import emcee
 sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
 
 # sampler.run_mcmc(pos, 500)
-sampler.run_mcmc(pos, 500)
+sampler.run_mcmc(pos, nrun)
+
+np.savetxt(DataDir + 'Sampler_mcmc_ndim' +str(ndim) + '_nwalk' + str(nwalkers) + '_run' +  str(nrun) + fileOut +'.txt',  sampler.chain[:,:,:].reshape((-1, ndim)) )
 
 
-# samples = sampler.chain[:, 50:, :].reshape((-1, ndim))
-samples = sampler.chain[:, 50:, 0:2].reshape((-1, ndim-1))
+samples = sampler.chain[:, 50:, :].reshape((-1, ndim))
 
 
 
@@ -325,7 +326,10 @@ import corner
 # fig = corner.corner(samples, labels=["$\Omega_c h^2$", "$\sigma_8$", "$\ln\,f$"],
 #                       truths=[m_true, b_true, np.log(f_true)])
 
-fig = corner.corner(samples, labels=["$\Omega_c h^2$", "$\sigma_8$"],
+
+
+samples_plot = sampler.chain[:, 50:, 0:2].reshape((-1, ndim-1))
+fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
                       truths=[m_true, b_true])
 
 fig.savefig('Triangle_'+fileOut+'.png')
