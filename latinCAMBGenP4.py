@@ -12,7 +12,7 @@ CosmoMC works well with CAMB
 
 numpara = 5
 ndim = 2551
-totalFiles = 25
+totalFiles = 1024
 lmax = 2500
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
@@ -50,6 +50,11 @@ para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 #
 # print(results.get_sigma8())
 
+
+# AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{
+# h}$', r'$\tilde{n}_s$']
+
+
 #---------------------------------------
 AllTT = np.zeros(shape=(totalFiles, numpara + ndim) ) # TT
 AllEE = np.zeros(shape=(totalFiles, numpara + ndim) ) #
@@ -62,9 +67,14 @@ for i in range(totalFiles):
 
     pars = camb.CAMBparams()
 
-    pars.set_cosmology(H0=100*para5[i, 2], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
+    # pars.set_cosmology(H0=100*para5[i, 2], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
+    #                    tau=0.06)
+
+    pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
                        tau=0.06)
-    pars.InitPower.set_params(ns=para5[i, 3], r=0)
+
+
+    pars.InitPower.set_params(ns=para5[i, 4], r=0)
     pars.set_for_lmax(lmax, lens_potential_accuracy=0);
 
 
