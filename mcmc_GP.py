@@ -62,8 +62,8 @@ from keras.models import load_model
 
 import params
 #import Cl_load
-import SetPub
-SetPub.set_pub()
+#import SetPub
+#SetPub.set_pub()
 
 
 
