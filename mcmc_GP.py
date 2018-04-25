@@ -33,7 +33,7 @@ ClID = np.array([1, 3, 1])
 emaxID = np.array([2, 4, 2])
 eminID = np.array([2, 4, 2])
 
-print allfiles
+print(allfiles)
 
 import numpy as np
 
@@ -47,7 +47,7 @@ for fileID in [2]:
     emax = allCl[:, emaxID[fileID]]
     emin = allCl[:, eminID[fileID]]
 
-    print l.shape
+    print(l.shape)
 
 x = l
 y = Cl
