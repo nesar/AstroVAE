@@ -243,7 +243,7 @@ x_decoded = GPfit(computedGP, y_test[10])
 ### GPfit(computedGP, y_test[0]) should be in lnlike -- in model
 
 m_true = 0.128  # omch2
-b_true = 0.8  #sigma8
+b_true = 0.0225  #ombh2
 f_true = 0.534  #dunno what this should do
 
 ######### MCMC #######################
@@ -265,7 +265,7 @@ f_true = 0.534  #dunno what this should do
 
 def lnlike(theta, x, y, yerr):
     m, b, lnf = theta
-    new_params = np.array([m, 0.022, b, 0.7, 0.9])
+    new_params = np.array([m, b, 0.8 , 0.74, 0.9])
     model = GPfit(computedGP, new_params)[28:2507]
     inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf))
     return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
@@ -287,7 +287,7 @@ result = op.minimize(nll, [m_true, b_true, np.log(f_true)], args=(x, y, yerr))
 
 def lnprior(theta):
     m, b, lnf = theta
-    if 0.12 < m < 0.155 and 0.7 < b < 0.9 and -10.0 < lnf < 1.0:
+    if 0.12 < m < 0.155 and 0.0215 < b < 0.0235 and -10.0 < lnf < 1.0:
         return 0.0
     return -np.inf
 
@@ -301,7 +301,7 @@ def lnprob(theta, x, y, yerr):
 
 
 
-ndim, nwalkers = 3, 100  # 3,100
+ndim, nwalkers = 3, 500  # 3,100
 pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
 
 nrun = 500
@@ -322,6 +322,7 @@ samples = sampler.chain[:, 50:, :].reshape((-1, ndim))
 ####### CORNER PLOT ESTIMATES #######################################
 
 
+import pygtc
 import corner
 # fig = corner.corner(samples, labels=["$\Omega_c h^2$", "$\sigma_8$", "$\ln\,f$"],
 #                       truths=[m_true, b_true, np.log(f_true)])
@@ -329,11 +330,16 @@ import corner
 
 
 samples_plot = sampler.chain[:, 50:, 0:2].reshape((-1, ndim-1))
-fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
+
+
+fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\Omega_b h^2$"],
                       truths=[m_true, b_true])
+fig.savefig('corner_'+fileOut+'.png')
 
-fig.savefig('Triangle_'+fileOut+'.png')
 
+fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\Omega_b h^2$"],
+                      truths=[m_true, b_true])
+fig.savefig('pygtc_'+fileOut+'.png')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
