@@ -20,8 +20,8 @@ from keras.models import load_model
 
 import params
 #import Cl_load
-import SetPub
-SetPub.set_pub()
+#import SetPub
+#SetPub.set_pub()
 
 
 
@@ -271,7 +271,7 @@ ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
 
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = np.arange(y_test.shape[0])[::2]
+PlotSampleID = np.arange(y_test.shape[0])[::3]
 
 
 max_relError = 0
@@ -292,7 +292,7 @@ if PlotRatio:
     # RealParaArray = np.load(DataDir + 'LatinPara5_'+str(num_test)+'.npy')
 
     Cl_Original = (normFactor* x_test) + meanFactor  #[2:3]
-    RealParaArray = y_test[0:1]#[2:3]
+    RealParaArray = y_test#[0:1]#[2:3]
 
 
     # Cl_Original = (normFactor*x_train)[0:10]
@@ -335,7 +335,7 @@ if PlotRatio:
 
             gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
             W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)#[0]
-            print 20*'-', W_pred[:, j], W_pred_var[:, j]
+            print(20*'-', W_pred[:, j], W_pred_var[:, j])
             # W_pred_var[:, j] = gp["fit{0}".format(j)].predict(y[j], test_pts)[0]
 
         # ------------------------------------------------------------------------------

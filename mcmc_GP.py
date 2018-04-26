@@ -301,16 +301,18 @@ def lnprob(theta, x, y, yerr):
 
 
 
-ndim, nwalkers = 3, 500  # 3,100
-pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
-
-nrun = 500
+ndim, nwalkers = 3, 200  # 3,100
+pos = [result["x"] + result["x"]*1e-2*np.random.randn(ndim) for i in range(nwalkers)]
+nrun = 300
 
 import emcee
-sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
 
-# sampler.run_mcmc(pos, 500)
+sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
+#sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr), threads=8)
+
 sampler.run_mcmc(pos, nrun)
+
+
 
 np.savetxt(DataDir + 'Sampler_mcmc_ndim' +str(ndim) + '_nwalk' + str(nwalkers) + '_run' +  str(nrun) + fileOut +'.txt',  sampler.chain[:,:,:].reshape((-1, ndim)) )
 
@@ -338,7 +340,7 @@ fig.savefig('corner_'+fileOut+'.png')
 
 
 fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\Omega_b h^2$"],
-                      truths=[m_true, b_true])
+                      truths=[m_true, b_true] , figureSize='MNRAS_page' )
 fig.savefig('pygtc_'+fileOut+'.png')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
