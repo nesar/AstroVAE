@@ -242,8 +242,8 @@ x_decoded = GPfit(computedGP, y_test[10])
 ### x should cut the x_decoded part
 ### GPfit(computedGP, y_test[0]) should be in lnlike -- in model
 
-m_true = 0.128  # omch2
-b_true = 0.0225  #ombh2
+m_true = 0.13  # omch2
+b_true = 0.75  #ombh2
 f_true = 0.534  #dunno what this should do
 
 ######### MCMC #######################
@@ -265,7 +265,7 @@ f_true = 0.534  #dunno what this should do
 
 def lnlike(theta, x, y, yerr):
     m, b, lnf = theta
-    new_params = np.array([m, b, 0.8 , 0.74, 0.9])
+    new_params = np.array([m, 0.0225, b , 0.74, 0.9])
     model = GPfit(computedGP, new_params)[28:2507]
     inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf))
     return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
@@ -273,9 +273,9 @@ def lnlike(theta, x, y, yerr):
 import scipy.optimize as op
 nll = lambda *args: -lnlike(*args)
 result = op.minimize(nll, [m_true, b_true, np.log(f_true)], args=(x, y, yerr))
-# m_ml, b_ml, lnf_ml = result["x"]   ## max likelihood
+m_ml, b_ml, lnf_ml = result["x"]   ## max likelihood
 
-
+print('max likelihood results:', m_ml, b_ml, lnf_ml)
 #############################################################
 # Use flat prior ?
 # def lnprior(theta):
@@ -287,7 +287,7 @@ result = op.minimize(nll, [m_true, b_true, np.log(f_true)], args=(x, y, yerr))
 
 def lnprior(theta):
     m, b, lnf = theta
-    if 0.12 < m < 0.155 and 0.0215 < b < 0.0235 and -10.0 < lnf < 1.0:
+    if 0.12 < m < 0.155 and 0.7 < b < 0.8 and 1.0 < lnf < 10.0:
         return 0.0
     return -np.inf
 
@@ -301,9 +301,9 @@ def lnprob(theta, x, y, yerr):
 
 
 
-ndim, nwalkers = 3, 200  # 3,100
-pos = [result["x"] + result["x"]*1e-2*np.random.randn(ndim) for i in range(nwalkers)]
-nrun = 300
+ndim, nwalkers = 3, 400  # 3,100
+pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
+nrun = 1000
 
 import emcee
 
@@ -334,12 +334,12 @@ import corner
 samples_plot = sampler.chain[:, 50:, 0:2].reshape((-1, ndim-1))
 
 
-fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\Omega_b h^2$"],
+fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
                       truths=[m_true, b_true])
 fig.savefig('corner_'+fileOut+'.png')
 
 
-fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\Omega_b h^2$"],
+fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\sigma_8$"],
                       truths=[m_true, b_true] , figureSize='MNRAS_page' )
 fig.savefig('pygtc_'+fileOut+'.png')
 
@@ -359,3 +359,6 @@ plt.errorbar(x, y, yerr=yerr, fmt=".k", alpha=0.1)
 samples[:, 2] = np.exp(samples[:, 2])
 m_mcmc, b_mcmc, f_mcmc = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [16, 50, 84], axis=0)))
 #####################################################################
+
+print('mcmc results:', m_mcmc, b_mcmc, lnf_mcmc)
+
