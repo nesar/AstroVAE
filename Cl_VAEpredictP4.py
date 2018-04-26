@@ -257,16 +257,17 @@ ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='cente
 
 
 
-ax1.axhline(y=1, ls='dotted')
-# ax1.axhline(y=1.01, ls='dashed')
-# ax1.axhline(y=0.99, ls='dashed')
+ax1.axhline(y= 0, ls='dotted')
+ax1.axhline(y=.01, ls='dashed')
+ax1.axhline(y=-0.01, ls='dashed')
 # ax1.set_ylim(0.976, 1.024)
 # ax1.set_yscale('log')
 
 
 
 ax1.set_xlabel(r'$l$')
-ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
+ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb} - 1$')
+if (ClID == 'TE'): ax1.set_ylabel(r'$C_l^{emu}$ - $C_l^{camb}$')
 
 
 
@@ -373,8 +374,13 @@ if PlotRatio:
                                                                                             label = 'emulated')
             ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.8, lw = 1,  label = 'camb')
 
-            cl_ratio = (1000+ (normFactor * x_decoded[0])+meanFactor) / (1000+Cl_Original[i])
-            relError = 100 * ((cl_ratio) - 1)
+            cl_ratio = ((normFactor * x_decoded[0])+meanFactor) / Cl_Original[i]
+            relError = ((cl_ratio) - 1)
+
+
+            if (ClID == 'TE'):   # Absolute error instead (since TE gets crosses 0
+                relError = ((normFactor * x_decoded[0]) + meanFactor - Cl_Original[i] )
+
 
             # cl_ratio = 2.*(((normFactor * x_decoded[0])+meanFactor) - Cl_Original[i])/\
             #            (((normFactor * x_decoded[0])+meanFactor) + Cl_Original[i])
@@ -386,8 +392,7 @@ if PlotRatio:
                 relError) > ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, cl_ratio, '-', lw = 0.5,
-                     label = 'emu/camb')
+            ax1.plot(ls, relError, '-', lw = 0.5, label = 'emu/camb')
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
@@ -467,7 +472,7 @@ print(fileOut)
 print('train loss: ', train_loss[-1])
 print('test loss: ', val_loss[-1])
 print
-print('max rel error:', max_relError)
+print('max rel error:', 100*max_relError, 'percent')
 print(50*'#')
 
 
