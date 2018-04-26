@@ -244,7 +244,7 @@ x_decoded = GPfit(computedGP, y_test[10])
 
 m_true = 0.13  # omch2
 b_true = 0.75  #ombh2
-f_true = 0.534  #dunno what this should do
+f_true = -0.534  #dunno what this should do
 
 ######### MCMC #######################
 
@@ -320,6 +320,14 @@ np.savetxt(DataDir + 'Sampler_mcmc_ndim' +str(ndim) + '_nwalk' + str(nwalkers) +
 samples = sampler.chain[:, 50:, :].reshape((-1, ndim))
 
 
+####### FINAL PARAMETER ESTIMATES #######################################
+
+samples[:, 2] = np.exp(samples[:, 2])
+m_mcmc, b_mcmc, f_mcmc = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+#####################################################################
+
+print('mcmc results:', m_mcmc, b_mcmc, f_mcmc)
+
 
 ####### CORNER PLOT ESTIMATES #######################################
 
@@ -339,9 +347,8 @@ fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
 fig.savefig('corner_'+fileOut+'.png')
 
 
-fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\sigma_8$"],
-                      truths=[m_true, b_true] , figureSize='MNRAS_page' )
-fig.savefig('pygtc_'+fileOut+'.png')
+#fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\sigma_8$"], truths=[m_true, b_true] , figureSize='MNRAS_page' )
+#fig.savefig('pygtc_'+fileOut+'.png')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
@@ -352,13 +359,3 @@ for m, b, lnf in samples[np.random.randint(len(samples), size=100)]:
     plt.plot(xl, m*xl+b, color="k", alpha=0.1)
 plt.plot(xl, m_true*xl+b_true, color="r", lw=2, alpha=0.8)
 plt.errorbar(x, y, yerr=yerr, fmt=".k", alpha=0.1)
-
-
-####### FINAL PARAMETER ESTIMATES #######################################
-
-samples[:, 2] = np.exp(samples[:, 2])
-m_mcmc, b_mcmc, f_mcmc = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [16, 50, 84], axis=0)))
-#####################################################################
-
-print('mcmc results:', m_mcmc, b_mcmc, lnf_mcmc)
-
