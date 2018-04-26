@@ -19,7 +19,7 @@ import matplotlib.pylab as plt
 # y += yerr * np.random.randn(N)
 
 
-dirIn = '../../Cl_data/RealData/'
+dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
 
 # lID = np.array([1, 0, 2, 0])
@@ -244,7 +244,7 @@ x_decoded = GPfit(computedGP, y_test[10])
 
 m_true = 0.13  # omch2
 b_true = 0.75  #ombh2
-f_true = -0.534  #dunno what this should do
+f_true = 0.534  #dunno what this should do
 
 ######### MCMC #######################
 
@@ -267,7 +267,9 @@ def lnlike(theta, x, y, yerr):
     m, b, lnf = theta
     new_params = np.array([m, 0.0225, b , 0.74, 0.9])
     model = GPfit(computedGP, new_params)[28:2507]
-    inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf))
+    # inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf)) ## Original
+    inv_sigma2 = 1.0/(yerr**2 )#+ model**2*np.exp(2*lnf))
+
     return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
 
 import scipy.optimize as op
@@ -301,9 +303,9 @@ def lnprob(theta, x, y, yerr):
 
 
 
-ndim, nwalkers = 3, 400  # 3,100
+ndim, nwalkers = 3, 500  # 3,100
 pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
-nrun = 1000
+nrun = 2000
 
 import emcee
 
@@ -332,7 +334,6 @@ print('mcmc results:', m_mcmc, b_mcmc, f_mcmc)
 ####### CORNER PLOT ESTIMATES #######################################
 
 
-import pygtc
 import corner
 # fig = corner.corner(samples, labels=["$\Omega_c h^2$", "$\sigma_8$", "$\ln\,f$"],
 #                       truths=[m_true, b_true, np.log(f_true)])
@@ -346,9 +347,22 @@ fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
                       truths=[m_true, b_true])
 fig.savefig('corner_'+fileOut+'.png')
 
+import pygtc
+fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\sigma_8$"], truths=[m_true, b_true] , figureSize='MNRAS_page' )
+fig.savefig('pygtc_'+fileOut+'.png')
 
-#fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\sigma_8$"], truths=[m_true, b_true] , figureSize='MNRAS_page' )
-#fig.savefig('pygtc_'+fileOut+'.png')
+
+
+
+
+plt.figure(43432)
+fig.add_subplot(311, facecolor='r')
+plt.plot(np.arange(nrun), sampler.chain[:,:, 0].T)
+plt.plot(np.arange(nrun), sampler.chain[:,:, 1].T)
+plt.plot(np.arange(nrun), sampler.chain[:,:, 2].T)
+
+
+
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
