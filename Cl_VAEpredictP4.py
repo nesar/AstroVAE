@@ -13,7 +13,7 @@ print(__doc__)
 import numpy as np
 
 import matplotlib as mpl
-#mpl.use('Agg')
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 
