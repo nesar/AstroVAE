@@ -157,7 +157,7 @@ X5 = y_train[:, 4][:, np.newaxis]
 X5a = rescale01(np.min(X5), np.max(X5), X5)
 
 
-XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
+rescaledTrainParams = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
 
 
 # # ------------------------------------------------------------------------------
@@ -166,41 +166,41 @@ encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+
 
 # ------------------------------------------------------------------------------
 
-def GPcompute(XY, latent_dim):
+def GPcompute(rescaledTrainParams, latent_dim):
     gp = {}
     for j in range(latent_dim):
         gp["fit{0}".format(j)] = george.GP(kernel)
-        gp["fit{0}".format(j)].compute(XY[:, 0, :].T)
+        gp["fit{0}".format(j)].compute(rescaledTrainParams[:, 0, :].T)
     return gp
 
 
-def GPfit(computedGP, y_params):
-    RealPara = y_params
+def GPfit(computedGP, para_array):
+    
+    para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
+    para_array[1] = rescale01(np.min(X2), np.max(X2), para_array[1])
+    para_array[2] = rescale01(np.min(X3), np.max(X3), para_array[2])
+    para_array[3] = rescale01(np.min(X4), np.max(X4), para_array[3])
+    para_array[4] = rescale01(np.min(X5), np.max(X5), para_array[4])
 
+    test_pts = para_array[:num_para].reshape(num_para, -1).T
 
-    RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
-    RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
-    RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
-    RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
-    RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
-
-    test_pts = RealPara[:num_para].reshape(num_para, -1).T
-
-    # ------------------------------------------------------------------------------
+    # -------------- Predict latent space ----------------------------------------
 
     W_pred = np.array([np.zeros(shape=latent_dim)])
     W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
-    gp = computedGP
     for j in range(latent_dim):
-        W_pred[:, j], W_pred_var[:, j] = gp["fit{0}".format(j)].predict(encoded_xtrain[j], test_pts)
+        W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j], test_pts)
+
+
+    # -------------- Decode from latent space --------------------------------------
 
     x_decoded = decoder.predict(W_pred)
 
     return (normFactor* x_decoded[0])+meanFactor
 
 
-computedGP = GPcompute(XY, latent_dim)
+computedGP = GPcompute(rescaledTrainParams, latent_dim)
 
 x_decoded = GPfit(computedGP, y_test[10])
 
@@ -216,27 +216,27 @@ x_decoded = GPfit(computedGP, y_test[10])
 
 
 
-m_true = 0.125  # omch2
-b_true = 0.75  #sigma_8
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Now, let's setup some parameters that define the MCMC
+#### parameters that define the MCMC
 ndim = 2
-nwalkers = 50 #500
+nwalkers = 10 #500
+nrun_burn = 50 #300
+nrun = 300 #700
+
+
+#### Cosmological Parameters ########################################
+#        [label, true, min, max]
+
+param1 = ["$\Omega_c h^2$", 0.121, 0.12, 0.155]
+param2 = ["$\sigma_8$", 0.8, 0.7, 0.9]
+
+p1_true = 0.121  # omch2
+p2_true = 0.81  #sigma_8
+
+
+
+
+###################################################################
+
 
 # Initialize the chain
 # Choice 1: chain uniformly distributed in the range of the parameters
@@ -247,20 +247,9 @@ pos = [pos_min + psize*np.random.rand(ndim) for i in range(nwalkers)]
 
 # Visualize the initialization
 import corner
-fig = corner.corner(pos, labels=["$m$", "$b$"], range=[[0.12, 0.155], [0.7, 0.9]],
-                      truths=[m_true, b_true])
+fig = corner.corner(pos, labels=["$p1$", "$p2$"], range=[[0.12, 0.155], [0.7, 0.9]],
+                      truths=[p1_true, p2_true])
 fig.set_size_inches(10,10)
-
-
-
-
-
-
-
-
-
-
-
 
 ######### MCMC #######################
 
@@ -271,18 +260,18 @@ fig.set_size_inches(10,10)
 # ns = np.linspace(0.85, 1.05, totalFiles)
 
 
-
 def lnprior(theta):
-    m, b= theta
-    if 0.12 < m < 0.155 and 0.7 < b < 0.9:
+    p1, p2= theta
+    # if 0.12 < p1 < 0.155 and 0.7 < p2 < 0.9:
+    if 0.12 < p1 < 0.155 and 0.7 < p2 < 0.9:
+
         return 0.0
     return -np.inf
 
 
-
 def lnlike(theta, x, y, yerr):
-    m, b = theta
-    new_params = np.array([m, 0.0225, b , 0.74, 0.9])
+    p1, p2 = theta
+    new_params = np.array([p1, 0.0225, p2 , 0.74, 0.9])
     model = GPfit(computedGP, new_params)[28:2507]
 
     return -0.5*(np.sum( (  (y-model)/yerr  )**2. ))
@@ -304,11 +293,9 @@ sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
 
 
 
-nrun_burn = 50 #300
-nrun = 300 #700
 
 
-
+###### BURIN-IN #################
 import time
 time0 = time.time()
 # burnin phase
@@ -319,7 +306,7 @@ print('burn-in time:', time1-time0)
 
 
 
-
+###### MCMC ##################
 time0 = time.time()
 # perform MCMC
 pos, prob, state  = sampler.run_mcmc(pos, nrun)
@@ -339,12 +326,12 @@ samples_plot = sampler.chain[:, :].reshape((-1, ndim))
 
 
 fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
-                      truths=[m_true, b_true])
+                      truths=[p1_true, p2_true])
 fig.savefig('corner_'+fileOut+'.png')
 
 
 
-# np.savetxt(DataDir + 'Sampler_mcmc_ndim' +str(ndim) + '_nwalk' + str(nwalkers) + '_run' +  str(nrun) + fileOut +'.txt',  sampler.chain[:,:,:].reshape((-1, ndim)) )
+np.savetxt(DataDir + 'Sampler_mcmc_ndim' +str(ndim) + '_nwalk' + str(nwalkers) + '_run' +  str(nrun) + fileOut +'.txt',  sampler.chain[:,:,:].reshape((-1, ndim)) )
 
 
 ####### FINAL PARAMETER ESTIMATES #######################################
@@ -354,12 +341,13 @@ fig.savefig('corner_'+fileOut+'.png')
 
 samples = np.exp(samples)
 
-m_mcmc, b_mcmc = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+p1_mcmc, p2_mcmc = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [16,
+                                                                                             50, 84], axis=0)))
 
 #####################################################################
 
 # print('mcmc results:', m_mcmc[0], b_mcmc[0], f_mcmc[0])
-print('mcmc results:', m_mcmc[0], b_mcmc[0])
+print('mcmc results:', p1_mcmc[0], p2_mcmc[0])
 
 
 ####### CORNER PLOT ESTIMATES #######################################
@@ -370,18 +358,16 @@ import corner
 #                       truths=[m_true, b_true, np.log(f_true)])
 
 
-
-samples_plot = sampler.chain[:, :, 0:2].reshape((-1, ndim))
-
-
 fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
-                      truths=[m_true, b_true])
+                      truths=[p1_true, p2_true])
 fig.savefig('corner_'+fileOut+'.png')
 
 
 
 import pygtc
-fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\sigma_8$"], truths=[m_true, b_true] , figureSize='MNRAS_page' )
+fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\sigma_8$"], truths=[p1_true,
+                                                                                       p2_true] ,
+                    figureSize='MNRAS_page' )
 fig.savefig('pygtc_'+fileOut+'.png')
 
 
@@ -404,10 +390,10 @@ fig.savefig('pygtc_'+fileOut+'.png')
 fig = plt.figure(13214)
 ax1 = fig.add_subplot(1, 1, 1)
 ax2 = fig.add_subplot(2, 1, 1)
-ax3 = fig.add_subplot(3, 1, 3)
+# ax3 = fig.add_subplot(3, 1, 3)
 
-ax1.plot(np.arange(nrun), sampler.chain[:,:, 0].T)
-ax2.plot(np.arange(nrun), sampler.chain[:,:, 1].T)
-ax3.plot(np.arange(nrun), sampler.chain[:,:, 2].T)
+ax1.plot(np.arange(nrun-10), sampler.chain[:,10:, 0].T)
+ax2.plot(np.arange(nrun-10), sampler.chain[:,10:, 1].T)
+# ax3.plot(np.arange(nrun), sampler.chain[:,:, 2].T)
 
 plt.show()
