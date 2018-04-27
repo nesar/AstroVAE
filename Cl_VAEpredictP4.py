@@ -13,7 +13,7 @@ print(__doc__)
 import numpy as np
 
 import matplotlib as mpl
-mpl.use('Agg')
+# mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 
@@ -273,7 +273,7 @@ if (ClID == 'TE'): ax1.set_ylabel(r'$C_l^{emu}$ - $C_l^{camb}$')
 
 
 # PlotSampleID = [6, 4, 23, 26, 17, 12, 30, 4]
-PlotSampleID = np.arange(y_test.shape[0])[::3]
+PlotSampleID = np.arange(y_test.shape[0])[::]
 
 
 max_relError = 0
@@ -392,7 +392,7 @@ if PlotRatio:
                 relError) > ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, relError, '-', lw = 0.5, label = 'emu/camb')
+            ax1.plot(ls, relError, 'k-', lw = 0.25, label = 'emu/camb', alpha = 0.5)
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 

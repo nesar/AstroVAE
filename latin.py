@@ -33,9 +33,10 @@ totalFiles = 25
 # ns = np.linspace(0.85, 1.05, totalFiles)
 
 
+###### NEED TO RECHECK THESE VALUES OMEGAM ~ 0.112
+
 OmegaM = np.linspace(0.12, 0.155, totalFiles)
 Omegab = np.linspace(0.0215, 0.0235, totalFiles)
-# sigma8 = np.linspace(0.799, 0.8001, totalFiles)  # Dunno how to set sigma_8 in CAMB yet
 sigma8 = np.linspace(0.7, 0.9, totalFiles)
 h = np.linspace(0.55, 0.85, totalFiles)
 ns = np.linspace(0.85, 1.05, totalFiles)
