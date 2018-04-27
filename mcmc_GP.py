@@ -267,8 +267,8 @@ def lnlike(theta, x, y, yerr):
     m, b, lnf = theta
     new_params = np.array([m, 0.0225, b , 0.74, 0.9])
     model = GPfit(computedGP, new_params)[28:2507]
-    # inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf)) ## Original
-    inv_sigma2 = 1.0/(yerr**2 )#+ model**2*np.exp(2*lnf))
+    inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf)) ## Original
+    # inv_sigma2 = 1.0/(yerr**2 )#+ model**2*np.exp(2*lnf))
 
     return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
 
@@ -304,8 +304,8 @@ def lnprob(theta, x, y, yerr):
 
 
 ndim, nwalkers = 3, 500  # 3,100
-pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
-nrun = 2000
+pos = [result["x"] + 1e-3*np.random.randn(ndim) for i in range(nwalkers)]
+nrun = 5000
 
 import emcee
 
@@ -346,6 +346,8 @@ samples_plot = sampler.chain[:, 50:, 0:2].reshape((-1, ndim-1))
 fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
                       truths=[m_true, b_true])
 fig.savefig('corner_'+fileOut+'.png')
+
+
 
 import pygtc
 fig = pygtc.plotGTC(samples_plot, paramNames=["$\Omega_c h^2$", "$\sigma_8$"], truths=[m_true, b_true] , figureSize='MNRAS_page' )
