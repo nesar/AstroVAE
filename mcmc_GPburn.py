@@ -1,31 +1,12 @@
 import numpy as np
 import matplotlib.pylab as plt
 
-
-# Choose the "true" parameters.
-
-# cosmological parameters here
-
-
 ########## REAL DATA with ERRORS #############################
 # Generate some synthetic data from the model.
 
 
-# N = 50
-# x = np.sort(10*np.random.rand(N))
-# yerr = 0.1+0.5*np.random.rand(N)
-# y = m_true*x+b_true
-# y += np.abs(f_true*y) * np.random.randn(N)
-# y += yerr * np.random.randn(N)
-
-
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
-
-# lID = np.array([1, 0, 2, 0])
-# ClID = np.array([1, 1, 3, 1])
-# emaxID = np.array([1, 2, 4, 2])
-# eminID = np.array([1, 2, 4, 2])
 
 
 lID = np.array([0, 2, 0])
@@ -234,17 +215,52 @@ x_decoded = GPfit(computedGP, y_test[10])
 ########################################################################################################################
 
 
-## **** checl camb generate pars[2]
 
-### recheck the values!!
+m_true = 0.125  # omch2
+b_true = 0.75  #sigma_8
 
-### Try using just 2 parameters --- m, b  -- 0(omega_m), 2(sigma_8)
-### x should cut the x_decoded part
-### GPfit(computedGP, y_test[0]) should be in lnlike -- in model
 
-m_true = 0.13  # omch2
-b_true = 0.75  #ombh2
-f_true = 0.534  #dunno what this should do
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Now, let's setup some parameters that define the MCMC
+ndim = 2
+nwalkers = 50 #500
+
+# Initialize the chain
+# Choice 1: chain uniformly distributed in the range of the parameters
+pos_min = np.array([0.12, 0.7])
+pos_max = np.array([0.155, 0.9])
+psize = pos_max - pos_min
+pos = [pos_min + psize*np.random.rand(ndim) for i in range(nwalkers)]
+
+# Visualize the initialization
+import corner
+fig = corner.corner(pos, labels=["$m$", "$b$"], range=[[0.12, 0.155], [0.7, 0.9]],
+                      truths=[m_true, b_true])
+fig.set_size_inches(10,10)
+
+
+
+
+
+
+
+
+
+
+
 
 ######### MCMC #######################
 
@@ -255,47 +271,23 @@ f_true = 0.534  #dunno what this should do
 # ns = np.linspace(0.85, 1.05, totalFiles)
 
 
-# def lnlike(theta, x, y, yerr):
-#     m, b, lnf = theta
-#     model = m * x + b
-#     inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf))
-#     return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
-
-# log likelihood function -- to be replaced by the emulator as a function of cosmological parameters
-
-def lnlike(theta, x, y, yerr):
-    m, b, lnf = theta
-    new_params = np.array([m, 0.0225, b , 0.74, 0.9])
-    model = GPfit(computedGP, new_params)[28:2507]
-    inv_sigma2 = 1.0/(yerr**2 + model**2*np.exp(2*lnf)) ## Original
-    # inv_sigma2 = 1.0/(yerr**2 )#+ model**2*np.exp(2*lnf))
-    return -0.5*(np.sum((y-model)**2*inv_sigma2 - np.log(inv_sigma2)))
-
-
-
-import scipy.optimize as op
-nll = lambda *args: -lnlike(*args)
-result = op.minimize(nll, [m_true, b_true, np.log(f_true)], args=(x, y, yerr))
-m_ml, b_ml, lnf_ml = result["x"]   ## max likelihood
-
-print('max likelihood results:', m_ml, b_ml, lnf_ml)
-#############################################################
-# Use flat prior ?
-# def lnprior(theta):
-#     m, b, lnf = theta
-#     if -5.0 < m < 0.5 and 0.0 < b < 10.0 and -10.0 < lnf < 1.0:
-#         return 0.0
-#     return -np.inf
-
 
 def lnprior(theta):
-    m, b, lnf = theta
-    if 0.12 < m < 0.155 and 0.7 < b < 0.8 and -10.0 < lnf < 10.0:
+    m, b= theta
+    if 0.12 < m < 0.155 and 0.7 < b < 0.9:
         return 0.0
     return -np.inf
 
 
-# Dunno what to do here  -- just a combination of likelihood and prior?
+
+def lnlike(theta, x, y, yerr):
+    m, b = theta
+    new_params = np.array([m, 0.0225, b , 0.74, 0.9])
+    model = GPfit(computedGP, new_params)[28:2507]
+
+    return -0.5*(np.sum( (  (y-model)/yerr  )**2. ))
+
+
 def lnprob(theta, x, y, yerr):
     lp = lnprior(theta)
     if not np.isfinite(lp):
@@ -304,32 +296,70 @@ def lnprob(theta, x, y, yerr):
 
 
 
-ndim, nwalkers = 3, 300  # 3,100
-pos = [result["x"] + 1e-3*np.random.randn(ndim) for i in range(nwalkers)]
-nrun = 5000
-
+# Let us setup the emcee Ensemble Sampler
+# It is very simple: just one, self-explanatory line
 import emcee
-
 sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
-#sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr), threads=8)
-
-sampler.run_mcmc(pos, nrun)
 
 
 
-np.savetxt(DataDir + 'Sampler_mcmc_ndim' +str(ndim) + '_nwalk' + str(nwalkers) + '_run' +  str(nrun) + fileOut +'.txt',  sampler.chain[:,:,:].reshape((-1, ndim)) )
+
+nrun_burn = 50 #300
+nrun = 300 #700
 
 
-samples = sampler.chain[:, 50:, :].reshape((-1, ndim))
+
+import time
+time0 = time.time()
+# burnin phase
+pos, prob, state  = sampler.run_mcmc(pos, nrun_burn)
+sampler.reset()
+time1=time.time()
+print('burn-in time:', time1-time0)
+
+
+
+
+time0 = time.time()
+# perform MCMC
+pos, prob, state  = sampler.run_mcmc(pos, nrun)
+time1=time.time()
+print('mcmc time:', time1-time0)
+
+samples = sampler.flatchain
+samples.shape
+
+
+
+
+
+
+
+samples_plot = sampler.chain[:, :].reshape((-1, ndim))
+
+
+fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],
+                      truths=[m_true, b_true])
+fig.savefig('corner_'+fileOut+'.png')
+
+
+
+# np.savetxt(DataDir + 'Sampler_mcmc_ndim' +str(ndim) + '_nwalk' + str(nwalkers) + '_run' +  str(nrun) + fileOut +'.txt',  sampler.chain[:,:,:].reshape((-1, ndim)) )
 
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
-samples[:, 2] = np.exp(samples[:, 2])
-m_mcmc, b_mcmc, f_mcmc = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+# samples[:, 2] = np.exp(samples[:, 2])
+# m_mcmc, b_mcmc, f_mcmc = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+
+samples = np.exp(samples)
+
+m_mcmc, b_mcmc = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]), zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+
 #####################################################################
 
-print('mcmc results:', m_mcmc[0], b_mcmc[0], f_mcmc[0])
+# print('mcmc results:', m_mcmc[0], b_mcmc[0], f_mcmc[0])
+print('mcmc results:', m_mcmc[0], b_mcmc[0])
 
 
 ####### CORNER PLOT ESTIMATES #######################################
@@ -341,7 +371,7 @@ import corner
 
 
 
-samples_plot = sampler.chain[:, :, 0:2].reshape((-1, ndim-1))
+samples_plot = sampler.chain[:, :, 0:2].reshape((-1, ndim))
 
 
 fig = corner.corner(samples_plot, labels=["$\Omega_c h^2$", "$\sigma_8$"],

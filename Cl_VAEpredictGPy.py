@@ -145,7 +145,7 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 max_relError = 0
 ErrTh = 0.5
 PlotRatio = True
-IfVariance = False  # Computation is a lot slower with Variance
+IfVariance = True  # Computation is a lot slower with Variance
 
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))

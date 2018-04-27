@@ -59,8 +59,54 @@ ModelDir = params.ModelDir
 
 fileOut = params.fileOut
 
+import GPy
+
+# ----------------------------- i/o ------------------------------------------
+
+
+ClID = ['TT', 'EE', 'BB', 'TE'][2]
+
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
+
+Cl_Original = (Testfiles[:, num_para+2:])  # [2:3]
+
+
+
+# para_train = Trainfiles[:, num_para+2:]
+# para_test = Testfiles[:, num_para+2:]
+para_train = Trainfiles[:, 0: num_para]
+para_test =  Testfiles[:, 0: num_para]
+
+print(para_train.shape, 'train sequences')
+print(para_test.shape, 'test sequences')
+# print(y_train.shape, 'train sequences')
+# print(y_test.shape, 'test sequences')
+
+ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
+#----------------------------------------------------------------------------
+
+# meanFactor = np.min( [np.min(para_train), np.min(para_test ) ])
+# print('-------mean factor:', meanFactor)
+# para_train = para_train.astype('float32') - meanFactor #/ 255.
+# para_test = para_test.astype('float32') - meanFactor #/ 255.
+#
+
+# para_train = np.log10(para_train) #para_train[:,2:] #
+# para_test =  np.log10(para_test) #para_test[:,2:] #
+
+# normFactor = np.max( [np.max(para_train), np.max(para_test ) ])
+
+normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+meanFactor = np.loadtxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
+print('-------normalization factor:', normFactor)
+print('-------rescaling factor:', meanFactor)
+
 
 ################# ARCHITECTURE ###############################
+
 
 
 LoadModel = True
@@ -69,70 +115,22 @@ if LoadModel:
     # fileOut = 'VanillaModel_tot'+str(num_train)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
 
     # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
-    encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+'_' + fileOut + '.hdf5')
-    decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+'_' + fileOut + '.hdf5')
-    history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt')
+    encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+ClID+'_'+fileOut+'.txt')
 
 
 
-import GPy
 
-# ----------------------------- i/o ------------------------------------------
-
-
-Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
-
-# x_train = Trainfiles[:, num_para+2:]
-# x_test = Testfiles[:, num_para+2:]
-# y_train = Trainfiles[:, 0: num_para]
-# y_test =  Testfiles[:, 0: num_para]
-
-# print(x_train.shape, 'train sequences')
-# print(x_test.shape, 'test sequences')
-# print(y_train.shape, 'train sequences')
-# print(y_test.shape, 'test sequences')
-
-ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
-
-#----------------------------------------------------------------------------
-
-x_train = Trainfiles[:, 0: num_para]
-x_test =  Testfiles[:, 0: num_para]
-
-normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
-print('-------normalization factor:', normFactor)
-
-
-Cl_Original = (Testfiles[:, num_para+2:])  # [2:3]
-
-
-x_train = x_train.astype('float32')/normFactor #/ 255.
-x_test = x_test.astype('float32')/normFactor #/ 255.
-x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
 
 # # ------------------------------------------------------------------------------
 
 
-
-y_train = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt')
-y_test = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
-
-
-# xtrain = np.loadtxt("../Cl_data/Data/para4_train.txt") # P5Cl_32
-# ytrain = np.loadtxt("../Cl_data/Data/encoded_trainP5.txt") # y
-# xtest = np.loadtxt("../Cl_data/Data/para4_new.txt") #P5Cl_32
-# ytest = np.loadtxt("../Cl_data/Data/encoded_test_originalP5.txt") # encoded_xtest_original
-
-
-# xtrain = x_train
-# ytrain = y
-# xtest = x_test
-# ytest = encoded_xtest_original
-
+# # ------------------------------------------------------------------------------
+encoded_xtrain = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+encoded_xtest = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
 
 
 # ------------------------------------------------------------------------------
@@ -145,7 +143,7 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 max_relError = 0
 ErrTh = 0.5
 PlotRatio = True
-IfVariance = False  # Computation is a lot slower with Variance
+IfVariance = True  # Computation is a lot slower with Variance
 
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
@@ -178,23 +176,23 @@ if PlotRatio:
         # output dimensions, since they're considered independant
 
 
-        m1 = GPy.models.GPRegression(x_train, y_train, kernel=kern)
+        m1 = GPy.models.GPRegression(para_train, encoded_xtrain, kernel=kern)
         m1.Gaussian_noise.variance.constrain_fixed(1e-12)
         m1.optimize(messages=True)
-        m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive
+        m1p = m1.predict(para_test)  # [0] is the mean and [1] the predictive
         W_predArray = m1p[0]
 
 
-        np.savetxt(DataDir + 'WPredArray_GPyNoVariance'+ str(latent_dim) + '.txt', W_predArray)
+        np.savetxt(DataDir + 'WPredArray_GPyNoVariance'+ str(latent_dim)+ClID + '.txt', W_predArray)
 
         #########################################################################################
 
     else:  # With Variance run ---> Expensive
 
-        for i in range(x_test.shape[0]):
+        for i in range(para_test.shape[0]):
         # for i in range(2):
 
-            x_test_point = x_test[i].reshape(num_para, -1).T
+            para_test_point = para_test[i].reshape(num_para, -1).T
             m = {}
 
             for j in range(latent_dim):
@@ -203,16 +201,16 @@ if PlotRatio:
                 print
 
 
-                m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
-                    y_train.shape[0], -1), kernel=kern)
+                m["fit{0}".format(j)] = GPy.models.GPRegression(para_train, encoded_xtrain[:, j].reshape(
+                    encoded_xtrain.shape[0], -1), kernel=kern)
                 m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
                 m["fit{0}".format(j)].optimize(messages=True)
-                W_predArray[i, j], W_varArray[i, j] = m["fit{0}".format(j)].predict(x_test_point)
+                W_predArray[i, j], W_varArray[i, j] = m["fit{0}".format(j)].predict(para_test_point)
 
 
 
-        np.savetxt(DataDir + 'WPredArray_GPy'+ str(latent_dim) + '.txt', W_predArray)
-        np.savetxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) + '.txt', W_varArray)
+        np.savetxt(DataDir + 'WPredArray_GPy'+ str(latent_dim) +ClID+'.txt', W_predArray)
+        np.savetxt(DataDir + 'WvarArray_GPy'+ str(latent_dim) +ClID+ '.txt', W_varArray)
 
 
 #### ------------------------ Can be analyzed separately too ----------------------- ###
@@ -240,7 +238,7 @@ ax1.set_ylim(0.976, 1.024)
 
 
 
-for i in range(x_test.shape[0]):
+for i in range(para_test.shape[0]):
 # for i in range(2):
 
 
@@ -252,17 +250,17 @@ for i in range(x_test.shape[0]):
 
 
 
-        ax0.plot(ls, (normFactor*x_decoded[i]), 'r--', alpha= 0.5, lw = 1, label = 'emulated')
+        ax0.plot(ls, (normFactor*x_decoded[i]) +meanFactor, 'r--', alpha= 0.5, lw = 1, label = 'emulated')
         ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1,  label = 'camb')
 
-        cl_ratio = (normFactor * x_decoded[i]) / (Cl_Original[i])
+        cl_ratio = ( (normFactor * x_decoded[i]) +meanFactor)/ (Cl_Original[i])
         relError = 100 * ((cl_ratio) - 1)
 
         ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
                         ErrTh], 'gx', alpha=0.5, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-        ax1.plot(ls, (normFactor*x_decoded[i])/ (Cl_Original[i]), '-', lw = 0.5,
+        ax1.plot(ls, ( (normFactor*x_decoded[i]) +meanFactor)/ (Cl_Original[i]), '-', lw = 0.5,
                          label = 'emu/camb')
 
 
@@ -272,7 +270,7 @@ for i in range(x_test.shape[0]):
 
 plt.figure(999)
 # plt.tight_layout()
-plt.savefig(PlotsDir + 'TestGPy'+str(num_para)+''+fileOut+'.png')
+plt.savefig(PlotsDir + 'TestGPy'+str(num_para)+ClID+fileOut+'.png')
 
 
 
@@ -301,7 +299,7 @@ if plotLoss:
     #plt.text(5.75, 0.15, 'MaxRelError: %d'%np.int(max_relError) , fontsize=15)
     plt.title(fileOut)
     # plt.tight_layout()
-    plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +'.png')
+    plt.savefig(PlotsDir + 'TrainingLoss_'+fileOut+'_relError'+ str( np.int(max_relError) ) +ClID+'.png')
 
 #plt.show()
 
@@ -413,7 +411,7 @@ if PlotScatter:
         AllLabels.append(str("z{0}".format(ind)))
 
 
-    inputArray = np.hstack([y_train, y_train])
+    inputArray = np.hstack([encoded_xtrain, encoded_xtrain])
     df = pd.DataFrame(inputArray, columns=AllLabels)
     axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
 
@@ -476,11 +474,11 @@ if PlotScatter:
 
 #plt.figure(35)
 #for i in range(10):
-#    plt.plot(np.fft.rfft(x_train[i,:]))
+#    plt.plot(np.fft.rfft(para_train[i,:]))
 #plt.xscale('log')
 
-#plt.plot( np.fft.irfft( np.fft.rfft(x_train[0,:]) ), 'r' )
-#plt.plot(x_train[0,:], 'b-.')
+#plt.plot( np.fft.irfft( np.fft.rfft(para_train[0,:]) ), 'r' )
+#plt.plot(para_train[0,:], 'b-.')
 
 
 
@@ -495,23 +493,23 @@ if PlotScatter:
 
 
 
-###---------------- Plot delta z vs delta x_train
+###---------------- Plot delta z vs delta para_train
 
 ## to check how well encoding does
 
-delta_z = np.zeros(shape=x_train.shape[0] )
-delta_xtrain = np.zeros(shape=x_train.shape[0] )
+delta_z = np.zeros(shape=para_train.shape[0] )
+delta_xtrain = np.zeros(shape=para_train.shape[0] )
 
-for i in range(y_train.shape[1]):
-    delta_z[i] = np.sqrt( np.mean(   (x_train[0] - x_train[i])**2  )  )
-    delta_xtrain[i] = np.sqrt( np.mean(   (y_train[0] -  y_train[i])**2  )  )
+for i in range(encoded_xtrain.shape[1]):
+    delta_z[i] = np.sqrt( np.mean(   (para_train[0] - para_train[i])**2  )  )
+    delta_xtrain[i] = np.sqrt( np.mean(   (encoded_xtrain[0] -  encoded_xtrain[i])**2  )  )
 
-delta_ztest = np.zeros(shape=x_test.shape[0] )
-delta_xtest = np.zeros(shape=x_test.shape[0] )
+delta_ztest = np.zeros(shape=para_test.shape[0] )
+delta_xtest = np.zeros(shape=para_test.shape[0] )
 
-for i in range(y_test.shape[0]):
-    delta_ztest[i] = np.sqrt( np.mean(   (x_test[0] - x_test[i])**2  )  )
-    delta_xtest[i] = np.sqrt( np.mean(   (y_test[0] -  y_test[i])**2  )  )
+for i in range(encoded_xtest.shape[0]):
+    delta_ztest[i] = np.sqrt( np.mean(   (para_test[0] - para_test[i])**2  )  )
+    delta_xtest[i] = np.sqrt( np.mean(   (encoded_xtest[0] -  encoded_xtest[i])**2  )  )
 
 
 
@@ -527,4 +525,4 @@ plt.ylabel(r'$\bigtriangleup$ $x$')
 
 plt.legend()
 plt.tight_layout()
-plt.savefig(PlotsDir + 'SensitivityP'+str(num_para)+''+fileOut+'.png')
+plt.savefig(PlotsDir + 'SensitivityP'+str(num_para)+ClID+fileOut+'.png')
