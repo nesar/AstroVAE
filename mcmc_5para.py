@@ -19,8 +19,8 @@ import pygtc
 
 
 ########## REAL DATA with ERRORS #############################
-# Generate some synthetic data from the model.
-
+# Planck/SPT/WMAP data
+# TE, EE, BB next
 
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
