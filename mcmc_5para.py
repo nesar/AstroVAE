@@ -1,5 +1,22 @@
 import numpy as np
 import matplotlib.pylab as plt
+import corner
+import emcee
+import time
+from keras.models import load_model
+import params
+import george
+from george.kernels import Matern32Kernel
+
+
+import pygtc
+
+
+# import Cl_load
+# import SetPub
+# SetPub.set_pub()
+
+
 
 ########## REAL DATA with ERRORS #############################
 # Generate some synthetic data from the model.
@@ -15,7 +32,6 @@ eminID = np.array([2, 4, 2])
 
 print(allfiles)
 
-import numpy as np
 
 for fileID in [2]:
     with open(dirIn + allfiles[fileID]) as f:
@@ -35,16 +51,6 @@ yerr = emax
 
 ############## GP FITTING ################################################################################
 ##########################################################################################################
-
-
-from keras.models import load_model
-
-import params
-
-
-# import Cl_load
-# import SetPub
-# SetPub.set_pub()
 
 
 
@@ -129,8 +135,7 @@ if LoadModel:
     history = np.loadtxt(
         ModelDir + 'TrainingHistoryP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 
-import george
-from george.kernels import Matern32Kernel
+
 
 kernel = Matern32Kernel([1000, 4000, 3000, 1000, 2000], ndim=num_para)
 
@@ -212,9 +217,9 @@ x_decoded = GPfit(computedGP, y_test[10])
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 50  # 500
-nrun_burn = 10  # 300
-nrun = 70  # 700
+nwalkers = 500  # 500
+nrun_burn = 50  # 300
+nrun = 100  # 700
 
 #### Cosmological Parameters ########################################
 
@@ -238,29 +243,63 @@ param5 = ["$n_s$", 0.9667, 0.85, 1.05]
 
 
 
-###################################################################
+#################### CHAIN INITIALIZATION ##########################
 
+## 2 options
 
-# Initialize the chain
+Uniform_init = True
+if Uniform_init:
 # Choice 1: chain uniformly distributed in the range of the parameters
-pos_min = np.array([param1[2], param2[2], param3[2], param4[2], param5[2]])
-pos_max = np.array([param1[3], param2[3], param3[3], param4[3], param5[3]])
-psize = pos_max - pos_min
-pos = [pos_min + psize * np.random.rand(ndim) for i in range(nwalkers)]
+    pos_min = np.array([param1[2], param2[2], param3[2], param4[2], param5[2]])
+    pos_max = np.array([param1[3], param2[3], param3[3], param4[3], param5[3]])
+    psize = pos_max - pos_min
+    pos = [pos_min + psize * np.random.rand(ndim) for i in range(nwalkers)]
+
+
+
+True_init = False
+if True_init:
+# Choice 2: chain is initialized in a tight ball around the expected values
+    pos = [[param1[1]*1.2, param2[1]*0.8, param3[1]*0.9, param4[1]*1.1, param5[1]*1.2] +
+           1e-3*np.random.randn(ndim) for i in range(nwalkers)]
+
+
+MaxLikelihood_init = False
+if MaxLikelihood_init:
+# Choice 2b: Find expected values from max likelihood and use that for chain initialization
+# Requires likehood function below to run first
+
+    import scipy.optimize as op
+    nll = lambda *args: -lnlike(*args)
+    result = op.minimize(nll, [param1[1], param2[1], param3[1], param4[1], param5[1]], args=(x, y, yerr))
+    p1_ml, p2_ml, p3_ml, p4_ml, p5_ml = result["x"]
+    print result['x']
+
+
+    pos = [result['x']+1.e-4*np.random.randn(ndim) for i in range(nwalkers)]
+
+
 
 # Visualize the initialization
-import corner
 
-fig = corner.corner(pos, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
-                    range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
-                    [param4[2],param4[3]], [param5[2],param5[3]]],
-                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]])
-fig.set_size_inches(10, 10)
+Plot_init = False
+
+if Plot_init:
+
+    fig = corner.corner(pos, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
+                        range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
+                        [param4[2],param4[3]], [param5[2],param5[3]]],
+                        truths=[param1[1], param2[1], param3[1], param4[1], param5[1]])
+    fig.set_size_inches(10, 10)
+
+
 
 
 ######### MCMC #######################
 
-## Sample implementation : http://eso-python.github.io/ESOPythonTutorials/ESOPythonDemoDay8_MCMC_with_emcee.html
+## Sample implementation :
+# http://eso-python.github.io/ESOPythonTutorials/ESOPythonDemoDay8_MCMC_with_emcee.html
+# https://users.obs.carnegiescience.edu/cburns/ipynbs/Emcee.html
 
 def lnprior(theta):
     p1, p2, p3, p4, p5 = theta
@@ -290,12 +329,10 @@ def lnprob(theta, x, y, yerr):
 
 # Let us setup the emcee Ensemble Sampler
 # It is very simple: just one, self-explanatory line
-import emcee
 
 sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
 
 ###### BURIN-IN #################
-import time
 
 time0 = time.time()
 # burnin phase
@@ -316,13 +353,9 @@ samples.shape
 
 
 ###########################################################################
-samples_plot = sampler.chain[:, :].reshape((-1, ndim))
+samples_plot = sampler.chain[:, :, :].reshape((-1, ndim))
 
-fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
-                    range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
-                    [param4[2],param4[3]], [param5[2],param5[3]]],
-                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]])
-fig.savefig('corner_' + fileOut + '.png')
+
 
 np.savetxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
     nrun) + fileOut + '.txt', sampler.chain[:, :, :].reshape((-1, ndim)))
@@ -337,21 +370,24 @@ print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0
 ####### CORNER PLOT ESTIMATES #######################################
 
 
-import corner
 
 fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
                     range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
                     [param4[2],param4[3]], [param5[2],param5[3]]],
-                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]])
-fig.savefig('corner_' + fileOut + '.png')
+                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
+                    show_titles=True, labels_args={"fontsize": 40})
 
-import pygtc
+
+fig.savefig('corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    nrun) + fileOut +'.png')
+
 
 fig = pygtc.plotGTC(samples_plot, paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
                     truths=[param1[1], param2[1], param3[1], param4[1], param5[1]], figureSize='MNRAS_page')
 
 
-fig.savefig('pygtc_' + fileOut + '.png')
+fig.savefig('pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    nrun) + fileOut + '.png')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 #
@@ -376,19 +412,22 @@ ax3 = fig.add_subplot(5, 1, 3)
 ax4 = fig.add_subplot(5, 1, 4)
 ax5 = fig.add_subplot(5, 1, 5)
 
-ax1.plot(np.arange(nrun - 10), sampler.chain[:, 10:, 0].T)
+ax1.plot(np.arange(nrun), sampler.chain[:, :, 0].T, lw = 0.2, alpha = 0.9)
 ax1.text(0.9, 0.9, param1[0], horizontalalignment='center', verticalalignment='center',
          transform = ax1.transAxes, fontsize = 20)
-ax2.plot(np.arange(nrun - 10), sampler.chain[:, 10:, 1].T)
+ax2.plot(np.arange(nrun), sampler.chain[:, :, 1].T, lw = 0.2, alpha = 0.9)
 ax2.text(0.9, 0.9, param2[0], horizontalalignment='center', verticalalignment='center',
          transform = ax2.transAxes, fontsize = 20)
-ax3.plot(np.arange(nrun - 10), sampler.chain[:, 10:, 2].T)
+ax3.plot(np.arange(nrun), sampler.chain[:, :, 2].T, lw = 0.2, alpha = 0.9)
 ax3.text(0.9, 0.9, param3[0], horizontalalignment='center', verticalalignment='center',
          transform = ax3.transAxes, fontsize = 20)
-ax4.plot(np.arange(nrun - 10), sampler.chain[:, 10:, 3].T)
+ax4.plot(np.arange(nrun), sampler.chain[:, :, 3].T, lw = 0.2, alpha = 0.9)
 ax4.text(0.9, 0.9, param4[0], horizontalalignment='center', verticalalignment='center',
          transform = ax4.transAxes, fontsize = 20)
-ax5.plot(np.arange(nrun - 10), sampler.chain[:, 10:, 4].T)
+ax5.plot(np.arange(nrun), sampler.chain[:, :, 4].T, lw = 0.2, alpha = 0.9)
 ax5.text(0.9, 0.9, param5[0], horizontalalignment='center', verticalalignment='center',
          transform = ax5.transAxes, fontsize = 20)
 plt.show()
+
+fig.savefig('convergence_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    nrun) + fileOut + '.png')
