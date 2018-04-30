@@ -8,6 +8,8 @@ from camb import model, initialpower
 first 2 outputs from CAMB - totCL and unlensed CL both are 0's. 
 CAMBFast maybe better?
 CosmoMC works well with CAMB
+http://camb.readthedocs.io/en/latest/CAMBdemo.html
+https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_Code
 """
 
 numpara = 5
