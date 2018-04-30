@@ -362,6 +362,10 @@ np.savetxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) 
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
+
+samples_plot  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
+                         '_run' + str(nrun) + fileOut + '.txt')
+
 # samples = np.exp(samples)
 p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
                        zip(*np.percentile(samples, [16, 50, 84], axis=0)))
@@ -375,7 +379,7 @@ fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param
                     range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
                     [param4[2],param4[3]], [param5[2],param5[3]]],
                     truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
-                    show_titles=True, labels_args={"fontsize": 40})
+                    show_titles=True,  title_args={"fontsize": 10})
 
 
 fig.savefig('corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
@@ -383,7 +387,8 @@ fig.savefig('corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
 
 
 fig = pygtc.plotGTC(samples_plot, paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
-                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]], figureSize='MNRAS_page')
+                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
+                    figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,smoothingKernel = 0, nContourLevels=3)
 
 
 fig.savefig('pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
