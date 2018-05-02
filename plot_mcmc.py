@@ -1,12 +1,7 @@
 import numpy as np
-import matplotlib.pylab as plt
 import corner
-import emcee
-import time
-from keras.models import load_model
 import params
-import george
-from george.kernels import Matern32Kernel
+
 
 
 import pygtc
@@ -18,12 +13,6 @@ nrun = 200  # 700
 
 #### Cosmological Parameters ########################################
 
-# OmegaM = np.linspace(0.12, 0.155, totalFiles)
-# Omegab = np.linspace(0.0215, 0.0235, totalFiles)
-# sigma8 = np.linspace(0.7, 0.9, totalFiles)
-# h = np.linspace(0.55, 0.85, totalFiles)
-# ns = np.linspace(0.85, 1.05, totalFiles)
-
 #### Order of parameters: ['Omega_m', 'Omega_b', 'sigma_8', 'h', 'n_s']
 #        [label, true, min, max]
 
@@ -32,11 +21,6 @@ param2 = ["$\Omega_b h^2$", 0.02230, 0.0215, 0.0235]
 param3 = ["$\sigma_8$", 0.8159, 0.7, 0.9]
 param4 = ["$h$", 0.6774, 0.55, 0.85]
 param5 = ["$n_s$", 0.9667, 0.85, 1.05]
-
-## Make sure the changes are made in log prior definition too. Variable: new_params
-
-
-
 
 ###################### PARAMETERS ##############################
 
@@ -63,8 +47,6 @@ PlotsDir = params.PlotsDir
 ModelDir = params.ModelDir
 
 fileOut = params.fileOut
-
-
 
 
 
