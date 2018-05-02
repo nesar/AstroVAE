@@ -99,5 +99,5 @@ fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
                      chainLabels=chainLabels, truthLabels=truthLabels)#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
-    # fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    #     nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
+fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run'  + str(nrun) +
+            fileOut + allfiles[fileID][:-4] +'.pdf')
