@@ -94,10 +94,9 @@ truths = [param1[1], param2[1], param3[1], param4[1], param5[1]]
 truthLabels = ( 'Planck 2015 results')
 
 fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
-                     colorsOrder=('greens','blues'),
-                     paramNames=names, truths=truths, figureSize='MNRAS_page',
-                     chainLabels=chainLabels, truthLabels=truthLabels)#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
+                     colorsOrder=('greens','blues'), paramNames=names, truths=truths,
+                     chainLabels=chainLabels, truthLabels=truthLabels, figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
-    # fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    #     nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
+fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run'  + str(nrun) +
+            fileOut + allfiles[fileID][:-4] +'.pdf')
