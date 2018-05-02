@@ -33,21 +33,18 @@ eminID = np.array([2, 4, 2])
 print(allfiles)
 
 
-for fileID in [2]:
+for fileID in [0]:
     with open(dirIn + allfiles[fileID]) as f:
         lines = (line for line in f if not line.startswith('#'))
         allCl = np.loadtxt(lines, skiprows=1)
 
-    l = allCl[:, lID[fileID]]
+    l = allCl[:, lID[fileID]].astype(int)
     Cl = allCl[:, ClID[fileID]]
     emax = allCl[:, emaxID[fileID]]
     emin = allCl[:, eminID[fileID]]
 
     print(l.shape)
 
-x = l
-y = Cl
-yerr = emax
 
 ############## GP FITTING ################################################################################
 ##########################################################################################################
@@ -60,7 +57,7 @@ def rescale01(xmin, xmax, f):
 
 ###################### PARAMETERS ##############################
 
-
+original_dim = params.original_dim  # 2549
 latent_dim = params.latent_dim  # 10
 
 num_train = params.num_train  # 512
@@ -217,9 +214,9 @@ x_decoded = GPfit(computedGP, y_test[10])
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 500  # 500
-nrun_burn = 50  # 300
-nrun = 100  # 700
+nwalkers = 100  # 500
+nrun_burn = 30  # 300
+nrun = 200  # 700
 
 #### Cosmological Parameters ########################################
 
@@ -232,10 +229,10 @@ nrun = 100  # 700
 #### Order of parameters: ['Omega_m', 'Omega_b', 'sigma_8', 'h', 'n_s']
 #        [label, true, min, max]
 
-param1 = ["$\Omega_c h^2$", 0.121, 0.12, 0.155] # Actual 0.119
-param2 = ["$\Omega_b h^2$", 0.022, 0.0215, 0.0235]
-param3 = ["$\sigma_8$", 0.81, 0.7, 0.9]
-param4 = ["$h$", 0.67, 0.55, 0.85]
+param1 = ["$\Omega_c h^2$", 0.1188, 0.12, 0.155] # Actual 0.119
+param2 = ["$\Omega_b h^2$", 0.02230, 0.0215, 0.0235]
+param3 = ["$\sigma_8$", 0.8159, 0.7, 0.9]
+param4 = ["$h$", 0.6774, 0.55, 0.85]
 param5 = ["$n_s$", 0.9667, 0.85, 1.05]
 
 ## Make sure the changes are made in log prior definition too. Variable: new_params
@@ -253,14 +250,14 @@ if Uniform_init:
     pos_min = np.array([param1[2], param2[2], param3[2], param4[2], param5[2]])
     pos_max = np.array([param1[3], param2[3], param3[3], param4[3], param5[3]])
     psize = pos_max - pos_min
-    pos = [pos_min + psize * np.random.rand(ndim) for i in range(nwalkers)]
+    pos0 = [pos_min + psize * np.random.rand(ndim) for i in range(nwalkers)]
 
 
 
 True_init = False
 if True_init:
 # Choice 2: chain is initialized in a tight ball around the expected values
-    pos = [[param1[1]*1.2, param2[1]*0.8, param3[1]*0.9, param4[1]*1.1, param5[1]*1.2] +
+    pos0 = [[param1[1]*1.2, param2[1]*0.8, param3[1]*0.9, param4[1]*1.1, param5[1]*1.2] +
            1e-3*np.random.randn(ndim) for i in range(nwalkers)]
 
 
@@ -276,17 +273,17 @@ if MaxLikelihood_init:
     print result['x']
 
 
-    pos = [result['x']+1.e-4*np.random.randn(ndim) for i in range(nwalkers)]
+    pos0 = [result['x']+1.e-4*np.random.randn(ndim) for i in range(nwalkers)]
 
 
 
 # Visualize the initialization
 
-Plot_init = False
+Plot_init = True
 
 if Plot_init:
 
-    fig = corner.corner(pos, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
+    fig = corner.corner(pos0, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
                         range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
                         [param4[2],param4[3]], [param5[2],param5[3]]],
                         truths=[param1[1], param2[1], param3[1], param4[1], param5[1]])
@@ -296,6 +293,11 @@ if Plot_init:
 
 
 ######### MCMC #######################
+
+
+x = l[l < ls.max()]
+y = Cl[l < ls.max()]
+yerr = emax[l < ls.max()]
 
 ## Sample implementation :
 # http://eso-python.github.io/ESOPythonTutorials/ESOPythonDemoDay8_MCMC_with_emcee.html
@@ -315,9 +317,13 @@ def lnlike(theta, x, y, yerr):
     # new_params = np.array([p1, 0.0225, p2 , 0.74, 0.9])
 
     new_params = np.array([p1, p2, p3, p4, p5])
-    model = GPfit(computedGP, new_params)[28:2507]
+    model = GPfit(computedGP, new_params)#[28:2507]
 
-    return -0.5 * (np.sum(((y - model) / yerr) ** 2.))
+    mask = np.in1d(ls, x)
+    model_mask = model[mask]
+
+    # return -0.5 * (np.sum(((y - model) / yerr) ** 2.))
+    return -0.5 * (np.sum(((y - model_mask) / yerr) ** 2.))
 
 
 def lnprob(theta, x, y, yerr):
@@ -336,7 +342,7 @@ sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
 
 time0 = time.time()
 # burnin phase
-pos, prob, state = sampler.run_mcmc(pos, nrun_burn)
+pos, prob, state = sampler.run_mcmc(pos0, nrun_burn)
 sampler.reset()
 time1 = time.time()
 print('burn-in time:', time1 - time0)
@@ -358,13 +364,13 @@ samples_plot = sampler.chain[:, :, :].reshape((-1, ndim))
 
 
 np.savetxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    nrun) + fileOut + '.txt', sampler.chain[:, :, :].reshape((-1, ndim)))
+    nrun) + fileOut + allfiles[fileID][:-4] +'.txt', sampler.chain[:, :, :].reshape((-1, ndim)))
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
 
 samples_plot  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
-                         '_run' + str(nrun) + fileOut + '.txt')
+                         '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 
 # samples = np.exp(samples)
 p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
@@ -382,17 +388,17 @@ fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param
                     show_titles=True,  title_args={"fontsize": 10})
 
 
-fig.savefig('corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    nrun) + fileOut +'.png')
+fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    nrun) + fileOut +allfiles[fileID][:-4] + '.pdf')
 
 
 fig = pygtc.plotGTC(samples_plot, paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
                     truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
-                    figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,smoothingKernel = 0, nContourLevels=3)
+                    figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
-fig.savefig('pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    nrun) + fileOut + '.png')
+fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 #
@@ -434,5 +440,5 @@ ax5.text(0.9, 0.9, param5[0], horizontalalignment='center', verticalalignment='c
          transform = ax5.transAxes, fontsize = 20)
 plt.show()
 
-fig.savefig('convergence_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    nrun) + fileOut + '.png')
+fig.savefig(PlotsDir + 'convergence_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
