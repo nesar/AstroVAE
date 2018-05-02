@@ -87,22 +87,31 @@ samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_n
                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 
 
+CornerPlot = False
+
+if CornerPlot:
+    fig = corner.corner(samples_plotSPT, labels=[param1[0], param2[0], param3[0], param4[0],
+                                                  param5[0]],
+                        range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
+                        [param4[2],param4[3]], [param5[2],param5[3]]],
+                        truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
+                        show_titles=True,  title_args={"fontsize": 10})
 
 
-fig = corner.corner(samples_plotSPT, labels=[param1[0], param2[0], param3[0], param4[0],
-                                              param5[0]],
-                    range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
-                    [param4[2],param4[3]], [param5[2],param5[3]]],
-                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
-                    show_titles=True,  title_args={"fontsize": 10})
+    fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+            nrun) + fileOut +allfiles[fileID][:-4] + '.pdf')
 
 
-fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-        nrun) + fileOut +allfiles[fileID][:-4] + '.pdf')
 
+chainLabels = ["PLANCK",
+               "WMAP"]
 
-fig = pygtc.plotGTC( chains= [samples_plot,   , paramNames=[param1[0], param2[0], param3[0],
-                                                           param4[0], param5[0]], truths=[param1[1], param2[1], param3[1], param4[1], param5[1]], figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
+# Labels for the different truths
+truthLabels = ( 'Planck 2015 results')
+
+fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
+                     colorsOrder=('greens','blues'),
+                     paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]], truths=[param1[1], param2[1], param3[1], param4[1], param5[1]], figureSize='MNRAS_page', chainLabels=chainLabels, truthLabels=truthLabels)#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
     # fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
