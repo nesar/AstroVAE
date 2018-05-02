@@ -85,15 +85,18 @@ if CornerPlot:
 
 
 
-chainLabels = ["PLANCK",
-               "WMAP"]
+chainLabels = ["PLANCK", "WMAP"]
+names = [param1[0], param2[0], param3[0], param4[0], param5[0]]
+truths = [param1[1], param2[1], param3[1], param4[1], param5[1]]
+
 
 # Labels for the different truths
 truthLabels = ( 'Planck 2015 results')
 
 fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
                      colorsOrder=('greens','blues'),
-                     paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]], truths=[param1[1], param2[1], param3[1], param4[1], param5[1]], figureSize='MNRAS_page', chainLabels=chainLabels, truthLabels=truthLabels)#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
+                     paramNames=names, truths=truths, figureSize='MNRAS_page',
+                     chainLabels=chainLabels, truthLabels=truthLabels)#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
     # fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(

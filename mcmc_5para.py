@@ -17,6 +17,14 @@ import pygtc
 # SetPub.set_pub()
 
 
+#### parameters that define the MCMC
+
+ndim = 5
+nwalkers = 500  # 500
+nrun_burn = 100  # 300
+nrun = 300  # 700
+fileID = 2
+
 
 ########## REAL DATA with ERRORS #############################
 # Planck/SPT/WMAP data
@@ -33,10 +41,10 @@ eminID = np.array([2, 4, 2])
 print(allfiles)
 
 
-for fileID in [0]:
-    with open(dirIn + allfiles[fileID]) as f:
-        lines = (line for line in f if not line.startswith('#'))
-        allCl = np.loadtxt(lines, skiprows=1)
+# for fileID in [realDataID]:
+with open(dirIn + allfiles[fileID]) as f:
+    lines = (line for line in f if not line.startswith('#'))
+    allCl = np.loadtxt(lines, skiprows=1)
 
     l = allCl[:, lID[fileID]].astype(int)
     Cl = allCl[:, ClID[fileID]]
@@ -209,15 +217,6 @@ x_decoded = GPfit(computedGP, y_test[10])
 ########################################################################################################################
 ########################################################################################################################
 
-
-
-#### parameters that define the MCMC
-
-ndim = 5
-nwalkers = 100  # 500
-nrun_burn = 30  # 300
-nrun = 200  # 700
-
 #### Cosmological Parameters ########################################
 
 # OmegaM = np.linspace(0.12, 0.155, totalFiles)
@@ -279,9 +278,9 @@ if MaxLikelihood_init:
 
 # Visualize the initialization
 
-Plot_init = True
+PriorPlot = False
 
-if Plot_init:
+if PriorPlot:
 
     fig = corner.corner(pos0, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
                         range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
@@ -379,26 +378,27 @@ print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0
 
 ####### CORNER PLOT ESTIMATES #######################################
 
+CornerPlot = False
+if CornerPlot:
+
+    fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
+                        range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
+                        [param4[2],param4[3]], [param5[2],param5[3]]],
+                        truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
+                        show_titles=True,  title_args={"fontsize": 10})
 
 
-fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
-                    range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
-                    [param4[2],param4[3]], [param5[2],param5[3]]],
-                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
-                    show_titles=True,  title_args={"fontsize": 10})
+    fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+        nrun) + fileOut +allfiles[fileID][:-4] + '.pdf')
 
 
-fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    nrun) + fileOut +allfiles[fileID][:-4] + '.pdf')
+    fig = pygtc.plotGTC(samples_plot, paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
+                        truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
+                        figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
-fig = pygtc.plotGTC(samples_plot, paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
-                    truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
-                    figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
-
-
-fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
+    fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+        nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 #
@@ -414,31 +414,33 @@ fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' 
 
 ####### SAMPLER CONVERGENCE #######################################
 
+ConvergePlot = False
+if ConvergePlot:
 
-fig = plt.figure(13214)
-plt.xlabel('steps')
-ax1 = fig.add_subplot(5, 1, 1)
-ax2 = fig.add_subplot(5, 1, 2)
-ax3 = fig.add_subplot(5, 1, 3)
-ax4 = fig.add_subplot(5, 1, 4)
-ax5 = fig.add_subplot(5, 1, 5)
+    fig = plt.figure(13214)
+    plt.xlabel('steps')
+    ax1 = fig.add_subplot(5, 1, 1)
+    ax2 = fig.add_subplot(5, 1, 2)
+    ax3 = fig.add_subplot(5, 1, 3)
+    ax4 = fig.add_subplot(5, 1, 4)
+    ax5 = fig.add_subplot(5, 1, 5)
 
-ax1.plot(np.arange(nrun), sampler.chain[:, :, 0].T, lw = 0.2, alpha = 0.9)
-ax1.text(0.9, 0.9, param1[0], horizontalalignment='center', verticalalignment='center',
-         transform = ax1.transAxes, fontsize = 20)
-ax2.plot(np.arange(nrun), sampler.chain[:, :, 1].T, lw = 0.2, alpha = 0.9)
-ax2.text(0.9, 0.9, param2[0], horizontalalignment='center', verticalalignment='center',
-         transform = ax2.transAxes, fontsize = 20)
-ax3.plot(np.arange(nrun), sampler.chain[:, :, 2].T, lw = 0.2, alpha = 0.9)
-ax3.text(0.9, 0.9, param3[0], horizontalalignment='center', verticalalignment='center',
-         transform = ax3.transAxes, fontsize = 20)
-ax4.plot(np.arange(nrun), sampler.chain[:, :, 3].T, lw = 0.2, alpha = 0.9)
-ax4.text(0.9, 0.9, param4[0], horizontalalignment='center', verticalalignment='center',
-         transform = ax4.transAxes, fontsize = 20)
-ax5.plot(np.arange(nrun), sampler.chain[:, :, 4].T, lw = 0.2, alpha = 0.9)
-ax5.text(0.9, 0.9, param5[0], horizontalalignment='center', verticalalignment='center',
-         transform = ax5.transAxes, fontsize = 20)
-plt.show()
+    ax1.plot(np.arange(nrun), sampler.chain[:, :, 0].T, lw = 0.2, alpha = 0.9)
+    ax1.text(0.9, 0.9, param1[0], horizontalalignment='center', verticalalignment='center',
+             transform = ax1.transAxes, fontsize = 20)
+    ax2.plot(np.arange(nrun), sampler.chain[:, :, 1].T, lw = 0.2, alpha = 0.9)
+    ax2.text(0.9, 0.9, param2[0], horizontalalignment='center', verticalalignment='center',
+             transform = ax2.transAxes, fontsize = 20)
+    ax3.plot(np.arange(nrun), sampler.chain[:, :, 2].T, lw = 0.2, alpha = 0.9)
+    ax3.text(0.9, 0.9, param3[0], horizontalalignment='center', verticalalignment='center',
+             transform = ax3.transAxes, fontsize = 20)
+    ax4.plot(np.arange(nrun), sampler.chain[:, :, 3].T, lw = 0.2, alpha = 0.9)
+    ax4.text(0.9, 0.9, param4[0], horizontalalignment='center', verticalalignment='center',
+             transform = ax4.transAxes, fontsize = 20)
+    ax5.plot(np.arange(nrun), sampler.chain[:, :, 4].T, lw = 0.2, alpha = 0.9)
+    ax5.text(0.9, 0.9, param5[0], horizontalalignment='center', verticalalignment='center',
+             transform = ax5.transAxes, fontsize = 20)
+    plt.show()
 
-fig.savefig(PlotsDir + 'convergence_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
+    fig.savefig(PlotsDir + 'convergence_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+        nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
