@@ -7,9 +7,10 @@ import params
 import pygtc
 
 ndim = 5
-nwalkers = 100  # 500
-nrun_burn = 30  # 300
-nrun = 200  # 700
+nwalkers = 500  # 500
+nrun_burn = 100  # 300
+nrun = 300  # 700
+fileID = 0
 
 #### Cosmological Parameters ########################################
 
@@ -69,7 +70,7 @@ samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_n
                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 
 
-CornerPlot = False
+CornerPlot = True
 
 if CornerPlot:
     fig = corner.corner(samples_plotSPT, labels=[param1[0], param2[0], param3[0], param4[0],
@@ -81,11 +82,24 @@ if CornerPlot:
 
 
     fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-            nrun) + fileOut +allfiles[fileID][:-4] + '.pdf')
+            nrun) + fileOut +allfiles[1][:-4] + '.pdf')
 
 
 
-chainLabels = ["PLANCK", "WMAP"]
+
+    chainLabels = ["SPT TT"]
+    truthLabels = ('Planck 2015 results')
+
+    fig = pygtc.plotGTC(samples_plotSPT, paramNames=[param1[0], param2[0], param3[0], param4[0],
+                                                   param5[0]], colorsOrder= ('reds'),
+                        truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
+                        chainLabels=chainLabels, truthLabels=truthLabels, figureSize='MNRAS_page')
+
+    fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run'  + str(nrun) +
+            fileOut + allfiles[1][:-4] +'.pdf')
+
+
+chainLabels = ["PLANCK TT", "WMAP TT"]
 names = [param1[0], param2[0], param3[0], param4[0], param5[0]]
 truths = [param1[1], param2[1], param3[1], param4[1], param5[1]]
 
