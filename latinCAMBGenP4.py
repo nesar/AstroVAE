@@ -3,6 +3,8 @@ import camb
 import itertools
 from camb import model, initialpower
 
+import time
+time0 = time.time()
 
 """
 first 2 outputs from CAMB - totCL and unlensed CL both are 0's. 
@@ -134,3 +136,5 @@ np.savetxt('../Cl_data/Data/P5EECl_'+str(totalFiles)+'.txt', AllEE)
 np.savetxt('../Cl_data/Data/P5BBCl_'+str(totalFiles)+'.txt', AllBB)
 np.savetxt('../Cl_data/Data/P5TECl_'+str(totalFiles)+'.txt', AllTE)
 
+time1 = time.time()
+print('camb time:', time1 - time0)
