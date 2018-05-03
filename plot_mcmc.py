@@ -7,9 +7,10 @@ import params
 import pygtc
 
 ndim = 5
-nwalkers = 100  # 500
-nrun_burn = 30  # 300
-nrun = 200  # 700
+nwalkers = 500  # 500
+nrun_burn = 100  # 300
+nrun = 300  # 700
+fileID = 0
 
 #### Cosmological Parameters ########################################
 
