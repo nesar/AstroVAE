@@ -53,6 +53,100 @@ ModelDir = params.ModelDir
 fileOut = params.fileOut
 
 
+
+
+ClID = ['TT', 'EE', 'BB', 'TE'][0]
+
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
+
+# Cl_Original = (Testfiles[:, num_para+2:])  # [2:3]
+
+
+
+# para_train = Trainfiles[:, num_para+2:]
+# para_test = Testfiles[:, num_para+2:]
+para_train = Trainfiles[:, 0: num_para]
+para_test =  Testfiles[:, 0: num_para]
+
+print(para_train.shape, 'train sequences')
+print(para_test.shape, 'test sequences')
+# print(y_train.shape, 'train sequences')
+# print(y_test.shape, 'test sequences')
+
+ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
+#----------------------------------------------------------------------------
+
+# meanFactor = np.min( [np.min(para_train), np.min(para_test ) ])
+# print('-------mean factor:', meanFactor)
+# para_train = para_train.astype('float32') - meanFactor #/ 255.
+# para_test = para_test.astype('float32') - meanFactor #/ 255.
+#
+
+# para_train = np.log10(para_train) #para_train[:,2:] #
+# para_test =  np.log10(para_test) #para_test[:,2:] #
+
+# normFactor = np.max( [np.max(para_train), np.max(para_test ) ])
+
+normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+meanFactor = np.loadtxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
+print('-------normalization factor:', normFactor)
+print('-------rescaling factor:', meanFactor)
+
+
+
+
+
+
+# Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
+# Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
+
+# x_train = Trainfiles[:, num_para+2:]
+x_test = Testfiles[:, num_para+2:]
+y_train = Trainfiles[:, 0: num_para]
+y_test =  Testfiles[:, 0: num_para]
+
+# print(x_train.shape, 'train sequences')
+# print(x_test.shape, 'test sequences')
+print(y_train.shape, 'train sequences')
+print(y_test.shape, 'test sequences')
+
+ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
+#----------------------------------------------------------------------------
+
+# normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
+# print('-------normalization factor:', normFactor)
+
+# x_train = x_train.astype('float32')/normFactor #/ 255.
+x_test = x_test.astype('float32')/normFactor #/ 255.
+
+
+# x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
+
+# ------------------------------------------------------------------------------
+
+# # ------------------------------------------------------------------------------
+
+# # ------------------------------------------------------------------------------
+# encoded_xtrain = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+# encoded_xtest = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
+
+# y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
+# encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
+
+# ------------------------------------------------------------------------------
+# np.set_printoptions(precision=3)
+# np.set_printoptions(suppress=True)
+# np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
+# ------------------------------------------------------------------------------
+
+
 ################# ARCHITECTURE ###############################
 
 
@@ -62,49 +156,14 @@ if LoadModel:
     # fileOut = 'VanillaModel_tot'+str(num_train)+'_batch'+str(batch_size)+'_lr'+str( learning_rate)+'_decay'+str(decay_rate)+'_z'+str(latent_dim)+'_epoch'+str(num_epochs)
 
     # vae = load_model(ModelDir + 'fullAE_' + fileOut + '.hdf5')
-    encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+'_' + fileOut + '.hdf5')
-    decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+'_' + fileOut + '.hdf5')
-    history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+'_'+fileOut+'.txt')
+    encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+ClID+'_'+fileOut+'.txt')
 
 
 
-Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+'Cl_'+str(num_test)+'.txt')
-
-x_train = Trainfiles[:, num_para+2:]
-x_test = Testfiles[:, num_para+2:]
-y_train = Trainfiles[:, 0: num_para]
-y_test =  Testfiles[:, 0: num_para]
-
-print(x_train.shape, 'train sequences')
-print(x_test.shape, 'test sequences')
-print(y_train.shape, 'train sequences')
-print(y_test.shape, 'test sequences')
-
-ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
-
-#----------------------------------------------------------------------------
-
-normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+'_'+ fileOut +'.txt')
-print('-------normalization factor:', normFactor)
-
-x_train = x_train.astype('float32')/normFactor #/ 255.
-x_test = x_test.astype('float32')/normFactor #/ 255.
-x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 
-# ------------------------------------------------------------------------------
-
-# # ------------------------------------------------------------------------------
-y = np.loadtxt(DataDir + 'encoded_xtrainP'+str(num_para)+'_'+ fileOut +'.txt').T
-encoded_xtest_original = np.loadtxt(DataDir+'encoded_xtestP'+str(num_para)+'_'+ fileOut +'.txt')
-
-# ------------------------------------------------------------------------------
-# np.set_printoptions(precision=3)
-# np.set_printoptions(suppress=True)
-# np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
-# ------------------------------------------------------------------------------
 
 
 

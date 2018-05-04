@@ -64,7 +64,7 @@ import GPy
 # ----------------------------- i/o ------------------------------------------
 
 
-ClID = ['TT', 'EE', 'BB', 'TE'][2]
+ClID = ['TT', 'EE', 'BB', 'TE'][0]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
@@ -143,7 +143,7 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 max_relError = 0
 ErrTh = 0.5
 PlotRatio = True
-IfVariance = True  # Computation is a lot slower with Variance
+IfVariance = False  # Computation is a lot slower with Variance
 
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
