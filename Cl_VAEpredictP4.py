@@ -388,8 +388,8 @@ if PlotRatio:
             # relError = 100 * ((cl_ratio) - 1)
 
 
-            ax0.plot(ls[np.abs(relError) > ErrTh], ( (normFactor*x_decoded[0])+meanFactor  )[np.abs(
-                relError) > ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
+            # ax0.plot(ls[np.abs(relError) > ErrTh], ( (normFactor*x_decoded[0])+meanFactor  )[np.abs(
+            #     relError) > ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
             ax1.plot(ls, relError, 'k-', lw = 0.25, label = 'emu/camb', alpha = 0.5)

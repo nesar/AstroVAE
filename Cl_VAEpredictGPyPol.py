@@ -64,7 +64,7 @@ import GPy
 # ----------------------------- i/o ------------------------------------------
 
 
-ClID = ['TT', 'EE', 'BB', 'TE'][0]
+ClID = ['TT', 'EE', 'BB', 'TE'][3]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
@@ -143,7 +143,7 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 max_relError = 0
 ErrTh = 0.5
 PlotRatio = True
-IfVariance = False  # Computation is a lot slower with Variance
+IfVariance = False # Computation is a lot slower with Variance
 
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
@@ -181,6 +181,7 @@ if PlotRatio:
         m1.optimize(messages=True)
         m1p = m1.predict(para_test)  # [0] is the mean and [1] the predictive
         W_predArray = m1p[0]
+        W_varArray = m1p[1]
 
 
         np.savetxt(DataDir + 'WPredArray_GPyNoVariance'+ str(latent_dim)+ClID + '.txt', W_predArray)
@@ -233,7 +234,7 @@ ax1.axhline(y=0.99, ls='dashed')
 ax1.set_xlabel(r'$l$')
 
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
-ax1.set_ylim(0.976, 1.024)
+# ax1.set_ylim(0.976, 1.024)
 
 
 
@@ -255,6 +256,12 @@ for i in range(para_test.shape[0]):
 
         cl_ratio = ( (normFactor * x_decoded[i]) +meanFactor)/ (Cl_Original[i])
         relError = 100 * ((cl_ratio) - 1)
+
+        if (ClID == 'TE'):  # Absolute error instead (since TE gets crosses 0
+            relError = ((normFactor * x_decoded[0]) + meanFactor - Cl_Original[i])
+
+
+
 
         ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
                         ErrTh], 'gx', alpha=0.5, label= 'Err >'+str(ErrTh), markersize = '1')

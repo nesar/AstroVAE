@@ -55,7 +55,7 @@ fileOut = params.fileOut
 
 
 
-ClID = ['TT', 'EE', 'BB', 'TE'][0]
+ClID = ['TT', 'EE', 'BB', 'TE'][1]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
@@ -185,7 +185,7 @@ ax1.axhline(y=0.99, ls='dashed')
 ax1.set_xlabel(r'$l$')
 
 ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
-ax1.set_ylim(0.976, 1.024)
+# ax1.set_ylim(0.976, 1.024)
 
 
 PlotSampleID = np.array([ 0, 3, 4, 5, 11, 12])
@@ -199,8 +199,11 @@ PlotRatio = True
 # W_varArray = (np.load('Var_preds.npy')).T  ## From Mickael
 
 
-W_predArray = np.loadtxt(DataDir + 'W2PredArray_GPy'+ str(latent_dim) + '.txt')
-W_varArray = np.loadtxt(DataDir + 'W2varArray_GPy'+ str(latent_dim) + '.txt')
+# W_predArray = np.loadtxt(DataDir + 'W2PredArray_GPy'+ str(latent_dim) + '.txt')
+# W_varArray = np.loadtxt(DataDir + 'W2varArray_GPy'+ str(latent_dim) + '.txt')
+
+W_predArray = np.loadtxt(DataDir + 'WPredArray_GPy' + str(latent_dim) + ClID + '.txt')
+W_varArray = np.loadtxt(DataDir + 'WvarArray_GPy' + str(latent_dim) + ClID + '.txt')
 
 nsigma = 5.
 
@@ -250,16 +253,18 @@ if PlotRatio:
             x_decoded_lower = np.min(x_decoded_fill, axis=0)
             x_decoded_upper = np.max(x_decoded_fill, axis=0)
 
-            ax0.fill_between(ls,  (normFactor*x_decoded_lower) , (normFactor*x_decoded_upper),
+            ax0.fill_between(ls,  (normFactor*x_decoded_lower) + meanFactor ,
+                             (normFactor*x_decoded_upper) + meanFactor,
                              alpha = 1.0, linewidth=1, linestyle='dashdot', facecolor='red')
 
 
 
 
-            ax0.plot(ls, normFactor*x_decoded[0], 'r-', alpha= 0.4, lw = 1, label = 'emulated')
+            ax0.plot(ls, (normFactor*x_decoded[0]) + meanFactor, 'r-', alpha= 0.4, lw = 1,
+                     label = 'emulated')
             ax0.plot(ls, Cl_Original[i], 'b--', alpha=0.5, lw = 1,  label = 'camb'  )
 
-            cl_ratio = normFactor*x_decoded[0]/Cl_Original[i]
+            cl_ratio = ((normFactor * x_decoded[0]) + meanFactor) / (Cl_Original[i])
 
             relError = 100.0*((cl_ratio) - 1)
 
@@ -267,11 +272,12 @@ if PlotRatio:
             ErrTh], 'gx', alpha=0.2, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, (normFactor*x_decoded[0])/ (Cl_Original[i]), 'k-', lw = 0.2,
-                     label = 'emu/camb')
+            ax1.plot(ls, (  (normFactor*x_decoded[0])  + meanFactor) / (Cl_Original[i]), 'k-',
+                     lw = 0.2, label = 'emu/camb')
 
-            ax1.fill_between(ls, (normFactor*x_decoded_lower)/ (Cl_Original[i]),
-                             (normFactor*x_decoded_upper)/ (Cl_Original[i]), alpha = 0.2,
+            ax1.fill_between(ls, ( (normFactor*x_decoded_lower) + meanFactor)/ (Cl_Original[i]),
+                             ( (normFactor*x_decoded_upper) + meanFactor) / (Cl_Original[i]),
+                             alpha = 0.2,
                              facecolor = 'red')
 
 
