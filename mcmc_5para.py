@@ -20,9 +20,9 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 20  # 500
-nrun_burn = 10  # 300
-nrun = 30  # 700
+nwalkers = 100  # 500
+nrun_burn = 100  # 300
+nrun = 200  # 700
 fileID = 2
 
 
