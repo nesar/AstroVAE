@@ -16,7 +16,7 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 
 numpara = 5
 ndim = 2551
-totalFiles = 1024
+totalFiles =  25
 lmax = 2500
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
@@ -67,7 +67,7 @@ AllTE = np.zeros(shape=(totalFiles, numpara + ndim) ) # Check if this is actuall
 # values and CAMB documentation incorrect.
 
 for i in range(totalFiles):
-    print(para5[i])
+    print(i, para5[i])
 
     pars = camb.CAMBparams()
 

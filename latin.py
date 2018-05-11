@@ -22,7 +22,7 @@ SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 25
+totalFiles = 1024
 
 # OmegaM = np.linspace(0.12, 0.155, totalFiles)
 # Omegab = np.linspace(0.0215, 0.0235, totalFiles)
@@ -35,11 +35,13 @@ totalFiles = 25
 
 ###### NEED TO RECHECK THESE VALUES OMEGAM ~ 0.112
 
-OmegaM = np.linspace(0.12, 0.155, totalFiles)
-Omegab = np.linspace(0.0215, 0.0235, totalFiles)
+OmegaM = np.linspace(0.10, 0.140, totalFiles)
+Omegab = np.linspace(0.0205, 0.0235, totalFiles)
 sigma8 = np.linspace(0.7, 0.9, totalFiles)
 h = np.linspace(0.55, 0.85, totalFiles)
 ns = np.linspace(0.85, 1.05, totalFiles)
+
+
 
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
              r'$\tilde{n}_s$']

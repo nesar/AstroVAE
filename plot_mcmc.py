@@ -17,11 +17,11 @@ fileID = 0
 #### Order of parameters: ['Omega_m', 'Omega_b', 'sigma_8', 'h', 'n_s']
 #        [label, true, min, max]
 
-param1 = ["$\Omega_c h^2$", 0.1188, 0.12, 0.155] # Actual 0.119
-param2 = ["$\Omega_b h^2$", 0.02230, 0.0215, 0.0235]
-param3 = ["$\sigma_8$", 0.8159, 0.7, 0.9]
-param4 = ["$h$", 0.6774, 0.55, 0.85]
-param5 = ["$n_s$", 0.9667, 0.85, 1.05]
+param1 = ["$\Omega_c h^2$", 0.1197, 0.105, 0.155] # Actual 0.119
+param2 = ["$\Omega_b h^2$", 0.02222, 0.0215, 0.0235]
+param3 = ["$\sigma_8$", 0.829, 0.7, 0.9]
+param4 = ["$h$", 0.6731, 0.55, 0.85]
+param5 = ["$n_s$", 0.9655, 0.85, 1.05]
 
 ###################### PARAMETERS ##############################
 
@@ -105,7 +105,7 @@ truths = [param1[1], param2[1], param3[1], param4[1], param5[1]]
 
 
 # Labels for the different truths
-truthLabels = ( 'Planck 2015 results')
+truthLabels = ( 'Planck TT-lowP 2015 results')
 
 fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
                      colorsOrder=('greens','blues'), paramNames=names, truths=truths,
