@@ -243,6 +243,8 @@ def GPyfit(GPmodelOutfile, para_array):
 computedGP = GPcompute(rescaledTrainParams, latent_dim)
 
 x_decoded = GPfit(computedGP, y_test[10])
+
+
 x_decodedGPy = GPyfit(GPmodelOutfile, y_test[10])
 
 #
@@ -355,7 +357,9 @@ def lnlike(theta, x, y, yerr):
 
     new_params = np.array([p1, p2, p3, p4, p5])
     # model = GPfit(computedGP, new_params)#  Using George -- with model training
-    model = GPyfit(computedGP, new_params)# Using GPy -- using trained model
+
+
+    model = GPyfit(GPmodelOutfile, new_params)# Using GPy -- using trained model
 
 
     mask = np.in1d(ls, x)
