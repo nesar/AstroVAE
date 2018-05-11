@@ -20,10 +20,10 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 500  # 500
-nrun_burn = 100  # 300
-nrun = 300  # 700
-fileID = 1
+nwalkers = 20  # 500
+nrun_burn = 10  # 300
+nrun = 30  # 700
+fileID = 2
 
 
 ########## REAL DATA with ERRORS #############################
@@ -203,14 +203,52 @@ def GPfit(computedGP, para_array):
     return (normFactor * x_decoded[0]) + meanFactor
 
 
+GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID
+import GPy
+
+def GPyfit(GPmodelOutfile, para_array):
+    para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
+    para_array[1] = rescale01(np.min(X2), np.max(X2), para_array[1])
+    para_array[2] = rescale01(np.min(X3), np.max(X3), para_array[2])
+    para_array[3] = rescale01(np.min(X4), np.max(X4), para_array[3])
+    para_array[4] = rescale01(np.min(X5), np.max(X5), para_array[4])
+
+    test_pts = para_array[:num_para].reshape(num_para, -1).T
+
+    # -------------- Predict latent space ----------------------------------------
+
+    # W_pred = np.array([np.zeros(shape=latent_dim)])
+    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
+
+    m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
+
+    m1p = m1.predict(test_pts)  # [0] is the mean and [1] the predictive
+    W_pred = m1p[0]
+    # W_varArray = m1p[1]
+
+
+    # for j in range(latent_dim):
+    #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
+    #                                                                             test_pts)
+
+    # -------------- Decode from latent space --------------------------------------
+
+    x_decoded = decoder.predict(W_pred)
+
+    return (normFactor * x_decoded[0]) + meanFactor
+
+
+
+
 computedGP = GPcompute(rescaledTrainParams, latent_dim)
 
 x_decoded = GPfit(computedGP, y_test[10])
+x_decodedGPy = GPyfit(GPmodelOutfile, y_test[10])
 
 #
 # plt.figure(1423)
-# plt.plot(l, x_decoded[28:2507])
-# plt.plot(x, y, alpha = 0.4)
+# plt.plot(x_decoded)
+# plt.plot(x_decodedGPy)
 # plt.show()
 
 
@@ -316,7 +354,9 @@ def lnlike(theta, x, y, yerr):
     # new_params = np.array([p1, 0.0225, p2 , 0.74, 0.9])
 
     new_params = np.array([p1, p2, p3, p4, p5])
-    model = GPfit(computedGP, new_params)#[28:2507]
+    model = GPfit(computedGP, new_params)#  Using George -- with model training
+    model = GPyfit(computedGP, new_params)# Using GPy -- using trained model
+
 
     mask = np.in1d(ls, x)
     model_mask = model[mask]
@@ -363,13 +403,13 @@ samples_plot = sampler.chain[:, :, :].reshape((-1, ndim))
 
 
 np.savetxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    nrun) + fileOut + allfiles[fileID][:-4] +'.txt', sampler.chain[:, :, :].reshape((-1, ndim)))
+    nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt', sampler.chain[:, :, :].reshape((-1, ndim)))
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
 
 samples_plot  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
-                         '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
+                         '_run' + str(nrun)  + ClID + '_' + fileOut + allfiles[fileID][:-4] +'.txt')
 
 # samples = np.exp(samples)
 p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
@@ -389,7 +429,7 @@ if CornerPlot:
 
 
     fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-        nrun) + fileOut +allfiles[fileID][:-4] + '.pdf')
+        nrun) + ClID + '_'  + fileOut +allfiles[fileID][:-4] + '.pdf')
 
 
     fig = pygtc.plotGTC(samples_plot, paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
@@ -398,7 +438,7 @@ if CornerPlot:
 
 
     fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-        nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
+        nrun)  + ClID + '_' + fileOut + allfiles[fileID][:-4] +'.pdf')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 #
@@ -443,4 +483,4 @@ if ConvergePlot:
     plt.show()
 
     fig.savefig(PlotsDir + 'convergence_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-        nrun) + fileOut + allfiles[fileID][:-4] +'.pdf')
+        nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.pdf')

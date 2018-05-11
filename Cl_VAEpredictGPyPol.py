@@ -64,7 +64,7 @@ import GPy
 # ----------------------------- i/o ------------------------------------------
 
 
-ClID = ['TT', 'EE', 'BB', 'TE'][3]
+ClID = ['TT', 'EE', 'BB', 'TE'][0]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
@@ -179,6 +179,16 @@ if PlotRatio:
         m1 = GPy.models.GPRegression(para_train, encoded_xtrain, kernel=kern)
         m1.Gaussian_noise.variance.constrain_fixed(1e-12)
         m1.optimize(messages=True)
+
+        GPmodelOutfile = DataDir + 'GPy_model'+ str(latent_dim)+ClID
+
+        m1.save_model( GPmodelOutfile, compress=True,
+                       save_data=True)
+
+
+        m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
+
+
         m1p = m1.predict(para_test)  # [0] is the mean and [1] the predictive
         W_predArray = m1p[0]
         W_varArray = m1p[1]
