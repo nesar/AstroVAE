@@ -354,7 +354,7 @@ def lnlike(theta, x, y, yerr):
     # new_params = np.array([p1, 0.0225, p2 , 0.74, 0.9])
 
     new_params = np.array([p1, p2, p3, p4, p5])
-    model = GPfit(computedGP, new_params)#  Using George -- with model training
+    # model = GPfit(computedGP, new_params)#  Using George -- with model training
     model = GPyfit(computedGP, new_params)# Using GPy -- using trained model
 
 
