@@ -203,8 +203,15 @@ def GPfit(computedGP, para_array):
     return (normFactor * x_decoded[0]) + meanFactor
 
 
-GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID
+
+### Using pre-trained GPy model #######################
+
 import GPy
+
+
+GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID
+m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
+
 
 def GPyfit(GPmodelOutfile, para_array):
     para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
@@ -219,8 +226,6 @@ def GPyfit(GPmodelOutfile, para_array):
 
     # W_pred = np.array([np.zeros(shape=latent_dim)])
     # W_pred_var = np.array([np.zeros(shape=latent_dim)])
-
-    m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
 
     m1p = m1.predict(test_pts)  # [0] is the mean and [1] the predictive
     W_pred = m1p[0]
@@ -241,10 +246,7 @@ def GPyfit(GPmodelOutfile, para_array):
 
 
 computedGP = GPcompute(rescaledTrainParams, latent_dim)
-
 x_decoded = GPfit(computedGP, y_test[10])
-
-
 x_decodedGPy = GPyfit(GPmodelOutfile, y_test[10])
 
 #
