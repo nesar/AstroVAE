@@ -13,7 +13,7 @@ print(__doc__)
 import numpy as np
 
 import matplotlib as mpl
-# mpl.use('Agg')
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 
@@ -469,6 +469,7 @@ if plotLoss:
 
 print(50*'#')
 print(fileOut)
+print(ClID)
 print('train loss: ', train_loss[-1])
 print('test loss: ', val_loss[-1])
 print

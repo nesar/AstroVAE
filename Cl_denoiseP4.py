@@ -12,7 +12,7 @@ from keras import optimizers
 from keras import losses
 
 import matplotlib as mpl
-# mpl.use('Agg')
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 import keras.backend as K
@@ -324,6 +324,7 @@ if PlotSample:
     plt.show()
 
 
+print(fileOut)
 print(ClID)
 print('--------max ratio (train) : ', np.max(x_train_decoded/x_train) )
 print('--------max ratio (test)  : ', np.max(x_test_decoded/x_test) )
