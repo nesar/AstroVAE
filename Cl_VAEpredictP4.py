@@ -469,6 +469,7 @@ if plotLoss:
 
 print(50*'#')
 print(fileOut)
+print(ClID)
 print('train loss: ', train_loss[-1])
 print('test loss: ', val_loss[-1])
 print

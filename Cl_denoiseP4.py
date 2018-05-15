@@ -323,6 +323,9 @@ if PlotSample:
 
     plt.show()
 
+
+print(fileOut)
+print(ClID)
 print('--------max ratio (train) : ', np.max(x_train_decoded/x_train) )
 print('--------max ratio (test)  : ', np.max(x_test_decoded/x_test) )
 

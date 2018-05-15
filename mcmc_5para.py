@@ -24,7 +24,7 @@ nwalkers = 600  # 500
 nrun_burn = 50  # 300
 nrun = 400  # 700
 fileID = 2
-cd
+
 
 ########## REAL DATA with ERRORS #############################
 # Planck/SPT/WMAP data
