@@ -141,7 +141,7 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 
 
 max_relError = 0
-ErrTh = 0.5
+ErrTh = 1.0
 PlotRatio = True
 IfVariance = False # Computation is a lot slower with Variance
 
@@ -165,15 +165,15 @@ if PlotRatio:
     # W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
 
-    kern = GPy.kern.Matern52(input_dim= num_para)
-    # kern = GPy.kern.Matern52(5, 0.3)
+    # kern = GPy.kern.Matern52(input_dim= num_para)
+    kern = GPy.kern.Matern52(5, 0.3)
 
 
     if (IfVariance == False):
 
         #########################################################################################
-        ## All GP fitting together -- workes fine, except we get one value of variance for all
-        # output dimensions, since they're considered independant
+        ## All GP fitting together -- works fine, except we get one value of variance for all
+        # output dimensions, since they're considered independent
 
 
         m1 = GPy.models.GPRegression(para_train, encoded_xtrain, kernel=kern)
@@ -182,8 +182,7 @@ if PlotRatio:
 
         GPmodelOutfile = DataDir + 'GPy_model'+ str(latent_dim)+ClID
 
-        m1.save_model( GPmodelOutfile, compress=True,
-                       save_data=True)
+        m1.save_model( GPmodelOutfile, compress=True, save_data=True)
 
 
         m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
@@ -216,6 +215,9 @@ if PlotRatio:
                     encoded_xtrain.shape[0], -1), kernel=kern)
                 m["fit{0}".format(j)].Gaussian_noise.variance.constrain_fixed(1e-12)
                 m["fit{0}".format(j)].optimize(messages=True)
+
+
+
                 W_predArray[i, j], W_varArray[i, j] = m["fit{0}".format(j)].predict(para_test_point)
 
 

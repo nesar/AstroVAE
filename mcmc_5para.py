@@ -20,11 +20,11 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 20  # 500
-nrun_burn = 10  # 300
-nrun = 30  # 700
+nwalkers = 600  # 500
+nrun_burn = 50  # 300
+nrun = 400  # 700
 fileID = 2
-
+cd
 
 ########## REAL DATA with ERRORS #############################
 # Planck/SPT/WMAP data
@@ -279,6 +279,19 @@ param5 = ["$n_s$", 0.9667, 0.85, 1.05]
 ## Make sure the changes are made in log prior definition too. Variable: new_params
 
 
+#
+# OmegaM = np.linspace(0.10, 0.140, totalFiles)
+# Omegab = np.linspace(0.0205, 0.0235, totalFiles)
+# sigma8 = np.linspace(0.7, 0.9, totalFiles)
+# h = np.linspace(0.55, 0.85, totalFiles)
+# ns = np.linspace(0.85, 1.05, totalFiles)
+
+param1 = ["$\Omega_c h^2$", 0.1188, 0.10, 0.14] # Actual 0.119
+param2 = ["$\Omega_b h^2$", 0.02230, 0.0205, 0.0235]
+param3 = ["$\sigma_8$", 0.8159, 0.7, 0.9]
+param4 = ["$h$", 0.6774, 0.55, 0.85]
+param5 = ["$n_s$", 0.9667, 0.85, 1.05]
+
 
 
 #################### CHAIN INITIALIZATION ##########################
@@ -358,10 +371,10 @@ def lnlike(theta, x, y, yerr):
     # new_params = np.array([p1, 0.0225, p2 , 0.74, 0.9])
 
     new_params = np.array([p1, p2, p3, p4, p5])
-    # model = GPfit(computedGP, new_params)#  Using George -- with model training
+    model = GPfit(computedGP, new_params)#  Using George -- with model training
 
 
-    model = GPyfit(GPmodelOutfile, new_params)# Using GPy -- using trained model
+    # model = GPyfit(GPmodelOutfile, new_params)# Using GPy -- using trained model
 
 
     mask = np.in1d(ls, x)

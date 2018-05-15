@@ -5,12 +5,22 @@ import params
 
 
 import pygtc
+import matplotlib.pylab as plt
 
 ndim = 5
 nwalkers = 500  # 500
 nrun_burn = 100  # 300
 nrun = 300  # 700
 fileID = 0
+
+
+
+ndim = 5
+nwalkers = 400  # 400
+nrun_burn = 50  # 300
+nrun = 300  # 700
+fileID = 0
+
 
 #### Cosmological Parameters ########################################
 
@@ -22,6 +32,16 @@ param2 = ["$\Omega_b h^2$", 0.02222, 0.0215, 0.0235]
 param3 = ["$\sigma_8$", 0.829, 0.7, 0.9]
 param4 = ["$h$", 0.6731, 0.55, 0.85]
 param5 = ["$n_s$", 0.9655, 0.85, 1.05]
+
+
+
+param1 = ["$\Omega_c h^2$", 0.1188, 0.10, 0.14] # Actual 0.119
+param2 = ["$\Omega_b h^2$", 0.02230, 0.0205, 0.0235]
+param3 = ["$\sigma_8$", 0.8159, 0.7, 0.9]
+param4 = ["$h$", 0.6774, 0.55, 0.85]
+param5 = ["$n_s$", 0.9667, 0.85, 1.05]
+
+
 
 ###################### PARAMETERS ##############################
 
@@ -53,21 +73,31 @@ fileOut = params.fileOut
 
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
+ClID = ['TT', 'EE', 'BB', 'TE'][0]
+
 
 
 fileID = 0
-samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
-    nwalkers) +
-                             '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
+# samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+#     nwalkers) + '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 
-fileID = 1
-samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
-                             '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
+samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+    nwalkers) + '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
 fileID = 2
+# samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
+#                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
+
+samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
+                             '_run' + str(nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt')
+
+fileID = 2
+# samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+#     nwalkers) +'_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
+
 samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
     nwalkers) +
-                             '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
+                             '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
 
 CornerPlot = True
@@ -114,3 +144,6 @@ fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
 
 fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run'  + str(nrun) +
             fileOut + allfiles[fileID][:-4] +'.pdf')
+
+
+plt.show()
