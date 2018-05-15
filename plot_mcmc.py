@@ -16,9 +16,9 @@ fileID = 0
 
 
 ndim = 5
-nwalkers = 400  # 400
+nwalkers = 600  # 400
 nrun_burn = 50  # 300
-nrun = 300  # 700
+nrun = 400  # 700
 fileID = 0
 
 
@@ -35,11 +35,11 @@ param5 = ["$n_s$", 0.9655, 0.85, 1.05]
 
 
 
-param1 = ["$\Omega_c h^2$", 0.1188, 0.10, 0.14] # Actual 0.119
-param2 = ["$\Omega_b h^2$", 0.02230, 0.0205, 0.0235]
-param3 = ["$\sigma_8$", 0.8159, 0.7, 0.9]
-param4 = ["$h$", 0.6774, 0.55, 0.85]
-param5 = ["$n_s$", 0.9667, 0.85, 1.05]
+param1 = ["$\Omega_c h^2$", 0.1197, 0.10, 0.14] #
+param2 = ["$\Omega_b h^2$", 0.02222, 0.0205, 0.0235]
+param3 = ["$\sigma_8$", 0.829, 0.7, 0.9]
+param4 = ["$h$", 0.6731, 0.55, 0.85]
+param5 = ["$n_s$", 0.9655, 0.85, 1.05]
 
 
 
@@ -51,6 +51,8 @@ latent_dim = params.latent_dim  # 10
 num_train = params.num_train  # 512
 num_test = params.num_test  # 32
 num_para = params.num_para  # 5
+ClID = params.ClID
+
 
 batch_size = params.batch_size  # 8
 num_epochs = params.num_epochs  # 100
@@ -73,8 +75,6 @@ fileOut = params.fileOut
 
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
-ClID = ['TT', 'EE', 'BB', 'TE'][0]
-
 
 
 fileID = 0

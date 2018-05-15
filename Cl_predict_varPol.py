@@ -31,6 +31,7 @@ import params
 #intermediate_dim = params.intermediate_dim # 256
 latent_dim = params.latent_dim # 10
 
+ClID = params.ClID
 num_train = params.num_train # 512
 num_test = params.num_test # 32
 num_para = params.num_para # 5
@@ -54,8 +55,6 @@ fileOut = params.fileOut
 
 
 
-
-ClID = ['TT', 'EE', 'BB', 'TE'][1]
 
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
