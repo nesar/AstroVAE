@@ -51,6 +51,8 @@ latent_dim = params.latent_dim  # 10
 num_train = params.num_train  # 512
 num_test = params.num_test  # 32
 num_para = params.num_para  # 5
+ClID = params.ClID
+
 
 batch_size = params.batch_size  # 8
 num_epochs = params.num_epochs  # 100
@@ -73,8 +75,6 @@ fileOut = params.fileOut
 
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
-ClID = ['TT', 'EE', 'BB', 'TE'][0]
-
 
 
 fileID = 0
