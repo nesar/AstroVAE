@@ -22,7 +22,7 @@ import pygtc
 ndim = 5
 nwalkers = 600  # 500
 nrun_burn = 50  # 300
-nrun = 400  # 700
+nrun = 300  # 700
 fileID = 2
 
 
@@ -209,18 +209,18 @@ def GPfit(computedGP, para_array):
 import GPy
 
 
-GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID
+GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
 m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
 
 
 def GPyfit(GPmodelOutfile, para_array):
-    para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
-    para_array[1] = rescale01(np.min(X2), np.max(X2), para_array[1])
-    para_array[2] = rescale01(np.min(X3), np.max(X3), para_array[2])
-    para_array[3] = rescale01(np.min(X4), np.max(X4), para_array[3])
-    para_array[4] = rescale01(np.min(X5), np.max(X5), para_array[4])
+    # para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
+    # para_array[1] = rescale01(np.min(X2), np.max(X2), para_array[1])
+    # para_array[2] = rescale01(np.min(X3), np.max(X3), para_array[2])
+    # para_array[3] = rescale01(np.min(X4), np.max(X4), para_array[3])
+    # para_array[4] = rescale01(np.min(X5), np.max(X5), para_array[4])
 
-    test_pts = para_array[:num_para].reshape(num_para, -1).T
+    test_pts = para_array.reshape(num_para, -1).T
 
     # -------------- Predict latent space ----------------------------------------
 
@@ -238,22 +238,27 @@ def GPyfit(GPmodelOutfile, para_array):
 
     # -------------- Decode from latent space --------------------------------------
 
-    x_decoded = decoder.predict(W_pred)
+    x_decoded = decoder.predict(W_pred.reshape(latent_dim, -1).T )
 
     return (normFactor * x_decoded[0]) + meanFactor
 
 
+x_id = 20
 
-
+x_decodedGPy = GPyfit(GPmodelOutfile, y_test[x_id])
 computedGP = GPcompute(rescaledTrainParams, latent_dim)
-x_decoded = GPfit(computedGP, y_test[10])
-x_decodedGPy = GPyfit(GPmodelOutfile, y_test[10])
+x_decoded = GPfit(computedGP, y_test[x_id])
 
-#
-# plt.figure(1423)
-# plt.plot(x_decoded)
-# plt.plot(x_decodedGPy)
-# plt.show()
+x_camb = (normFactor * x_test[x_id]) + meanFactor
+
+
+plt.figure(1423)
+
+plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George/camb')
+plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy/camb')
+plt.plot(x_camb, alpha = 0.3 , label = 'camb')
+plt.legend()
+plt.show()
 
 
 ########################################################################################################################
@@ -371,10 +376,9 @@ def lnlike(theta, x, y, yerr):
     # new_params = np.array([p1, 0.0225, p2 , 0.74, 0.9])
 
     new_params = np.array([p1, p2, p3, p4, p5])
-    model = GPfit(computedGP, new_params)#  Using George -- with model training
+    # model = GPfit(computedGP, new_params)#  Using George -- with model training
 
-
-    # model = GPyfit(GPmodelOutfile, new_params)# Using GPy -- using trained model
+    model = GPyfit(GPmodelOutfile, new_params)# Using GPy -- using trained model
 
 
     mask = np.in1d(ls, x)

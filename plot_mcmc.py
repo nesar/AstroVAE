@@ -11,7 +11,6 @@ ndim = 5
 nwalkers = 500  # 500
 nrun_burn = 100  # 300
 nrun = 300  # 700
-fileID = 0
 
 
 
@@ -19,7 +18,6 @@ ndim = 5
 nwalkers = 600  # 400
 nrun_burn = 50  # 300
 nrun = 400  # 700
-fileID = 0
 
 
 #### Cosmological Parameters ########################################
@@ -135,7 +133,7 @@ truths = [param1[1], param2[1], param3[1], param4[1], param5[1]]
 
 
 # Labels for the different truths
-truthLabels = ( 'Planck TT-lowP 2015 results')
+truthLabels = ( 'Planck TT+lowP 2015 results')
 
 fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
                      colorsOrder=('greens','blues'), paramNames=names, truths=truths,
