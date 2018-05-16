@@ -7,19 +7,27 @@ import params
 import pygtc
 import matplotlib.pylab as plt
 
+
+###  TRIAL USING GEORGE -- limited range for Omega_c
 ndim = 5
 nwalkers = 500  # 500
 nrun_burn = 100  # 300
 nrun = 300  # 700
-fileID = 0
 
 
-
+### TRIAL USING GEORGE -- extended range
 ndim = 5
 nwalkers = 600  # 400
 nrun_burn = 50  # 300
 nrun = 400  # 700
-fileID = 0
+
+
+
+### USING GPy -- fastest, less precise.
+ndim = 5
+nwalkers = 600  # 500
+nrun_burn = 50  # 300
+nrun = 300  # 700
 
 
 #### Cosmological Parameters ########################################
@@ -84,7 +92,7 @@ fileID = 0
 samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
     nwalkers) + '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
-fileID = 2
+fileID = 1
 # samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
 #                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 
@@ -135,7 +143,7 @@ truths = [param1[1], param2[1], param3[1], param4[1], param5[1]]
 
 
 # Labels for the different truths
-truthLabels = ( 'Planck TT-lowP 2015 results')
+truthLabels = ( 'Planck TT+lowP 2015 results')
 
 fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
                      colorsOrder=('greens','blues'), paramNames=names, truths=truths,

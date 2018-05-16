@@ -165,7 +165,7 @@ if PlotRatio:
 
 
     # kern = GPy.kern.Matern52(input_dim= num_para)
-    kern = GPy.kern.Matern52(5, 0.3)
+    kern = GPy.kern.Matern52(5, 0.1)
 
 
     if (IfVariance == False):
@@ -176,10 +176,10 @@ if PlotRatio:
 
 
         m1 = GPy.models.GPRegression(para_train, encoded_xtrain, kernel=kern)
-        m1.Gaussian_noise.variance.constrain_fixed(1e-12)
+        m1.Gaussian_noise.variance.constrain_fixed(1e-16)
         m1.optimize(messages=True)
 
-        GPmodelOutfile = DataDir + 'GPy_model'+ str(latent_dim)+ClID
+        GPmodelOutfile = DataDir + 'GPy_model'+ str(latent_dim)+ClID + fileOut
 
         m1.save_model( GPmodelOutfile, compress=True, save_data=True)
 
@@ -226,8 +226,12 @@ if PlotRatio:
 
 
 #### ------------------------ Can be analyzed separately too ----------------------- ###
+### LOAD GO MODEL AND EMULATE
 
-plt.figure(999, figsize=(7, 6))
+
+
+
+plt.figure(992, figsize=(7, 6))
 from matplotlib import gridspec
 
 gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
@@ -238,9 +242,9 @@ ax1 = plt.subplot(gs[1])
 ax0.set_ylabel(r'$C_l$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
 
-ax1.axhline(y=1, ls='dotted')
-ax1.axhline(y=1.01, ls='dashed')
-ax1.axhline(y=0.99, ls='dashed')
+ax1.axhline(y= 0, ls='dotted')
+ax1.axhline(y=.01, ls='dashed')
+ax1.axhline(y=-0.01, ls='dashed')
 
 ax1.set_xlabel(r'$l$')
 
@@ -249,13 +253,21 @@ ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
 
 
 
-
-for i in range(para_test.shape[0]):
-# for i in range(2):
+m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
 
 
-        # x_decoded = decoder.predict(W_pred)# + meanFactor
-        x_decoded[i] = decoder.predict(  W_predArray[i].reshape(latent_dim, -1).T   )# + meanFactor
+# for i in range(para_test.shape[0]):
+for i in range(1):
+
+        m1p = m1.predict(para_test[i].reshape(num_para, -1).T)  # [0] is the mean and [1] the predictive
+        W_pred = m1p[0]
+        x_decoded[i] = decoder.predict(  W_pred.reshape(latent_dim, -1).T   )
+
+
+
+
+        # x_decoded[i] = decoder.predict(  W_predArray[i].reshape(latent_dim, -1).T   )#  BULK
+# PREDICT
 
         # x_decodedmax[i] = decoder.predict(np.array( [W_predArray[i]] ) + np.sqrt(W_varArray[i]))
         # x_decodedmin[i] = decoder.predict(np.array( [W_predArray[i]] ) - np.sqrt(W_varArray[i]))
@@ -266,7 +278,7 @@ for i in range(para_test.shape[0]):
         ax0.plot(ls, (Cl_Original[i]), 'b--', alpha=0.5, lw = 1,  label = 'camb')
 
         cl_ratio = ( (normFactor * x_decoded[i]) +meanFactor)/ (Cl_Original[i])
-        relError = 100 * ((cl_ratio) - 1)
+        relError = ((cl_ratio) - 1)
 
         if (ClID == 'TE'):  # Absolute error instead (since TE gets crosses 0
             relError = ((normFactor * x_decoded[0]) + meanFactor - Cl_Original[i])
@@ -278,15 +290,17 @@ for i in range(para_test.shape[0]):
                         ErrTh], 'gx', alpha=0.5, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-        ax1.plot(ls, ( (normFactor*x_decoded[i]) +meanFactor)/ (Cl_Original[i]), '-', lw = 0.5,
-                         label = 'emu/camb')
+        # ax1.plot(ls, ( (normFactor*x_decoded[i]) +meanFactor)/ (Cl_Original[i]), '-', lw = 0.5,
+        #                  label = 'emu/camb')
+
+        ax1.plot(ls, relError, 'k-', lw = 0.25, label = 'emu/camb', alpha = 0.5)
 
 
         print(i, 'ERR min max:', np.array([(relError).min(), (relError).max()]) )
         max_relError = np.max( [np.max(np.abs(relError)) , max_relError] )
 
 
-plt.figure(999)
+plt.figure(992)
 # plt.tight_layout()
 plt.savefig(PlotsDir + 'TestGPy'+str(num_para)+ClID+fileOut+'.png')
 
