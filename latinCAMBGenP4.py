@@ -16,7 +16,7 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 
 numpara = 5
 ndim = 2551
-totalFiles =  25
+totalFiles =  16
 lmax = 2500
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')

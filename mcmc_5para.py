@@ -23,7 +23,7 @@ ndim = 5
 nwalkers = 600  # 500
 nrun_burn = 50  # 300
 nrun = 300  # 700
-fileID = 2
+fileID = 1
 
 
 ########## REAL DATA with ERRORS #############################

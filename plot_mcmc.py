@@ -7,17 +7,27 @@ import params
 import pygtc
 import matplotlib.pylab as plt
 
+
+###  TRIAL USING GEORGE -- limited range for Omega_c
 ndim = 5
 nwalkers = 500  # 500
 nrun_burn = 100  # 300
 nrun = 300  # 700
 
 
-
+### TRIAL USING GEORGE -- extended range
 ndim = 5
 nwalkers = 600  # 400
 nrun_burn = 50  # 300
 nrun = 400  # 700
+
+
+
+### USING GPy -- fastest, less precise.
+ndim = 5
+nwalkers = 600  # 500
+nrun_burn = 50  # 300
+nrun = 300  # 700
 
 
 #### Cosmological Parameters ########################################
