@@ -92,7 +92,7 @@ fileID = 0
 samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
     nwalkers) + '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
-fileID = 2
+fileID = 1
 # samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
 #                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 

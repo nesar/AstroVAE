@@ -20,10 +20,10 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 600  # 500
+nwalkers = 1000  # 500
 nrun_burn = 50  # 300
-nrun = 300  # 700
-fileID = 1
+nrun = 500  # 700
+fileID = 2
 
 
 ########## REAL DATA with ERRORS #############################
