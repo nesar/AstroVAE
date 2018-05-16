@@ -214,11 +214,7 @@ m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
 
 
 def GPyfit(GPmodelOutfile, para_array):
-    # para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
-    # para_array[1] = rescale01(np.min(X2), np.max(X2), para_array[1])
-    # para_array[2] = rescale01(np.min(X3), np.max(X3), para_array[2])
-    # para_array[3] = rescale01(np.min(X4), np.max(X4), para_array[3])
-    # para_array[4] = rescale01(np.min(X5), np.max(X5), para_array[4])
+
 
     test_pts = para_array.reshape(num_para, -1).T
 
@@ -246,16 +242,16 @@ def GPyfit(GPmodelOutfile, para_array):
 x_id = 20
 
 x_decodedGPy = GPyfit(GPmodelOutfile, y_test[x_id])
-computedGP = GPcompute(rescaledTrainParams, latent_dim)
-x_decoded = GPfit(computedGP, y_test[x_id])
+# computedGP = GPcompute(rescaledTrainParams, latent_dim)
+# x_decoded = GPfit(computedGP, y_test[x_id])
 
 x_camb = (normFactor * x_test[x_id]) + meanFactor
 
 
 plt.figure(1423)
 
-plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George/camb')
-plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy/camb')
+# plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
+plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy')
 plt.plot(x_camb, alpha = 0.3 , label = 'camb')
 plt.legend()
 plt.show()
