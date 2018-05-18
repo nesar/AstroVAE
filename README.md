@@ -23,6 +23,4 @@ scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/encoded*7500* mcs:/homes/n
 
 ## From laptop -> phoenix
 scp P*25.* mcs:/homes/nramachandra/DataP5/raw/
-scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/mean*7500* mcs:/homes/nramachandra/DataP5/
-scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/encoded*7500* mcs:/homes/nramachandra/DataP5/
 
