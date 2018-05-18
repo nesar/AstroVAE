@@ -23,12 +23,24 @@ nrun = 400  # 700
 
 
 
-### USING GPy -- fastest, less precise.
+### USING GPy -- fastest, (maybe?) less precise.
 ndim = 5
 nwalkers = 600  # 500
 nrun_burn = 50  # 300
 nrun = 300  # 700
 
+
+
+ndim = 5
+nwalkers = 600  # 500
+nrun_burn = 100  # 300
+nrun = 1000  # 700
+
+
+ndim = 5
+nwalkers = 1000  # 500
+nrun_burn = 100  # 300
+nrun = 600  # 700
 
 #### Cosmological Parameters ########################################
 
@@ -92,7 +104,7 @@ fileID = 0
 samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
     nwalkers) + '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
-fileID = 1
+fileID = 2
 # samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
 #                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 
@@ -111,7 +123,7 @@ samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_n
 CornerPlot = True
 
 if CornerPlot:
-    fig = corner.corner(samples_plotSPT, labels=[param1[0], param2[0], param3[0], param4[0],
+    fig = corner.corner(samples_plotPLANCK, labels=[param1[0], param2[0], param3[0], param4[0],
                                                   param5[0]],
                         range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
                         [param4[2],param4[3]], [param5[2],param5[3]]],

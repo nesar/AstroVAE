@@ -21,8 +21,8 @@ import pygtc
 
 ndim = 5
 nwalkers = 1000  # 500
-nrun_burn = 50  # 300
-nrun = 500  # 700
+nrun_burn = 100  # 300
+nrun = 600  # 700
 fileID = 2
 
 

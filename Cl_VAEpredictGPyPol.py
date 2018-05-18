@@ -256,8 +256,8 @@ ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
 m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
 
 
-# for i in range(para_test.shape[0]):
-for i in range(1):
+for i in range(para_test.shape[0]):
+# for i in range(1):
 
         m1p = m1.predict(para_test[i].reshape(num_para, -1).T)  # [0] is the mean and [1] the predictive
         W_pred = m1p[0]
