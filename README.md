@@ -14,9 +14,15 @@ Data reduction, emulation and inference using a combination of GP emulator and V
 
 # Sync commands
 
-## From phoenix -> laptop
+## From phoenix -> laptop (AstroVAE/Cl_data/Data)
 scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Model/*7500* mcs:/homes/nramachandra/DataP5/Model/
 scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/norm*7500* mcs:/homes/nramachandra/DataP5/
+scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/mean*7500* mcs:/homes/nramachandra/DataP5/
+scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/encoded*7500* mcs:/homes/nramachandra/DataP5/
+
+
+## From laptop -> phoenix
+scp P*25.* mcs:/homes/nramachandra/DataP5/raw/
 scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/mean*7500* mcs:/homes/nramachandra/DataP5/
 scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/encoded*7500* mcs:/homes/nramachandra/DataP5/
 
