@@ -33,7 +33,7 @@ K.set_floatx('float32')
 ###################### PARAMETERS ##############################
 
 original_dim = params.original_dim # 2549
-#intermediate_dim3 = params.intermediate_dim3 # 1024
+#intermediate_dim3 = params.intermediate_dim3 # 1600
 intermediate_dim2 = params.intermediate_dim2 # 1024
 intermediate_dim1 = params.intermediate_dim1 # 512
 intermediate_dim0 = params.intermediate_dim0 # 256
