@@ -243,7 +243,7 @@ np.set_printoptions(formatter={'float': '{: 0.6f}'.format})
 
 
 
-plt.figure(999, figsize=(7, 6))
+plt.figure(997, figsize=(7, 6))
 from matplotlib import gridspec
 
 gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
@@ -433,7 +433,7 @@ if PlotRatio:
 
     #plt.show()
 
-plt.figure(999)
+plt.figure(997)
 # plt.tight_layout()
 plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+ClID+fileOut+'.png')
 

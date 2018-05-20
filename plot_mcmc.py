@@ -37,10 +37,10 @@ nrun_burn = 100  # 300
 nrun = 1000  # 700
 
 
-ndim = 5
-nwalkers = 1000  # 500
-nrun_burn = 100  # 300
-nrun = 600  # 700
+# ndim = 5
+# nwalkers = 1000  # 500
+# nrun_burn = 100  # 300
+# nrun = 600  # 700
 
 #### Cosmological Parameters ########################################
 
