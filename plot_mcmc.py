@@ -24,6 +24,8 @@ nrun = 400  # 700
 
 
 ### USING GPy -- fastest, (maybe?) less precise.
+
+## Actually shows sigma_8 -> 68pc contour
 ndim = 5
 nwalkers = 600  # 500
 nrun_burn = 50  # 300
@@ -37,10 +39,21 @@ nrun_burn = 100  # 300
 nrun = 1000  # 700
 
 
+ndim = 5
+nwalkers = 1000  # 500
+nrun_burn = 50  # 300
+nrun = 1000  # 700
+fileID = 2
+
+
+
+
+### USING 10k run instead of 7500
 # ndim = 5
-# nwalkers = 1000  # 500
-# nrun_burn = 100  # 300
+# nwalkers = 600  # 500
+# nrun_burn = 50  # 300
 # nrun = 600  # 700
+# fileID = 2
 
 #### Cosmological Parameters ########################################
 
@@ -107,7 +120,7 @@ samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwa
 fileID = 2
 # samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
 #                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
-
+nrun = 2000
 samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
                              '_run' + str(nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt')
 
