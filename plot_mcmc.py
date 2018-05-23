@@ -140,14 +140,21 @@ def para_mcmc(samples):
     # print samples
     p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
                        zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+
     print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
+
+
+    return [p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0]]
 
 
 
 para_mcmc(samples_plotPLANCK)
 
 
+para_mcmc(samples_plotWMAP)
 
+
+para_mcmc(samples_plotSPT)
 
 
 
@@ -200,3 +207,91 @@ fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' 
 
 
 plt.show()
+
+
+
+### Using pre-trained GPy model #######################
+
+
+normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+
+
+from keras.models import load_model
+
+LoadModel = True
+if LoadModel:
+    encoder = load_model(ModelDir + 'EncoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
+    decoder = load_model(ModelDir + 'DecoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
+    history = np.loadtxt(
+        ModelDir + 'TrainingHistoryP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+
+
+
+
+import GPy
+
+
+GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
+m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
+
+
+def GPyfit(GPmodelOutfile, para_array):
+
+
+    test_pts = para_array.reshape(num_para, -1).T
+
+    # -------------- Predict latent space ----------------------------------------
+
+    # W_pred = np.array([np.zeros(shape=latent_dim)])
+    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
+
+    m1p = m1.predict(test_pts)  # [0] is the mean and [1] the predictive
+    W_pred = m1p[0]
+    # W_varArray = m1p[1]
+
+
+    # for j in range(latent_dim):
+    #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
+    #                                                                             test_pts)
+
+    # -------------- Decode from latent space --------------------------------------
+
+    x_decoded = decoder.predict(W_pred.reshape(latent_dim, -1).T )
+
+    return (normFactor * x_decoded[0]) + meanFactor
+
+
+
+yPLANCK = np.array(para_mcmc(samples_plotPLANCK))
+
+x_decodedGPy = GPyfit(GPmodelOutfile, yPLANCK)
+
+
+
+dirIn = '../Cl_data/RealData/'
+allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
+
+lID = np.array([0, 2, 0])
+ClID = np.array([1, 3, 1])
+emaxID = np.array([2, 4, 2])
+eminID = np.array([2, 4, 2])
+
+print(allfiles)
+
+
+# for fileID in [realDataID]:
+with open(dirIn + allfiles[fileID]) as f:
+    lines = (line for line in f if not line.startswith('#'))
+    allCl = np.loadtxt(lines, skiprows=1)
+
+    l = allCl[:, lID[fileID]].astype(int)
+    Cl = allCl[:, ClID[fileID]]
+    emax = allCl[:, emaxID[fileID]]
+    emin = allCl[:, eminID[fileID]]
+
+    print(l.shape)
+
+
+
+
