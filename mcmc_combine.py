@@ -20,9 +20,9 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 50  # 500
-nrun_burn = 10  # 300
-nrun = 100  # 700
+nwalkers = 300  # 500
+nrun_burn = 50  # 300
+nrun = 1000  # 700
 fileID = 2
 
 
@@ -482,16 +482,16 @@ print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0
 
 CornerPlot = False
 if CornerPlot:
-
-    fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
-                        range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
-                        [param4[2],param4[3]], [param5[2],param5[3]]],
-                        truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
-                        show_titles=True,  title_args={"fontsize": 10})
-
-
-    fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-        nrun) + ClID + '_'  + fileOut +allfiles[fileID][:-4] + '.pdf')
+    #
+    # fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
+    #                     range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
+    #                     [param4[2],param4[3]], [param5[2],param5[3]]],
+    #                     truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
+    #                     show_titles=True,  title_args={"fontsize": 10})
+    #
+    #
+    # fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    #     nrun) + ClID + '_'  + fileOut +allfiles[fileID][:-4] + '.pdf')
 
 
     fig = pygtc.plotGTC(samples_plot, paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
@@ -499,7 +499,7 @@ if CornerPlot:
                         figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
-    fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    fig.savefig(PlotsDir + 'Combined_pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
         nrun)  + ClID + '_' + fileOut + allfiles[fileID][:-4] +'.pdf')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
@@ -546,3 +546,39 @@ if ConvergePlot:
 
     fig.savefig(PlotsDir + 'convergence_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
         nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.pdf')
+
+
+
+
+
+### Comapring with real values
+
+
+y_mcmc = np.array([ p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0]] )
+x_decodedGPy = GPyfit(y_mcmc)
+x_decodedGPy2 = GPyfit2(y_mcmc)
+
+
+
+plt.figure(32534, figsize=(14, 6))
+from matplotlib import gridspec
+
+gs = gridspec.GridSpec(2, 1, height_ratios=[1,1])
+gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
+
+
+ax0 = plt.subplot(gs[0])
+ax0.errorbar(l, Cl, yerr = [emin, emax], ecolor = 'k', alpha = 0.05)
+ax0.plot(ls, x_decodedGPy, 'b--')
+
+ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
+ax0.set_xlabel(r'$l$')
+
+
+ax1 = plt.subplot(gs[1])
+ax1.errorbar(l2, Cl2, yerr = [emin2, emax2], ecolor = 'k', alpha = 0.05)
+ax1.plot(ls, x_decodedGPy2, 'b--')
+
+ax1.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
+ax1.set_xlabel(r'$l$')
+
