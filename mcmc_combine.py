@@ -21,9 +21,9 @@ import pygtc
 
 ndim = 5
 nwalkers = 1000  # 500
-nrun_burn = 50  # 300
-nrun = 2000  # 700
-fileID = 0
+nrun_burn = 10  # 300
+nrun = 200  # 700
+fileID = 2
 
 
 ########## REAL DATA with ERRORS #############################
@@ -373,17 +373,41 @@ def lnlike(theta, x, y, yerr):
     return -0.5 * (np.sum(((y - model_mask) / yerr) ** 2.))
 
 
-def lnprob(theta, x, y, yerr):
+
+
+
+def lnlike2(theta, x, y, yerr):
+    p1, p2, p3, p4, p5 = theta
+
+    new_params = np.array([p1, p2, p3, p4, p5])
+
+    model = GPyfit2(GPmodelOutfile2, new_params)# Using GPy -- using trained model
+
+
+    mask = np.in1d(ls, x)
+    model_mask = model[mask]
+
+    # return -0.5 * (np.sum(((y - model) / yerr) ** 2.))
+    return -0.5 * (np.sum(((y - model_mask) / yerr) ** 2.))
+
+
+
+
+
+def lnprob(theta, x, y, yerr, x2, y2, yerr2):
     lp = lnprior(theta)
     if not np.isfinite(lp):
         return -np.inf
-    return lp + lnlike(theta, x, y, yerr)
+    return lp + lnlike(theta, x, y, yerr) + lnlike2(theta, x2, y2, yerr2)
 
+
+
+########## ------------------------------------------------------------------ #########
 
 # Let us setup the emcee Ensemble Sampler
 # It is very simple: just one, self-explanatory line
 
-sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr))
+sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr, x2, y2, yerr2))
 
 ###### BURIN-IN #################
 
