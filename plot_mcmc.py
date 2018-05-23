@@ -42,9 +42,8 @@ nrun = 1000  # 700
 ndim = 5
 nwalkers = 1000  # 500
 nrun_burn = 50  # 300
-nrun = 1000  # 700
+nrun = 2000  # 700
 fileID = 2
-
 
 
 
@@ -132,6 +131,27 @@ samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_n
     nwalkers) +
                              '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
+
+
+### --------------------- mean/variance from mcmc chains ##--------------------------
+
+
+def para_mcmc(samples):
+    # print samples
+    p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
+                       zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+    print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
+
+
+
+para_mcmc(samples_plotPLANCK)
+
+
+
+
+
+
+########################## Corner plots #############################
 
 CornerPlot = True
 

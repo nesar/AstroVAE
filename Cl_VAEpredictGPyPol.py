@@ -286,8 +286,8 @@ for i in range(para_test.shape[0]):
 
 
 
-        ax0.plot(ls[np.abs(relError) > ErrTh], normFactor*x_decoded[0][np.abs(relError) >
-                        ErrTh], 'gx', alpha=0.5, label= 'Err >'+str(ErrTh), markersize = '1')
+        ax0.plot(ls[np.abs(relError) > ErrTh], (normFactor*x_decoded[i] + meanFactor)[np.abs(
+            relError) > ErrTh], 'gx', alpha=0.5, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
         # ax1.plot(ls, ( (normFactor*x_decoded[i]) +meanFactor)/ (Cl_Original[i]), '-', lw = 0.5,
