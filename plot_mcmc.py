@@ -133,30 +133,6 @@ samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_n
 
 
 
-### --------------------- mean/variance from mcmc chains ##--------------------------
-
-
-def para_mcmc(samples):
-    # print samples
-    p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
-                       zip(*np.percentile(samples, [16, 50, 84], axis=0)))
-
-    print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
-
-
-    return [p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0]]
-
-
-
-para_mcmc(samples_plotPLANCK)
-
-
-para_mcmc(samples_plotWMAP)
-
-
-para_mcmc(samples_plotSPT)
-
-
 
 ########################## Corner plots #############################
 
@@ -210,8 +186,40 @@ plt.show()
 
 
 
+
+
+######## COMPARING Cl(PLANCK/SPT/WMAP) with Real data
+
+
+
+### --------------------- mean/variance from mcmc chains ##--------------------------
+
+
+def para_mcmc(samples):
+    # print samples
+    p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
+                       zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+
+    print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
+
+
+    return np.array([p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc])
+
+
+
+para_mcmc(samples_plotPLANCK)
+
+
+para_mcmc(samples_plotWMAP)
+
+
+para_mcmc(samples_plotSPT)
+
+
+
 ### Using pre-trained GPy model #######################
 
+ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
 
 normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
@@ -263,11 +271,15 @@ def GPyfit(GPmodelOutfile, para_array):
 
 
 
-yPLANCK = np.array(para_mcmc(samples_plotPLANCK))
+yPLANCK = para_mcmc(samples_plotPLANCK)
 
-x_decodedGPy = GPyfit(GPmodelOutfile, yPLANCK)
+x_decodedGPy = GPyfit(GPmodelOutfile, yPLANCK[:,0])
 
 
+
+########## REAL DATA with ERRORS #############################
+# Planck/SPT/WMAP data
+# TE, EE, BB next
 
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
@@ -295,3 +307,20 @@ with open(dirIn + allfiles[fileID]) as f:
 
 
 
+
+plt.figure(322, figsize=(7, 6))
+from matplotlib import gridspec
+
+gs = gridspec.GridSpec(1, 1, height_ratios=[1])
+gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
+ax0 = plt.subplot(gs[0])
+
+
+ax0.errorbar(l, Cl, yerr = [emin, emax], ecolor = 'k', alpha = 0.05)
+ax0.plot(ls, x_decodedGPy, 'b--')
+
+ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
+ax0.set_xlabel(r'$l$')
+
+# ax0.set_xscale('log')
+# ax0.set_yscale('log')

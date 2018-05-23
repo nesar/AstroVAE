@@ -174,7 +174,9 @@ gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
 ax0 = plt.subplot(gs[0])
 ax1 = plt.subplot(gs[1])
 
-ax0.set_ylabel(r'$C_l$')
+# ax0.set_ylabel(r'$C_l$')
+ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
+
 # ax0.set_title( r'$\text{' +fileOut + '}$')
 
 ax1.axhline(y=1, ls='dotted')
