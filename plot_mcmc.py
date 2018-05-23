@@ -59,11 +59,11 @@ fileID = 2
 #### Order of parameters: ['Omega_m', 'Omega_b', 'sigma_8', 'h', 'n_s']
 #        [label, true, min, max]
 
-param1 = ["$\Omega_c h^2$", 0.1197, 0.105, 0.155] # Actual 0.119
-param2 = ["$\Omega_b h^2$", 0.02222, 0.0215, 0.0235]
-param3 = ["$\sigma_8$", 0.829, 0.7, 0.9]
-param4 = ["$h$", 0.6731, 0.55, 0.85]
-param5 = ["$n_s$", 0.9655, 0.85, 1.05]
+# param1 = ["$\Omega_c h^2$", 0.1197, 0.105, 0.155] # Actual 0.119
+# param2 = ["$\Omega_b h^2$", 0.02222, 0.0215, 0.0235]
+# param3 = ["$\sigma_8$", 0.829, 0.7, 0.9]
+# param4 = ["$h$", 0.6731, 0.55, 0.85]
+# param5 = ["$n_s$", 0.9655, 0.85, 1.05]
 
 
 
