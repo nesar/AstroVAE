@@ -20,9 +20,9 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 1000  # 500
+nwalkers = 50  # 500
 nrun_burn = 10  # 300
-nrun = 200  # 700
+nrun = 100  # 700
 fileID = 2
 
 
@@ -52,6 +52,37 @@ with open(dirIn + allfiles[fileID]) as f:
     emin = allCl[:, eminID[fileID]]
 
     print(l.shape)
+
+
+
+
+fileID = 0
+
+
+dirIn = '../Cl_data/RealData/'
+allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
+
+lID = np.array([0, 2, 0])
+ClID = np.array([1, 3, 1])
+emaxID = np.array([2, 4, 2])
+eminID = np.array([2, 4, 2])
+
+print(allfiles)
+
+
+# for fileID in [realDataID]:
+with open(dirIn + allfiles[fileID]) as f:
+    lines = (line for line in f if not line.startswith('#'))
+    allCl = np.loadtxt(lines, skiprows=1)
+
+    l2 = allCl[:, lID[fileID]].astype(int)
+    Cl2 = allCl[:, ClID[fileID]]
+    emax2 = allCl[:, emaxID[fileID]]
+    emin2 = allCl[:, eminID[fileID]]
+
+    print(l2.shape)
+
+
 
 
 ############## GP FITTING ################################################################################
@@ -94,18 +125,18 @@ fileOut = params.fileOut
 
 
 
-Trainfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_train) + '.txt')
-Testfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_test) + '.txt')
+# Trainfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_train) + '.txt')
+# Testfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_test) + '.txt')
 
-x_train = Trainfiles[:, num_para + 2:]
-x_test = Testfiles[:, num_para + 2:]
-y_train = Trainfiles[:, 0: num_para]
-y_test = Testfiles[:, 0: num_para]
-
-print(x_train.shape, 'train sequences')
-print(x_test.shape, 'test sequences')
-print(y_train.shape, 'train sequences')
-print(y_test.shape, 'test sequences')
+# x_train = Trainfiles[:, num_para + 2:]
+# x_test = Testfiles[:, num_para + 2:]
+# y_train = Trainfiles[:, 0: num_para]
+# y_test = Testfiles[:, 0: num_para]
+#
+# print(x_train.shape, 'train sequences')
+# print(x_test.shape, 'test sequences')
+# print(y_train.shape, 'train sequences')
+# print(y_test.shape, 'test sequences')
 
 ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
 
@@ -117,93 +148,35 @@ meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + f
 print('-------normalization factor:', normFactor)
 print('-------rescaling factor:', meanFactor)
 
-x_train = x_train - meanFactor  # / 255.
-x_test = x_test - meanFactor  # / 255.
-
-x_train = x_train.astype('float32') / normFactor  # / 255.
-x_test = x_test.astype('float32') / normFactor  # / 255.
-
-x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+# x_train = x_train - meanFactor  # / 255.
+# x_test = x_test - meanFactor  # / 255.
+#
+# x_train = x_train.astype('float32') / normFactor  # / 255.
+# x_test = x_test.astype('float32') / normFactor  # / 255.
+#
+# x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+# x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
 # ------------------------------------------------------------------------------
+
+
+
+
+
 
 
 ################# ARCHITECTURE ###############################
 
+# kernel = Matern32Kernel([1000, 4000, 3000, 1000, 2000], ndim=num_para)
 
-
-LoadModel = True
-if LoadModel:
-    encoder = load_model(ModelDir + 'EncoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
-    decoder = load_model(ModelDir + 'DecoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
-    history = np.loadtxt(
-        ModelDir + 'TrainingHistoryP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-
-
-
-kernel = Matern32Kernel([1000, 4000, 3000, 1000, 2000], ndim=num_para)
-
-X1 = y_train[:, 0][:, np.newaxis]
-X1a = rescale01(np.min(X1), np.max(X1), X1)
-
-X2 = y_train[:, 1][:, np.newaxis]
-X2a = rescale01(np.min(X2), np.max(X2), X2)
-
-X3 = y_train[:, 2][:, np.newaxis]
-X3a = rescale01(np.min(X3), np.max(X3), X3)
-
-X4 = y_train[:, 3][:, np.newaxis]
-X4a = rescale01(np.min(X4), np.max(X4), X4)
-
-X5 = y_train[:, 4][:, np.newaxis]
-X5a = rescale01(np.min(X5), np.max(X5), X5)
-
-rescaledTrainParams = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
-
-# # ------------------------------------------------------------------------------
-encoded_xtrain = np.loadtxt(
-    DataDir + 'encoded_xtrainP' + str(num_para) + ClID + '_' + fileOut + '.txt').T
-encoded_xtest_original = np.loadtxt(
-    DataDir + 'encoded_xtestP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-
+# # # ------------------------------------------------------------------------------
+# encoded_xtrain = np.loadtxt(
+#     DataDir + 'encoded_xtrainP' + str(num_para) + ClID + '_' + fileOut + '.txt').T
+# encoded_xtest_original = np.loadtxt(
+#     DataDir + 'encoded_xtestP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+#
 
 # ------------------------------------------------------------------------------
-
-def GPcompute(rescaledTrainParams, latent_dim):
-    gp = {}
-    for j in range(latent_dim):
-        gp["fit{0}".format(j)] = george.GP(kernel)
-        gp["fit{0}".format(j)].compute(rescaledTrainParams[:, 0, :].T)
-    return gp
-
-
-def GPfit(computedGP, para_array):
-    para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
-    para_array[1] = rescale01(np.min(X2), np.max(X2), para_array[1])
-    para_array[2] = rescale01(np.min(X3), np.max(X3), para_array[2])
-    para_array[3] = rescale01(np.min(X4), np.max(X4), para_array[3])
-    para_array[4] = rescale01(np.min(X5), np.max(X5), para_array[4])
-
-    test_pts = para_array[:num_para].reshape(num_para, -1).T
-
-    # -------------- Predict latent space ----------------------------------------
-
-    W_pred = np.array([np.zeros(shape=latent_dim)])
-    W_pred_var = np.array([np.zeros(shape=latent_dim)])
-
-    for j in range(latent_dim):
-        W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
-                                                                                test_pts)
-
-    # -------------- Decode from latent space --------------------------------------
-
-    x_decoded = decoder.predict(W_pred)
-
-    return (normFactor * x_decoded[0]) + meanFactor
-
-
-
 ### Using pre-trained GPy model #######################
 
 import GPy
@@ -213,8 +186,12 @@ GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
 m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
 
 
-def GPyfit(GPmodelOutfile, para_array):
+decoderFile = ModelDir + 'DecoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5'
+decoder = load_model(decoderFile)
 
+
+
+def GPyfit(para_array):
 
     test_pts = para_array.reshape(num_para, -1).T
 
@@ -239,22 +216,72 @@ def GPyfit(GPmodelOutfile, para_array):
     return (normFactor * x_decoded[0]) + meanFactor
 
 
-x_id = 20
 
-x_decodedGPy = GPyfit(GPmodelOutfile, y_test[x_id])
+
+
+
+
+
+
+
+normFactor2 = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+meanFactor2 = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+
+
+
+GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
+m2 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
+
+
+decoderFile = ModelDir + 'DecoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5'
+decoder2 = load_model(decoderFile)
+
+
+def GPyfit2(para_array):
+
+    test_pts = para_array.reshape(num_para, -1).T
+
+    # -------------- Predict latent space ----------------------------------------
+
+    # W_pred = np.array([np.zeros(shape=latent_dim)])
+    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
+
+    m2p = m2.predict(test_pts)  # [0] is the mean and [1] the predictive
+    W_pred = m2p[0]
+    # W_varArray = m1p[1]
+
+
+    # for j in range(latent_dim):
+    #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
+    #                                                                             test_pts)
+
+    # -------------- Decode from latent space --------------------------------------
+
+    x_decoded = decoder.predict(W_pred.reshape(latent_dim, -1).T )
+
+    return (normFactor2 * x_decoded[0]) + meanFactor2
+
+
+
+######### ---------------------------------------------------------------------------
+
+
+# x_id = 20
+
+# x_decodedGPy = GPyfit(y_test[x_id])
 # computedGP = GPcompute(rescaledTrainParams, latent_dim)
 # x_decoded = GPfit(computedGP, y_test[x_id])
 
-x_camb = (normFactor * x_test[x_id]) + meanFactor
+# x_camb = (normFactor * x_test[x_id]) + meanFactor
 
 
-plt.figure(1423)
-
-# plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
-plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy')
-plt.plot(x_camb, alpha = 0.3 , label = 'camb')
-plt.legend()
-plt.show()
+# plt.figure(1423)
+#
+# # plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
+# plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy')
+# plt.plot(x_camb, alpha = 0.3 , label = 'camb')
+# plt.legend()
+# plt.show()
 
 
 ########################################################################################################################
@@ -304,20 +331,20 @@ if True_init:
     pos0 = [[param1[1]*1.2, param2[1]*0.8, param3[1]*0.9, param4[1]*1.1, param5[1]*1.2] +
            1e-3*np.random.randn(ndim) for i in range(nwalkers)]
 
-
-MaxLikelihood_init = False
-if MaxLikelihood_init:
-# Choice 2b: Find expected values from max likelihood and use that for chain initialization
-# Requires likehood function below to run first
-
-    import scipy.optimize as op
-    nll = lambda *args: -lnlike(*args)
-    result = op.minimize(nll, [param1[1], param2[1], param3[1], param4[1], param5[1]], args=(x, y, yerr))
-    p1_ml, p2_ml, p3_ml, p4_ml, p5_ml = result["x"]
-    print result['x']
-
-
-    pos0 = [result['x']+1.e-4*np.random.randn(ndim) for i in range(nwalkers)]
+#
+# MaxLikelihood_init = False
+# if MaxLikelihood_init:
+# # Choice 2b: Find expected values from max likelihood and use that for chain initialization
+# # Requires likehood function below to run first
+#
+#     import scipy.optimize as op
+#     nll = lambda *args: -lnlike(*args)
+#     result = op.minimize(nll, [param1[1], param2[1], param3[1], param4[1], param5[1]], args=(x, y, yerr))
+#     p1_ml, p2_ml, p3_ml, p4_ml, p5_ml = result["x"]
+#     print result['x']
+#
+#
+#     pos0 = [result['x']+1.e-4*np.random.randn(ndim) for i in range(nwalkers)]
 
 
 
@@ -343,6 +370,15 @@ x = l[l < ls.max()]
 y = Cl[l < ls.max()]
 yerr = emax[l < ls.max()]
 
+
+
+x2 = l2[l2 < ls.max()]
+y2 = Cl2[l2 < ls.max()]
+yerr2 = emax2[l2 < ls.max()]
+
+
+
+
 ## Sample implementation :
 # http://eso-python.github.io/ESOPythonTutorials/ESOPythonDemoDay8_MCMC_with_emcee.html
 # https://users.obs.carnegiescience.edu/cburns/ipynbs/Emcee.html
@@ -363,7 +399,7 @@ def lnlike(theta, x, y, yerr):
     new_params = np.array([p1, p2, p3, p4, p5])
     # model = GPfit(computedGP, new_params)#  Using George -- with model training
 
-    model = GPyfit(GPmodelOutfile, new_params)# Using GPy -- using trained model
+    model = GPyfit(new_params)# Using GPy -- using trained model
 
 
     mask = np.in1d(ls, x)
@@ -381,7 +417,7 @@ def lnlike2(theta, x, y, yerr):
 
     new_params = np.array([p1, p2, p3, p4, p5])
 
-    model = GPyfit2(GPmodelOutfile2, new_params)# Using GPy -- using trained model
+    model = GPyfit2(new_params)# Using GPy -- using trained model
 
 
     mask = np.in1d(ls, x)
