@@ -475,7 +475,7 @@ samples_plot  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' 
 
 # samples = np.exp(samples)
 p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
-                       zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+                       zip(*np.percentile(samples_plot, [16, 50, 84], axis=0)))
 print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
 
 ####### CORNER PLOT ESTIMATES #######################################

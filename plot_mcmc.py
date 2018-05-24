@@ -16,10 +16,10 @@ nrun = 300  # 700
 
 
 ### TRIAL USING GEORGE -- extended range
-ndim = 5
-nwalkers = 600  # 400
-nrun_burn = 50  # 300
-nrun = 400  # 700
+# ndim = 5
+# nwalkers = 600  # 400
+# nrun_burn = 50  # 300
+# nrun = 400  # 700
 
 
 
@@ -33,17 +33,17 @@ nrun = 300  # 700
 
 
 
-ndim = 5
-nwalkers = 600  # 500
-nrun_burn = 100  # 300
-nrun = 1000  # 700
+# ndim = 5
+# nwalkers = 600  # 500
+# nrun_burn = 100  # 300
+# nrun = 1000  # 700
 
 
-ndim = 5
-nwalkers = 1000  # 500
-nrun_burn = 50  # 300
-nrun = 2000  # 700
-fileID = 2
+# ndim = 5
+# nwalkers = 1000  # 500
+# nrun_burn = 50  # 300
+# nrun = 2000  # 700
+# fileID = 2
 
 
 
@@ -116,10 +116,10 @@ fileID = 0
 samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
     nwalkers) + '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
-fileID = 2
+fileID = 1
 # samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
 #                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
-nrun = 2000
+# nrun = 2000
 samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
                              '_run' + str(nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt')
 
@@ -271,12 +271,6 @@ def GPyfit(GPmodelOutfile, para_array):
 
 
 
-yPLANCK = para_mcmc(samples_plotPLANCK)
-
-x_decodedGPy = GPyfit(GPmodelOutfile, yPLANCK[:,0])
-
-
-
 ########## REAL DATA with ERRORS #############################
 # Planck/SPT/WMAP data
 # TE, EE, BB next
@@ -306,6 +300,17 @@ with open(dirIn + allfiles[fileID]) as f:
 
 
 
+yPLANCK = para_mcmc(samples_plotPLANCK)
+
+x_decodedGPy = GPyfit(GPmodelOutfile, yPLANCK[:,0])
+
+
+yPLANCK2015 = np.array([param1[1], param2[1], param3[1], param4[1], param5[1]])
+
+x_decodedGPy2015 = GPyfit(GPmodelOutfile, yPLANCK2015)
+
+
+
 
 
 plt.figure(322, figsize=(7, 6))
@@ -316,11 +321,16 @@ gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
 ax0 = plt.subplot(gs[0])
 
 
-ax0.errorbar(l, Cl, yerr = [emin, emax], ecolor = 'k', alpha = 0.05)
-ax0.plot(ls, x_decodedGPy, 'b--')
+ax0.errorbar(l, Cl, yerr = [emin, emax], ecolor = 'k', alpha = 0.1, label = 'PLANCK Data')
+ax0.plot(ls, x_decodedGPy, 'r-', label = 'Best estimate')
+ax0.plot(ls, x_decodedGPy2015, 'b-', label = 'Planck2015 estimate')
+
+
 
 ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
 ax0.set_xlabel(r'$l$')
+
+ax0.legend()
 
 # ax0.set_xscale('log')
 # ax0.set_yscale('log')
