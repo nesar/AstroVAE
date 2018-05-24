@@ -59,11 +59,11 @@ fileID = 2
 #### Order of parameters: ['Omega_m', 'Omega_b', 'sigma_8', 'h', 'n_s']
 #        [label, true, min, max]
 
-param1 = ["$\Omega_c h^2$", 0.1197, 0.105, 0.155] # Actual 0.119
-param2 = ["$\Omega_b h^2$", 0.02222, 0.0215, 0.0235]
-param3 = ["$\sigma_8$", 0.829, 0.7, 0.9]
-param4 = ["$h$", 0.6731, 0.55, 0.85]
-param5 = ["$n_s$", 0.9655, 0.85, 1.05]
+# param1 = ["$\Omega_c h^2$", 0.1197, 0.105, 0.155] # Actual 0.119
+# param2 = ["$\Omega_b h^2$", 0.02222, 0.0215, 0.0235]
+# param3 = ["$\sigma_8$", 0.829, 0.7, 0.9]
+# param4 = ["$h$", 0.6731, 0.55, 0.85]
+# param5 = ["$n_s$", 0.9655, 0.85, 1.05]
 
 
 
@@ -133,23 +133,6 @@ samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_n
 
 
 
-### --------------------- mean/variance from mcmc chains ##--------------------------
-
-
-def para_mcmc(samples):
-    # print samples
-    p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
-                       zip(*np.percentile(samples, [16, 50, 84], axis=0)))
-    print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
-
-
-
-para_mcmc(samples_plotPLANCK)
-
-
-
-
-
 
 ########################## Corner plots #############################
 
@@ -200,3 +183,144 @@ fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' 
 
 
 plt.show()
+
+
+
+
+
+######## COMPARING Cl(PLANCK/SPT/WMAP) with Real data
+
+
+
+### --------------------- mean/variance from mcmc chains ##--------------------------
+
+
+def para_mcmc(samples):
+    # print samples
+    p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
+                       zip(*np.percentile(samples, [16, 50, 84], axis=0)))
+
+    print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
+
+
+    return np.array([p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc])
+
+
+
+para_mcmc(samples_plotPLANCK)
+
+
+para_mcmc(samples_plotWMAP)
+
+
+para_mcmc(samples_plotSPT)
+
+
+
+### Using pre-trained GPy model #######################
+
+ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
+
+normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+
+
+from keras.models import load_model
+
+LoadModel = True
+if LoadModel:
+    encoder = load_model(ModelDir + 'EncoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
+    decoder = load_model(ModelDir + 'DecoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
+    history = np.loadtxt(
+        ModelDir + 'TrainingHistoryP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+
+
+
+
+import GPy
+
+
+GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
+m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
+
+
+def GPyfit(GPmodelOutfile, para_array):
+
+
+    test_pts = para_array.reshape(num_para, -1).T
+
+    # -------------- Predict latent space ----------------------------------------
+
+    # W_pred = np.array([np.zeros(shape=latent_dim)])
+    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
+
+    m1p = m1.predict(test_pts)  # [0] is the mean and [1] the predictive
+    W_pred = m1p[0]
+    # W_varArray = m1p[1]
+
+
+    # for j in range(latent_dim):
+    #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
+    #                                                                             test_pts)
+
+    # -------------- Decode from latent space --------------------------------------
+
+    x_decoded = decoder.predict(W_pred.reshape(latent_dim, -1).T )
+
+    return (normFactor * x_decoded[0]) + meanFactor
+
+
+
+yPLANCK = para_mcmc(samples_plotPLANCK)
+
+x_decodedGPy = GPyfit(GPmodelOutfile, yPLANCK[:,0])
+
+
+
+########## REAL DATA with ERRORS #############################
+# Planck/SPT/WMAP data
+# TE, EE, BB next
+
+dirIn = '../Cl_data/RealData/'
+allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
+
+lID = np.array([0, 2, 0])
+ClID = np.array([1, 3, 1])
+emaxID = np.array([2, 4, 2])
+eminID = np.array([2, 4, 2])
+
+print(allfiles)
+
+
+# for fileID in [realDataID]:
+with open(dirIn + allfiles[fileID]) as f:
+    lines = (line for line in f if not line.startswith('#'))
+    allCl = np.loadtxt(lines, skiprows=1)
+
+    l = allCl[:, lID[fileID]].astype(int)
+    Cl = allCl[:, ClID[fileID]]
+    emax = allCl[:, emaxID[fileID]]
+    emin = allCl[:, eminID[fileID]]
+
+    print(l.shape)
+
+
+
+
+
+plt.figure(322, figsize=(7, 6))
+from matplotlib import gridspec
+
+gs = gridspec.GridSpec(1, 1, height_ratios=[1])
+gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
+ax0 = plt.subplot(gs[0])
+
+
+ax0.errorbar(l, Cl, yerr = [emin, emax], ecolor = 'k', alpha = 0.05)
+ax0.plot(ls, x_decodedGPy, 'b--')
+
+ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
+ax0.set_xlabel(r'$l$')
+
+# ax0.set_xscale('log')
+# ax0.set_yscale('log')

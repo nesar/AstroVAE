@@ -20,9 +20,9 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 1000  # 500
+nwalkers = 10  # 500
 nrun_burn = 50  # 300
-nrun = 2000  # 700
+nrun = 20  # 700
 fileID = 0
 
 
@@ -140,6 +140,11 @@ if LoadModel:
     history = np.loadtxt(
         ModelDir + 'TrainingHistoryP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 
+
+
+##################################################33333
+
+# Only required with george, not with GPy
 
 
 kernel = Matern32Kernel([1000, 4000, 3000, 1000, 2000], ndim=num_para)

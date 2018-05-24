@@ -20,10 +20,10 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 300  # 500
+nwalkers = 700  # 500
 nrun_burn = 50  # 300
-nrun = 1000  # 700
-fileID = 2
+nrun = 200 # 700
+fileID = 1
 
 
 ########## REAL DATA with ERRORS #############################
@@ -33,6 +33,9 @@ fileID = 2
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
 
+
+
+### SPT TT
 lID = np.array([0, 2, 0])
 ClID = np.array([1, 3, 1])
 emaxID = np.array([2, 4, 2])
@@ -56,16 +59,19 @@ with open(dirIn + allfiles[fileID]) as f:
 
 
 
-fileID = 0
+fileID = 1
 
 
 dirIn = '../Cl_data/RealData/'
 allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
 
-lID = np.array([0, 2, 0])
-ClID = np.array([1, 3, 1])
-emaxID = np.array([2, 4, 2])
-eminID = np.array([2, 4, 2])
+
+
+### SPT EE
+lID = np.array([0, 5, 0])
+ClID = np.array([1, 6, 1])
+emaxID = np.array([2, 7, 2])
+eminID = np.array([2, 7, 2])
 
 print(allfiles)
 
@@ -85,6 +91,37 @@ with open(dirIn + allfiles[fileID]) as f:
 
 
 
+fileID = 1
+
+
+dirIn = '../Cl_data/RealData/'
+allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
+
+
+
+### SPT TE
+lID = np.array([0, 8, 0])
+ClID = np.array([1, 9, 1])
+emaxID = np.array([2, 10, 2])
+eminID = np.array([2, 10, 2])
+
+print(allfiles)
+
+
+# for fileID in [realDataID]:
+with open(dirIn + allfiles[fileID]) as f:
+    lines = (line for line in f if not line.startswith('#'))
+    allCl = np.loadtxt(lines, skiprows=1)
+
+    l3 = allCl[:, lID[fileID]].astype(int)
+    Cl3 = allCl[:, ClID[fileID]]
+    emax3 = allCl[:, emaxID[fileID]]
+    emin3 = allCl[:, eminID[fileID]]
+
+    print(l3.shape)
+
+
+
 ############## GP FITTING ################################################################################
 ##########################################################################################################
 
@@ -99,7 +136,7 @@ def rescale01(xmin, xmax, f):
 original_dim = params.original_dim  # 2549
 latent_dim = params.latent_dim  # 10
 
-ClID = params.ClID
+# ClID = params.ClID
 num_train = params.num_train  # 512
 num_test = params.num_test  # 32
 num_para = params.num_para  # 5
@@ -125,61 +162,23 @@ fileOut = params.fileOut
 
 
 
-# Trainfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_train) + '.txt')
-# Testfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_test) + '.txt')
-
-# x_train = Trainfiles[:, num_para + 2:]
-# x_test = Testfiles[:, num_para + 2:]
-# y_train = Trainfiles[:, 0: num_para]
-# y_test = Testfiles[:, 0: num_para]
-#
-# print(x_train.shape, 'train sequences')
-# print(x_test.shape, 'test sequences')
-# print(y_train.shape, 'train sequences')
-# print(y_test.shape, 'test sequences')
 
 ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
 
-# ----------------------------------------------------------------------------
+
+import GPy
+
+# ----------------------------- TT ------------------------------------
+
+
+ClID = ['TT', 'EE', 'BB', 'TE'][0]
+
 
 normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 
 print('-------normalization factor:', normFactor)
 print('-------rescaling factor:', meanFactor)
-
-# x_train = x_train - meanFactor  # / 255.
-# x_test = x_test - meanFactor  # / 255.
-#
-# x_train = x_train.astype('float32') / normFactor  # / 255.
-# x_test = x_test.astype('float32') / normFactor  # / 255.
-#
-# x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-# x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
-
-# ------------------------------------------------------------------------------
-
-
-
-
-
-
-
-################# ARCHITECTURE ###############################
-
-# kernel = Matern32Kernel([1000, 4000, 3000, 1000, 2000], ndim=num_para)
-
-# # # ------------------------------------------------------------------------------
-# encoded_xtrain = np.loadtxt(
-#     DataDir + 'encoded_xtrainP' + str(num_para) + ClID + '_' + fileOut + '.txt').T
-# encoded_xtest_original = np.loadtxt(
-#     DataDir + 'encoded_xtestP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-#
-
-# ------------------------------------------------------------------------------
-### Using pre-trained GPy model #######################
-
-import GPy
 
 
 GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
@@ -197,17 +196,8 @@ def GPyfit(para_array):
 
     # -------------- Predict latent space ----------------------------------------
 
-    # W_pred = np.array([np.zeros(shape=latent_dim)])
-    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
-
     m1p = m1.predict(test_pts)  # [0] is the mean and [1] the predictive
     W_pred = m1p[0]
-    # W_varArray = m1p[1]
-
-
-    # for j in range(latent_dim):
-    #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
-    #                                                                             test_pts)
 
     # -------------- Decode from latent space --------------------------------------
 
@@ -217,16 +207,16 @@ def GPyfit(para_array):
 
 
 
+# ----------------------------- EE ------------------------------------
 
-
-
-
-
+ClID = ['TT', 'EE', 'BB', 'TE'][1]
 
 
 normFactor2 = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 meanFactor2 = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 
+print('-------normalization factor:', normFactor2)
+print('-------rescaling factor:', meanFactor2)
 
 
 GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
@@ -241,19 +231,9 @@ def GPyfit2(para_array):
 
     test_pts = para_array.reshape(num_para, -1).T
 
-    # -------------- Predict latent space ----------------------------------------
-
-    # W_pred = np.array([np.zeros(shape=latent_dim)])
-    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
 
     m2p = m2.predict(test_pts)  # [0] is the mean and [1] the predictive
     W_pred = m2p[0]
-    # W_varArray = m1p[1]
-
-
-    # for j in range(latent_dim):
-    #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
-    #                                                                             test_pts)
 
     # -------------- Decode from latent space --------------------------------------
 
@@ -263,25 +243,41 @@ def GPyfit2(para_array):
 
 
 
+# ----------------------------- TE ------------------------------------
+
+ClID = ['TT', 'EE', 'BB', 'TE'][3]
+
+
+normFactor3 = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+meanFactor3 = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+
+print('-------normalization factor:', normFactor2)
+print('-------rescaling factor:', meanFactor2)
+
+
+GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
+m3 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
+
+
+decoderFile = ModelDir + 'DecoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5'
+decoder3 = load_model(decoderFile)
+
+
+def GPyfit3(para_array):
+
+    test_pts = para_array.reshape(num_para, -1).T
+
+
+    m3p = m3.predict(test_pts)  # [0] is the mean and [1] the predictive
+    W_pred = m3p[0]
+
+    # -------------- Decode from latent space --------------------------------------
+
+    x_decoded = decoder3.predict(W_pred.reshape(latent_dim, -1).T )
+
+    return (normFactor3 * x_decoded[0]) + meanFactor3
+
 ######### ---------------------------------------------------------------------------
-
-
-# x_id = 20
-
-# x_decodedGPy = GPyfit(y_test[x_id])
-# computedGP = GPcompute(rescaledTrainParams, latent_dim)
-# x_decoded = GPfit(computedGP, y_test[x_id])
-
-# x_camb = (normFactor * x_test[x_id]) + meanFactor
-
-
-# plt.figure(1423)
-#
-# # plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
-# plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy')
-# plt.plot(x_camb, alpha = 0.3 , label = 'camb')
-# plt.legend()
-# plt.show()
 
 
 ########################################################################################################################
@@ -372,6 +368,10 @@ yerr2 = emax2[l2 < ls.max()]
 
 
 
+x3 = l3[l3 < ls.max()]
+y3 = Cl3[l3 < ls.max()]
+yerr3 = emax3[l3 < ls.max()]
+
 
 ## Sample implementation :
 # http://eso-python.github.io/ESOPythonTutorials/ESOPythonDemoDay8_MCMC_with_emcee.html
@@ -422,13 +422,28 @@ def lnlike2(theta, x, y, yerr):
 
 
 
+def lnlike3(theta, x, y, yerr):
+    p1, p2, p3, p4, p5 = theta
+
+    new_params = np.array([p1, p2, p3, p4, p5])
+
+    model = GPyfit3(new_params)# Using GPy -- using trained model
 
 
-def lnprob(theta, x, y, yerr, x2, y2, yerr2):
+    mask = np.in1d(ls, x)
+    model_mask = model[mask]
+
+    # return -0.5 * (np.sum(((y - model) / yerr) ** 2.))
+    return -0.5 * (np.sum(((y - model_mask) / yerr) ** 2.))
+
+
+
+def lnprob(theta, x, y, yerr, x2, y2, yerr2, x3, y3, yerr3):
     lp = lnprior(theta)
     if not np.isfinite(lp):
         return -np.inf
-    return lp + lnlike(theta, x, y, yerr) + lnlike2(theta, x2, y2, yerr2)
+    return lp + lnlike(theta, x, y, yerr) + lnlike2(theta, x2, y2, yerr2) + lnlike3(theta, x3,
+                                                                                      y3, yerr3)
 
 
 
@@ -437,7 +452,8 @@ def lnprob(theta, x, y, yerr, x2, y2, yerr2):
 # Let us setup the emcee Ensemble Sampler
 # It is very simple: just one, self-explanatory line
 
-sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr, x2, y2, yerr2))
+sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args=(x, y, yerr, x2, y2, yerr2, x3, y3,
+                                                              yerr3))
 
 ###### BURIN-IN #################
 
@@ -464,13 +480,13 @@ samples_plot = sampler.chain[:, :, :].reshape((-1, ndim))
 
 
 
-np.savetxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+np.savetxt(DataDir + 'Sampler_mcmcSPT_ndim' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
     nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt', sampler.chain[:, :, :].reshape((-1, ndim)))
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
 
-samples_plot  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
+samples_plot  = np.loadtxt(DataDir + 'Sampler_mcmcSPT_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
                          '_run' + str(nrun)  + ClID + '_' + fileOut + allfiles[fileID][:-4] +'.txt')
 
 # samples = np.exp(samples)
@@ -482,7 +498,7 @@ print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0
 
 CornerPlot = False
 if CornerPlot:
-
+    #
     fig = corner.corner(samples_plot, labels=[param1[0], param2[0], param3[0], param4[0], param5[0]],
                         range=[[param1[2],param1[3]], [param2[2], param2[3]], [param3[2],param3[3]],
                         [param4[2],param4[3]], [param5[2],param5[3]]],
@@ -499,7 +515,7 @@ if CornerPlot:
                         figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
-    fig.savefig(PlotsDir + 'Combined_pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    fig.savefig(PlotsDir + 'SPT_pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
         nrun)  + ClID + '_' + fileOut + allfiles[fileID][:-4] +'.pdf')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
@@ -557,28 +573,42 @@ if ConvergePlot:
 y_mcmc = np.array([ p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0]] )
 x_decodedGPy = GPyfit(y_mcmc)
 x_decodedGPy2 = GPyfit2(y_mcmc)
+x_decodedGPy3 = GPyfit3(y_mcmc)
 
 
 
-plt.figure(32534, figsize=(14, 6))
+plt.figure(32534, figsize=(8, 10))
 from matplotlib import gridspec
 
-gs = gridspec.GridSpec(2, 1, height_ratios=[1,1])
+gs = gridspec.GridSpec(3, 1, height_ratios=[1,1,1])
 gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
 
 
 ax0 = plt.subplot(gs[0])
-ax0.errorbar(l, Cl, yerr = [emin, emax], ecolor = 'k', alpha = 0.05)
-ax0.plot(ls, x_decodedGPy, 'b--')
+ax0.errorbar(l, Cl, yerr = [emin, emax], fmt='o', ms=2, ecolor = 'r', elinewidth=0.8, alpha = 0.9)
+ax0.plot(ls, x_decodedGPy, 'k--', alpha = 0.3)
 
-ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
+ax0.set_ylabel(r'$l(l+1)C_l^{TT}/2\pi [\mu K^2]$')
 ax0.set_xlabel(r'$l$')
 
 
 ax1 = plt.subplot(gs[1])
-ax1.errorbar(l2, Cl2, yerr = [emin2, emax2], ecolor = 'k', alpha = 0.05)
-ax1.plot(ls, x_decodedGPy2, 'b--')
+ax1.errorbar(l2, Cl2, yerr = [emin2, emax2], fmt='o', ms=2, ecolor = 'r', elinewidth=0.8,
+             alpha = 0.9)
+ax1.plot(ls, x_decodedGPy2, 'k--', alpha = 0.3)
 
-ax1.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
+ax1.set_ylabel(r'$l(l+1)C_l^{EE}/2\pi [\mu K^2]$')
 ax1.set_xlabel(r'$l$')
 
+
+ax2 = plt.subplot(gs[2])
+ax2.errorbar(l3, Cl3, yerr = [emin3, emax3], fmt='o', ms=2, ecolor = 'r', elinewidth=0.8,
+             alpha = 0.9)
+ax2.plot(ls, x_decodedGPy3, 'k--', alpha = 0.3)
+
+ax2.set_ylabel(r'$l(l+1)C_l^{TE}/2\pi [\mu K^2]$')
+ax2.set_xlabel(r'$l$')
+
+ax0.set_xlim(0, 2500)
+ax1.set_xlim(0, 2500)
+ax2.set_xlim(0, 2500)
