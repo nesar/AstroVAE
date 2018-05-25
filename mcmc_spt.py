@@ -20,9 +20,9 @@ import pygtc
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 700  # 500
+nwalkers = 800  # 500
 nrun_burn = 50  # 300
-nrun = 200 # 700
+nrun = 400 # 700
 fileID = 1
 
 
@@ -505,10 +505,6 @@ if CornerPlot:
                         truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
                         show_titles=True,  title_args={"fontsize": 10})
 
-    #
-    # fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
-    #     nrun) + ClID + '_'  + fileOut +allfiles[fileID][:-4] + '.pdf')
-
 
     fig = pygtc.plotGTC(samples_plot, paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
                         truths=[param1[1], param2[1], param3[1], param4[1], param5[1]],
@@ -517,6 +513,26 @@ if CornerPlot:
 
     fig.savefig(PlotsDir + 'SPT_pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
         nrun)  + ClID + '_' + fileOut + allfiles[fileID][:-4] +'.pdf')
+
+
+
+CornerCompare = False
+
+if CornerCompare:
+    ndim = 5
+    nwalkers = 600  # 500
+    nrun_burn = 50  # 300
+    nrun = 300  # 700
+    ClID = 'TT'
+
+    samples_plotSPT = np.loadtxt(
+        DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
+        '_run' + str(nrun) + ClID + '_' + fileOut + allfiles[fileID][:-4] + '.txt')
+
+    fig = pygtc.plotGTC(chains=[samples_plot, samples_plotSPT], paramNames=[param1[0], param2[0], param3[0], param4[0], param5[0]],
+                        colorsOrder=('reds', 'blues'), chainLabels=["SPT TT+EE+TE", "SPT TT"],
+                        figureSize='MNRAS_page')  # , plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
+
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 #
@@ -575,9 +591,16 @@ x_decodedGPy = GPyfit(y_mcmc)
 x_decodedGPy2 = GPyfit2(y_mcmc)
 x_decodedGPy3 = GPyfit3(y_mcmc)
 
+yPLANCK2015 = np.array([param1[1], param2[1], param3[1], param4[1], param5[1]])
+x_decodedGPy2015 = GPyfit(yPLANCK2015)
+x_decodedGPy2015_2 = GPyfit2(yPLANCK2015)
+x_decodedGPy2015_3 = GPyfit3(yPLANCK2015)
 
 
-plt.figure(32534, figsize=(8, 10))
+
+
+
+plt.figure(32534, figsize=(6, 9))
 from matplotlib import gridspec
 
 gs = gridspec.GridSpec(3, 1, height_ratios=[1,1,1])
@@ -585,26 +608,34 @@ gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
 
 
 ax0 = plt.subplot(gs[0])
-ax0.errorbar(l, Cl, yerr = [emin, emax], fmt='o', ms=2, ecolor = 'r', elinewidth=0.8, alpha = 0.9)
-ax0.plot(ls, x_decodedGPy, 'k--', alpha = 0.3)
+ax0.errorbar(l, Cl, yerr = [emin, emax], fmt='o', mec = 'k', ms=2, ecolor = 'k', elinewidth=0.8,
+             alpha = 0.8, label = 'SPTpol data')
+ax0.plot(ls, x_decodedGPy, 'r--', alpha = 0.7, label = 'Best estimate')
+ax0.plot(ls, x_decodedGPy2015, 'b--', alpha = 0.7, label = 'PLANCK estimate')
+
 
 ax0.set_ylabel(r'$l(l+1)C_l^{TT}/2\pi [\mu K^2]$')
 ax0.set_xlabel(r'$l$')
 
 
 ax1 = plt.subplot(gs[1])
-ax1.errorbar(l2, Cl2, yerr = [emin2, emax2], fmt='o', ms=2, ecolor = 'r', elinewidth=0.8,
-             alpha = 0.9)
-ax1.plot(ls, x_decodedGPy2, 'k--', alpha = 0.3)
+ax1.errorbar(l2, Cl2, yerr = [emin2, emax2], fmt='o', mec = 'k', ms=2, ecolor = 'k', elinewidth=0.8,
+             alpha = 0.99, label = 'SPTpol data')
+ax1.plot(ls, x_decodedGPy2, 'r--', alpha = 0.7, label = 'Best estimate')
+ax1.plot(ls, x_decodedGPy2015_2, 'b--', alpha = 0.7, label = 'PLANCK estimate')
+
 
 ax1.set_ylabel(r'$l(l+1)C_l^{EE}/2\pi [\mu K^2]$')
 ax1.set_xlabel(r'$l$')
 
 
 ax2 = plt.subplot(gs[2])
-ax2.errorbar(l3, Cl3, yerr = [emin3, emax3], fmt='o', ms=2, ecolor = 'r', elinewidth=0.8,
-             alpha = 0.9)
-ax2.plot(ls, x_decodedGPy3, 'k--', alpha = 0.3)
+ax2.errorbar(l3, Cl3, yerr = [emin3, emax3], fmt='o', mec = 'k', ms=2, ecolor = 'k', elinewidth=0.8,
+             alpha = 0.99, label = 'SPTpol data')
+ax2.plot(ls, x_decodedGPy3, 'r--', alpha = 0.7, label = 'Best estimate')
+ax2.plot(ls, x_decodedGPy2015_3, 'b--', alpha = 0.7, label = 'PLANCK estimate')
+
+
 
 ax2.set_ylabel(r'$l(l+1)C_l^{TE}/2\pi [\mu K^2]$')
 ax2.set_xlabel(r'$l$')
@@ -612,3 +643,9 @@ ax2.set_xlabel(r'$l$')
 ax0.set_xlim(0, 2500)
 ax1.set_xlim(0, 2500)
 ax2.set_xlim(0, 2500)
+
+ax0.legend(title = 'TT')
+ax1.legend(title = 'EE')
+ax2.legend(title = 'TE')
+
+plt.savefig(PlotsDir + 'SPT_TT_EE_TE_BestFit.pdf')

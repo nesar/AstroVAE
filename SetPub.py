@@ -27,7 +27,7 @@ def set_pub():
     
     plt.rc('xtick', labelsize='x-large')
     plt.rc('ytick', labelsize='x-large')
-    plt.rc('axes',labelsize= 30)
+    plt.rc('axes',labelsize= 10)
     
     plt.rcParams['xtick.major.size'] = 12
     plt.rcParams['xtick.major.width'] = 1.5
