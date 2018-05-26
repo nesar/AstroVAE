@@ -5,7 +5,7 @@ from camb import model, initialpower
 
 import time
 time0 = time.time()
-
+import matplotlib.pylab as plt
 """
 first 2 outputs from CAMB - totCL and unlensed CL both are 0's. 
 CAMBFast maybe better?
@@ -21,42 +21,45 @@ lmax = 2500
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 
-# print(para5)
-
-#
-#Set up a new set of parameters for CAMB
-#
-# Get CMB power spectra, as requested by the spectra argument. All power spectra are l(l+1)C_l/2pi
-# self owned numpy arrays (0..lmax, 0..3), where 0..3 index are TT, EE, BB TT,
-# unless raw_cl is True in which case return just C_l.
-# For the lens_potential the power spectrum returned is that of the deflection.
-
-#----------- for sigma_8---------------
-
 #Now get matter power spectra and sigma8 at redshift 0 and 0.8
-# pars = camb.CAMBparams()
-# pars.set_cosmology(H0=67.5, ombh2=0.022, omch2=0.122)
-# pars.set_dark_energy() #re-set defaults
-# pars.InitPower.set_params(ns=0.965)
+pars = camb.CAMBparams()
+pars.set_cosmology(H0=67.5, ombh2=0.022, omch2=0.122)
+pars.set_dark_energy() #re-set defaults
+pars.InitPower.set_params(ns=0.965)
 #Not non-linear corrections couples to smaller scales than you want
-# pars.set_matter_power(redshifts=[0.], kmax=2.0)
-#
+pars.set_matter_power(redshifts=[0., 0.8], kmax=2.0)
+
 #Linear spectra
-# pars.NonLinear = model.NonLinear_none
-# results = camb.get_results(pars)
-# kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints = 200)
-# s8 = np.array(results.get_sigma8())
-#
-# #Non-Linear spectra (Halofit)
-# pars.NonLinear = model.NonLinear_both
-# results.calc_power_spectra(pars)
-# kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints = 200)
-#
-# print(results.get_sigma8())
+pars.NonLinear = model.NonLinear_none
+results = camb.get_results(pars)
+kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints = 200)
+s8 = np.array(results.get_sigma8())
+
+#Non-Linear spectra (Halofit)
+pars.NonLinear = model.NonLinear_both
+results.calc_power_spectra(pars)
+kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints = 200)
 
 
-# AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{
-# h}$', r'$\tilde{n}_s$']
+
+
+
+for i, (redshift, line) in enumerate(zip(z,['-','--'])):
+    plt.loglog(kh, pk[i,:], color='k', ls = line)
+    plt.loglog(kh_nonlin, pk_nonlin[i,:], color='r', ls = line)
+plt.xlabel('k/h Mpc');
+plt.legend(['linear','non-linear'], loc='lower left');
+plt.title('Matter power at z=%s and z= %s'%tuple(z));
+
+
+
+
+
+
+
+
+
+
 
 
 #---------------------------------------
