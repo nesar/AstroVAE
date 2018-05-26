@@ -66,7 +66,7 @@ para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 
 
 #---------------------------------------
-# AllTT = np.zeros(shape=(totalFiles, numpara + ndim) ) # TT
+AllPk = np.zeros(shape=(totalFiles, numpara + ndim) ) # TT
 # AllEE = np.zeros(shape=(totalFiles, numpara + ndim) ) #
 # AllBB = np.zeros(shape=(totalFiles, numpara + ndim) )
 # AllTE = np.zeros(shape=(totalFiles, numpara + ndim) ) # Check if this is actually TE -- negative
@@ -133,7 +133,7 @@ for i in range(totalFiles):
     # totCL = powers['total']*r
     # unlensedCL = powers['unlensed_scalar']*r
     #
-    # AllTT[i] = np.hstack([para5[i], totCL[:,0] ])
+    AllPk[i] = np.hstack([para5[i],  pk_nonlin[i, :]*r])
     # AllEE[i] = np.hstack([para5[i], totCL[:,1] ])
     # AllBB[i] = np.hstack([para5[i], totCL[:,2] ])
     # AllTE[i] = np.hstack([para5[i], totCL[:,3] ])
@@ -142,12 +142,12 @@ for i in range(totalFiles):
     # np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
     # np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 
-# ls = np.arange(totCL.shape[0])
+# kh = np.arange(kh)
 #
 # # np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
-# np.savetxt('../Cl_data/Data/P5ls_'+str(totalFiles)+'.txt', ls)
+np.savetxt('../Cl_data/Data/P5kh_'+str(totalFiles)+'.txt', kh)
 #
-# np.savetxt('../Cl_data/Data/P5TTCl_'+str(totalFiles)+'.txt', AllTT)
+np.savetxt('../Cl_data/Data/P5PkCl_'+str(totalFiles)+'.txt', AllPk)
 # np.savetxt('../Cl_data/Data/P5EECl_'+str(totalFiles)+'.txt', AllEE)
 # np.savetxt('../Cl_data/Data/P5BBCl_'+str(totalFiles)+'.txt', AllBB)
 # np.savetxt('../Cl_data/Data/P5TECl_'+str(totalFiles)+'.txt', AllTE)
