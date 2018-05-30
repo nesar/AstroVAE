@@ -16,7 +16,7 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 
 numpara = 5
 ndim = 256
-totalFiles =  256
+totalFiles =  8
 # lmax = 2500
 z_range = [0.,]
 
@@ -147,10 +147,10 @@ for i in range(totalFiles):
 # kh = np.arange(kh)
 #
 # # np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
-np.savetxt('../Cl_data/Data/P5kh_'+str(totalFiles)+'.txt', kh)
+np.savetxt('../Pk_data/Data/P5kh_'+str(totalFiles)+'.txt', kh)
 #
-np.savetxt('../Cl_data/Data/P5PkLCl_'+str(totalFiles)+'.txt', AllPkL)
-np.savetxt('../Cl_data/Data/P5PkNLCl_'+str(totalFiles)+'.txt', AllPkNL)
+np.savetxt('../Pk_data/Data/P5PkL_'+str(totalFiles)+'.txt', AllPkL)
+np.savetxt('../Pk_data/Data/P5PkNL_'+str(totalFiles)+'.txt', AllPkNL)
 # np.savetxt('../Cl_data/Data/P5EECl_'+str(totalFiles)+'.txt', AllEE)
 # np.savetxt('../Cl_data/Data/P5BBCl_'+str(totalFiles)+'.txt', AllBB)
 # np.savetxt('../Cl_data/Data/P5TECl_'+str(totalFiles)+'.txt', AllTE)

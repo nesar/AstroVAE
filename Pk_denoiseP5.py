@@ -17,7 +17,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import keras.backend as K
 
-import params
+import paramsPk as params
 # import Cl_load
 # import SetPub
 # SetPub.set_pub()
@@ -66,11 +66,11 @@ fileOut = params.fileOut
 
 # ----------------------------- i/o ------------------------------------------
 
-Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'_'+str(num_test)+'.txt')
 
-x_train = Trainfiles[:, num_para+2:]
-x_test = Testfiles[:, num_para+2:]
+x_train = Trainfiles[:, num_para:]
+x_test = Testfiles[:, num_para:]
 y_train = Trainfiles[:, 0: num_para]
 y_test =  Testfiles[:, 0: num_para]
 
@@ -79,7 +79,7 @@ print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+ls = np.loadtxt(DataDir+'P'+str(num_para)+'kh_'+str(num_train)+'.txt')[:]
 
 #----------------------------------------------------------------------------
 
@@ -290,7 +290,7 @@ if PlotScatter:
 
 PlotSample = True
 if PlotSample:
-    for i in range(10):
+    for i in range(8):
         plt.figure(91, figsize=(8,6))
         # plt.plot(ls, 10**(normFactor*x_train_decoded[i])/10**(normFactor*x_train[i]), 'r-', alpha = 0.8)
         # plt.plot(ls, 10**(normFactor*x_test_decoded[i])/10**(normFactor*x_test[i]), 'k-', alpha = 0.8)
@@ -298,7 +298,7 @@ if PlotSample:
         plt.plot(ls, x_train_decoded[i]/x_train[i], 'r-', alpha = 0.8)
         plt.plot(ls, x_test_decoded[i]/x_test[i], 'k-', alpha = 0.8)
 
-        plt.ylim(0.85, 1.15)
+        # plt.ylim(0.85, 1.15)
 
         # plt.xscale('log')
         # plt.yscale('log')
