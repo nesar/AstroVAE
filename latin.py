@@ -22,7 +22,7 @@ SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 8
+totalFiles = 256
 
 # OmegaM = np.linspace(0.12, 0.155, totalFiles)
 # Omegab = np.linspace(0.0215, 0.0235, totalFiles)
@@ -65,7 +65,7 @@ for i in range(5):
         # a[i,j].set_xlabel(AllLabels[i])
         # a[i,j].set_ylabel(AllLabels[j])
         if(i!=j):
-            a[i, j].scatter(lhd[:, i], lhd[:, j], s=20)
+            a[i, j].scatter(lhd[:, i], lhd[:, j], s=5)
             a[i, j].grid(True)
         else:
             # a[i,i].set_title(AllLabels[i])
@@ -79,7 +79,7 @@ for i in range(5):
             # n, bins, patches = a[i,i].hist(lhd[:,i], bins = 'auto', facecolor='b', alpha=0.25)
             # a[i, i].plot(lhd[:, i], 'go')
 
-#plt.savefig('LatinSq.png', figsize=(10, 10))
+plt.savefig('../Cl_data/Plots/LatinSq.png', figsize=(10, 10))
 plt.show()
 idx = (lhd * totalFiles).astype(int)
 
@@ -87,7 +87,8 @@ AllCombinations = np.zeros((totalFiles, 5))
 for i in range(5):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
-np.savetxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)
+# np.savetxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   #### no
+# saving files because the its random everytime
 
 print(AllCombinations)
 

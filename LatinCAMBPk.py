@@ -15,8 +15,8 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 """
 
 numpara = 5
-ndim = 512
-totalFiles =  8
+ndim = 256
+totalFiles =  256
 # lmax = 2500
 z_range = [0.,]
 
@@ -66,7 +66,8 @@ para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 
 
 #---------------------------------------
-AllPk = np.zeros(shape=(totalFiles, numpara + ndim) ) # TT
+AllPkL = np.zeros(shape=(totalFiles, numpara + ndim) ) # linear
+AllPkNL = np.zeros(shape=(totalFiles, numpara + ndim) ) # nonlinear
 # AllEE = np.zeros(shape=(totalFiles, numpara + ndim) ) #
 # AllBB = np.zeros(shape=(totalFiles, numpara + ndim) )
 # AllTE = np.zeros(shape=(totalFiles, numpara + ndim) ) # Check if this is actually TE -- negative
@@ -114,9 +115,9 @@ for i in range(totalFiles):
     # r = 1
     # #---------------------------------------------------
 
-    for i, (redshift, line) in enumerate(zip(z, ['-', '--'])):
-        plt.loglog(kh, pk[i, :]*r, color='k', ls=line)
-        plt.loglog(kh_nonlin, pk_nonlin[i, :]*r, color='r', ls=line)
+    for j, (redshift, line) in enumerate(zip(z, ['-', '--'])):
+        plt.loglog(kh, pk[j, :]*r, color='k', ls=line)
+        plt.loglog(kh_nonlin, pk_nonlin[j, :]*r, color='r', ls=line)
     plt.xlabel('k/h Mpc');
     plt.legend(['linear', 'non-linear'], loc='lower left');
     # plt.title('Matter power at z=%s and z= %s' % tuple(z));
@@ -133,7 +134,8 @@ for i in range(totalFiles):
     # totCL = powers['total']*r
     # unlensedCL = powers['unlensed_scalar']*r
     #
-    AllPk[i] = np.hstack([para5[i],  pk_nonlin[i, :]*r])
+    AllPkL[i] = np.hstack([para5[i],  pk_nonlin[0]*r])
+    AllPkNL[i] = np.hstack([para5[i],  pk_nonlin[0]*r])
     # AllEE[i] = np.hstack([para5[i], totCL[:,1] ])
     # AllBB[i] = np.hstack([para5[i], totCL[:,2] ])
     # AllTE[i] = np.hstack([para5[i], totCL[:,3] ])
@@ -147,7 +149,8 @@ for i in range(totalFiles):
 # # np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
 np.savetxt('../Cl_data/Data/P5kh_'+str(totalFiles)+'.txt', kh)
 #
-np.savetxt('../Cl_data/Data/P5PkCl_'+str(totalFiles)+'.txt', AllPk)
+np.savetxt('../Cl_data/Data/P5PkLCl_'+str(totalFiles)+'.txt', AllPkL)
+np.savetxt('../Cl_data/Data/P5PkNLCl_'+str(totalFiles)+'.txt', AllPkNL)
 # np.savetxt('../Cl_data/Data/P5EECl_'+str(totalFiles)+'.txt', AllEE)
 # np.savetxt('../Cl_data/Data/P5BBCl_'+str(totalFiles)+'.txt', AllBB)
 # np.savetxt('../Cl_data/Data/P5TECl_'+str(totalFiles)+'.txt', AllTE)
