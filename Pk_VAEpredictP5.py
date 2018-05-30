@@ -249,18 +249,23 @@ from matplotlib import gridspec
 gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
 gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
 ax0 = plt.subplot(gs[0])
+plt.title('Nonlinear matter power spectra from CAMB(blue) and emulator(red)')
+
+
 ax1 = plt.subplot(gs[1])
 
 ax0.set_ylabel(r'$P(k)$')
 # ax0.set_title( r'$\text{' +fileOut + '}$')
-ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='center',
-         transform = ax0.transAxes, fontsize = 20)
+
+
+# ax0.text(0.95, 0.95,ClID, horizontalalignment='center', verticalalignment='center',
+#          transform = ax0.transAxes, fontsize = 20)
 
 
 
 ax1.axhline(y= 0, ls='dotted')
-ax1.axhline(y=.01, ls='dashed')
-ax1.axhline(y=-0.01, ls='dashed')
+# ax1.axhline(y=.01, ls='dashed')
+# ax1.axhline(y=-0.01, ls='dashed')
 # ax1.set_ylim(0.976, 1.024)
 # ax1.set_yscale('log')
 ax1.set_xscale('log')
@@ -270,7 +275,7 @@ ax0.set_yscale('log')
 ax0.set_xscale('log')
 
 
-ax1.set_xlabel(r'$k/h$')
+ax1.set_xlabel(r'$k/h Mpc$')
 ax1.set_ylabel(r'$P(k)^{emu}$/$P(k)^{camb} - 1$')
 if (ClID == 'TE'): ax1.set_ylabel(r'$P(k)^{emu}$ - $P(k)^{camb}$')
 
@@ -397,7 +402,7 @@ if PlotRatio:
             #     relError) > ErrTh], 'gx', alpha=0.7, label= 'Err >'+str(ErrTh), markersize = '1')
 
 
-            ax1.plot(ls, relError, 'k-', lw = 0.25, label = 'emu/camb', alpha = 0.5)
+            ax1.plot(ls, relError, 'k-', lw = 0.5, label = 'emu/camb', alpha = 0.9)
 
             # plt.savefig(PlotsDir + 'TestGridP'+str(num_para)+''+fileOut+'.png')
 
