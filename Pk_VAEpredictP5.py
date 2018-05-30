@@ -275,7 +275,7 @@ ax0.set_yscale('log')
 ax0.set_xscale('log')
 
 
-ax1.set_xlabel(r'$k/h Mpc$')
+ax1.set_xlabel(r'k Mpc/h')
 ax1.set_ylabel(r'$P(k)^{emu}$/$P(k)^{camb} - 1$')
 if (ClID == 'TE'): ax1.set_ylabel(r'$P(k)^{emu}$ - $P(k)^{camb}$')
 
