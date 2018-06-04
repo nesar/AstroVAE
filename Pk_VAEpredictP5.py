@@ -54,6 +54,8 @@ decay_rate = params.decay_rate # 0.0
 
 noise_factor = params.noise_factor # 0.00
 
+yscale = 'lin'
+
 ######################## I/O ##################################
 
 DataDir = params.DataDir
@@ -82,6 +84,12 @@ print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
 ls = np.loadtxt( DataDir + 'P'+str(num_para)+'kh_'+str(num_train)+'.txt')[:]
+
+
+if (yscale == 'log'):
+    ls = np.log10(ls)
+    x_train = np.log10(x_train)
+    x_test = np.log10(x_test)
 
 #----------------------------------------------------------------------------
 
@@ -267,12 +275,12 @@ ax1.axhline(y= 0, ls='dotted')
 # ax1.axhline(y=.01, ls='dashed')
 # ax1.axhline(y=-0.01, ls='dashed')
 # ax1.set_ylim(0.976, 1.024)
-# ax1.set_yscale('log')
-ax1.set_xscale('log')
 
 
-ax0.set_yscale('log')
-ax0.set_xscale('log')
+if (yscale != 'log'):
+    ax1.set_xscale('log')
+    ax0.set_yscale('log')
+    ax0.set_xscale('log')
 
 
 ax1.set_xlabel(r'k Mpc/h')
@@ -388,8 +396,14 @@ if PlotRatio:
             relError = ((cl_ratio) - 1)
 
 
-            if (ClID == 'TE'):   # Absolute error instead (since TE gets crosses 0
-                relError = ((normFactor * x_decoded[0]) + meanFactor - Cl_Original[i] )
+            if (yscale == 'log'):   # Absolute error instead (since TE gets crosses 0
+
+                cl_ratio = ( 10** ( (normFactor * x_decoded[0]) + meanFactor) )  / (
+                10**Cl_Original[i])
+
+                relError = ((cl_ratio) - 1)
+
+
 
 
             # cl_ratio = 2.*(((normFactor * x_decoded[0])+meanFactor) - Cl_Original[i])/\
@@ -591,13 +605,17 @@ if PlotScatter:
     axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
 
 
-    # df = pd.DataFrame(encoded_test_original, columns=AllLabels)
-    # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
-    # df = pd.DataFrame(  W_predArray, columns=AllLabels)
+    #
+    # inputArray = np.hstack([y_test, encoded_xtest_original])
+    #
+    # df = pd.DataFrame(inputArray, columns=AllLabels)
+    #
+    # # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'b')
+    # # df = pd.DataFrame(  W_predArray, columns=AllLabels)
     # axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2, color = 'k')
-    #plt.show()
-
-
+    # plt.show()
+    #
+    #
 
 
 
