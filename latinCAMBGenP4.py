@@ -2,6 +2,7 @@ import numpy as np
 import camb
 import itertools
 from camb import model, initialpower
+import matplotlib.pylab as plt
 
 import time
 time0 = time.time()
@@ -16,12 +17,43 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 
 numpara = 5
 ndim = 2551
-totalFiles =  16
+totalFiles =  8
 lmax = 2500
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 
 # print(para5)
+
+f, a = plt.subplots(5, 5, sharex=True, sharey=True)
+plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=None)
+plt.rcParams.update({'font.size': 8})
+
+
+AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
+             r'$\tilde{n}_s$']
+
+for i in range(5):
+    for j in range(i+1):
+        print(i,j)
+        # a[i,j].set_xlabel(AllLabels[i])
+        # a[i,j].set_ylabel(AllLabels[j])
+        if(i!=j):
+            a[i, j].scatter(para5[:, i], para5[:, j], s=10)
+            a[i, j].grid(True)
+        else:
+            # a[i,i].set_title(AllLabels[i])
+            a[i, i].text(0.4, 0.4, AllLabels[i], size = 'xx-large')
+            hist, bin_edges = np.histogram(para5[:,i], density=True, bins=64)
+            # a[i,i].bar(hist)
+            a[i,i].bar(bin_edges[:-1], hist/hist.max(), width=0.2)
+            # plt.xlim(0,1)
+            # plt.ylim(0,1)
+
+            # n, bins, patches = a[i,i].hist(lhd[:,i], bins = 'auto', facecolor='b', alpha=0.25)
+            # a[i, i].plot(lhd[:, i], 'go')
+
+#plt.savefig('LatinSq.png', figsize=(10, 10))
+plt.show()
 
 #
 #Set up a new set of parameters for CAMB
