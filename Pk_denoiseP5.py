@@ -34,7 +34,7 @@ K.set_floatx('float32')
 
 original_dim = params.original_dim # 2549
 #intermediate_dim3 = params.intermediate_dim3 # 1600
-# intermediate_dim2 = params.intermediate_dim2 # 1024
+intermediate_dim2 = params.intermediate_dim2 # 1024
 intermediate_dim1 = params.intermediate_dim1 # 512
 intermediate_dim0 = params.intermediate_dim0 # 256
 intermediate_dim = params.intermediate_dim # 256
@@ -144,8 +144,8 @@ x_train = K.cast_to_floatx(x_train)
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
 #h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
-# h_q2 = Dense(intermediate_dim2, activation='relu')(inputs) # ADDED intermediate layer
-h_q1 = Dense(intermediate_dim1, activation='relu')(inputs) # ADDED intermediate layer
+h_q2 = Dense(intermediate_dim2, activation='relu')(inputs) # ADDED intermediate layer
+h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
 h_q0 = Dense(intermediate_dim0, activation='relu')(h_q1) # ADDED intermediate layer
 h_q = Dense(intermediate_dim, activation='relu')(h_q0)
 mu = Dense(latent_dim, activation='linear')(h_q)
@@ -169,7 +169,7 @@ decoder_hidden = Dense(latent_dim, activation='relu')
 decoder_hidden0 = Dense(intermediate_dim, activation='relu') # ADDED intermediate layer
 decoder_hidden1 = Dense(intermediate_dim0, activation='relu') # ADDED intermediate layer
 decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
-# decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
+decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
 #decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
 decoder_out = Dense(original_dim, activation='sigmoid')
 
@@ -177,9 +177,9 @@ h_p0 = decoder_hidden(z)
 h_p1 = decoder_hidden0(h_p0) # ADDED intermediate layer
 h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
 h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
-# h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
+h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
 #h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
-outputs = decoder_out(h_p3)
+outputs = decoder_out(h_p4)
 
 # ----------------------------------------------------------------------------
 
@@ -206,22 +206,65 @@ _h_decoded = decoder_hidden(decoder_input)
 _h0_decoded = decoder_hidden0(_h_decoded)    ## ADDED layer_1
 _h1_decoded = decoder_hidden1(_h0_decoded)    ## ADDED layer_1
 _h2_decoded = decoder_hidden2(_h1_decoded)    ## ADDED ---
-# _h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
+_h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
 #_h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h2_decoded)
+_x_decoded_mean = decoder_out(_h3_decoded)
 decoder = Model(decoder_input, _x_decoded_mean)
 
 
 # -------------------------------------------------------------
 #CUSTOM LOSS
 
+
+from keras import backend as K
+
+
+def weighted_categorical_crossentropy(weights):
+    """
+    A weighted version of keras.objectives.categorical_crossentropy
+
+    Variables:
+        weights: numpy array of shape (C,) where C is the number of classes
+
+    Usage:
+        weights = np.array([0.5,2,10]) # Class one at 0.5, class 2 twice the normal weights, class 3 10x.
+        loss = weighted_categorical_crossentropy(weights)
+        model.compile(loss=loss,optimizer='adam')
+    """
+
+    weights = K.variable(weights)
+
+    def loss(y_true, y_pred):
+        # scale predictions so that the class probas of each sample sum to 1
+        y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+        # clip to prevent NaN's and Inf's
+        y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
+        # calc
+        loss = y_true * K.log(y_pred) * weights
+        loss = -K.sum(loss, -1)
+        return loss
+
+    return loss
+
+
+
+
+
 def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
 
     # E[log P(X|z)]
-    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
     # recon = K.categorical_crossentropy(y_pred, y_true)
     # recon = losses.mean_squared_error(y_pred, y_true)
+
+
+    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)  ## WORKS well
+
+    ## Check for unbalanced training
+
+    # weights = np.ones_like(ls)  # 1 - ls/2
+    # recon = weighted_categorical_crossentropy(weights)(y_true,y_pred)
+
 
     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
     kl = 0.5*K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
