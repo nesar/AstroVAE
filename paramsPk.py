@@ -14,7 +14,7 @@ num_test = 16
 num_para = 5
 
 batch_size = 16
-num_epochs =  75 # 20  #200 # 7500 # 200  #110 #50
+num_epochs =  10000 # 20  #200 # 7500 # 200  #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1e-6#1e-6 ## original = 1.0, smaller the better 1e-4
 learning_rate =  1e-4

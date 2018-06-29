@@ -215,13 +215,56 @@ decoder = Model(decoder_input, _x_decoded_mean)
 # -------------------------------------------------------------
 #CUSTOM LOSS
 
+
+from keras import backend as K
+
+
+def weighted_categorical_crossentropy(weights):
+    """
+    A weighted version of keras.objectives.categorical_crossentropy
+
+    Variables:
+        weights: numpy array of shape (C,) where C is the number of classes
+
+    Usage:
+        weights = np.array([0.5,2,10]) # Class one at 0.5, class 2 twice the normal weights, class 3 10x.
+        loss = weighted_categorical_crossentropy(weights)
+        model.compile(loss=loss,optimizer='adam')
+    """
+
+    weights = K.variable(weights)
+
+    def loss(y_true, y_pred):
+        # scale predictions so that the class probas of each sample sum to 1
+        y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
+        # clip to prevent NaN's and Inf's
+        y_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
+        # calc
+        loss = y_true * K.log(y_pred) * weights
+        loss = -K.sum(loss, -1)
+        return loss
+
+    return loss
+
+
+
+
+
 def vae_loss(y_true, y_pred):
     """ Calculate loss = reconstruction loss + KL loss for each data in minibatch """
 
     # E[log P(X|z)]
-    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
     # recon = K.categorical_crossentropy(y_pred, y_true)
     # recon = losses.mean_squared_error(y_pred, y_true)
+
+
+    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)  ## WORKS well
+
+    ## Check for unbalanced training
+
+    # weights = np.ones_like(ls)  # 1 - ls/2
+    # recon = weighted_categorical_crossentropy(weights)(y_true,y_pred)
+
 
     # D_KL(Q(z|X) || P(z|X)); calculate in closed form as both dist. are Gaussian
     kl = 0.5*K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
