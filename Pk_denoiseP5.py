@@ -6,7 +6,7 @@ Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoenco
 import numpy as np
 
 
-from keras.layers import Input, Dense, Lambda
+from keras.layers import Input, Dense, Lambda, Dropout
 from keras.models import Model
 from keras import optimizers
 from keras import losses
@@ -148,6 +148,7 @@ h_q2 = Dense(intermediate_dim2, activation='relu')(inputs) # ADDED intermediate 
 h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
 h_q0 = Dense(intermediate_dim0, activation='relu')(h_q1) # ADDED intermediate layer
 h_q = Dense(intermediate_dim, activation='relu')(h_q0)
+h_q = Dropout(.01)(h_q)
 mu = Dense(latent_dim, activation='linear')(h_q)
 log_sigma = Dense(latent_dim, activation='linear')(h_q)
 

@@ -16,7 +16,7 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 
 numpara = 5
 ndim = 256
-totalFiles =  16
+totalFiles =  32
 # lmax = 2500
 z_range = [0.,]
 
