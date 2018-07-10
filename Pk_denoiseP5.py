@@ -140,19 +140,19 @@ x_train = K.cast_to_floatx(x_train)
 ################# ARCHITECTURE ###############################
 
 # ----------------------------------------------------------------------------
-
+drop_rate = 0.01
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
 h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
-h_q3 = Dropout(0.5)(h_q3)
+h_q3 = Dropout(drop_rate)(h_q3)
 h_q2 = Dense(intermediate_dim2, activation='relu')(h_q3) # ADDED intermediate layer
-h_q2 = Dropout(0.5)(h_q2)
+h_q2 = Dropout(drop_rate)(h_q2)
 h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
-h_q1 = Dropout(0.5)(h_q1)
+h_q1 = Dropout(drop_rate)(h_q1)
 h_q0 = Dense(intermediate_dim0, activation='relu')(h_q1) # ADDED intermediate layer
-h_q0 = Dropout(0.5)(h_q0)
+h_q0 = Dropout(drop_rate)(h_q0)
 h_q = Dense(intermediate_dim, activation='relu')(h_q0)
-h_q = Dropout(0.5)(h_q)
+h_q = Dropout(drop_rate)(h_q)
 mu = Dense(latent_dim, activation='linear')(h_q)
 log_sigma = Dense(latent_dim, activation='linear')(h_q)
 
@@ -179,17 +179,17 @@ decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermedia
 decoder_out = Dense(original_dim, activation='sigmoid')
 
 h_p0 = decoder_hidden(z)
-h_p0 = Dropout(0.5)(h_p0)
+h_p0 = Dropout(drop_rate)(h_p0)
 h_p1 = decoder_hidden0(h_p0) # ADDED intermediate layer
-h_p1 = Dropout(0.5)(h_p1)
+h_p1 = Dropout(drop_rate)(h_p1)
 h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
-h_p2 = Dropout(0.5)(h_p2)
+h_p2 = Dropout(drop_rate)(h_p2)
 h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
-h_p3 = Dropout(0.5)(h_p3)
+h_p3 = Dropout(drop_rate)(h_p3)
 h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
-h_p4 = Dropout(0.5)(h_p4)
+h_p4 = Dropout(drop_rate)(h_p4)
 h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
-h_p5 = Dropout(0.5)(h_p5) # ADDED intermediate layer
+h_p5 = Dropout(drop_rate)(h_p5) # ADDED intermediate layer
 outputs = decoder_out(h_p5)
 
 # ----------------------------------------------------------------------------
