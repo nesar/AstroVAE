@@ -140,7 +140,7 @@ x_train = K.cast_to_floatx(x_train)
 ################# ARCHITECTURE ###############################
 
 # ----------------------------------------------------------------------------
-drop_rate = 0.01
+drop_rate = 0.02
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
 h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
