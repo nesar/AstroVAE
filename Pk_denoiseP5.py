@@ -33,7 +33,7 @@ K.set_floatx('float32')
 ###################### PARAMETERS ##############################
 
 original_dim = params.original_dim # 2549
-intermediate_dim3 = params.intermediate_dim3 # 1600
+# intermediate_dim3 = params.intermediate_dim3 # 1600
 intermediate_dim2 = params.intermediate_dim2 # 1024
 intermediate_dim1 = params.intermediate_dim1 # 512
 intermediate_dim0 = params.intermediate_dim0 # 256
@@ -140,12 +140,12 @@ x_train = K.cast_to_floatx(x_train)
 ################# ARCHITECTURE ###############################
 
 # ----------------------------------------------------------------------------
-drop_rate = 0.01
+drop_rate = 0.0
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
-h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
-h_q3 = Dropout(drop_rate)(h_q3)
-h_q2 = Dense(intermediate_dim2, activation='relu')(h_q3) # ADDED intermediate layer
+# h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
+# h_q3 = Dropout(drop_rate)(h_q3)
+h_q2 = Dense(intermediate_dim2, activation='relu')(inputs) # ADDED intermediate layer
 h_q2 = Dropout(drop_rate)(h_q2)
 h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
 h_q1 = Dropout(drop_rate)(h_q1)
@@ -175,7 +175,7 @@ decoder_hidden0 = Dense(intermediate_dim, activation='relu') # ADDED intermediat
 decoder_hidden1 = Dense(intermediate_dim0, activation='relu') # ADDED intermediate layer
 decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
 decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
-decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
+# decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
 decoder_out = Dense(original_dim, activation='sigmoid')
 
 h_p0 = decoder_hidden(z)
@@ -188,9 +188,9 @@ h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
 h_p3 = Dropout(drop_rate)(h_p3)
 h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
 h_p4 = Dropout(drop_rate)(h_p4)
-h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
-h_p5 = Dropout(drop_rate)(h_p5) # ADDED intermediate layer
-outputs = decoder_out(h_p5)
+# h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
+# h_p5 = Dropout(drop_rate)(h_p5) # ADDED intermediate layer
+outputs = decoder_out(h_p4)
 
 # ----------------------------------------------------------------------------
 
@@ -220,8 +220,8 @@ _h0_decoded = decoder_hidden0(_h_decoded)    ## ADDED layer_1
 _h1_decoded = decoder_hidden1(_h0_decoded)    ## ADDED layer_1
 _h2_decoded = decoder_hidden2(_h1_decoded)    ## ADDED ---
 _h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
-_h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h4_decoded)
+# _h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
+_x_decoded_mean = decoder_out(_h3_decoded)
 decoder = Model(decoder_input, _x_decoded_mean)
 
 
