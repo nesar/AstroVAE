@@ -24,7 +24,7 @@ SetPub.set_pub()
 # totalFiles = nsize**5 #32
 totalFiles = 25
 
-np.random.seed(6)
+np.random.seed(7)
 
 # OmegaM = np.linspace(0.12, 0.155, totalFiles)
 # Omegab = np.linspace(0.0215, 0.0235, totalFiles)
@@ -112,7 +112,7 @@ from scipy.stats.distributions import norm
 # stdvs = [np.std(OmegaM), np.std(Omegab), np.std(sigma8), np.std(h), np.std(ns)]
 
 means = [0.5, 0.5, 0.5, 0.5, 0.5]
-stdvs = 0.175*np.ones(shape=5)
+stdvs = 0.15*np.ones(shape=5)
 # stdvs = [0.01, 0.01, 0.01, 0.01, 0.01]
 
 
@@ -153,4 +153,4 @@ for i in range(5):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
 # np.savetxt('../Cl_data/Data/LatinCosmoMean'+str(totalFiles)+'.txt', AllCombinations)
-# np.savetxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   #### no
+np.savetxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   #### no
