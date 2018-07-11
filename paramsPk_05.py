@@ -1,7 +1,7 @@
 ######################## PARAMETERS ##########################
 
 original_dim = 256#/2 +1  #2551 # mnist ~ 784
-#intermediate_dim3 = 1600
+# intermediate_dim3 = 1600
 intermediate_dim2 = 512
 intermediate_dim1 = 256
 intermediate_dim0 = 128
@@ -10,7 +10,7 @@ latent_dim = 32
 
 ClID = ['PkNL'][0]
 num_train = 512
-num_test = 16
+num_test = 32
 num_para = 5
 
 batch_size = 8
