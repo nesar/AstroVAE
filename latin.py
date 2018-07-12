@@ -153,4 +153,6 @@ for i in range(5):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
 # np.savetxt('../Cl_data/Data/LatinCosmoMean'+str(totalFiles)+'.txt', AllCombinations)
-np.savetxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   #### no
+
+# REPLACES OLD FILES  -- careful before un-commenting
+# np.savetxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   ####
