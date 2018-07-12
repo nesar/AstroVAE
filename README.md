@@ -2,7 +2,7 @@
 
 Data reduction, emulation and inference using a combination of GP processes and Variational autoencoder. Currently applied for CMB angular power spectra C_l and matter power spectra P(k). In principle, this can be extended to image emulations as well. 
 
-Inference is done using MCMC for cosmological parameters. 
+Parameter inference is done using MCMC for cosmological parameters, with public PLANCK/WMAP/SPT data.  
 
 # Sync commands
 
