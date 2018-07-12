@@ -1,16 +1,8 @@
 # AstroVAE
-Data reduction, emulation and inference using a combination of GP emulator and Variational autoencoder 
 
-## Architecture: 
+Data reduction, emulation and inference using a combination of GP processes and Variational autoencoder. Currently applied for CMB angular power spectra C_l and matter power spectra P(k). In principle, this can be extended to image emulations as well. 
 
-![Model](Old/ArchitectureFullAE.png "Full model")
-
-3. t-SNE
-4. RNN for time analysis
-
-
-7. Adversarial AEs
-
+Inference is done using MCMC for cosmological parameters. 
 
 # Sync commands
 
@@ -24,3 +16,9 @@ scp phoenix:/homes/nramachandra/AstroVAE/Cl_data/Data/encoded*7500* mcs:/homes/n
 ## From laptop -> phoenix
 scp P*25.* mcs:/homes/nramachandra/DataP5/raw/
 
+
+# Future implementations 
+1. Error propoagation using Bayesian neural networks
+1. t-SNE for reduction and visualization
+2. RNN for time analysis
+3. Adversarial AEs
