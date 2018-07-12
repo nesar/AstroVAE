@@ -22,7 +22,9 @@ SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 512
+totalFiles = 25
+
+np.random.seed(7)
 
 # OmegaM = np.linspace(0.12, 0.155, totalFiles)
 # Omegab = np.linspace(0.0215, 0.0235, totalFiles)
@@ -48,7 +50,7 @@ AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$'
 
 AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns])
 
-lhd = pyDOE.lhs(5, samples=totalFiles, criterion='cm')
+lhd = pyDOE.lhs(5, samples=totalFiles, criterion=None) # c cm corr m
 print(lhd)
 print
 # lhd = norm(loc=0, scale=1).ppf(lhd)  # this applies to both factors here
@@ -103,7 +105,7 @@ print(AllCombinations)
 #  Can we design lhc such that mean and std can be provided
 
 
-design = pyDOE.lhs(5, samples=totalFiles)
+design = pyDOE.lhs(5, samples=totalFiles, criterion='c')
 from scipy.stats.distributions import norm
 
 # means = [np.mean(OmegaM), np.mean(Omegab), np.mean(sigma8), np.mean(h), np.mean(ns)]
@@ -111,8 +113,10 @@ from scipy.stats.distributions import norm
 
 means = [0.5, 0.5, 0.5, 0.5, 0.5]
 stdvs = 0.15*np.ones(shape=5)
+# stdvs = [0.01, 0.01, 0.01, 0.01, 0.01]
 
-for i in np.arange(4):
+
+for i in np.arange(5):
     design[:, i] = norm(loc=means[i], scale=stdvs[i]).ppf(design[:, i])
     # print(i)
 
@@ -131,7 +135,7 @@ for i in range(5):
         # a[i,j].set_xlabel(AllLabels[i])
         # a[i,j].set_ylabel(AllLabels[j])
         if(i!=j):
-            a[i, j].scatter(design[:, i], design[:, j], s=20)
+            a[i, j].scatter(design[:, i], design[:, j], c='r', s=2)
             a[i, j].grid(True)
         else:
             # a[i,i].set_title(AllLabels[i])
@@ -149,3 +153,6 @@ for i in range(5):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
 # np.savetxt('../Cl_data/Data/LatinCosmoMean'+str(totalFiles)+'.txt', AllCombinations)
+
+# REPLACES OLD FILES  -- careful before un-commenting
+# np.savetxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   ####
