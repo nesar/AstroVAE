@@ -332,5 +332,7 @@ ax0.set_xlabel(r'$l$')
 
 ax0.legend()
 
+plt.show()
+
 # ax0.set_xscale('log')
 # ax0.set_yscale('log')
