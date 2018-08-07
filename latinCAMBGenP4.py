@@ -21,7 +21,7 @@ totalFiles =  8
 lmax = 2500
 
 
-lmax = 8250   ## something off above 8250
+lmax = 8550   ## something off above 8250
 ndim = lmax + 1
 
 
