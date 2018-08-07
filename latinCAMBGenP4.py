@@ -21,8 +21,8 @@ totalFiles =  8
 lmax = 2500
 
 
-ndim = 10000
-lmax = 10000
+ndim = 8261
+lmax = 8256
 
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
