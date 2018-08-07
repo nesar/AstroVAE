@@ -20,6 +20,11 @@ ndim = 2551
 totalFiles =  8
 lmax = 2500
 
+
+ndim = 8256
+lmax = 8261
+
+
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
 
 # print(para5)
@@ -161,12 +166,12 @@ for i in range(totalFiles):
 ls = np.arange(totCL.shape[0])
 
 # np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
-np.savetxt('../Cl_data/Data/P5ls_'+str(totalFiles)+'.txt', ls)
+np.savetxt('../Cl_data/Data/P5_1ls_'+str(totalFiles)+'.txt', ls)
 
-np.savetxt('../Cl_data/Data/P5TTCl_'+str(totalFiles)+'.txt', AllTT)
-np.savetxt('../Cl_data/Data/P5EECl_'+str(totalFiles)+'.txt', AllEE)
-np.savetxt('../Cl_data/Data/P5BBCl_'+str(totalFiles)+'.txt', AllBB)
-np.savetxt('../Cl_data/Data/P5TECl_'+str(totalFiles)+'.txt', AllTE)
+np.savetxt('../Cl_data/Data/P5_1TTCl_'+str(totalFiles)+'.txt', AllTT)
+np.savetxt('../Cl_data/Data/P5_1EECl_'+str(totalFiles)+'.txt', AllEE)
+np.savetxt('../Cl_data/Data/P5_1BBCl_'+str(totalFiles)+'.txt', AllBB)
+np.savetxt('../Cl_data/Data/P5_1TECl_'+str(totalFiles)+'.txt', AllTE)
 
 time1 = time.time()
 print('camb time:', time1 - time0)
