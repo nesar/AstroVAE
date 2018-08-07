@@ -21,8 +21,8 @@ totalFiles =  8
 lmax = 2500
 
 
-ndim = 8256
-lmax = 8261
+lmax = 8550   ## something off above 8250
+ndim = lmax + 1
 
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
@@ -116,7 +116,8 @@ for i in range(totalFiles):
 
 
     pars.InitPower.set_params(ns=para5[i, 4], r=0)
-    pars.set_for_lmax(lmax, lens_potential_accuracy=0);
+    pars.set_for_lmax(lmax, lens_potential_accuracy=0);  ## THIS IS ONLY FOR ACCURACY,
+    # actual lmax is set in results.get_cmb_power_spectra
 
 
 
@@ -149,7 +150,7 @@ for i in range(totalFiles):
     results = camb.get_results(pars)
 
     #get dictionary of CAMB power spectra
-    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
+    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax)
 
     totCL = powers['total']*r
     unlensedCL = powers['unlensed_scalar']*r
@@ -175,3 +176,9 @@ np.savetxt('../Cl_data/Data/P5_1TECl_'+str(totalFiles)+'.txt', AllTE)
 
 time1 = time.time()
 print('camb time:', time1 - time0)
+
+
+plt.figure(32)
+plt.plot(AllTT[:, 7:].T)
+plt.yscale('log')
+plt.show()
