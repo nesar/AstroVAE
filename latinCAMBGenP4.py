@@ -16,13 +16,15 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 """
 
 numpara = 5
-ndim = 2551
+# ndim = 2551
 totalFiles =  8
-lmax = 2500
+lmax0 = 2500
 
 
-lmax = 8550   ## something off above 8250
-ndim = lmax + 1
+lmax0 = 8550   ## something off above 8250
+# model.lmax_lensed.value = 8250 by default
+
+# ndim = lmax0 + 1
 
 
 para5 = np.loadtxt('../Cl_data/Data/LatinCosmoP5'+str(totalFiles)+'.txt')
@@ -97,10 +99,11 @@ plt.show()
 
 
 #---------------------------------------
-AllTT = np.zeros(shape=(totalFiles, numpara + ndim) ) # TT
-AllEE = np.zeros(shape=(totalFiles, numpara + ndim) ) #
-AllBB = np.zeros(shape=(totalFiles, numpara + ndim) )
-AllTE = np.zeros(shape=(totalFiles, numpara + ndim) ) # Check if this is actually TE -- negative
+AllTT = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) ) # TT
+AllEE = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) ) #
+AllBB = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) )
+AllTE = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) ) # Check if this is actually TE --
+# negative
 # values and CAMB documentation incorrect.
 
 for i in range(totalFiles):
@@ -116,10 +119,10 @@ for i in range(totalFiles):
 
 
     pars.InitPower.set_params(ns=para5[i, 4], r=0)
-    pars.set_for_lmax(lmax, lens_potential_accuracy=0);  ## THIS IS ONLY FOR ACCURACY,
+    pars.set_for_lmax(lmax= lmax0, lens_potential_accuracy=0)  ## THIS IS ONLY FOR ACCURACY,
     # actual lmax is set in results.get_cmb_power_spectra
 
-
+    # model.lmax_lensed = 10000  ## doesn't work
 
 
     #-------- sigma_8 --------------------------
@@ -149,8 +152,9 @@ for i in range(totalFiles):
     #calculate results for these parameters
     results = camb.get_results(pars)
 
+
     #get dictionary of CAMB power spectra
-    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax)
+    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax0)
 
     totCL = powers['total']*r
     unlensedCL = powers['unlensed_scalar']*r
