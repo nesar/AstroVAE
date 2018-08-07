@@ -21,7 +21,7 @@ totalFiles =  8
 lmax0 = 2500
 
 
-lmax0 = 8550   ## something off above 8250
+lmax0 = 10000   ## something off above 8250
 # model.lmax_lensed.value = 8250 by default
 
 # ndim = lmax0 + 1
@@ -119,10 +119,16 @@ for i in range(totalFiles):
 
 
     pars.InitPower.set_params(ns=para5[i, 4], r=0)
-    pars.set_for_lmax(lmax= lmax0, lens_potential_accuracy=0)  ## THIS IS ONLY FOR ACCURACY,
-    # actual lmax is set in results.get_cmb_power_spectra
+
+
+    pars.set_for_lmax(lmax= lmax0, max_eta_k=None, k_eta_fac=12.5 , lens_potential_accuracy=1,
+                      lens_k_eta_reference = 20000)
+    ## THIS IS ONLY FOR ACCURACY,
+    ## actual lmax is set in results.get_cmb_power_spectra
 
     # model.lmax_lensed = 10000  ## doesn't work
+
+    print model.lmax_lensed
 
 
     #-------- sigma_8 --------------------------
@@ -147,6 +153,7 @@ for i in range(totalFiles):
     r = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
     # r = 1
     # #---------------------------------------------------
+    # pars.set_for_lmax(lmax= lmax0, k_eta_fac=2.5 , lens_potential_accuracy=0)  ## THIS IS ONLY
 
 
     #calculate results for these parameters
@@ -185,4 +192,5 @@ print('camb time:', time1 - time0)
 plt.figure(32)
 plt.plot(AllTT[:, 7:].T)
 plt.yscale('log')
+plt.xscale('log')
 plt.show()
