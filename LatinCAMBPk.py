@@ -157,3 +157,5 @@ np.savetxt('../Pk_data/Data/P5PkNL_'+str(totalFiles)+'.txt', AllPkNL)
 #
 # time1 = time.time()
 # print('camb time:', time1 - time0)
+
+plt.show()
