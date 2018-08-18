@@ -684,3 +684,6 @@ plt.ylabel(r'$\bigtriangleup$ $x$')
 plt.legend()
 plt.tight_layout()
 plt.savefig(PlotsDir + 'SensitivityP'+str(num_para)+ClID+fileOut+'.png')
+
+
+plt.show()
