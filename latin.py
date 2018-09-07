@@ -22,7 +22,7 @@ SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 25
+totalFiles = 101
 
 np.random.seed(7)
 
@@ -152,6 +152,8 @@ AllCombinations = np.zeros((totalFiles, 5))
 for i in range(5):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
+
+plt.show()
 # np.savetxt('../Cl_data/Data/LatinCosmoMean'+str(totalFiles)+'.txt', AllCombinations)
 
 # REPLACES OLD FILES  -- careful before un-commenting
