@@ -21,8 +21,8 @@ from keras.models import load_model
 
 import params
 #import Cl_load
-#import SetPub
-#SetPub.set_pub()
+import SetPub
+SetPub.set_pub()
 
 
 
@@ -283,6 +283,7 @@ PlotRatio = True
 
 W_predArray = np.zeros(shape=(num_test,latent_dim))
 
+AllPred = np.zeros_like(x_test)
 
 if PlotRatio:
     # ls = np.log10(np.load('../Cl_data/Data/Latinls_' + str(num_test) + '.npy')[2:])
@@ -347,6 +348,7 @@ if PlotRatio:
         # x_decoded = decoder.predict(W_pred*ymax)# + meanFactor
         x_decoded = decoder.predict(W_pred)# + meanFactor
 
+        AllPred[i] = (normFactor * x_decoded[0])+meanFactor
 
         # plt.figure(94, figsize=(8,6))
         # plt.title('Autoencoder+GP fit')
@@ -365,6 +367,7 @@ if PlotRatio:
         # plt.title(fileOut)
         # # plt.legend()
         # plt.tight_layout()
+
 
 
 
