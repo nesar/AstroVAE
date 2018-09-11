@@ -8,7 +8,7 @@ intermediate_dim0 = 256
 intermediate_dim = 128
 latent_dim = 32
 
-ClID = ['TT', 'EE', 'BB', 'TE'][0]
+ClID = ['TT', 'EE', 'BB', 'TE'][1]
 num_train = 1024
 num_test = 25
 num_para = 5
