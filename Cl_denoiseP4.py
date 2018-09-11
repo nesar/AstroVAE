@@ -1,6 +1,13 @@
 """
 
-Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoencoder/
+Variational Autoencoding for CMB power spectra.
+
+Training scheme is unsupervised, i.e., the autoencoder is not given information about
+cosmological parameters.
+
+
+
+This script uses Keras for neural network architecture.
 
 """
 import numpy as np
