@@ -13,8 +13,8 @@ import pygtc
 
 
 # import Cl_load
-# import SetPub
-# SetPub.set_pub()
+import SetPub
+SetPub.set_pub()
 
 
 #### parameters that define the MCMC

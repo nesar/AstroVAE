@@ -313,7 +313,7 @@ x_decodedGPy2015 = GPyfit(GPmodelOutfile, yPLANCK2015)
 
 
 
-plt.figure(322, figsize=(7, 6))
+plt.figure(322, figsize=(8, 6))
 from matplotlib import gridspec
 
 gs = gridspec.GridSpec(1, 1, height_ratios=[1])
@@ -327,8 +327,8 @@ ax0.plot(ls, x_decodedGPy2015, 'b-', label = 'Planck2015 estimate')
 
 
 
-ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$')
-ax0.set_xlabel(r'$l$')
+ax0.set_ylabel(r'$l(l+1)C_l/2\pi [\mu K^2]$', fontsize = 20)
+ax0.set_xlabel(r'$l$', fontsize = 20)
 
 ax0.legend()
 
