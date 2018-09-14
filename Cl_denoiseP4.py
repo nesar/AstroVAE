@@ -241,6 +241,9 @@ K.set_value(vae.optimizer.decay, decay_rate)
 print(vae.summary())
 
 
+from keras.utils import plot_model
+plot_model(vae, show_shapes = True, show_layer_names = False,  to_file='model.png' )
+
 
 #TRAIN
 

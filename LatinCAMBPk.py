@@ -12,6 +12,7 @@ CAMBFast maybe better?
 CosmoMC works well with CAMB
 http://camb.readthedocs.io/en/latest/CAMBdemo.html
 https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_Code
+CHECK CLASS
 """
 
 numpara = 5

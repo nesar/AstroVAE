@@ -250,7 +250,7 @@ ax1.axhline(y=-0.01, ls='dashed')
 
 ax1.set_xlabel(r'$l$')
 
-ax1.set_ylabel(r'$C_l^{emu}$/$C_l^{camb}$')
+ax1.set_ylabel(r'$C_l^{emu} $/$C_l^{camb}$')
 # ax1.set_ylim(0.976, 1.024)
 
 

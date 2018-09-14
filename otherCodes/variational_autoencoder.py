@@ -23,10 +23,10 @@ epochs = 5
 epsilon_std = 1.0
 
 
-x = Input(shape=(original_dim,))
-h = Dense(intermediate_dim, activation='relu')(x)
-z_mean = Dense(latent_dim)(h)
-z_log_var = Dense(latent_dim)(h)
+x = Input(shape=(original_dim,),name="Input")
+h = Dense(intermediate_dim, activation='relu', name = "Encoder_layer1")(x)
+z_mean = Dense(latent_dim, name = "Encoder_layer2a")(h)
+z_log_var = Dense(latent_dim, name = "Encoder_layer2b")(h)
 
 
 def sampling(args):
@@ -36,20 +36,22 @@ def sampling(args):
     return z_mean + K.exp(z_log_var / 2) * epsilon
 
 # note that "output_shape" isn't necessary with the TensorFlow backend
-z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_var])
+z = Lambda(sampling, output_shape=(latent_dim,), name = "Sampling")([z_mean, z_log_var])
 
 # we instantiate these layers separately so as to reuse them later
-decoder_h = Dense(intermediate_dim, activation='relu')
-decoder_mean = Dense(original_dim, activation='sigmoid')
+decoder_h = Dense(intermediate_dim, activation='relu', name = "Decoder_layer1")
+decoder_mean = Dense(original_dim, activation='sigmoid', name = "Decoder_layer2")
 h_decoded = decoder_h(z)
 x_decoded_mean = decoder_mean(h_decoded)
 
 
 # Custom loss layer
-class CustomVariationalLayer(Layer):
+#class CustomVariationalLayer(Layer):
+class VariationalLayer(Layer):
     def __init__(self, **kwargs):
         self.is_placeholder = True
-        super(CustomVariationalLayer, self).__init__(**kwargs)
+        #super(CustomVariationalLayer, self).__init__(**kwargs)
+        super(VariationalLayer, self).__init__(**kwargs)
 
     def vae_loss(self, x, x_decoded_mean):
         xent_loss = original_dim * metrics.binary_crossentropy(x, x_decoded_mean)
@@ -64,7 +66,8 @@ class CustomVariationalLayer(Layer):
         # We won't actually use the output.
         return x
 
-y = CustomVariationalLayer()([x, x_decoded_mean])
+#y = CustomVariationalLayer(name = "KL")([x, x_decoded_mean])
+y = VariationalLayer(name = "KL")([x, x_decoded_mean])
 vae = Model(x, y)
 vae.compile(optimizer='rmsprop', loss=None)
 
@@ -88,6 +91,11 @@ x_train = x_train.astype('float32') / 255.
 x_test = x_test.astype('float32') / 255.
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+
+
+from keras.utils import plot_model
+plot_model(vae, show_shapes = True, show_layer_names = True,  to_file='model.png' )
+
 
 vae.fit(x_train,
         shuffle=True,
