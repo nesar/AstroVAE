@@ -15,14 +15,14 @@ pca_pred = np.matmul(pca_weights.T, pca_basis)
 print pca_pred
 
 plt.figure(12)
-plt.plot(pca_pred.T, 'k')
+plt.plot(pca_pred.T, 'b--', alpha = 0.5)
 
 
 
 ### VAE ###
 
 vae_pred = np.loadtxt('TTPred25_VAE.txt')
-plt.plot(vae_pred.T, 'r')
+plt.plot(vae_pred.T, 'r--', alpha = 0.5)
 
 
 
@@ -32,7 +32,7 @@ camb_TT = np.loadtxt('TTtrue.txt')
 ls = np.loadtxt('ls.txt')
 
 
-plt.plot(camb_TT.T, 'b')
+plt.plot(camb_TT.T, 'k--', alpha = 0.5)
 
 plt.show()
 
