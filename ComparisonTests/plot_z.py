@@ -151,7 +151,7 @@ plt.savefig('Plots/VAE_CAMB.pdf')
 
 plt.figure(4232)
 plt.scatter(pca_weights[0,:], pca_weights[1,:], c = params[:,0])
-plt.scatter(pca_weights[0,:], pca_weights[1,:], c = params[:,0])
+#plt.scatter(pca_weights[0,:], pca_weights[1,:], c = params[:,0])
 
 
 
