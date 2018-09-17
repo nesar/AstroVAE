@@ -24,6 +24,7 @@ vae_pred = np.loadtxt('VAE_data/TTPred25_VAE.txt')
 
 camb_TT = np.loadtxt('VAE_data/TTtrue.txt')
 ls = np.loadtxt('VAE_data/ls.txt')
+params = np.loadtxt('VAE_data/params.txt')
 
 
 
@@ -142,6 +143,19 @@ ax0.legend(loc = 'center right')
 #plt.show()
 
 plt.savefig('Plots/VAE_CAMB.pdf')
+
+
+
+
+
+
+plt.figure(4232)
+plt.scatter(pca_weights[0,:], pca_weights[1,:], c = params[:,0])
+plt.scatter(pca_weights[0,:], pca_weights[1,:], c = params[:,0])
+
+
+
+
 
 
 
