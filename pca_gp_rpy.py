@@ -65,10 +65,6 @@ r('matplot(t(y_train2), type = "l")')
 
 ########
 
-y_train = np.array(r('y_train2'))
-u_test = np.array(r('u_test2'))
-
-print y_train.shape
 
 ########################### PCA ###################################
 
@@ -81,7 +77,7 @@ r('svd(y_train2)')
 
 
 
-r('nrankmax <- 25')
+r('nrankmax <- 3')   ## Number of components
 
 
 r('svd_decomp2 <- svd(y_train2)')
@@ -106,6 +102,7 @@ r('''for (i in 1: nrankmax){
 # stopCluster(cl)
 
 ######################### INFERENCE ########################
+
 
 r('wtestsvd2 <- predict_kms(models_svd2, newdata = u_test2, type = "UK")')
 r('reconst_s2 <- t(wtestsvd2$mean) %*% t(svd_decomp2$v[,1:nrankmax])')
@@ -134,3 +131,32 @@ r('abline(h = 0.5)')
 
 ################ Not sure what this is ###############
 # r('plot(max_err_rat - max_err_rat2)')
+
+
+
+################ npy - rpy connection ################
+
+import rpy2.robjects.numpy2ri
+
+from rpy2.robjects.numpy2ri import numpy2ri
+
+rpy2.robjects.numpy2ri.activate()
+
+import rpy2.robjects as ro
+from rpy2.robjects.numpy2ri import numpy2ri
+ro.conversion.py2ri = numpy2ri
+
+
+# r.assign('u_test3',u_test[0,:])
+
+# y_train = np.array(r('y_train2'))
+# print y_train.shape
+
+
+u_test = r('u_test2')
+r.assign('u_test3',u_test)
+
+
+r('wtestsvd2 <- predict_kms(models_svd2, newdata = u_test3 , type = "UK")')
+
+w_test = np.array(r('wtestsvd2'))
