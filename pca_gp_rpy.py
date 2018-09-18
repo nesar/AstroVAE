@@ -133,6 +133,8 @@ r('abline(h = 0.5)')
 # r('plot(max_err_rat - max_err_rat2)')
 
 
+u_test = np.array(r('u_test2'))
+
 
 ################ npy - rpy connection ################
 
@@ -153,8 +155,7 @@ ro.conversion.py2ri = numpy2ri
 # print y_train.shape
 
 
-u_test = r('u_test2')
-r.assign('u_test3',u_test)
+r.assign('u_test3', u_test)
 
 
 r('wtestsvd2 <- predict_kms(models_svd2, newdata = u_test3 , type = "UK")')
