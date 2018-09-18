@@ -71,18 +71,46 @@ print y_train.shape
 ########
 
 
-
-DiceKriging = importr('DiceKriging')
+Dicekriging = importr('DiceKriging')
 
 r('require(foreach)')
 
-# below an example for a computer with 2 cores, but also work with 1 core
+r('svd(y_train2)')
 
-# r('multistart <- 4')
 
-# r('nCores <- multistart')
-# r('require(doParallel)')
-# r('cl <-  makeCluster(nCores)')
-# r('registerDoParallel(cl)')
-r('mods8 <- km(~., design = u_train, response = s_train, multistart = multistart)')
-# r('stopCluster(cl)')
+
+r('nrankmax <- 10')
+
+
+r('svd_decomp2 <- svd(y_train2)')
+r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax])')
+
+## Build GP models
+GPareto = importr('GPareto')
+
+# cl < -  makeCluster(nCores)
+# registerDoParallel(cl)
+
+# nrankmax < - 25
+
+r('models_svd2 <- list()')
+
+
+
+r('''for (i in 1: nrankmax){
+        mod_s <- km(~., design = u_train2, response = svd_weights2[, i])
+        models_svd2 <- c(models_svd2, list(mod_s))
+                          }''')
+# stopCluster(cl)
+
+
+
+r('wtestsvd2 <- predict_kms(models_svd2, newdata = u_test2, type = "UK")')
+r('reconst_s2 <- t(wtestsvd2$mean) %*% t(svd_decomp2$v[,1:nrankmax])')
+
+
+r('plot(reconst_s2[1,]/y_test2[1,], ylim = c(0.99, 1.01), type = "l", xlab = "l", '
+  'ylab = "predicted/real") ')
+r('for(i in 1:25){lines(reconst_s2[i,]/y_test2[i,])} ')
+r('abline(h = 1.005) ')
+r('abline(h = 0.995) ')
