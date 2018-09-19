@@ -33,14 +33,6 @@ RcppCNPy = importr('RcppCNPy')
 
 ########
 
-# importr('data.table')#, lib='~/R-lib') # for first file reading
-
-
-########
-
-
-# library(RcppCNPy)
-
 ################################# I/O #################################
 
 # Note that the 3rd variable is not used here, and the first two points of the spectrum can be removed
@@ -77,7 +69,7 @@ r('svd(y_train2)')
 
 
 
-r('nrankmax <- 3')   ## Number of components
+r('nrankmax <- 32')   ## Number of components
 
 
 r('svd_decomp2 <- svd(y_train2)')
@@ -129,34 +121,48 @@ r('lines(max_err_rat2, lty = 2)')
 r('abline(h = 0.5)')
 
 
-################ Not sure what this is ###############
-# r('plot(max_err_rat - max_err_rat2)')
 
 
-
-################ npy - rpy connection ################
-
-import rpy2.robjects.numpy2ri
-
-from rpy2.robjects.numpy2ri import numpy2ri
-
-rpy2.robjects.numpy2ri.activate()
+########################################################################
+################## npy - rpy interface #################################
+########################################################################
 
 import rpy2.robjects as ro
-from rpy2.robjects.numpy2ri import numpy2ri
-ro.conversion.py2ri = numpy2ri
+import rpy2.robjects.numpy2ri
+rpy2.robjects.numpy2ri.activate()
 
 
-# r.assign('u_test3',u_test[0,:])
-
-# y_train = np.array(r('y_train2'))
-# print y_train.shape
-
-
-u_test = r('u_test2')
-r.assign('u_test3',u_test)
+u_test_npy = np.loadtxt('ComparisonTests/VAE_data/params.txt')[0]
+u_test_npy = np.expand_dims( u_test_npy, axis=0)
+y_true = np.loadtxt('ComparisonTests/VAE_data/TTtrue.txt')[0]
+y_true = np.expand_dims( y_true, axis=0)
 
 
-r('wtestsvd2 <- predict_kms(models_svd2, newdata = u_test3 , type = "UK")')
 
-w_test = np.array(r('wtestsvd2'))
+# https://stackoverflow.com/questions/27283381/how-to-convert-numpy-array-to-r-matrix
+B = u_test_npy
+
+nr,nc = B.shape
+Br = ro.r.matrix(B, nrow=nr, ncol=nc)
+
+ro.r.assign("B", Br)
+
+
+
+r('dim(B)')
+r('dim(u_test2)')
+
+
+r('wtestsvd2 <- predict_kms(models_svd2, newdata = B , type = "UK")')
+r('reconst_s2 <- t(wtestsvd2$mean) %*% t(svd_decomp2$v[,1:nrankmax])')
+
+
+r('dim(reconst_s2)')
+
+
+y_recon = np.array(r('reconst_s2'))
+
+
+import matplotlib.pylab as plt
+plt.plot(y_recon.T/y_true.T)
+

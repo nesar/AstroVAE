@@ -3,13 +3,17 @@ import matplotlib.pylab as plt
 import corner
 import emcee
 import time
-from keras.models import load_model
+# from keras.models import load_model
 import params
-import george
-from george.kernels import Matern32Kernel
+# import george
+# from george.kernels import Matern32Kernel
 
+import rpy2.robjects as ro
 
 import pygtc
+import rpy2.robjects.numpy2ri
+rpy2.robjects.numpy2ri.activate()
+
 
 
 # import Cl_load
@@ -93,173 +97,254 @@ fileOut = params.fileOut
 # ----------------------------- i/o ------------------------------------------
 
 
-
-Trainfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_train) + '.txt')
+#
+# Trainfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_train) + '.txt')
 Testfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_test) + '.txt')
-
-x_train = Trainfiles[:, num_para + 2:]
+#
+# x_train = Trainfiles[:, num_para + 2:]
 x_test = Testfiles[:, num_para + 2:]
-y_train = Trainfiles[:, 0: num_para]
+# y_train = Trainfiles[:, 0: num_para]
 y_test = Testfiles[:, 0: num_para]
-
-print(x_train.shape, 'train sequences')
-print(x_test.shape, 'test sequences')
-print(y_train.shape, 'train sequences')
-print(y_test.shape, 'test sequences')
-
+#
+# print(x_train.shape, 'train sequences')
+# print(x_test.shape, 'test sequences')
+# print(y_train.shape, 'train sequences')
+# print(y_test.shape, 'test sequences')
+#
 ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
-
-# ----------------------------------------------------------------------------
-
+#
+# # ----------------------------------------------------------------------------
+#
 normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-
-print('-------normalization factor:', normFactor)
-print('-------rescaling factor:', meanFactor)
-
-x_train = x_train - meanFactor  # / 255.
-x_test = x_test - meanFactor  # / 255.
-
-x_train = x_train.astype('float32') / normFactor  # / 255.
-x_test = x_test.astype('float32') / normFactor  # / 255.
-
-x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
-
-# ------------------------------------------------------------------------------
-
-
-################# ARCHITECTURE ###############################
-
-
-
-LoadModel = True
-if LoadModel:
-    encoder = load_model(ModelDir + 'EncoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
-    decoder = load_model(ModelDir + 'DecoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
-    history = np.loadtxt(
-        ModelDir + 'TrainingHistoryP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-
-
-
-##################################################33333
-
-# Only required with george, not with GPy
-
-
-kernel = Matern32Kernel([1000, 4000, 3000, 1000, 2000], ndim=num_para)
-
-X1 = y_train[:, 0][:, np.newaxis]
-X1a = rescale01(np.min(X1), np.max(X1), X1)
-
-X2 = y_train[:, 1][:, np.newaxis]
-X2a = rescale01(np.min(X2), np.max(X2), X2)
-
-X3 = y_train[:, 2][:, np.newaxis]
-X3a = rescale01(np.min(X3), np.max(X3), X3)
-
-X4 = y_train[:, 3][:, np.newaxis]
-X4a = rescale01(np.min(X4), np.max(X4), X4)
-
-X5 = y_train[:, 4][:, np.newaxis]
-X5a = rescale01(np.min(X5), np.max(X5), X5)
-
-rescaledTrainParams = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
-
+#
+# print('-------normalization factor:', normFactor)
+# print('-------rescaling factor:', meanFactor)
+#
+# x_train = x_train - meanFactor  # / 255.
+# x_test = x_test - meanFactor  # / 255.
+#
+# x_train = x_train.astype('float32') / normFactor  # / 255.
+# x_test = x_test.astype('float32') / normFactor  # / 255.
+#
+# x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
+# x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+#
 # # ------------------------------------------------------------------------------
-encoded_xtrain = np.loadtxt(
-    DataDir + 'encoded_xtrainP' + str(num_para) + ClID + '_' + fileOut + '.txt').T
-encoded_xtest_original = np.loadtxt(
-    DataDir + 'encoded_xtestP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+#
+#
+# ################# ARCHITECTURE ###############################
+#
+#
+#
+# LoadModel = True
+# if LoadModel:
+#     encoder = load_model(ModelDir + 'EncoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
+#     decoder = load_model(ModelDir + 'DecoderP' + str(num_para) + ClID + '_' + fileOut + '.hdf5')
+#     history = np.loadtxt(
+#         ModelDir + 'TrainingHistoryP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+#
+#
+#
+# ##################################################33333
+#
+# # Only required with george, not with GPy
+#
+#
+# kernel = Matern32Kernel([1000, 4000, 3000, 1000, 2000], ndim=num_para)
+#
+# X1 = y_train[:, 0][:, np.newaxis]
+# X1a = rescale01(np.min(X1), np.max(X1), X1)
+#
+# X2 = y_train[:, 1][:, np.newaxis]
+# X2a = rescale01(np.min(X2), np.max(X2), X2)
+#
+# X3 = y_train[:, 2][:, np.newaxis]
+# X3a = rescale01(np.min(X3), np.max(X3), X3)
+#
+# X4 = y_train[:, 3][:, np.newaxis]
+# X4a = rescale01(np.min(X4), np.max(X4), X4)
+#
+# X5 = y_train[:, 4][:, np.newaxis]
+# X5a = rescale01(np.min(X5), np.max(X5), X5)
+#
+# rescaledTrainParams = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
+#
+# # # ------------------------------------------------------------------------------
+# encoded_xtrain = np.loadtxt(
+#     DataDir + 'encoded_xtrainP' + str(num_para) + ClID + '_' + fileOut + '.txt').T
+# encoded_xtest_original = np.loadtxt(
+#     DataDir + 'encoded_xtestP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 
 
 # ------------------------------------------------------------------------------
+#
+# def GPcompute(rescaledTrainParams, latent_dim):
+#     gp = {}
+#     for j in range(latent_dim):
+#         gp["fit{0}".format(j)] = george.GP(kernel)
+#         gp["fit{0}".format(j)].compute(rescaledTrainParams[:, 0, :].T)
+#     return gp
+#
+#
+# def GPfit(computedGP, para_array):
+#     para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
+#     para_array[1] = rescale01(np.min(X2), np.max(X2), para_array[1])
+#     para_array[2] = rescale01(np.min(X3), np.max(X3), para_array[2])
+#     para_array[3] = rescale01(np.min(X4), np.max(X4), para_array[3])
+#     para_array[4] = rescale01(np.min(X5), np.max(X5), para_array[4])
+#
+#     test_pts = para_array[:num_para].reshape(num_para, -1).T
+#
+#     # -------------- Predict latent space ----------------------------------------
+#
+#     W_pred = np.array([np.zeros(shape=latent_dim)])
+#     W_pred_var = np.array([np.zeros(shape=latent_dim)])
+#
+#     for j in range(latent_dim):
+#         W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
+#                                                                                 test_pts)
+#
+#     # -------------- Decode from latent space --------------------------------------
+#
+#     x_decoded = decoder.predict(W_pred)
+#
+#     return (normFactor * x_decoded[0]) + meanFactor
+#
+#
+#
+# ### Using pre-trained GPy model #######################
 
-def GPcompute(rescaledTrainParams, latent_dim):
-    gp = {}
-    for j in range(latent_dim):
-        gp["fit{0}".format(j)] = george.GP(kernel)
-        gp["fit{0}".format(j)].compute(rescaledTrainParams[:, 0, :].T)
-    return gp
-
-
-def GPfit(computedGP, para_array):
-    para_array[0] = rescale01(np.min(X1), np.max(X1), para_array[0])
-    para_array[1] = rescale01(np.min(X2), np.max(X2), para_array[1])
-    para_array[2] = rescale01(np.min(X3), np.max(X3), para_array[2])
-    para_array[3] = rescale01(np.min(X4), np.max(X4), para_array[3])
-    para_array[4] = rescale01(np.min(X5), np.max(X5), para_array[4])
-
-    test_pts = para_array[:num_para].reshape(num_para, -1).T
-
-    # -------------- Predict latent space ----------------------------------------
-
-    W_pred = np.array([np.zeros(shape=latent_dim)])
-    W_pred_var = np.array([np.zeros(shape=latent_dim)])
-
-    for j in range(latent_dim):
-        W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
-                                                                                test_pts)
-
-    # -------------- Decode from latent space --------------------------------------
-
-    x_decoded = decoder.predict(W_pred)
-
-    return (normFactor * x_decoded[0]) + meanFactor
-
-
-
-### Using pre-trained GPy model #######################
-
-import GPy
-
-
-GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
-m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
+# import GPy
 
 
-def GPyfit(GPmodelOutfile, para_array):
+# GPmodelOutfile = DataDir + 'GPy_model' + str(latent_dim) + ClID + fileOut
+# m1 = GPy.models.GPRegression.load_model(GPmodelOutfile + '.zip')
 
 
-    test_pts = para_array.reshape(num_para, -1).T
-
-    # -------------- Predict latent space ----------------------------------------
-
-    # W_pred = np.array([np.zeros(shape=latent_dim)])
-    # W_pred_var = np.array([np.zeros(shape=latent_dim)])
-
-    m1p = m1.predict(test_pts)  # [0] is the mean and [1] the predictive
-    W_pred = m1p[0]
-    # W_varArray = m1p[1]
 
 
-    # for j in range(latent_dim):
-    #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
-    #                                                                             test_pts)
+import numpy as np
+from rpy2.robjects import r
+from rpy2.robjects.packages import importr
 
-    # -------------- Decode from latent space --------------------------------------
+RcppCNPy = importr('RcppCNPy')
+# RcppCNPy.chooseCRANmirror(ind=1) # select the first mirror in the list
 
-    x_decoded = decoder.predict(W_pred.reshape(latent_dim, -1).T )
+########
 
-    return (normFactor * x_decoded[0]) + meanFactor
+################################# I/O #################################
 
+# Note that the 3rd variable is not used here, and the first two points of the spectrum can be removed
+r('u_train2 <- as.matrix(read.csv("../Cl_data/Data/LatinCosmoP51024.txt", sep = " ", header = ''F))')
 
-x_id = 20
-
-x_decodedGPy = GPyfit(GPmodelOutfile, y_test[x_id])
-# computedGP = GPcompute(rescaledTrainParams, latent_dim)
-# x_decoded = GPfit(computedGP, y_test[x_id])
-
-x_camb = (normFactor * x_test[x_id]) + meanFactor
+r('y_train2 <- as.matrix(read.csv("../Cl_data/Data/P5TTCl_1024.txt", sep = " ", header = ''F))[,''-(1:7)]')
 
 
-plt.figure(1423)
+r('u_test2 <- as.matrix(read.csv("ComparisonTests/VAE_data/params.txt", sep = " ", header = F))') ## testing design
 
-# plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
-plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy')
-plt.plot(x_camb, alpha = 0.3 , label = 'camb')
-plt.legend()
-plt.show()
+r('y_test2 <- as.matrix(read.csv("ComparisonTests/VAE_data/TTtrue.txt", sep = " ", header = F))') #[,-c(1,2)] # testing spectrum curves
+
+# r('matplot(t(y_train2), type = "l")')
+
+########################### PCA ###################################
+
+
+Dicekriging = importr('DiceKriging')
+
+r('require(foreach)')
+
+r('svd(y_train2)')
+
+r('nrankmax <- 2')   ## Number of components
+
+r('svd_decomp2 <- svd(y_train2)')
+r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax])')
+
+########################### GP train #################################
+
+## Build GP models
+GPareto = importr('GPareto')
+
+r('models_svd2 <- list()')
+
+
+r('''for (i in 1: nrankmax){
+        mod_s <- km(~., design = u_train2, response = svd_weights2[, i])
+        models_svd2 <- c(models_svd2, list(mod_s))
+                          }''')
+
+######################### INFERENCE ########################
+
+
+
+def GPyfit(para_array):
+
+
+    # test_pts = para_array.reshape(num_para, -1).T
+    # print(test_pts.shape)
+
+    test_pts = para_array
+    test_pts = np.expand_dims(test_pts, axis=0)
+
+    # # -------------- Predict latent space ----------------------------------------
+    #
+    # # W_pred = np.array([np.zeros(shape=latent_dim)])
+    # # W_pred_var = np.array([np.zeros(shape=latent_dim)])
+    #
+    # m1p = m1.predict(test_pts)  # [0] is the mean and [1] the predictive
+    # W_pred = m1p[0]
+    # # W_varArray = m1p[1]
+    #
+    #
+    # # for j in range(latent_dim):
+    # #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
+    # #                                                                             test_pts)
+    #
+    # # -------------- Decode from latent space --------------------------------------
+    #
+    # x_decoded = decoder.predict(W_pred.reshape(latent_dim, -1).T )
+    #
+    # return (normFactor * x_decoded[0]) + meanFactor
+
+    B = test_pts
+
+    nr,nc = B.shape
+    Br = ro.r.matrix(B, nrow=nr, ncol=nc)
+
+    ro.r.assign("B", Br)
+
+
+    r('wtestsvd2 <- predict_kms(models_svd2, newdata = B , type = "UK")')
+    r('reconst_s2 <- t(wtestsvd2$mean) %*% t(svd_decomp2$v[,1:nrankmax])')
+
+
+    y_recon = np.array(r('reconst_s2'))
+
+    return y_recon[0]
+
+
+
+
+#
+#
+#
+# x_id = 20
+#
+# x_decodedGPy = GPyfit(y_test[x_id])
+# # computedGP = GPcompute(rescaledTrainParams, latent_dim)
+# # x_decoded = GPfit(computedGP, y_test[x_id])
+#
+# x_camb = (normFactor * x_test[x_id]) + meanFactor
+#
+#
+# plt.figure(1423)
+#
+# # plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
+# plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy')
+# plt.plot(x_camb, alpha = 0.3 , label = 'camb')
+# plt.legend()
+# plt.show()
 
 
 ########################################################################################################################
@@ -379,7 +464,7 @@ def lnlike(theta, x, y, yerr):
     new_params = np.array([p1, p2, p3, p4, p5])
     # model = GPfit(computedGP, new_params)#  Using George -- with model training
 
-    model = GPyfit(GPmodelOutfile, new_params)# Using GPy -- using trained model
+    model = GPyfit(new_params)# Using GPy -- using trained model
 
 
     mask = np.in1d(ls, x)
