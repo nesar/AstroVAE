@@ -256,7 +256,7 @@ r('require(foreach)')
 
 r('svd(y_train2)')
 
-r('nrankmax <- 2')   ## Number of components
+r('nrankmax <- 32')   ## Number of components
 
 r('svd_decomp2 <- svd(y_train2)')
 r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax])')
