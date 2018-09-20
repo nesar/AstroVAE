@@ -24,10 +24,10 @@ rpy2.robjects.numpy2ri.activate()
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 600  # 500
-nrun_burn = 50  # 300
-nrun = 300  # 700
-fileID = 1
+nwalkers = 600 #600  # 500
+nrun_burn = 50 # 50  # 300
+nrun = 300 # 300  # 700
+fileID = 2
 
 
 ########## REAL DATA with ERRORS #############################
@@ -247,6 +247,12 @@ r('y_test2 <- as.matrix(read.csv("ComparisonTests/VAE_data/TTtrue.txt", sep = " 
 
 # r('matplot(t(y_train2), type = "l")')
 
+
+#### Save image
+
+## save command
+
+## load if exists --
 ########################### PCA ###################################
 
 
@@ -256,7 +262,7 @@ r('require(foreach)')
 
 r('svd(y_train2)')
 
-r('nrankmax <- 32')   ## Number of components
+r('nrankmax <- 24')   ## Number of components
 
 r('svd_decomp2 <- svd(y_train2)')
 r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax])')
@@ -511,13 +517,13 @@ samples_plot = sampler.chain[:, :, :].reshape((-1, ndim))
 
 
 
-np.savetxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+np.savetxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
     nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt', sampler.chain[:, :, :].reshape((-1, ndim)))
 
 ####### FINAL PARAMETER ESTIMATES #######################################
 
 
-samples_plot  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
+samples_plot  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
                          '_run' + str(nrun)  + ClID + '_' + fileOut + allfiles[fileID][:-4] +'.txt')
 
 # samples = np.exp(samples)
@@ -537,7 +543,7 @@ if CornerPlot:
                         show_titles=True,  title_args={"fontsize": 10})
 
 
-    fig.savefig(PlotsDir +'corner_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    fig.savefig(PlotsDir +'cornerPCA_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
         nrun) + ClID + '_'  + fileOut +allfiles[fileID][:-4] + '.pdf')
 
 
@@ -546,7 +552,7 @@ if CornerPlot:
                         figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
-    fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    fig.savefig(PlotsDir + 'pygtcPCA_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
         nrun)  + ClID + '_' + fileOut + allfiles[fileID][:-4] +'.pdf')
 
 ####### FINAL PARAMETER ESTIMATES #######################################
@@ -591,5 +597,5 @@ if ConvergePlot:
              transform = ax5.transAxes, fontsize = 20)
     plt.show()
 
-    fig.savefig(PlotsDir + 'convergence_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
+    fig.savefig(PlotsDir + 'convergencePCA_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run' + str(
         nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.pdf')
