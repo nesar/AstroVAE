@@ -32,6 +32,14 @@ nrun_burn = 50  # 300
 nrun = 300  # 700
 
 
+### USING rpy-PCA
+
+ndim = 5
+nwalkers = 200 #600  # 500
+nrun_burn = 50 # 50  # 300
+nrun = 300 # 300  # 700
+fileID = 0
+
 
 # ndim = 5
 # nwalkers = 600  # 500
@@ -113,21 +121,23 @@ fileID = 0
 # samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
 #     nwalkers) + '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 
-samples_plotWMAP  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+samples_plotWMAP  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
     nwalkers) + '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
 fileID = 1
-# samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
-#                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
-# nrun = 2000
-samples_plotSPT  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(nwalkers) +
+samples_plotSPT  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+    nwalkers) +
+                             '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
+nrun = 2000
+samples_plotSPT  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+    nwalkers) +
                              '_run' + str(nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt')
 
 fileID = 2
 # samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
 #     nwalkers) +'_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
 
-samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+samples_plotPLANCK  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
     nwalkers) +
                              '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
@@ -178,7 +188,7 @@ fig = pygtc.plotGTC( chains= [samples_plotPLANCK, samples_plotWMAP]  ,
                      chainLabels=chainLabels, truthLabels=truthLabels, figureSize='MNRAS_page')#, plotDensity = True, filledPlots = False,\smoothingKernel = 0, nContourLevels=3)
 
 
-fig.savefig(PlotsDir + 'pygtc_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run'  + str(nrun) +
+fig.savefig(PlotsDir + 'pygtcPCA_' + str(ndim) + '_nwalk' + str(nwalkers) + '_run'  + str(nrun) +
             fileOut + allfiles[fileID][:-4] +'.pdf')
 
 

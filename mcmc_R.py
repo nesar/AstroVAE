@@ -24,10 +24,10 @@ rpy2.robjects.numpy2ri.activate()
 #### parameters that define the MCMC
 
 ndim = 5
-nwalkers = 600 #600  # 500
+nwalkers = 200 #600  # 500
 nrun_burn = 50 # 50  # 300
 nrun = 300 # 300  # 700
-fileID = 2
+fileID = 1
 
 
 ########## REAL DATA with ERRORS #############################
