@@ -124,14 +124,27 @@ fileID = 0
 samples_plotWMAP  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
     nwalkers) + '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
-fileID = 1
-samples_plotSPT  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
-    nwalkers) +
-                             '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
-nrun = 2000
-samples_plotSPT  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
-    nwalkers) +
-                             '_run' + str(nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt')
+# samples = np.exp(samples)
+p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
+                       zip(*np.percentile(samples_plotWMAP, [16, 50, 84], axis=0)))
+print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
+
+
+#
+# fileID = 1
+# samples_plotSPT  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+#     nwalkers) +
+#                              '_run' + str(nrun) + fileOut + allfiles[fileID][:-4] +'.txt')
+# nrun = 2000
+# samples_plotSPT  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + '_nwalk' + str(
+#     nwalkers) +
+#                              '_run' + str(nrun)  + ClID + '_'  + fileOut + allfiles[fileID][:-4] +'.txt')
+
+## samples = np.exp(samples)
+# p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
+#                        zip(*np.percentile(samples_plotSPT, [16, 50, 84], axis=0)))
+# print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
+
 
 fileID = 2
 # samples_plotPLANCK  = np.loadtxt(DataDir + 'Sampler_mcmc_ndim' + str(ndim) + '_nwalk' + str(
@@ -142,6 +155,10 @@ samples_plotPLANCK  = np.loadtxt(DataDir + 'SamplerPCA_mcmc_ndim' + str(ndim) + 
                              '_run' + str(nrun)  + ClID + '_'   + fileOut + allfiles[fileID][:-4] +'.txt')
 
 
+# samples = np.exp(samples)
+p1_mcmc, p2_mcmc, p3_mcmc, p4_mcmc, p5_mcmc = map(lambda v: (v[1], v[2] - v[1], v[1] - v[0]),
+                       zip(*np.percentile(samples_plotPLANCK, [16, 50, 84], axis=0)))
+print('mcmc results:', p1_mcmc[0], p2_mcmc[0], p3_mcmc[0], p4_mcmc[0], p5_mcmc[0])
 
 
 ########################## Corner plots #############################
