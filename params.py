@@ -29,10 +29,15 @@ DataDir = MainDir+'Data/'
 PlotsDir = MainDir+'Plots/'
 ModelDir = MainDir+'Model/'
 
-fileOut = 'P'+str(num_para)+'ModelOld_tot' + str(num_train) + '_batch' + str(batch_size) + '_lr' + \
+fileOut = 'P'+str(num_para)+'Model_tot' + str(num_train) + '_batch' + str(batch_size) + '_lr' + \
           str(
     learning_rate) + '_decay' + str(decay_rate) + '_z' + str(latent_dim) + '_epoch' + str(
     num_epochs)
+
+# fileOut = 'P'+str(num_para)+'ModelOld_tot' + str(num_train) + '_batch' + str(batch_size) + '_lr' + \
+#           str(
+#     learning_rate) + '_decay' + str(decay_rate) + '_z' + str(latent_dim) + '_epoch' + str(
+#     num_epochs)
 
 ##############################################################
 
@@ -44,12 +49,12 @@ fileOut = 'P'+str(num_para)+'ModelOld_tot' + str(num_train) + '_batch' + str(bat
 ######################## LINEAR PARAMETERS ##########################
 
 original_dim = 2549#/2 +1  #2551 # mnist ~ 784
-intermediate_dim3 = 3068
-intermediate_dim2 = 1024
-intermediate_dim1 = 512
-intermediate_dim0 = 256
-intermediate_dim = 128
-latent_dim = 32
+intermediate_dim3 = 4096
+# intermediate_dim2 = 1024
+# intermediate_dim1 = 512
+# intermediate_dim0 = 256
+# intermediate_dim = 128
+latent_dim = 32 # 16
 
 ClID = ['TT', 'EE', 'BB', 'TE'][0]
 num_train = 1024
