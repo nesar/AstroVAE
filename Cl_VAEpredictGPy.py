@@ -310,7 +310,8 @@ print(fileOut)
 print('train loss: ', train_loss[-1])
 print('test loss: ', val_loss[-1])
 print
-print('max rel error:', max_relError)
+# print('max rel error:', max_relError)
+print('max rel error:', 100*max_relError, 'percent')
 print(50*'#')
 
 

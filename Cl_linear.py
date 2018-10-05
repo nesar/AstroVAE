@@ -41,10 +41,10 @@ K.set_floatx('float32')
 
 original_dim = params.original_dim # 2549
 intermediate_dim3 = params.intermediate_dim3 # 1600
-# intermediate_dim2 = params.intermediate_dim2 # 1024
-# intermediate_dim1 = params.intermediate_dim1 # 512
-# intermediate_dim0 = params.intermediate_dim0 # 256
-# intermediate_dim = params.intermediate_dim # 128
+intermediate_dim2 = params.intermediate_dim2 # 1024
+intermediate_dim1 = params.intermediate_dim1 # 512
+intermediate_dim0 = params.intermediate_dim0 # 256
+intermediate_dim = params.intermediate_dim # 128
 latent_dim = params.latent_dim # 32
 
 ClID = params.ClID
@@ -140,75 +140,153 @@ x_train = K.cast_to_floatx(x_train)
 
 # ----------------------------------------------------------------------------
 
-# Q(z|X) -- encoder
-inputs = Input(shape=(original_dim,))
-h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
-# h_q2 = Dense(intermediate_dim2, activation='linear')(h_q3) # ADDED intermediate layer
-# h_q1 = Dense(intermediate_dim1, activation='linear')(h_q2) # ADDED intermediate layer
-# h_q0 = Dense(intermediate_dim0, activation='linear')(h_q1) # ADDED intermediate layer
-# h_q = Dense(intermediate_dim, activation='linear')(h_q0)
-mu = Dense(latent_dim, activation='linear')(h_q3)
-log_sigma = Dense(latent_dim, activation='linear')(h_q3)
+SingleLayer = False
 
-# ----------------------------------------------------------------------------
+if (SingleLayer == True):
 
-def sample_z(args):
-    mu, log_sigma = args
-    eps = K.random_normal(shape=(batch_size, latent_dim), mean=epsilon_mean, stddev=epsilon_std)
-    return mu + K.exp(log_sigma / 2) * eps
+    # Q(z|X) -- encoder
+    inputs = Input(shape=(original_dim,))
+    h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
+    # h_q2 = Dense(intermediate_dim2, activation='linear')(h_q3) # ADDED intermediate layer
+    # h_q1 = Dense(intermediate_dim1, activation='linear')(h_q2) # ADDED intermediate layer
+    # h_q0 = Dense(intermediate_dim0, activation='linear')(h_q1) # ADDED intermediate layer
+    # h_q = Dense(intermediate_dim, activation='linear')(h_q0)
+    mu = Dense(latent_dim, activation='linear')(h_q3)
+    log_sigma = Dense(latent_dim, activation='linear')(h_q3)
 
+    # ----------------------------------------------------------------------------
 
-# Sample z ~ Q(z|X)
-z = Lambda(sample_z)([mu, log_sigma])
-
-# ----------------------------------------------------------------------------
-
-# P(X|z) -- decoder
-decoder_hidden = Dense(latent_dim, activation='linear')
-# decoder_hidden0 = Dense(intermediate_dim, activation='linear') # ADDED intermediate layer
-# decoder_hidden1 = Dense(intermediate_dim0, activation='linear') # ADDED intermediate layer
-# decoder_hidden2 = Dense(intermediate_dim1, activation='linear') # ADDED intermediate layer
-# decoder_hidden3 = Dense(intermediate_dim2, activation='linear') # ADDED intermediate layer
-decoder_hidden4 = Dense(intermediate_dim3, activation='linear') # ADDED intermediate layer
-decoder_out = Dense(original_dim, activation='sigmoid')
-
-h_p0 = decoder_hidden(z)
-# h_p1 = decoder_hidden0(h_p0) # ADDED intermediate layer
-# h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
-# h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
-# h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
-h_p5 = decoder_hidden4(h_p0) # ADDED intermediate layer
-outputs = decoder_out(h_p5)
-
-# ----------------------------------------------------------------------------
+    def sample_z(args):
+        mu, log_sigma = args
+        eps = K.random_normal(shape=(batch_size, latent_dim), mean=epsilon_mean, stddev=epsilon_std)
+        return mu + K.exp(log_sigma / 2) * eps
 
 
-# Overall VAE model, for reconstruction and training
-vae = Model(inputs, outputs)
+    # Sample z ~ Q(z|X)
+    z = Lambda(sample_z)([mu, log_sigma])
 
-# Encoder model, to encode input into latent variable
-# We use the mean as the output as it is the center point, the representative of the gaussian
-encoder = Model(inputs, mu)
+    # ----------------------------------------------------------------------------
 
-# Generator model, generate new data given latent variable z
-# d_in = Input(shape=(latent_dim,))
-# d_h = decoder_hidden(d_in)
-# d_h1 = decoder_hidden1(d_h)
-# d_h2 = decoder_hidden2(d_h1)
-# d_out = decoder_out(d_h2)
-# decoder = Model(d_in, d_out)
+    # P(X|z) -- decoder
+    decoder_hidden = Dense(latent_dim, activation='linear')
+    # decoder_hidden0 = Dense(intermediate_dim, activation='linear') # ADDED intermediate layer
+    # decoder_hidden1 = Dense(intermediate_dim0, activation='linear') # ADDED intermediate layer
+    # decoder_hidden2 = Dense(intermediate_dim1, activation='linear') # ADDED intermediate layer
+    # decoder_hidden3 = Dense(intermediate_dim2, activation='linear') # ADDED intermediate layer
+    decoder_hidden4 = Dense(intermediate_dim3, activation='linear') # ADDED intermediate layer
+    decoder_out = Dense(original_dim, activation='sigmoid')
 
-# build a digit generator that can sample from the learned distribution
-decoder_input = Input(shape=(latent_dim,))
+    h_p0 = decoder_hidden(z)
+    # h_p1 = decoder_hidden0(h_p0) # ADDED intermediate layer
+    # h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
+    # h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
+    # h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
+    h_p5 = decoder_hidden4(h_p0) # ADDED intermediate layer
+    outputs = decoder_out(h_p5)
 
-_h_decoded = decoder_hidden(decoder_input)
-# _h0_decoded = decoder_hidden0(_h_decoded)    ## ADDED layer_1
-# _h1_decoded = decoder_hidden1(_h0_decoded)    ## ADDED layer_1
-# _h2_decoded = decoder_hidden2(_h1_decoded)    ## ADDED ---
-# _h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
-_h4_decoded = decoder_hidden4(_h_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h4_decoded)
-decoder = Model(decoder_input, _x_decoded_mean)
+    # ----------------------------------------------------------------------------
+
+
+    # Overall VAE model, for reconstruction and training
+    vae = Model(inputs, outputs)
+
+    # Encoder model, to encode input into latent variable
+    # We use the mean as the output as it is the center point, the representative of the gaussian
+    encoder = Model(inputs, mu)
+
+    # Generator model, generate new data given latent variable z
+    # d_in = Input(shape=(latent_dim,))
+    # d_h = decoder_hidden(d_in)
+    # d_h1 = decoder_hidden1(d_h)
+    # d_h2 = decoder_hidden2(d_h1)
+    # d_out = decoder_out(d_h2)
+    # decoder = Model(d_in, d_out)
+
+    # build a digit generator that can sample from the learned distribution
+    decoder_input = Input(shape=(latent_dim,))
+
+    _h_decoded = decoder_hidden(decoder_input)
+    # _h0_decoded = decoder_hidden0(_h_decoded)    ## ADDED layer_1
+    # _h1_decoded = decoder_hidden1(_h0_decoded)    ## ADDED layer_1
+    # _h2_decoded = decoder_hidden2(_h1_decoded)    ## ADDED ---
+    # _h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
+    _h4_decoded = decoder_hidden4(_h_decoded)    ## ADDED --- should replicate decoder arch
+    _x_decoded_mean = decoder_out(_h4_decoded)
+    decoder = Model(decoder_input, _x_decoded_mean)
+
+
+else:
+
+    # Q(z|X) -- encoder
+    inputs = Input(shape=(original_dim,))
+    h_q3 = Dense(intermediate_dim3, activation='relu')(inputs)  # ADDED intermediate layer
+    h_q2 = Dense(intermediate_dim2, activation='linear')(h_q3) # ADDED intermediate layer
+    h_q1 = Dense(intermediate_dim1, activation='linear')(h_q2) # ADDED intermediate layer
+    h_q0 = Dense(intermediate_dim0, activation='linear')(h_q1) # ADDED intermediate layer
+    h_q = Dense(intermediate_dim, activation='linear')(h_q0)
+    mu = Dense(latent_dim, activation='linear')(h_q)
+    log_sigma = Dense(latent_dim, activation='linear')(h_q)
+
+
+    # ----------------------------------------------------------------------------
+
+    def sample_z(args):
+        mu, log_sigma = args
+        eps = K.random_normal(shape=(batch_size, latent_dim), mean=epsilon_mean, stddev=epsilon_std)
+        return mu + K.exp(log_sigma / 2) * eps
+
+
+    # Sample z ~ Q(z|X)
+    z = Lambda(sample_z)([mu, log_sigma])
+
+    # ----------------------------------------------------------------------------
+
+    # P(X|z) -- decoder
+    decoder_hidden = Dense(latent_dim, activation='linear')
+    decoder_hidden0 = Dense(intermediate_dim, activation='linear') # ADDED intermediate layer
+    decoder_hidden1 = Dense(intermediate_dim0, activation='linear') # ADDED intermediate layer
+    decoder_hidden2 = Dense(intermediate_dim1, activation='linear') # ADDED intermediate layer
+    decoder_hidden3 = Dense(intermediate_dim2, activation='linear') # ADDED intermediate layer
+    decoder_hidden4 = Dense(intermediate_dim3, activation='linear')  # ADDED intermediate layer
+    decoder_out = Dense(original_dim, activation='sigmoid')
+
+    h_p0 = decoder_hidden(z)
+    h_p1 = decoder_hidden0(h_p0) # ADDED intermediate layer
+    h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
+    h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
+    h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
+    h_p5 = decoder_hidden4(h_p4)  # ADDED intermediate layer
+    outputs = decoder_out(h_p5)
+
+    # ----------------------------------------------------------------------------
+
+
+    # Overall VAE model, for reconstruction and training
+    vae = Model(inputs, outputs)
+
+    # Encoder model, to encode input into latent variable
+    # We use the mean as the output as it is the center point, the representative of the gaussian
+    encoder = Model(inputs, mu)
+
+    # Generator model, generate new data given latent variable z
+    # d_in = Input(shape=(latent_dim,))
+    # d_h = decoder_hidden(d_in)
+    # d_h1 = decoder_hidden1(d_h)
+    # d_h2 = decoder_hidden2(d_h1)
+    # d_out = decoder_out(d_h2)
+    # decoder = Model(d_in, d_out)
+
+    # build a digit generator that can sample from the learned distribution
+    decoder_input = Input(shape=(latent_dim,))
+
+    _h_decoded = decoder_hidden(decoder_input)
+    _h0_decoded = decoder_hidden0(_h_decoded)    ## ADDED layer_1
+    _h1_decoded = decoder_hidden1(_h0_decoded)    ## ADDED layer_1
+    _h2_decoded = decoder_hidden2(_h1_decoded)    ## ADDED ---
+    _h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
+    _h4_decoded = decoder_hidden4(_h3_decoded)  ## ADDED --- should replicate decoder arch
+    _x_decoded_mean = decoder_out(_h4_decoded)
+    decoder = Model(decoder_input, _x_decoded_mean)
 
 
 # -------------------------------------------------------------
