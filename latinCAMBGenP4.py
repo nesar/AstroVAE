@@ -194,11 +194,12 @@ for i in range(totalFiles):
 
 
     #calculate results for these parameters
-    # results = camb.get_results(pars)    ### Why this again??????????
+    results0 = camb.get_results(pars)    ### Why this again??????????
 
 
     #get dictionary of CAMB power spectra
-    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax0)
+    # powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax0)
+    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
 
     totCL = powers['total']*r
     unlensedCL = powers['unlensed_scalar']*r
