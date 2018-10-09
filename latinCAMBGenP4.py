@@ -194,7 +194,7 @@ for i in range(totalFiles):
 
 
     #calculate results for these parameters
-    results = camb.get_results(pars)
+    # results = camb.get_results(pars)    ### Why this again??????????
 
 
     #get dictionary of CAMB power spectra
