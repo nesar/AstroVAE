@@ -200,6 +200,8 @@ for i in range(totalFiles):
     #get dictionary of CAMB power spectra
     # powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax0)
     powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
+    powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
+
 
     totCL = powers['total']*r
     unlensedCL = powers['unlensed_scalar']*r
