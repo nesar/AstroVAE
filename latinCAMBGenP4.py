@@ -18,11 +18,12 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 numpara = 5
 # ndim = 2551
 totalFiles =  8
-lmax0 = 2500
+# lmax0 = 2500
 
 
-lmax0 = 10000   ## something off above 8250
+lmax0 = 12000   ## something off above 8250
 # model.lmax_lensed.value = 8250 by default
+ell_max = 10000
 
 # ndim = lmax0 + 1
 
@@ -101,10 +102,10 @@ plt.show()
 
 
 #---------------------------------------
-AllTT = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) ) # TT
-AllEE = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) ) #
-AllBB = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) )
-AllTE = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) ) # Check if this is actually TE --
+AllTT = np.zeros(shape=(totalFiles, numpara + ell_max + 1) ) # TT
+AllEE = np.zeros(shape=(totalFiles, numpara + ell_max + 1) ) #
+AllBB = np.zeros(shape=(totalFiles, numpara + ell_max + 1) )
+AllTE = np.zeros(shape=(totalFiles, numpara + ell_max + 1) ) # Check if this is actually TE --
 # negative
 # values and CAMB documentation incorrect.
 
@@ -147,8 +148,13 @@ for i in range(totalFiles):
     # pars.set_for_lmax(lmax= lmax0, max_eta_k=None, k_eta_fac=12.5 , lens_potential_accuracy=1,
     #                   lens_k_eta_reference = 20000)
 
-    pars.set_for_lmax(lmax = lmax0, max_eta_k=12000, lens_potential_accuracy=4);
+    pars.set_for_lmax(lmax = lmax0, max_eta_k=20000, lens_potential_accuracy=4);
 
+
+    ## THIS IS ONLY FOR ACCURACY,
+    ## actual lmax is set in results.get_cmb_power_spectra
+
+    # model.lmax_lensed = 10000  ## doesn't work
 
 
     pars.set_accuracy(AccuracyBoost=3, lAccuracyBoost=3, lSampleBoost=3, DoLateRadTruncation=False)
@@ -160,10 +166,7 @@ for i in range(totalFiles):
     pars.omegak = 0.
     pars.set_nonlinear_lensing(True)
 
-    ## THIS IS ONLY FOR ACCURACY,
-    ## actual lmax is set in results.get_cmb_power_spectra
 
-    # model.lmax_lensed = 10000  ## doesn't work
 
     print model.lmax_lensed
 
@@ -171,7 +174,7 @@ for i in range(totalFiles):
     #-------- sigma_8 --------------------------
     pars.set_matter_power(redshifts=[0.], kmax=2.0)
     # Linear spectra
-    pars.NonLinear = model.NonLinear_none
+    # pars.NonLinear = model.NonLinear_none
     results = camb.get_results(pars)
     kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
     s8 = np.array(results.get_sigma8())
@@ -194,13 +197,13 @@ for i in range(totalFiles):
 
 
     #calculate results for these parameters
-    results0 = camb.get_results(pars)    ### Why this again??????????
+    # results0 = camb.get_results(pars)    ### Why this again??????????
 
 
     #get dictionary of CAMB power spectra
-    # powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax0)
-    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
-    powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
+    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=ell_max)
+    # powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
+    # powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
 
 
     totCL = powers['total']*r
@@ -230,7 +233,7 @@ print('camb time:', time1 - time0)
 
 
 plt.figure(32)
-plt.plot(AllBB[:, 7:].T)
+plt.plot(AllEE[:, 7:].T)
 plt.yscale('log')
 plt.xscale('log')
 plt.ylabel(r'$C_l$')
