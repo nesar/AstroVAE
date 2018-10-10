@@ -60,6 +60,8 @@ for i in range(5):
             # a[i, i].plot(lhd[:, i], 'go')
 
 #plt.savefig('LatinSq.png', figsize=(10, 10))
+
+
 plt.show()
 
 #
@@ -109,6 +111,27 @@ AllTE = np.zeros(shape=(totalFiles, numpara + lmax0 + 1) ) # Check if this is ac
 for i in range(totalFiles):
     print(i, para5[i])
 
+    # Set up a new set of parameters for CAMB
+    # pars = camb.CAMBparams()
+    camb.set_halofit_version('takahashi')
+    # This function sets up CosmoMC-like settings, with one massive neutrino and helium set using BBN consistency
+    # pars.set_cosmology(H0=67.05, ombh2=0.02225, omch2=0.1198,
+    #                    tau=0.079, num_massive_neutrinos=0, mnu=0.0,
+    #                    standard_neutrino_neff=3.046)
+    # pars.InitPower.set_params(As=2.2065e-9, ns=0.9645)
+    # pars.set_for_lmax(ell_max, max_eta_k=12000, lens_potential_accuracy=4);
+    # pars.set_accuracy(AccuracyBoost=3, lAccuracyBoost=3, lSampleBoost=3, DoLateRadTruncation=False)
+    # pars.AccuratePolarization = True
+    # pars.AccurateReionization = True
+    # pars.YHe = 0.24
+    # # pars.omegan = 0.0006445
+    # pars.omegak = 0.
+    # pars.set_nonlinear_lensing(True)
+
+
+
+
+
     pars = camb.CAMBparams()
 
     # pars.set_cosmology(H0=100*para5[i, 2], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
@@ -121,8 +144,22 @@ for i in range(totalFiles):
     pars.InitPower.set_params(ns=para5[i, 4], r=0)
 
 
-    pars.set_for_lmax(lmax= lmax0, max_eta_k=None, k_eta_fac=12.5 , lens_potential_accuracy=1,
-                      lens_k_eta_reference = 20000)
+    # pars.set_for_lmax(lmax= lmax0, max_eta_k=None, k_eta_fac=12.5 , lens_potential_accuracy=1,
+    #                   lens_k_eta_reference = 20000)
+
+    pars.set_for_lmax(lmax = lmax0, max_eta_k=12000, lens_potential_accuracy=4);
+
+
+
+    pars.set_accuracy(AccuracyBoost=3, lAccuracyBoost=3, lSampleBoost=3, DoLateRadTruncation=False)
+
+    pars.AccuratePolarization = True
+    pars.AccurateReionization = True
+    pars.YHe = 0.24
+    # pars.omegan = 0.0006445
+    pars.omegak = 0.
+    pars.set_nonlinear_lensing(True)
+
     ## THIS IS ONLY FOR ACCURACY,
     ## actual lmax is set in results.get_cmb_power_spectra
 
@@ -157,11 +194,14 @@ for i in range(totalFiles):
 
 
     #calculate results for these parameters
-    results = camb.get_results(pars)
+    results0 = camb.get_results(pars)    ### Why this again??????????
 
 
     #get dictionary of CAMB power spectra
-    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax0)
+    # powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=lmax0)
+    powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
+    powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
+
 
     totCL = powers['total']*r
     unlensedCL = powers['unlensed_scalar']*r
@@ -190,7 +230,9 @@ print('camb time:', time1 - time0)
 
 
 plt.figure(32)
-plt.plot(AllTT[:, 7:].T)
+plt.plot(AllBB[:, 7:].T)
 plt.yscale('log')
 plt.xscale('log')
+plt.ylabel(r'$C_l$')
+plt.xlabel('$l$')
 plt.show()
