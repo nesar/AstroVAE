@@ -154,13 +154,19 @@ r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax
 ## Build GP models
 GPareto = importr('GPareto')
 
-r('models_svd2 <- list()')
+r('''if(file.exists("R_GP_models.RData")){
+        load("R_GP_models.RData")
+    }else{
+        models_svd2 <- list()
+        for (i in 1: nrankmax){
+            mod_s <- km(~., design = u_train2, response = svd_weights2[, i])
+            models_svd2 <- c(models_svd2, list(mod_s))
+        }
+        save(models_svd2, file = "R_GP_models.RData")
+        
+     }''')
 
-
-r('''for (i in 1: nrankmax){
-        mod_s <- km(~., design = u_train2, response = svd_weights2[, i])
-        models_svd2 <- c(models_svd2, list(mod_s))
-                          }''')
+r('''''')
 
 ######################### INFERENCE ########################
 
