@@ -20,7 +20,7 @@ from camb import model, initialpower
 #########################################################3
 
 
-ell_max = 10000
+ell_max = 1000
 
 #Set up a new set of parameters for CAMB
 pars = camb.CAMBparams()
@@ -150,8 +150,11 @@ cosmo.set(params)
 cosmo.compute()
 cls = cosmo.lensed_cl(ell_max)
 ttCLASS = cls['ell'] * (cls['ell']+1) * cls['tt'] * (1e6 * 2.7255)**2 / (2*np.pi)
-# cosmo.struct_cleanup()
-# cosmo.empty()
+
+
+
+cosmo.struct_cleanup()  ## Commented
+cosmo.empty()      ## Commented
 
 
 
