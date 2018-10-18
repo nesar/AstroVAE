@@ -20,7 +20,9 @@ export PATH="/homes/nramachandra/miniconda2/bin:$PATH"
 
 conda activate mlEnv
 
-srun -p cp100 python Cl_linear.py 
+#srun -p cp100 python Cl_linear.py 
+python Cl_linear.py 
+
 
 echo [$SECONDS] End job 
 
