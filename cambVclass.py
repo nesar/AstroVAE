@@ -191,7 +191,7 @@ plt.title('LINEAR')
 
 
 
-# P(k) Comparison¶
+# P(k) Comparison
 
 
 plt.loglog( kh, np.abs( (PCLASS/(cosmo.h())**(-3) - pk[0,:])/pk[0,:]   ) )
@@ -200,7 +200,7 @@ plt.ylabel(r'$|\Delta P(k)| / P(k)$')
 
 
 
-# Nonlinear P(k) Difference¶
+# Nonlinear P(k) Difference
 
 pars.NonLinear = model.NonLinear_both
 results.calc_power_spectra(pars)
