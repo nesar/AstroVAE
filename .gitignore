@@ -5,6 +5,7 @@
 *.pdf
 *.pyc
 *.xml
+*.RData
 
 Old
 OutSlurm
