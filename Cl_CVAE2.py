@@ -139,6 +139,8 @@ x_train = K.cast_to_floatx(x_train)
 ################# ARCHITECTURE ###############################
 
 from keras.optimizers import Adam
+from keras.layers import Input, Dense, Lambda, merge
+
 from keras.layers.merge import concatenate as concat
 from keras.callbacks import EarlyStopping
 
@@ -160,72 +162,67 @@ n_y = y_train.shape[1]
 
 n_epoch = 50
 
-X = Input(shape=(n_x,))
-label = Input(shape=(n_y,))
 
 
-inputs = concat([X, label])
 
+# Q(z|X) -- encoder
+X = Input(batch_shape=(m, n_x)) # size of MNIST images
+cond = Input(batch_shape=(m, n_y))
 
-encoder_h = Dense(encoder_dim1, activation=activ)(inputs)
-mu = Dense(n_z, activation='linear')(encoder_h)
-l_sigma = Dense(n_z, activation='linear')(encoder_h)
-
+inputs = merge([X, cond], mode='concat', concat_axis=1)
+h_q = Dense(encoder_dim1, activation='relu')(inputs)
+mu = Dense(n_z, activation='linear')(h_q)
+log_sigma = Dense(n_z, activation='linear')(h_q)
 
 def sample_z(args):
-    mu, l_sigma = args
+    mu, log_sigma = args
     eps = K.random_normal(shape=(m, n_z), mean=0., stddev=1.)
-    return mu + K.exp(l_sigma / 2) * eps
+    return mu + K.exp(log_sigma / 2.) * eps
 
-
-# Sampling latent space
-z = Lambda(sample_z, output_shape = (n_z, ))([mu, l_sigma])
-
-
+z = Lambda(sample_z)([mu, log_sigma])
+z_cond = merge([z, cond], mode='concat', concat_axis=1) # <--- NEW!
 
 
 
-# z = Lambda(sample_z, output_shape = (n_z, ))([mu, l_sigma])
-
-# merge latent space with label
-zc = concat([z, label])
-
-
-
-
-decoder_hidden = Dense(decoder_dim, activation=activ)
+# P(X|z) -- decoder
+decoder_hidden = Dense(decoder_dim, activation='relu')
 decoder_out = Dense(decoder_out_dim, activation='sigmoid')
-h_p = decoder_hidden(zc)
+
+h_p = decoder_hidden(z_cond)
 outputs = decoder_out(h_p)
 
 
+# Overall VAE model, for reconstruction and training
+cvae = Model([X, cond], outputs)
+
+# Encoder model, to encode input into latent variable
+# We use the mean as the output as it is the center point, the representative of the gaussian
+encoder = Model([X, cond], mu)
+
+# Generator model, generate new data given latent variable z
+d_cond = Input(shape=(n_y,))
+d_z = Input(shape=(n_z,))
+d_inputs = merge([d_z, d_cond], mode='concat', concat_axis=1)
+d_h = decoder_hidden(d_inputs)
+d_out = decoder_out(d_h)
+decoder = Model([d_z, d_cond], d_out)
 
 
 def vae_loss(y_true, y_pred):
-    recon = K.sum(K.binary_crossentropy(y_true, y_pred), axis=-1)
-    kl = 0.5 * K.sum(K.exp(l_sigma) + K.square(mu) - 1. - l_sigma, axis=-1)
+    """ Calculate loss = reconstruction loss + KL loss for eatch data in minibatch """
+    # E[log P(X|z)]
+    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
+    # D_KL(Q(z|X) || P(z|X)); calculate in closed from as both dist. are Gaussian
+    kl = 0.5 * K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
+
     return recon + kl
 
-def KL_loss(y_true, y_pred):
-	return(0.5 * K.sum(K.exp(l_sigma) + K.square(mu) - 1. - l_sigma, axis=1))
 
-def recon_loss(y_true, y_pred):
-	return K.sum(K.binary_crossentropy(y_true, y_pred), axis=-1)
+cvae.compile(optimizer='adam', loss=vae_loss)
+cvae.fit([x_train, y_train], x_train, batch_size=m, nb_epoch=200, validation_split=0.1)
 
 
 
-
-
-cvae = Model([X, label], outputs)
-encoder = Model([X, label], mu)
-
-d_in = Input(shape=(n_z+n_y,))
-d_h = decoder_hidden(d_in)
-d_out = decoder_out(d_h)
-decoder = Model(d_in, d_out)
-
-
-cvae.compile(optimizer=optim, loss=vae_loss, metrics = [KL_loss, recon_loss])
 
 print(cvae.summary())
 
