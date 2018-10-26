@@ -151,6 +151,17 @@ from keras.callbacks import EarlyStopping
 # select optimizer
 optim = 'adam'
 
+# optim =  optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
+#                           decay=decay_rate)
+
+#
+# adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
+#                           decay=decay_rate)
+
+# vae.compile(optimizer='adam', loss=vae_loss)
+
+
+
 # dimension of latent space (batch size by latent dim)
 m = 1
 n_z = 32
@@ -221,7 +232,15 @@ def recon_loss(y_true, y_pred):
 	return(K.sum(K.binary_crossentropy(y_pred, y_true), axis=1))
 
 
+
+
+# K.set_value(cvae.optimizer.lr, learning_rate)
+# K.set_value(cvae.optimizer.decay, decay_rate)
+
+
+
 # compile and fit
+
 cvae.compile(optimizer=optim, loss=vae_loss, metrics = [KL_loss, recon_loss])
 
 
