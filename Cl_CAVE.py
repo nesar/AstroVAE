@@ -158,7 +158,7 @@ n_x = x_train.shape[1]
 n_y = y_train.shape[1]
 
 # nubmer of epochs
-n_epoch = 10
+n_epoch = 100
 
 ##  ENCODER ##
 
@@ -339,20 +339,20 @@ plotLoss = True
 if plotLoss:
     import matplotlib.pylab as plt
 
-    epochs = np.arange(1, num_epochs+1)
-    train_loss = cvae_hist.history.history['loss']
-    val_loss = cvae_hist.history.history['val_loss']
+    epochs = np.arange(1, n_epoch+1)
+    train_loss = cvae_hist.history['loss']
+    # val_loss = cvae_hist.history.history['val_loss']
 
 
     fig, ax = plt.subplots(1,1, sharex= True, figsize = (8,6))
     # fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace= 0.02)
     ax.plot(epochs,train_loss, '-', lw =1.5)
-    ax.plot(epochs,val_loss, '-', lw = 1.5)
+    # ax.plot(epochs,val_loss, '-', lw = 1.5)
     ax.set_ylabel('loss')
     ax.set_xlabel('epochs')
     # ax[0].set_ylim([0,1])
     # ax[0].set_title('Loss')
-    ax.legend(['train loss','val loss'])
+    # ax.legend(['train loss','val loss'])
     plt.tight_layout()
     # plt.savefig(PlotsDir+'Training_loss.png')
 
