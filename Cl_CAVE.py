@@ -150,15 +150,15 @@ from keras.callbacks import EarlyStopping
 optim = 'adam'
 
 # dimension of latent space (batch size by latent dim)
-m = 4
-n_z = 4
+m = 1
+n_z = 1
 
 # dimension of input (and label)
 n_x = x_train.shape[1]
 n_y = y_train.shape[1]
 
 # nubmer of epochs
-n_epoch = 100
+n_epoch = 200
 
 ##  ENCODER ##
 
