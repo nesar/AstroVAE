@@ -1,13 +1,15 @@
 """
 
-Variational Autoencoding for CMB power spectra.
+Conditional Variational Autoencoding for CMB power spectra.
 
-Training scheme is unsupervised, i.e., the autoencoder is not given information about
+Training scheme is supervised, i.e., the autoencoder is given information about
 cosmological parameters.
 
 
 
 This script uses Keras for neural network architecture.
+
+Based on: https://github.com/nnormandin/Conditional_VAE/blob/master/conditional_vae.py
 
 """
 import numpy as np
