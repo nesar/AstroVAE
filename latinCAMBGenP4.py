@@ -38,7 +38,7 @@ plt.rcParams.update({'font.size': 8})
 
 
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
-             r'$\tilde{n}_s$']
+             r'$\tilde{n}_s$'] ### n_eff, mass nutrino -- tau
 
 for i in range(5):
     for j in range(i+1):

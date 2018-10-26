@@ -24,15 +24,15 @@ X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 optim = 'adam'
 
 # dimension of latent space (batch size by latent dim)
-m = 50
-n_z = 50
+m = 64
+n_z = 64
 
 # dimension of input (and label)
 n_x = X_train.shape[1]
 n_y = y_train.shape[1]
 
 # nubmer of epochs
-n_epoch = 10
+n_epoch = 1
 
 ##  ENCODER ##
 

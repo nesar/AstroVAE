@@ -107,8 +107,8 @@ x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
 
 
-np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
-np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
+np.savetxt(DataDir+'meanfactorCVAEP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
+np.savetxt(DataDir+'normfactorCVAEP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
 
 
@@ -138,109 +138,99 @@ x_train = K.cast_to_floatx(x_train)
 
 ################# ARCHITECTURE ###############################
 
-from keras.optimizers import Adam
-from keras.layers.merge import concatenate as concat
+# from keras.optimizers import Adam
+# from keras.layers.merge import concatenate as concat
+from keras.layers.merge import concatenate
+
 from keras.callbacks import EarlyStopping
 
 
 
+# select optimizer
+optim = 'adam'
 
-m = 8 # batch size
-n_z = 4 # latent space size
-encoder_dim1 = 128 # dim of encoder hidden layer
-decoder_dim = 128 # dim of decoder hidden layer
-decoder_out_dim = params.original_dim # dim of decoder output layer
-activ = 'relu'
-optim = Adam(lr=0.001)
+# dimension of latent space (batch size by latent dim)
+m = 4
+n_z = 4
 
-
+# dimension of input (and label)
 n_x = x_train.shape[1]
 n_y = y_train.shape[1]
 
+# nubmer of epochs
+n_epoch = 10
 
-n_epoch = 50
+##  ENCODER ##
 
-X = Input(shape=(n_x,))
-label = Input(shape=(n_y,))
+# encoder inputs
+X = Input(shape=(n_x, ))
+cond = Input(shape=(n_y, ))
 
+# merge pixel representation and label
+inputs = concatenate([X, cond])
 
-inputs = concat([X, label])
-
-
-encoder_h = Dense(encoder_dim1, activation=activ)(inputs)
-mu = Dense(n_z, activation='linear')(encoder_h)
-l_sigma = Dense(n_z, activation='linear')(encoder_h)
-
+# dense ReLU layer to mu and sigma
+h_q = Dense(intermediate_dim, activation='relu')(inputs)
+mu = Dense(n_z, activation='linear')(h_q)
+log_sigma = Dense(n_z, activation='linear')(h_q)
 
 def sample_z(args):
-    mu, l_sigma = args
+    mu, log_sigma = args
     eps = K.random_normal(shape=(m, n_z), mean=0., stddev=1.)
-    return mu + K.exp(l_sigma / 2) * eps
+    return mu + K.exp(log_sigma / 2) * eps
 
 
 # Sampling latent space
-z = Lambda(sample_z, output_shape = (n_z, ))([mu, l_sigma])
-
-
-
-
-
-# z = Lambda(sample_z, output_shape = (n_z, ))([mu, l_sigma])
+z = Lambda(sample_z, output_shape = (n_z, ))([mu, log_sigma])
 
 # merge latent space with label
-zc = concat([z, label])
+z_cond = concatenate([z, cond])
 
+##  DECODER  ##
 
-
-
-decoder_hidden = Dense(decoder_dim, activation=activ)
-decoder_out = Dense(decoder_out_dim, activation='sigmoid')
-h_p = decoder_hidden(zc)
+# dense ReLU to sigmoid layers
+decoder_hidden = Dense(intermediate_dim, activation='relu')
+decoder_out = Dense(n_x, activation='sigmoid')
+h_p = decoder_hidden(z_cond)
 outputs = decoder_out(h_p)
 
+# define cvae and encoder models
+cvae = Model([X, cond], outputs)
+encoder = Model([X, cond], mu)
 
-
-
-def vae_loss(y_true, y_pred):
-    recon = K.sum(K.binary_crossentropy(y_true, y_pred), axis=-1)
-    kl = 0.5 * K.sum(K.exp(l_sigma) + K.square(mu) - 1. - l_sigma, axis=-1)
-    return recon + kl
-
-def KL_loss(y_true, y_pred):
-	return(0.5 * K.sum(K.exp(l_sigma) + K.square(mu) - 1. - l_sigma, axis=1))
-
-def recon_loss(y_true, y_pred):
-	return K.sum(K.binary_crossentropy(y_true, y_pred), axis=-1)
-
-
-
-
-
-cvae = Model([X, label], outputs)
-encoder = Model([X, label], mu)
-
+# reuse decoder layers to define decoder separately
 d_in = Input(shape=(n_z+n_y,))
 d_h = decoder_hidden(d_in)
 d_out = decoder_out(d_h)
 decoder = Model(d_in, d_out)
 
+# define loss (sum of reconstruction and KL divergence)
+def vae_loss(y_true, y_pred):
+    # E[log P(X|z)]
+    recon = K.sum(K.binary_crossentropy(y_pred, y_true), axis=1)
+    # D_KL(Q(z|X) || P(z|X))
+    kl = 0.5 * K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1)
+    return recon + kl
 
-cvae.compile(optimizer=optim, loss=vae_loss, metrics = [KL_loss, recon_loss])
+def KL_loss(y_true, y_pred):
+	return(0.5 * K.sum(K.exp(log_sigma) + K.square(mu) - 1. - log_sigma, axis=1))
 
-print(cvae.summary())
+def recon_loss(y_true, y_pred):
+	return(K.sum(K.binary_crossentropy(y_pred, y_true), axis=1))
 
 
 # compile and fit
-# cvae_hist = cvae.fit([x_train, y_train], x_train, verbose = 1, batch_size=m, epochs=n_epoch,
+cvae.compile(optimizer=optim, loss=vae_loss, metrics = [KL_loss, recon_loss])
+
+
+cvae_hist = cvae.fit([x_train, y_train], x_train, batch_size=m, epochs=n_epoch)
+
+
+# cvae_hist = cvae.fit([x_train, y_train], x_train, batch_size=m, epochs=n_epoch,
 # 							validation_data = ([x_test, y_test], x_test),
 # 							callbacks = [EarlyStopping(patience = 5)])
 
-
-
-cvae_hist = cvae.fit( [x_train_noisy, y_train], x_train_noisy ,  shuffle=True, batch_size=m,
-                   nb_epoch=n_epoch,
-         verbose=2,
-        validation_data=([x_test_noisy, y_test], x_test_noisy))
+# this loop prints the one-hot decodings
 
 
 
@@ -258,14 +248,14 @@ cvae_hist = cvae.fit( [x_train_noisy, y_train], x_train_noisy ,  shuffle=True, b
 
 # ----------------------------------------------------------------------------
 
-x_train_encoded = encoder.predict(x_train)
-x_train_decoded = decoder.predict(x_train_encoded)
+x_train_encoded = encoder.predict([x_train, y_train])
+x_train_decoded = decoder.predict(np.hstack([x_train_encoded, y_train]))
 
-x_test_encoded = encoder.predict(x_test)
-x_test_decoded = decoder.predict(x_test_encoded)
+x_test_encoded = encoder.predict([x_test, y_test])
+x_test_decoded = decoder.predict(np.hstack([x_test_encoded, y_test]))
 
-np.savetxt(DataDir+'encoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.txt', x_train_encoded)
-np.savetxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt', x_test_encoded)
+np.savetxt(DataDir+'CVAEencoded_xtrainP'+str(num_para)+ClID+'_'+ fileOut +'.txt', x_train_encoded)
+np.savetxt(DataDir+'CVAEencoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt', x_test_encoded)
 
 # np.save(DataDir+'para5_'+str(num_train)+'.npy', y_train)
 # -------------------- Save model/weights --------------------------
@@ -274,32 +264,32 @@ np.savetxt(DataDir+'encoded_xtestP'+str(num_para)+ClID+'_'+ fileOut +'.txt', x_t
 SaveModel = True
 if SaveModel:
     epochs = np.arange(1, num_epochs+1)
-    train_loss = cvae_hist.history.history['loss']
-    val_loss = cvae_hist.history.history['val_loss']
+    # train_loss = cvae_hist.history['loss']
+    # val_loss = cvae_hist.history['val_loss']
 
-    training_hist = np.vstack([epochs, train_loss, val_loss])
+    # training_hist = np.vstack([epochs, train_loss, val_loss])
 
 
-    cvae.save(ModelDir+'fullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
-    encoder.save(ModelDir + 'EncoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
-    decoder.save(ModelDir + 'DecoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
-    np.savetxt(ModelDir + 'TrainingHistoryP'+str(num_para)+ClID+'_'+fileOut+'.txt', training_hist)
-
+    cvae.save(ModelDir+'fullCVAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    encoder.save(ModelDir + 'EncoderCVAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    decoder.save(ModelDir + 'DecoderCVAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
+    # np.savetxt(ModelDir + 'TrainingHistoryCVAEP'+str(num_para)+ClID+'_'+fileOut+'.txt', training_hist)
+#
 # -------------------- Plotting routines --------------------------
 PlotScatter = True
 if PlotScatter:
     # display a 2D plot of latent space (just 2 dimensions)
     plt.figure(figsize=(6, 6))
 
-    x_train_encoded = encoder.predict(x_train)
+    x_train_encoded = encoder.predict([x_train, y_train])
     plt.scatter(x_train_encoded[:, 0], x_train_encoded[:, 1], c=y_train[:, 0], cmap='spring')
     plt.colorbar()
 
-    x_test_encoded = encoder.predict(x_test)
+    x_test_encoded = encoder.predict([x_test, y_test])
     plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:, 0], cmap='copper')
     plt.colorbar()
     plt.title(fileOut)
-    plt.savefig( PlotsDir + 'Scatter_z'+ClID+fileOut+'.png')
+    plt.savefig( PlotsDir + 'ScatterCVAE_z'+ClID+fileOut+'.png')
 
 
 
@@ -319,7 +309,7 @@ if PlotSample:
         # plt.yscale('log')
         plt.ylabel('reconstructed/real')
         plt.title('train(red) and test (black)')
-        plt.savefig(PlotsDir + 'Ratio_ttP'+str(num_para)+ClID+fileOut+'.png')
+        plt.savefig(PlotsDir + 'RatioCVAE_ttP'+str(num_para)+ClID+fileOut+'.png')
 
 
         if (i%2 == 1):
@@ -334,7 +324,7 @@ if PlotSample:
             # plt.xscale('log')
             # plt.yscale('log')
             plt.title('Testing: reconstructed (red) and real (blue)')
-            plt.savefig(PlotsDir + 'decoderTestP'+str(num_para)+ClID+ fileOut + '.png')
+            plt.savefig(PlotsDir + 'decoderTestCVAEP'+str(num_para)+ClID+ fileOut + '.png')
 
     plt.show()
 
@@ -370,13 +360,13 @@ if plotLoss:
 PlotModel = False
 if PlotModel:
     from keras.utils.vis_utils import plot_model
-    fileOut = PlotsDir + 'ArchitectureFullAE.png'
+    fileOut = PlotsDir + 'ArchitectureFullCVAE.png'
     plot_model(cvae, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-    fileOut = PlotsDir + 'ArchitectureEncoder.png'
+    fileOut = PlotsDir + 'ArchitectureEncoderCVAE.png'
     plot_model(encoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
-    fileOut = PlotsDir + 'ArchitectureDecoder.png'
+    fileOut = PlotsDir + 'ArchitectureDecoderCVAE.png'
     plot_model(decoder, to_file=fileOut, show_shapes=True, show_layer_names=True)
 
 plt.show()
