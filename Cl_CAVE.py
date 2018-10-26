@@ -151,7 +151,7 @@ optim = 'adam'
 
 # dimension of latent space (batch size by latent dim)
 m = 1
-n_z = 1
+n_z = 32
 
 # dimension of input (and label)
 n_x = x_train.shape[1]
