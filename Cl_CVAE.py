@@ -14,7 +14,7 @@ from keras import optimizers
 from keras import losses
 
 import matplotlib as mpl
-# mpl.use('Agg')
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 import keras.backend as K
@@ -161,7 +161,7 @@ n_x = x_train.shape[1]
 n_y = y_train.shape[1]
 
 # nubmer of epochs
-n_epoch = 10
+n_epoch = 2000
 
 ##  ENCODER ##
 
