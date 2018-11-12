@@ -161,7 +161,7 @@ n_x = x_train.shape[1]
 n_y = y_train.shape[1]
 
 # nubmer of epochs
-n_epoch = 200
+n_epoch = 10
 
 ##  ENCODER ##
 
@@ -234,7 +234,7 @@ def recon_loss(y_true, y_pred):
 cvae.compile(optimizer=optim, loss=vae_loss, metrics = [KL_loss, recon_loss])
 
 
-cvae_hist = cvae.fit([x_train, y_train], x_train, batch_size=m, epochs=n_epoch)
+cvae_hist = cvae.fit([x_train, y_train], x_train, batch_size=m, epochs=n_epoch, verbose =2)
 
 
 # cvae_hist = cvae.fit([x_train, y_train], x_train, batch_size=m, epochs=n_epoch,
