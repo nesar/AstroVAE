@@ -1,13 +1,6 @@
 """
 
-Conditional Variational Autoencoding for CMB power spectra.
-
-Training scheme is supervised, i.e., the autoencoder is given information about
-cosmological parameters.
-
-
-
-This script uses Keras for neural network architecture.
+Keras implementation of Conditional Variational Autoencoding for CMB power spectra.
 
 Based on: https://github.com/nnormandin/Conditional_VAE/blob/master/conditional_vae.py
 
@@ -20,7 +13,7 @@ from keras.models import Model
 from keras import optimizers
 from keras import losses
 
-import matplotlib as mpl
+# import matplotlib as mpl
 # mpl.use('Agg')
 
 import matplotlib.pyplot as plt
@@ -158,13 +151,10 @@ optim = 'adam'
 # adam = optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None,
 #                           decay=decay_rate)
 
-# vae.compile(optimizer='adam', loss=vae_loss)
-
-
 
 # dimension of latent space (batch size by latent dim)
 m = 1
-n_z = 32
+n_z = 2
 
 # dimension of input (and label)
 n_x = x_train.shape[1]
@@ -244,7 +234,7 @@ def recon_loss(y_true, y_pred):
 cvae.compile(optimizer=optim, loss=vae_loss, metrics = [KL_loss, recon_loss])
 
 
-cvae_hist = cvae.fit([x_train, y_train], x_train, batch_size=m, epochs=n_epoch)
+cvae_hist = cvae.fit([x_train, y_train], x_train, batch_size=m, epochs=n_epoch, verbose =2)
 
 
 # cvae_hist = cvae.fit([x_train, y_train], x_train, batch_size=m, epochs=n_epoch,

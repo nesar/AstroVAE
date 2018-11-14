@@ -1,4 +1,9 @@
 import numpy as np
+
+import matplotlib as mpl
+mpl.use('Agg')
+
+
 import matplotlib.pylab as plt
 import corner
 import emcee
