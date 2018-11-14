@@ -13,8 +13,8 @@ from keras.models import Model
 from keras import optimizers
 from keras import losses
 
-import matplotlib as mpl
-mpl.use('Agg')
+# import matplotlib as mpl
+# mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 import keras.backend as K
@@ -154,14 +154,14 @@ optim = 'adam'
 
 # dimension of latent space (batch size by latent dim)
 m = 1
-n_z = 32
+n_z = 2
 
 # dimension of input (and label)
 n_x = x_train.shape[1]
 n_y = y_train.shape[1]
 
 # nubmer of epochs
-n_epoch = 2000
+n_epoch = 200
 
 ##  ENCODER ##
 
