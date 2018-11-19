@@ -161,7 +161,7 @@ n_x = x_train.shape[1]
 n_y = y_train.shape[1]
 
 # nubmer of epochs
-n_epoch = 200
+n_epoch = 20
 
 ##  ENCODER ##
 
