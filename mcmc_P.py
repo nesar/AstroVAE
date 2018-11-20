@@ -124,14 +124,15 @@ RcppCNPy = importr('RcppCNPy')
 # RcppCNPy.chooseCRANmirror(ind=1) # select the first mirror in the list
 
 ########
+fileIn = "/home/nes/Desktop/AstroVAE/P_data/2nd_pass_pvals.txt"
 
+P_data = np.loadtxt(fileIn)
 ################################# I/O #################################
 
 # Note that the 3rd variable is not used here, and the first two points of the spectrum can be removed
-r('u_train2 <- as.matrix(read.csv("../Cl_data/Data/LatinCosmoP51024.txt", sep = " ", header = ''F))')
+r('u_train2 <- as.matrix(read.csv("/home/nes/Desktop/AstroVAE/P_data/2nd_pass_pvals.txt", ''sep = " ", header = ''F))')
 
 r('y_train2 <- as.matrix(read.csv("../Cl_data/Data/P5TTCl_1024.txt", sep = " ", header = ''F))[,''-(1:7)]')
-
 
 r('u_test2 <- as.matrix(read.csv("ComparisonTests/VAE_data/params.txt", sep = " ", header = F))') ## testing design
 
@@ -227,24 +228,28 @@ def GP_fit(para_array):
 
 
 
-#
-# x_id = 20
-#
-# x_decodedGPy = GP_fit(y_test[x_id])
-# # computedGP = GPcompute(rescaledTrainParams, latent_dim)
-# # x_decoded = GPfit(computedGP, y_test[x_id])
-#
-# x_camb = (normFactor * x_test[x_id]) + meanFactor
-#
-#
-# plt.figure(1423)
-#
-# # plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
-# plt.plot(x_decodedGPy, alpha = 0.4 , ls = '--', label = 'GPy')
-# plt.plot(x_test[x_id], alpha = 0.3 , label = 'camb')
-# plt.legend()
-# plt.show()
 
+x_id = 20
+
+x_decodedGPy = GP_fit(y_test[x_id])
+# computedGP = GPcompute(rescaledTrainParams, latent_dim)
+# x_decoded = GPfit(computedGP, y_test[x_id])
+
+x_camb = (normFactor * x_test[x_id]) + meanFactor
+
+
+plt.figure(1423)
+
+# plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
+plt.plot(x_decodedGPy, alpha = 0.4 , ls = '--', label = 'GPy')
+plt.plot(x_test[x_id], alpha = 0.3 , label = 'camb')
+plt.legend()
+plt.show()
+
+
+
+import sys
+sys.exit()
 
 
 ########################################################################################################################
