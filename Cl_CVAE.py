@@ -171,7 +171,7 @@ cond = Input(shape=(n_y, ))
 
 # merge pixel representation and label
 inputs = concatenate([X, cond])
-
+m
 # dense ReLU layer to mu and sigma
 h_q = Dense(intermediate_dim, activation='relu')(inputs)
 mu = Dense(n_z, activation='linear')(h_q)
