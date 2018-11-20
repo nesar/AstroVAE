@@ -68,24 +68,6 @@ def rescale01(xmin, xmax, f):
 
 ###################### PARAMETERS ##############################
 
-original_dim = params.original_dim  # 2549
-latent_dim = params.latent_dim  # 10
-
-ClID = params.ClID
-num_train = params.num_train  # 512
-num_test = params.num_test  # 32
-num_para = params.num_para  # 5
-
-batch_size = params.batch_size  # 8
-num_epochs = params.num_epochs  # 100
-epsilon_mean = params.epsilon_mean  # 1.0
-epsilon_std = params.epsilon_std  # 1.0
-learning_rate = params.learning_rate  # 1e-3
-decay_rate = params.decay_rate  # 0.0
-
-noise_factor = params.noise_factor  # 0.00
-
-######################## I/O ##################################
 
 DataDir = params.DataDir
 PlotsDir = params.PlotsDir
@@ -98,21 +80,21 @@ fileOut = params.fileOut
 
 #
 # Trainfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_train) + '.txt')
-Testfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_test) + '.txt')
+# Testfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_test) + '.txt')
 #
 # x_train = Trainfiles[:, num_para + 2:]
-x_test = Testfiles[:, num_para + 2:]
+# x_test = Testfiles[:, num_para + 2:]
 # y_train = Trainfiles[:, 0: num_para]
-y_test = Testfiles[:, 0: num_para]
+# y_test = Testfiles[:, 0: num_para]
 #
 
 #
-ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
+# ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
 #
 # # ----------------------------------------------------------------------------
 #
-normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+# normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+# meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
 
 
 
@@ -125,8 +107,9 @@ RcppCNPy = importr('RcppCNPy')
 
 ########
 fileIn = "/home/nes/Desktop/AstroVAE/P_data/2nd_pass_pvals.txt"
-
 P_data = np.loadtxt(fileIn)
+
+
 ################################# I/O #################################
 
 # Note that the 3rd variable is not used here, and the first two points of the spectrum can be removed
@@ -235,7 +218,7 @@ x_decodedGPy = GP_fit(y_test[x_id])
 # computedGP = GPcompute(rescaledTrainParams, latent_dim)
 # x_decoded = GPfit(computedGP, y_test[x_id])
 
-x_camb = (normFactor * x_test[x_id]) + meanFactor
+# x_camb = (normFactor * x_test[x_id]) + meanFactor
 
 
 plt.figure(1423)
