@@ -17,6 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from keras.models import load_model
+import GPy
 
 import params
 #import Cl_load
@@ -75,7 +76,6 @@ if LoadModel:
 
 
 
-import GPy
 
 # ----------------------------- i/o ------------------------------------------
 

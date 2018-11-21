@@ -1,91 +1,27 @@
-import numpy as np
-
 # import matplotlib as mpl
 # mpl.use('Agg')
-
-
+import numpy as np
 import matplotlib.pylab as plt
-import corner
 import emcee
 import time
-# from keras.models import load_model
 import params
-# import george
-# from george.kernels import Matern32Kernel
-
-import rpy2.robjects as ro
-
 import pygtc
+import rpy2.robjects as ro
 import rpy2.robjects.numpy2ri
 rpy2.robjects.numpy2ri.activate()
 
 
 #### parameters that define the MCMC
 
-ndim = 5
+ndim = 4
 nwalkers = 20 #200 #600  # 500
 nrun_burn = 10 # 50 # 50  # 300
 nrun = 30 # 300  # 700
 fileID = 1
 
 
-########## REAL DATA with ERRORS #############################
-# Planck/SPT/WMAP data
-# TE, EE, BB next
+############################# PARAMETERS ##############################
 
-dirIn = '../Cl_data/RealData/'
-allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
-
-lID = np.array([0, 2, 0])
-ClID = np.array([1, 3, 1])
-emaxID = np.array([2, 4, 2])
-eminID = np.array([2, 4, 2])
-
-print(allfiles)
-
-
-# for fileID in [realDataID]:
-with open(dirIn + allfiles[fileID]) as f:
-    lines = (line for line in f if not line.startswith('#'))
-    allCl = np.loadtxt(lines, skiprows=1)
-
-    l = allCl[:, lID[fileID]].astype(int)
-    Cl = allCl[:, ClID[fileID]]
-    emax = allCl[:, emaxID[fileID]]
-    emin = allCl[:, eminID[fileID]]
-
-    print(l.shape)
-
-
-############## GP FITTING ################################################################################
-##########################################################################################################
-
-
-
-def rescale01(xmin, xmax, f):
-    return (f - xmin) / (xmax - xmin)
-
-
-###################### PARAMETERS ##############################
-
-original_dim = params.original_dim  # 2549
-latent_dim = params.latent_dim  # 10
-
-ClID = params.ClID
-num_train = params.num_train  # 512
-num_test = params.num_test  # 32
-num_para = params.num_para  # 5
-
-batch_size = params.batch_size  # 8
-num_epochs = params.num_epochs  # 100
-epsilon_mean = params.epsilon_mean  # 1.0
-epsilon_std = params.epsilon_std  # 1.0
-learning_rate = params.learning_rate  # 1e-3
-decay_rate = params.decay_rate  # 0.0
-
-noise_factor = params.noise_factor  # 0.00
-
-######################## I/O ##################################
 
 DataDir = params.DataDir
 PlotsDir = params.PlotsDir
@@ -96,53 +32,46 @@ fileOut = params.fileOut
 # ----------------------------- i/o ------------------------------------------
 
 
-#
-# Trainfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_train) + '.txt')
-Testfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_test) + '.txt')
-#
-# x_train = Trainfiles[:, num_para + 2:]
-x_test = Testfiles[:, num_para + 2:]
-# y_train = Trainfiles[:, 0: num_para]
-y_test = Testfiles[:, 0: num_para]
-#
-
-#
-ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
-#
-# # ----------------------------------------------------------------------------
-#
-normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-
-
-
 import numpy as np
 from rpy2.robjects import r
 from rpy2.robjects.packages import importr
+from astropy.io import fits as pf
+import astropy.table
 
 RcppCNPy = importr('RcppCNPy')
 # RcppCNPy.chooseCRANmirror(ind=1) # select the first mirror in the list
 
 ########
-fileIn = "/home/nes/Desktop/AstroVAE/P_data/2nd_pass_pvals.txt"
 
-P_data = np.loadtxt(fileIn)
 ################################# I/O #################################
+fitsfileIn =  "../P_data/2ndpass_vals_for_test.fits"
 
-# Note that the 3rd variable is not used here, and the first two points of the spectrum can be removed
-r('u_train2 <- as.matrix(read.csv("/home/nes/Desktop/AstroVAE/P_data/2nd_pass_pvals.txt", ''sep = " ", header = ''F))')
+Allfits =pf.open(fitsfileIn)
+AllData =astropy.table.Table(Allfits[1].data)
 
-r('y_train2 <- as.matrix(read.csv("../Cl_data/Data/P5TTCl_1024.txt", sep = " ", header = ''F))[,''-(1:7)]')
+parameter_array = np.array([AllData['RHO'], AllData['SIGMA_LAMBDA'], AllData['TAU'], 
+                         AllData['SSPT']]).T
 
-r('u_test2 <- as.matrix(read.csv("ComparisonTests/VAE_data/params.txt", sep = " ", header = F))') ## testing design
+nr, nc = parameter_array.shape
+u_train = ro.r.matrix(parameter_array, nrow=nr, ncol=nc)
 
-r('y_test2 <- as.matrix(read.csv("ComparisonTests/VAE_data/TTtrue.txt", sep = " ", header = F))') #[,-c(1,2)] # testing spectrum curves
+ro.r.assign("u_train2", u_train)
+r('dim(u_train2)')
 
-# r('matplot(t(y_train2), type = "l")')
+pvec = (AllData['PVEC'])#.newbyteorder('S')
+# print(  np.unique( np.argwhere( np.isnan(pvec) )[:,0]) )
+
+np.savetxt('pvec.txt', pvec)
+pvec = np.loadtxt('pvec.txt')
+
+nr, nc = pvec.shape
+y_train = ro.r.matrix(pvec, nrow=nr, ncol=nc)
+
+ro.r.assign("y_train2", y_train)
+r('dim(y_train2)')
 
 
 ########################### PCA ###################################
-
 
 Dicekriging = importr('DiceKriging')
 
@@ -150,72 +79,48 @@ r('require(foreach)')
 
 r('svd(y_train2)')
 
-r('nrankmax <- 24')   ## Number of components
+r('nrankmax <- 12')   ## Number of components
 
 r('svd_decomp2 <- svd(y_train2)')
 r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax])')
 
-########################### GP train #################################
-
+######################## GP FITTING ################################
+####################################################################
 ## Build GP models
 GPareto = importr('GPareto')
 
-r('''if(file.exists("R_GP_models.RData")){
-        load("R_GP_models.RData")
+r('''if(file.exists("R_GP_models_2.RData")){
+        load("R_GP_models_2.RData")
     }else{
         models_svd2 <- list()
         for (i in 1: nrankmax){
             mod_s <- km(~., design = u_train2, response = svd_weights2[, i])
             models_svd2 <- c(models_svd2, list(mod_s))
         }
-        save(models_svd2, file = "R_GP_models.RData")
+        save(models_svd2, file = "R_GP_models_2.RData")
         
      }''')
 
 r('''''')
 
-######################### INFERENCE ########################
+######################### INFERENCE ##################################
 
-# exit()
 
 def GP_fit(para_array):
-
-
-    # test_pts = para_array.reshape(num_para, -1).T
-    # print(test_pts.shape)
 
     test_pts = para_array
     test_pts = np.expand_dims(test_pts, axis=0)
 
-    # # -------------- Predict latent space ----------------------------------------
-    #
-    # # W_pred = np.array([np.zeros(shape=latent_dim)])
-    # # W_pred_var = np.array([np.zeros(shape=latent_dim)])
-    #
-    # m1p = m1.predict(test_pts)  # [0] is the mean and [1] the predictive
-    # W_pred = m1p[0]
-    # # W_varArray = m1p[1]
-    #
-    #
-    # # for j in range(latent_dim):
-    # #     W_pred[:, j], W_pred_var[:, j] = computedGP["fit{0}".format(j)].predict(encoded_xtrain[j],
-    # #                                                                             test_pts)
-    #
-    # # -------------- Decode from latent space --------------------------------------
-    #
-    # x_decoded = decoder.predict(W_pred.reshape(latent_dim, -1).T )
-    #
-    # return (normFactor * x_decoded[0]) + meanFactor
 
     B = test_pts
 
     nr,nc = B.shape
     Br = ro.r.matrix(B, nrow=nr, ncol=nc)
 
-    ro.r.assign("B", Br)
+    ro.r.assign("Br", Br)
 
 
-    r('wtestsvd2 <- predict_kms(models_svd2, newdata = B , type = "UK")')
+    r('wtestsvd2 <- predict_kms(models_svd2, newdata = Br , type = "UK")')
     r('reconst_s2 <- t(wtestsvd2$mean) %*% t(svd_decomp2$v[,1:nrankmax])')
 
 
@@ -227,29 +132,55 @@ def GP_fit(para_array):
 
 
 
+plt.figure(999, figsize=(7, 6))
+from matplotlib import gridspec
+
+gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
+gs.update(hspace=0.02, left=0.2, bottom = 0.15)  # set the spacing between axes.
+ax0 = plt.subplot(gs[0])
+ax1 = plt.subplot(gs[1])
+
+ax0.set_ylabel(r'$P(x)$')
+# # ax0.set_title( r'$\text{' +fileOut + '}$')
+
+ax1.axhline(y=1, ls='dotted')
+# ax1.axhline(y=-1e-6, ls='dashed')
+# ax1.axhline(y=1e-6, ls='dashed')
+
+ax1.set_xlabel(r'$x$')
+
+ax1.set_ylabel(r'emu/real')
+ax1.set_ylim(-1e-5, 1e-5)
 
 
-x_id = 20
 
-x_decodedGPy = GP_fit(y_test[x_id])
-# computedGP = GPcompute(rescaledTrainParams, latent_dim)
-# x_decoded = GPfit(computedGP, y_test[x_id])
-
-x_camb = (normFactor * x_test[x_id]) + meanFactor
+##################################### TESTING ##################################
 
 
-plt.figure(1423)
 
-# plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
-plt.plot(x_decodedGPy, alpha = 0.4 , ls = '--', label = 'GPy')
-plt.plot(x_test[x_id], alpha = 0.3 , label = 'camb')
-plt.legend()
+for x_id in [3, 23 , 43, 64, 93, 109, 121]:
+
+    x_decodedGPy = GP_fit(parameter_array[x_id])   ## input parameters
+    x_test = pvec[x_id]
+
+    # plt.figure(1423)
+
+    # plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
+    ax0.plot(x_decodedGPy, alpha = 1.0 , ls = '--', label = 'emu')
+    ax0.plot(x_test, alpha = 0.9 , label = 'real')
+    plt.legend()
+
+    ax1.plot(x_decodedGPy[1:]/x_test[1:] - 1)
+
+
+
+
 plt.show()
 
 
-
-import sys
-sys.exit()
+#
+# import sys
+# sys.exit()
 
 
 ########################################################################################################################
