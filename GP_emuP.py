@@ -36,15 +36,16 @@ from rpy2.robjects.packages import importr
 
 ############################# PARAMETERS ##############################
 
-fitsfileIn = "../P_data/2ndpass_vals_for_test.fits"
-nRankMax = 32
-ro.r.assign("nrankmax", nRankMax)
+fitsfileIn = "../P_data/2ndpass_vals_for_test.fits"   ## Input fits file
+nRankMax = 32    ## Number of basis vectors in truncated PCA
+GPmodel = '"R_GP_model' + str(nRankMax) + '.RData"'  ## Double and single quotes are necessary
 
 ################################# I/O #################################
-
 RcppCNPy = importr('RcppCNPy')
 # RcppCNPy.chooseCRANmirror(ind=1) # select the first mirror in the list
 
+
+### 4 parameters: RHO, SIGMA, TAU, SSPT ###
 
 Allfits = pf.open(fitsfileIn)
 AllData = astropy.table.Table(Allfits[1].data)
@@ -58,9 +59,13 @@ u_train = ro.r.matrix(parameter_array, nrow=nr, ncol=nc)
 ro.r.assign("u_train2", u_train)
 r('dim(u_train2)')
 
+
+### P(x) -> 100 values at x-> 0:1 ###
+
 pvec = (AllData['PVEC'])  # .newbyteorder('S')
 # print(  np.unique( np.argwhere( np.isnan(pvec) )[:,0]) )
 
+### silly hack for making sure the byteorder is R-readable
 np.savetxt('pvec.txt', pvec)
 pvec = np.loadtxt('pvec.txt')
 
@@ -71,14 +76,13 @@ ro.r.assign("y_train2", y_train)
 r('dim(y_train2)')
 
 ########################### PCA ###################################
-
-def PCA():
+def PCA_decomp():
     Dicekriging = importr('DiceKriging')
-
     r('require(foreach)')
+    # r('nrankmax <- 32')   ## Number of components
+    ro.r.assign("nrankmax", nRankMax)
 
     r('svd(y_train2)')
-
     r('svd_decomp2 <- svd(y_train2)')
     r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax])')
 
@@ -87,42 +91,40 @@ def PCA():
 ## Build GP models
 # This is evaluated only once for the file name. GP fitting is not required if the file exists.
 
-def GP():
+def GP_fit():
     GPareto = importr('GPareto')
 
-    # GPmodel = '"R_GP_model.RData"'  ## Double and single quotes are necessary
-    #
-    # ro.r('''
-    #
-    # GPmodel <- gsub("to", "",''' + GPmodel + ''')
-    #
-    # ''')
+    ro.r('''
+    
+    GPmodel <- gsub("to", "",''' + GPmodel + ''')
+    
+    ''')
 
-    r('''if(file.exists("R_GP_models.RData")){
-            load("R_GP_models.RData")
+    r('''if(file.exists(GPmodel)){
+            load(GPmodel)
         }else{
             models_svd2 <- list()
             for (i in 1: nrankmax){
                 mod_s <- km(~., design = u_train2, response = svd_weights2[, i])
                 models_svd2 <- c(models_svd2, list(mod_s))
             }
-            save(models_svd2, file = "R_GP_models.RData")
-
+            save(models_svd2, file = GPmodel)
+    
          }''')
 
     r('''''')
 
 
+PCA_decomp()
+GP_fit()
 
-PCA()
-GP()
-
-######################### INFERENCE ##################################
-
+######################## GP PREDICTION ###############################
 
 
+def GP_predict(para_array):
+    ### Input: para_array -- 1D array [rho, sigma, tau, sspt]
+    ### Output P(x) (size= 100)
 
-def GP_fit(para_array):
     para_array = np.expand_dims(para_array, axis=0)
 
     nr, nc = para_array.shape
@@ -136,7 +138,6 @@ def GP_fit(para_array):
     y_recon = np.array(r('reconst_s2'))
 
     return y_recon[0]
-
 
 
 ##################################### TESTING ##################################
@@ -166,7 +167,11 @@ ax1.set_ylim(-1e-5, 1e-5)
 
 
 for x_id in [3, 23, 43, 64, 93, 109, 11]:
-    x_decodedGPy = GP_fit(parameter_array[x_id])  ## input parameters
+
+    time0 = time.time()
+    x_decodedGPy = GP_predict(parameter_array[x_id])  ## input parameters
+    time1 = time.time()
+    print('Time per emulation %0.2f'% (time1 - time0), ' s')
     x_test = pvec[x_id]
 
     ax0.plot(x_decodedGPy, alpha=1.0, ls='--', label='emu')
@@ -187,7 +192,7 @@ def lnlike(theta, x, y, yerr):
 
     new_params = np.array([p1, p2, p3, p4, p5])
 
-    model = GP_fit(new_params)
+    model = GP_predict(new_params)
     # return -0.5 * (np.sum(((y - model) / yerr) ** 2.))
     return -0.5 * (np.sum(((y - model) / yerr) ** 2.))
 

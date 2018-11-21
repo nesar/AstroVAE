@@ -79,7 +79,7 @@ r('require(foreach)')
 
 r('svd(y_train2)')
 
-r('nrankmax <- 64')   ## Number of components
+r('nrankmax <- 12')   ## Number of components
 
 r('svd_decomp2 <- svd(y_train2)')
 r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax])')
@@ -97,7 +97,7 @@ r('''if(file.exists("R_GP_models_2.RData")){
             mod_s <- km(~., design = u_train2, response = svd_weights2[, i])
             models_svd2 <- c(models_svd2, list(mod_s))
         }
-        save(models_svd2, file = "R_GP_models.RData")
+        save(models_svd2, file = "R_GP_models_2.RData")
         
      }''')
 
