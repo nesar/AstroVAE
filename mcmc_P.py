@@ -1,21 +1,12 @@
-import numpy as np
-
 # import matplotlib as mpl
 # mpl.use('Agg')
-
-
+import numpy as np
 import matplotlib.pylab as plt
-import corner
 import emcee
 import time
-# from keras.models import load_model
 import params
-# import george
-# from george.kernels import Matern32Kernel
-
-import rpy2.robjects as ro
-
 import pygtc
+import rpy2.robjects as ro
 import rpy2.robjects.numpy2ri
 rpy2.robjects.numpy2ri.activate()
 
@@ -29,44 +20,7 @@ nrun = 30 # 300  # 700
 fileID = 1
 
 
-########## REAL DATA with ERRORS #############################
-# Planck/SPT/WMAP data
-# TE, EE, BB next
-
-dirIn = '../Cl_data/RealData/'
-allfiles = ['WMAP.txt', 'SPTpol.txt', 'PLANCKlegacy.txt']
-
-lID = np.array([0, 2, 0])
-ClID = np.array([1, 3, 1])
-emaxID = np.array([2, 4, 2])
-eminID = np.array([2, 4, 2])
-
-print(allfiles)
-
-
-# for fileID in [realDataID]:
-with open(dirIn + allfiles[fileID]) as f:
-    lines = (line for line in f if not line.startswith('#'))
-    allCl = np.loadtxt(lines, skiprows=1)
-
-    l = allCl[:, lID[fileID]].astype(int)
-    Cl = allCl[:, ClID[fileID]]
-    emax = allCl[:, emaxID[fileID]]
-    emin = allCl[:, eminID[fileID]]
-
-    print(l.shape)
-
-
-############## GP FITTING ################################################################################
-##########################################################################################################
-
-
-
-def rescale01(xmin, xmax, f):
-    return (f - xmin) / (xmax - xmin)
-
-
-###################### PARAMETERS ##############################
+############################# PARAMETERS ##############################
 
 
 DataDir = params.DataDir
@@ -76,26 +30,6 @@ ModelDir = params.ModelDir
 fileOut = params.fileOut
 
 # ----------------------------- i/o ------------------------------------------
-
-
-#
-# Trainfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_train) + '.txt')
-# Testfiles = np.loadtxt(DataDir + 'P' + str(num_para) + ClID + 'Cl_' + str(num_test) + '.txt')
-#
-# x_train = Trainfiles[:, num_para + 2:]
-# x_test = Testfiles[:, num_para + 2:]
-# y_train = Trainfiles[:, 0: num_para]
-# y_test = Testfiles[:, 0: num_para]
-#
-
-#
-# ls = np.loadtxt(DataDir + 'P' + str(num_para) + 'ls_' + str(num_train) + '.txt')[2:]
-#
-# # ----------------------------------------------------------------------------
-#
-# normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-# meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
-
 
 
 import numpy as np
@@ -108,13 +42,11 @@ RcppCNPy = importr('RcppCNPy')
 # RcppCNPy.chooseCRANmirror(ind=1) # select the first mirror in the list
 
 ########
-# fileIn = "/home/nes/Desktop/AstroVAE/P_data/2nd_pass_pvals.txt"
-# P_data = np.loadtxt(fileIn)
 
 ################################# I/O #################################
+fitsfileIn =  "../P_data/2ndpass_vals_for_test.fits"
 
-
-Allfits =pf.open("/home/nes/Desktop/AstroVAE/P_data/2ndpass_vals_for_test.fits")
+Allfits =pf.open(fitsfileIn)
 AllData =astropy.table.Table(Allfits[1].data)
 
 parameter_array = np.array([AllData['RHO'], AllData['SIGMA_LAMBDA'], AllData['TAU'], 
@@ -152,8 +84,8 @@ r('nrankmax <- 64')   ## Number of components
 r('svd_decomp2 <- svd(y_train2)')
 r('svd_weights2 <- svd_decomp2$u[, 1:nrankmax] %*% diag(svd_decomp2$d[1:nrankmax])')
 
-########################### GP train #################################
-
+######################## GP FITTING ################################
+####################################################################
 ## Build GP models
 GPareto = importr('GPareto')
 
@@ -171,7 +103,7 @@ r('''if(file.exists("R_GP_models_2.RData")){
 
 r('''''')
 
-######################### INFERENCE ########################
+######################### INFERENCE ##################################
 
 
 def GP_fit(para_array):
@@ -222,12 +154,13 @@ ax1.set_ylim(-1e-5, 1e-5)
 
 
 
+##################################### TESTING ##################################
 
 
 
 for x_id in [3, 23 , 43, 64, 93, 109, 121]:
 
-    x_decodedGPy = GP_fit(TestArr[x_id])   ## input parameters
+    x_decodedGPy = GP_fit(parameter_array[x_id])   ## input parameters
     x_test = pvec[x_id]
 
     # plt.figure(1423)
