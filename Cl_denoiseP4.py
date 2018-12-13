@@ -110,7 +110,7 @@ x_test = x_test.astype('float32')/normFactor #/ 255.
 np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
 np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
-
+#########  ADD new rescaling l-vise ###########
 
 
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
