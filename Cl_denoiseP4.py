@@ -112,7 +112,31 @@ np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normF
 
 #########  ADD new rescaling l-vise ###########
 
+minVal = np.min( [np.min(x_train, axis = 0), np.min(x_test , axis = 0) ], axis=0)
+meanFactor = 1.1*minVal if minVal < 0 else 0
+# meanFactor = 0.0
+print('-------mean factor:', meanFactor)
+x_train = x_train - meanFactor #/ 255.
+x_test = x_test - meanFactor #/ 255.
 
+# x_train = np.log10(x_train) #x_train[:,2:] #
+# x_test =  np.log10(x_test) #x_test[:,2:] #
+
+normFactor = np.max( [np.max(x_train, axis = 0), np.max(x_test, axis = 0 ) ], axis = 0)
+# normFactor = 1
+print('-------normalization factor:', normFactor)
+x_train = x_train.astype('float32')/normFactor #/ 255.
+x_test = x_test.astype('float32')/normFactor #/ 255.
+
+
+np.savetxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
+np.savetxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
+
+
+
+
+
+##############################################
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
