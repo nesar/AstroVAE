@@ -37,7 +37,7 @@ from rpy2.robjects.packages import importr
 ############################# PARAMETERS ##############################
 
 fitsfileIn = "../P_data/2ndpass_vals_for_test.fits"   ## Input fits file
-nRankMax = 32    ## Number of basis vectors in truncated PCA
+nRankMax = 64    ## Number of basis vectors in truncated PCA
 GPmodel = '"R_GP_model' + str(nRankMax) + '.RData"'  ## Double and single quotes are necessary
 
 ################################# I/O #################################
@@ -163,7 +163,7 @@ ax1.axhline(y=1, ls='dotted')
 ax1.set_xlabel(r'$x$')
 
 ax1.set_ylabel(r'emu/real - 1')
-ax1.set_ylim(-1e-5, 1e-5)
+ax1.set_ylim(-1e-3, 1e-3)
 
 
 for x_id in [3, 23, 43, 64, 93, 109, 11]:
