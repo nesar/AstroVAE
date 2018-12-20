@@ -53,8 +53,8 @@ AllData = astropy.table.Table(Allfits[1].data)
 parameter_array = np.array([AllData['RHO'], AllData['SIGMA_LAMBDA'], AllData['TAU'],
                             AllData['SSPT']]).T
 
-nr, nc = parameter_array.shape
-u_train = ro.r.matrix(parameter_array, nrow=nr, ncol=nc)
+nr, nc = parameter_array[8:, :].shape
+u_train = ro.r.matrix(parameter_array[8:, :], nrow=nr, ncol=nc)
 
 ro.r.assign("u_train2", u_train)
 r('dim(u_train2)')
@@ -69,8 +69,8 @@ pvec = (AllData['PVEC'])  # .newbyteorder('S')
 np.savetxt('pvec.txt', pvec)
 pvec = np.loadtxt('pvec.txt')
 
-nr, nc = pvec.shape
-y_train = ro.r.matrix(pvec, nrow=nr, ncol=nc)
+nr, nc = pvec[8:, :].shape
+y_train = ro.r.matrix(pvec[8:, :], nrow=nr, ncol=nc)
 
 ro.r.assign("y_train2", y_train)
 r('dim(y_train2)')
@@ -166,7 +166,9 @@ ax1.set_ylabel(r'emu/real - 1')
 ax1.set_ylim(-1e-3, 1e-3)
 
 
-for x_id in [3, 23, 43, 64, 93, 109, 11]:
+# for x_id in [3, 23, 43, 64, 93, 109, 11]:
+# for x_id in range(8,12):
+for x_id in range(6, 10):
 
     time0 = time.time()
     x_decodedGPy = GP_predict(parameter_array[x_id])  ## input parameters

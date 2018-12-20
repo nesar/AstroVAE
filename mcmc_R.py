@@ -227,23 +227,23 @@ def GP_fit(para_array):
 
 
 
-#
-# x_id = 20
-#
-# x_decodedGPy = GP_fit(y_test[x_id])
-# # computedGP = GPcompute(rescaledTrainParams, latent_dim)
-# # x_decoded = GPfit(computedGP, y_test[x_id])
-#
-# x_camb = (normFactor * x_test[x_id]) + meanFactor
-#
-#
-# plt.figure(1423)
-#
-# # plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
-# plt.plot(x_decodedGPy, alpha = 0.4 , ls = '--', label = 'GPy')
-# plt.plot(x_test[x_id], alpha = 0.3 , label = 'camb')
-# plt.legend()
-# plt.show()
+
+x_id = 20
+
+x_decodedGPy = GP_fit(y_test[x_id])
+# computedGP = GPcompute(rescaledTrainParams, latent_dim)
+# x_decoded = GPfit(computedGP, y_test[x_id])
+
+x_camb = (normFactor * x_test[x_id]) + meanFactor
+
+
+plt.figure(1423)
+
+# plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
+plt.plot(x_decodedGPy, alpha = 0.4 , ls = '--', label = 'GPy')
+plt.plot(x_test[x_id], alpha = 0.3 , label = 'camb')
+plt.legend()
+plt.show()
 
 
 
