@@ -37,8 +37,8 @@ from rpy2.robjects.packages import importr
 ############################# PARAMETERS ##############################
 
 fitsfileIn = "../P_data/2ndpass_vals_for_test.fits"   ## Input fits file
-nRankMax = 4   ## Number of basis vectors in truncated PCA
-GPmodel = '"R_GP_model1' + str(nRankMax) + '.RData"'  ## Double and single quotes are necessary
+nRankMax = 32   ## Number of basis vectors in truncated PCA
+GPmodel = '"R_GP_model2' + str(nRankMax) + '.RData"'  ## Double and single quotes are necessary
 
 ################################# I/O #################################
 RcppCNPy = importr('RcppCNPy')
@@ -95,6 +95,22 @@ pvec = (AllData['PVEC'])  # .newbyteorder('S')
 ### silly hack for making sure the byteorder is R-readable
 np.savetxt('pvec.txt', pvec)
 pvec = np.loadtxt('pvec.txt')
+
+
+plt.figure(43)
+plt.plot(pvec)
+
+
+
+print pvec[61, :]
+# pvec = np.delete(pvec, (61), axis=0)
+pvec[61, :] = 0.5*(pvec[60, :] + pvec[62, :])
+
+
+plt.figure(44)
+plt.plot(pvec)
+
+
 
 nr, nc = pvec[4:, :].shape
 y_train = ro.r.matrix(pvec[4:, :], nrow=nr, ncol=nc)
