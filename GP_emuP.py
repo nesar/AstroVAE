@@ -37,8 +37,8 @@ from rpy2.robjects.packages import importr
 ############################# PARAMETERS ##############################
 
 fitsfileIn = "../P_data/2ndpass_vals_for_test.fits"   ## Input fits file
-nRankMax = 32   ## Number of basis vectors in truncated PCA
-GPmodel = '"R_GP_model' + str(nRankMax) + '.RData"'  ## Double and single quotes are necessary
+nRankMax = 4   ## Number of basis vectors in truncated PCA
+GPmodel = '"R_GP_model1' + str(nRankMax) + '.RData"'  ## Double and single quotes are necessary
 
 ################################# I/O #################################
 RcppCNPy = importr('RcppCNPy')
@@ -86,7 +86,6 @@ u_train = ro.r.matrix(parameter_array[4:, :], nrow=nr, ncol=nc)
 
 ro.r.assign("u_train2", u_train)
 r('dim(u_train2)')
-
 
 ### P(x) -> 100 values at x-> 0:1 ###
 
