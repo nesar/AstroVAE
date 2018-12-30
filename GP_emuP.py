@@ -38,7 +38,7 @@ from rpy2.robjects.packages import importr
 
 fitsfileIn = "../P_data/2ndpass_vals_for_test.fits"   ## Input fits file
 nRankMax = 32   ## Number of basis vectors in truncated PCA
-GPmodel = '"R_GP_model2' + str(nRankMax) + '.RData"'  ## Double and single quotes are necessary
+GPmodel = '"R_GP_model4' + str(nRankMax) + '.RData"'  ## Double and single quotes are necessary
 
 ################################# I/O #################################
 RcppCNPy = importr('RcppCNPy')
@@ -81,11 +81,13 @@ plot_params(parameter_array[4:, :])
 plot_params(parameter_array[:4, :])
 
 
+
 nr, nc = parameter_array[4:, :].shape
 u_train = ro.r.matrix(parameter_array[4:, :], nrow=nr, ncol=nc)
 
 ro.r.assign("u_train2", u_train)
 r('dim(u_train2)')
+
 
 ### P(x) -> 100 values at x-> 0:1 ###
 
@@ -97,13 +99,20 @@ np.savetxt('pvec.txt', pvec)
 pvec = np.loadtxt('pvec.txt')
 
 
+######## Debugging interpolation issue ##########
+
+
+### row 61 ( pvec value ) is extremely large ~ 1e10
+### Either removing that or replacing it by correct value will fix the problem
+
+## right now I'm using a fake data for 61st entry
+
 plt.figure(43)
 plt.plot(pvec)
 
-
-
 print pvec[61, :]
 # pvec = np.delete(pvec, (61), axis=0)
+# parameter_array = np.delete(parameter_array, (61), axis=0)
 pvec[61, :] = 0.5*(pvec[60, :] + pvec[62, :])
 
 
@@ -112,11 +121,24 @@ plt.plot(pvec)
 
 
 
+###########################################
+
 nr, nc = pvec[4:, :].shape
-y_train = ro.r.matrix(pvec[4:, :], nrow=nr, ncol=nc)
+y_train = ro.r.matrix(pvec[5:, :], nrow=nr, ncol=nc)
 
 ro.r.assign("y_train2", y_train)
 r('dim(y_train2)')
+
+
+
+# nr, nc = parameter_array[4:, :].shape
+# u_train = ro.r.matrix(parameter_array[4:, :], nrow=nr, ncol=nc)
+#
+# ro.r.assign("u_train2", u_train)
+# r('dim(u_train2)')
+
+
+
 
 ########################### PCA ###################################
 def PCA_decomp():
