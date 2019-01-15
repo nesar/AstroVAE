@@ -90,7 +90,7 @@ ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #------------------------- SCALAR parameter for rescaling -----------------------
 #### ---- All the Cl's are rescaled uniformly #####################
-'''
+
 minVal = np.min( [np.min(x_train), np.min(x_test ) ])
 meanFactor = 1.1*minVal if minVal < 0 else 0
 # meanFactor = 0.0
@@ -110,9 +110,13 @@ x_test = x_test.astype('float32')/normFactor #/ 255.
 
 np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
 np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
-'''
+
+
 #########  New l-dependant rescaling (may not work with LSTMs) ###########
 #### - --   works Ok with iid assumption ############
+
+'''
+
 minVal = np.min( [np.min(x_train, axis = 0), np.min(x_test , axis = 0) ], axis=0)
 #meanFactor = 1.1*minVal if minVal < 0 else 0
 # meanFactor = 0.0
@@ -134,7 +138,7 @@ x_test = x_test.astype('float32')/normFactor #/ 255.
 np.savetxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
 np.savetxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
-
+'''
 
 
 
