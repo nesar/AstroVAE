@@ -16,91 +16,90 @@ import matplotlib.pyplot as plt
 # import Cl_load
 # import SetPub
 # SetPub.set_pub()
+import params
 
+# num_train = 256
+# num_test = 16
 
-num_train = 256
-num_test = 16
-
-NoEigenComp = 16
+NoEigenComp = 32
 
 
 # ----------------------------- i/o ------------------------------------------
 
-DataDir = '../Cl_data/Data/'
-PlotsDir = '../Cl_data/Plots/'
-ModelDir = '../Cl_data/Model/'
+###################### PARAMETERS ##############################
+
+original_dim = params.original_dim # 2549
+#intermediate_dim3 = params.intermediate_dim3 # 1600
+intermediate_dim2 = params.intermediate_dim2 # 1024
+intermediate_dim1 = params.intermediate_dim1 # 512
+intermediate_dim0 = params.intermediate_dim0 # 256
+intermediate_dim = params.intermediate_dim # 256
+latent_dim = params.latent_dim # 10
+
+ClID = params.ClID
+num_train = params.num_train # 512
+num_test = params.num_test # 32
+num_para = params.num_para # 5
 
 
-# train_path = DataDir + 'LatinClP4_'+str(num_train)+'.npy'
-# train_target_path =  DataDir + 'LatinCosmoP4'+str(num_train)+'.txt'
-# test_path = DataDir + 'LatinClP4_'+str(num_test)+'.npy'
-# test_target_path =  DataDir + 'LatinCosmoP4'+str(num_test)+'.txt'
+batch_size = params.batch_size # 8
+num_epochs = params.num_epochs # 100
+epsilon_mean = params.epsilon_mean # 1.0
+epsilon_std = params.epsilon_std # 1.0
+learning_rate = params.learning_rate # 1e-3
+decay_rate = params.decay_rate # 0.0
+
+noise_factor = params.noise_factor # 0.00
+
+######################## I/O ##################################
+
+DataDir = params.DataDir
+PlotsDir = params.PlotsDir
+ModelDir = params.ModelDir
+
+fileOut = params.fileOut
 
 
-# camb_in = Cl_load.cmb_profile(train_path = train_path,  train_target_path = train_target_path , test_path = test_path, test_target_path = test_target_path, num_para=5)
+# ----------------------------- i/o ------------------------------------------
 
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
 
-# (x_train, y_train), (x_test, y_test) = camb_in.load_data()
-
-
-# x_train = np.load(train_path)
-# y_train = np.load(train_target_path)
-# x_test = np.load(test_path)
-# y_test = np.load(test_target_path)
-
-
-# Mod16 = np.load('../Cl_data/Data/LatinCl_16Mod.npy')
-# Mod256 = np.load('../Cl_data/Data/LatinCl_256Mod.npy')
-#
-# Para256 = np.loadtxt('../Cl_data/Data/para4_train.txt')
-# Para16 = np.loadtxt('../Cl_data/Data/para4_new.txt')
-#
-# x_train = Mod256
-# x_test = Mod16
-# y_train = Para256
-# y_test = Para16
-
-
-
-Trainfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_test)+'.txt')
-
-x_train = Trainfiles[:,6:]
-x_test = Testfiles[:,6:]
-y_train = Trainfiles[:, 0:4]
-y_test =  Testfiles[:, 0:4]
-
-
-
-# x_train = x_train[:,2:]
-# x_test = x_test[:,2:]
-
-# x_train = x_train[:,2::2]
-# x_test = x_test[:,2::2]
+x_train = Trainfiles[:, num_para+2:]
+x_test = Testfiles[:, num_para+2:]
+y_train = Trainfiles[:, 0: num_para]
+y_test =  Testfiles[:, 0: num_para]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
+ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
-# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
+#------------------------- SCALAR parameter for rescaling -----------------------
+#### ---- All the Cl's are rescaled uniformly #####################
+
+# minVal = np.min( [np.min(x_train), np.min(x_test ) ])
+# meanFactor = 1.1*minVal if minVal < 0 else 0
+# # meanFactor = 0.0
 # print('-------mean factor:', meanFactor)
-# x_train = x_train.astype('float32') - meanFactor #/ 255.
-# x_test = x_test.astype('float32') - meanFactor #/ 255.
+# x_train = x_train - meanFactor #/ 255.
+# x_test = x_test - meanFactor #/ 255.
 #
-
-# x_train = np.log10(x_train) #x_train[:,2:] #
-# x_test =  np.log10(x_test) #x_test[:,2:] #
-
-normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-print('-------normalization factor:', normFactor)
-
-x_train = x_train.astype('float32')/normFactor #/ 255.
-x_test = x_test.astype('float32')/normFactor #/ 255.
-x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
-
+# # x_train = np.log10(x_train) #x_train[:,2:] #
+# # x_test =  np.log10(x_test) #x_test[:,2:] #
+#
+# normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+# # normFactor = 1
+# print('-------normalization factor:', normFactor)
+# x_train = x_train.astype('float32')/normFactor #/ 255.
+# x_test = x_test.astype('float32')/normFactor #/ 255.
+#
+#
+# np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
+# np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
+#
 
 # ------------------------------------------------------------------------------
 
@@ -136,7 +135,10 @@ W = np.matmul(W1, y)
 Pred = np.matmul(K,W)
 
 # ls = np.load('../Cl_data/k5.npy')
-ls = np.load(DataDir + 'LatinlsP4_' + str(num_test) + '.npy')[2:]
+ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
+
+
 for i in range(10, 20):
     plt.figure(10)
     plt.plot(ls, y[:,i]*stdy + yRowMean, 'r--', label = 'data', alpha = 0.7)
@@ -165,6 +167,17 @@ plt.title('Truncated PCA weights')
 plt.xlabel('W[0]')
 plt.ylabel('W[1]')
 CS = plt.scatter(W[0], W[1], c = y_train[:,0], s = 15, alpha=0.6)
+cbar = plt.colorbar(CS)
+cbar.ax.set_ylabel(r'$\Omega_m$')
+plt.tight_layout()
+plt.savefig(PlotsDir + 'SVD_TruncatedWeightsP4.png')
+
+
+plt.figure(231, figsize=(7,6))
+plt.title('Truncated PCA weights')
+plt.xlabel('W[0]')
+plt.ylabel('W[1]')
+CS = plt.scatter(K[0], K[1], c = y_train[:,0], s = 15, alpha=0.6)
 cbar = plt.colorbar(CS)
 cbar.ax.set_ylabel(r'$\Omega_m$')
 plt.tight_layout()

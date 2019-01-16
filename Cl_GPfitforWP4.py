@@ -16,8 +16,8 @@ print(__doc__)
 
 import numpy as np
 
-import matplotlib as mpl
-mpl.use('Agg')
+# import matplotlib as mpl
+# mpl.use('Agg')
 from matplotlib import pyplot as plt
 
 # from sklearn.gaussian_process import GaussianProcessRegressor
@@ -27,6 +27,7 @@ from matplotlib import pyplot as plt
 
 import george
 import Cl_load
+import params
 
 # import SetPub
 # SetPub.set_pub()
@@ -38,10 +39,10 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-num_train = 256
-num_test = 16
+# num_train = 256
+# num_test = 16
 
-NoEigenComp = 16
+NoEigenComp = 32
 
 
 
@@ -71,46 +72,80 @@ kernel = Matern32Kernel(0.5, ndim=4)
 
 # ----------------------------- i/o ------------------------------------------
 
-DataDir = '../Cl_data/Data/'
-PlotsDir = '../Cl_data/Plots/'
-ModelDir = '../Cl_data/Model/'
+###################### PARAMETERS ##############################
+
+original_dim = params.original_dim # 2549
+#intermediate_dim3 = params.intermediate_dim3 # 1600
+intermediate_dim2 = params.intermediate_dim2 # 1024
+intermediate_dim1 = params.intermediate_dim1 # 512
+intermediate_dim0 = params.intermediate_dim0 # 256
+intermediate_dim = params.intermediate_dim # 256
+latent_dim = params.latent_dim # 10
+
+ClID = params.ClID
+num_train = params.num_train # 512
+num_test = params.num_test # 32
+num_para = params.num_para # 5
 
 
+batch_size = params.batch_size # 8
+num_epochs = params.num_epochs # 100
+epsilon_mean = params.epsilon_mean # 1.0
+epsilon_std = params.epsilon_std # 1.0
+learning_rate = params.learning_rate # 1e-3
+decay_rate = params.decay_rate # 0.0
 
-Trainfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_train)+'.txt')
-Testfiles = np.loadtxt(DataDir + 'P4Cl_'+str(num_test)+'.txt')
+noise_factor = params.noise_factor # 0.00
 
-x_train = Trainfiles[:,6:]
-x_test = Testfiles[:,6:]
-y_train = Trainfiles[:, 0:4]
-y_test =  Testfiles[:, 0:4]
+######################## I/O ##################################
 
+DataDir = params.DataDir
+PlotsDir = params.PlotsDir
+ModelDir = params.ModelDir
+
+fileOut = params.fileOut
+
+
+# ----------------------------- i/o ------------------------------------------
+
+Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
+Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
+
+x_train = Trainfiles[:, num_para+2:]
+x_test = Testfiles[:, num_para+2:]
+y_train = Trainfiles[:, 0: num_para]
+y_test =  Testfiles[:, 0: num_para]
 
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
+ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
-# meanFactor = np.min( [np.min(x_train), np.min(x_test ) ])
-# print('-------mean factor:', meanFactor)
-# x_train = x_train.astype('float32') - meanFactor #/ 255.
-# x_test = x_test.astype('float32') - meanFactor #/ 255.
-#
+#------------------------- SCALAR parameter for rescaling -----------------------
+#### ---- All the Cl's are rescaled uniformly #####################
+
+minVal = np.min( [np.min(x_train), np.min(x_test ) ])
+meanFactor = 1.1*minVal if minVal < 0 else 0
+# meanFactor = 0.0
+print('-------mean factor:', meanFactor)
+x_train = x_train - meanFactor #/ 255.
+x_test = x_test - meanFactor #/ 255.
 
 # x_train = np.log10(x_train) #x_train[:,2:] #
 # x_test =  np.log10(x_test) #x_test[:,2:] #
 
 normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+# normFactor = 1
 print('-------normalization factor:', normFactor)
-
 x_train = x_train.astype('float32')/normFactor #/ 255.
 x_test = x_test.astype('float32')/normFactor #/ 255.
-x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
-x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
-y_train = y_train.astype('float32')
-y_test = y_test.astype('float32')
+
+meanFactor = np.loadtxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
 # ------------------------------------------------------------------------------
 
 hmf = y_train
@@ -212,15 +247,17 @@ Prediction = np.matmul(K, W_pred.T)
 
 # Plots for comparison ---------------------------
 
-normFactor = np.load(DataDir + 'normfactorP4_'+str(num_train)+'.npy')
+# normFactor = np.load(DataDir + 'normfactorP4_'+str(num_train)+'.npy')
 stdy = np.loadtxt(DataDir + 'stdyP4.txt')
 yRowMean = np.loadtxt(DataDir + 'yRowMeanP4.txt')
 
 # k = np.load('../Cl_data/k5.npy')
-ls = np.load(DataDir + 'P4ls_' + str(num_test) + '.npy')[2:]
+# ls = np.load(DataDir + 'P4ls_' + str(num_test) + '.npy')[2:]
+ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
 # EMU0 = np.loadtxt('../Cl_data/EMU0.txt')[:,1] # Generated from CosmicEmu -- original value
 
-PlotSample = True
+PlotSample = False
 if PlotSample:
         nsize0 = 16  ## SAMPLE
         # ls = np.load(DataDir + 'ls_' + str(nsize0) + '.npy')[2:]
@@ -254,12 +291,14 @@ max_relError = 0
 PlotRatio = True
 if PlotRatio:
 
-    PkOriginal = np.load(DataDir + 'LatinClP4_'+str(num_test)+'.npy')[:,2:] # Generated from
+    # PkOriginal = np.load(DataDir + 'LatinClP4_'+str(num_test)+'.npy')[:,2:] # Generated from
     # CosmicEmu --
     # original
     # value
-    RealParaArray = np.load(DataDir + 'LatinPara5P4_'+str(num_test)+'.npy')
+    # RealParaArray = np.load(DataDir + 'LatinPara5P4_'+str(num_test)+'.npy')
+    PkOriginal = x_test
 
+    RealParaArray = y_test
     # RealPara = np.array([0.13, 0.022, 0.8, 0.75, 1.01])
 
     for i in range(np.shape(RealParaArray)[0]):
@@ -288,12 +327,17 @@ if PlotRatio:
         # K = np.loadtxt('../Pk_data/SVDvsVAE/K_for2Eval.txt')
         Prediction = np.matmul(K, W_pred.T)
 
-        cl_ratio = normFactor * (Prediction[:, 0] * stdy + yRowMean) / PkOriginal[i]
+        # cl_ratio = normFactor * (Prediction[:, 0] * stdy + yRowMean) / PkOriginal[i]
 
+        cl_ratio = (Prediction[:, 0] * stdy + yRowMean) / PkOriginal[i]
 
         plt.figure(94, figsize=(8,6))
         plt.title('Truncated PCA+GP fit')
         plt.plot(ls, cl_ratio , alpha=.9, lw = 1.5)
+
+        # plt.plot(ls, PkOriginal[i] , alpha=.9, lw = 1.5)
+        # plt.plot(ls,(Prediction[:, 0] * stdy + yRowMean)  , alpha=.9, lw = 1.5)
+
         # plt.xscale('log')
                 # plt.yscale('log')
         plt.xlabel('l')

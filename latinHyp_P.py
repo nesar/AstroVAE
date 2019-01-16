@@ -12,7 +12,7 @@ def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
 
 
-num_evals = 128  ## Total number of evaluations for training the emulator
+num_evals = 32  ## Total number of evaluations for training the emulator
 
 np.random.seed(7)
 
