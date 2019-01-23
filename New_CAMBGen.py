@@ -1,5 +1,10 @@
 '''
 
+This is on the latest version of camb (1.0.1)
+
+-- several features from the old one aren't working: check https://camb.readthedocs.io/en/latest/CAMBdemo.html
+
+
 
 https://www.codecogs.com/latex/eqneditor.php
 
@@ -250,7 +255,7 @@ for i in range(totalFiles):
 
     # Set up a new set of parameters for CAMB
     # pars = camb.CAMBparams()
-    camb.set_halofit_version('takahashi')
+    # camb.set_halofit_version('takahashi')     ########## 1.0.1 ISSUE
     # This function sets up CosmoMC-like settings, with one massive neutrino and helium set using BBN consistency
     # pars.set_cosmology(H0=67.05, ombh2=0.02225, omch2=0.1198,
     #                    tau=0.079, num_massive_neutrinos=0, mnu=0.0,
@@ -304,7 +309,7 @@ for i in range(totalFiles):
 
 
 
-    print model.lmax_lensed
+    # print model.lmax_lensed   ########## 1.0.1 ISSUE
 
 
     #-------- sigma_8 --------------------------
