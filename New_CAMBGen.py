@@ -54,8 +54,8 @@ SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 2
-num_para = 5
+totalFiles = 8
+num_para = 8
 
 np.random.seed(7)
 
@@ -75,13 +75,17 @@ Omegab = np.linspace(0.0205, 0.0235, totalFiles)
 sigma8 = np.linspace(0.7, 0.9, totalFiles)
 h = np.linspace(0.55, 0.85, totalFiles)
 ns = np.linspace(0.85, 1.05, totalFiles)
+Omega0 = np.linspace(-1.3, -0.7, totalFiles)
+# OmegaA = np.linspace(-1.73, 1.28, totalFiles)
+OmegaA = np.linspace(0.01, 0.5, totalFiles)
+tau = np.linspace(0.01, 0.8, totalFiles)
 
 
 
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
-             r'$\tilde{n}_s$']
+             r'$\tilde{n}_s$', r'$\tilde{\Omega}_0$', r'$\tilde{\Omega}_a$', r'$\tilde{\tau}$']
 
-AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns])
+AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau])
 
 lhd = pyDOE.lhs(num_para, samples=totalFiles, criterion=None) # c cm corr m
 print(lhd)
@@ -114,7 +118,7 @@ for i in range(num_para):
             # n, bins, patches = a[i,i].hist(lhd[:,i], bins = 'auto', facecolor='b', alpha=0.25)
             # a[i, i].plot(lhd[:, i], 'go')
 
-plt.savefig('../Cl_data/Plots/ExtendedLatinSq.png', figsize=(10, 10))
+plt.savefig('../Cl_data/Plots/ExtendedPlots/ExtendedLatinSq.png', figsize=(10, 10))
 plt.show()
 idx = (lhd * totalFiles).astype(int)
 
@@ -157,7 +161,7 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 
 # numpara = 5
 # ndim = 2551
-totalFiles =  8
+# totalFiles =  8
 # lmax0 = 2500
 
 
@@ -179,8 +183,8 @@ plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, h
 plt.rcParams.update({'font.size': 8})
 
 
-AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
-             r'$\tilde{n}_s$'] ### n_eff, mass nutrino -- tau
+# AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
+#              r'$\tilde{n}_s$'] ### n_eff, mass nutrino -- tau
 
 for i in range(num_para):
     for j in range(i+1):
@@ -280,9 +284,12 @@ for i in range(totalFiles):
     # pars.set_cosmology(H0=100*para5[i, 2], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
     #                    tau=0.06)
 
-    pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
-                       tau=0.06)
+    # pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
+    #                    tau=0.06)
 
+
+    pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
+                       tau=para5[i, 7])
 
     pars.InitPower.set_params(ns=para5[i, 4], r=0)
 
@@ -294,7 +301,8 @@ for i in range(totalFiles):
     # e.g. use the PPF model
     from camb.dark_energy import DarkEnergyPPF, DarkEnergyFluid
 
-    pars.DarkEnergy = DarkEnergyPPF(w=-1.2, wa=0.2)
+    # pars.DarkEnergy = DarkEnergyPPF(w=-1.2, wa=0.2)
+    pars.DarkEnergy = DarkEnergyPPF(w=para5[i, 5], wa=para5[i, 6])
     print('w, wa model parameters:\n\n', pars.DarkEnergy)
     # results = camb.get_background(pars)
 
@@ -398,31 +406,55 @@ for i in range(totalFiles):
 ls = np.arange(totCL.shape[0])
 
 # np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
-np.savetxt('../Cl_data/Data/ExtendedP5_1ls_'+str(totalFiles)+'.txt', ls)
+np.savetxt('../Cl_data/Data/Extended_ls_'+str(totalFiles)+'.txt', ls)
 
-np.savetxt('../Cl_data/Data/ExtendedP5_2TTCl_'+str(totalFiles)+'.txt', AllTT)
-np.savetxt('../Cl_data/Data/ExtendedP5_2EECl_'+str(totalFiles)+'.txt', AllEE)
-np.savetxt('../Cl_data/Data/ExtendedP5_2BBCl_'+str(totalFiles)+'.txt', AllBB)
-np.savetxt('../Cl_data/Data/ExtendedP5_2TECl_'+str(totalFiles)+'.txt', AllTE)
+np.savetxt('../Cl_data/Data/ExtendedTTCl_'+str(totalFiles)+'.txt', AllTT)
+np.savetxt('../Cl_data/Data/ExtendedEECl_'+str(totalFiles)+'.txt', AllEE)
+np.savetxt('../Cl_data/Data/ExtendedBBCl_'+str(totalFiles)+'.txt', AllBB)
+np.savetxt('../Cl_data/Data/ExtendedTECl_'+str(totalFiles)+'.txt', AllTE)
 
 time1 = time.time()
 print('camb time:', time1 - time0)
 
 
+
+MainDir = '../Cl_data/'
+PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
+
+
 plt.figure(32)
-plt.plot(AllEE[:, 7:].T)
+plt.plot(AllTT[:, num_para + 1:].T)
 plt.yscale('log')
 plt.xscale('log')
 plt.ylabel(r'$C_l$')
 plt.xlabel('$l$')
-plt.show()
-
+plt.savefig(PlotsDir + 'ExtendedTTCl_'+str(totalFiles)+'.png')
 
 
 plt.figure(33)
-plt.plot(AllTE[:, 7:].T)
+plt.plot(AllTE[:, num_para + 1:].T)
 # plt.yscale('log')
 plt.xscale('log')
 plt.ylabel(r'$C_l$')
 plt.xlabel('$l$')
+plt.savefig(PlotsDir + 'ExtendedTECl_'+str(totalFiles)+'.png')
+
+plt.figure(34)
+plt.plot(AllEE[:, num_para + 1:].T)
+# plt.yscale('log')
+plt.xscale('log')
+plt.ylabel(r'$C_l$')
+plt.xlabel('$l$')
+plt.savefig(PlotsDir + 'ExtendedEECl_'+str(totalFiles)+'.png')
+
+
+plt.figure(35)
+plt.plot(AllBB[:, num_para + 1:].T)
+# plt.yscale('log')
+plt.xscale('log')
+plt.ylabel(r'$C_l$')
+plt.xlabel('$l$')
+plt.savefig(PlotsDir + 'ExtendedBBCl_'+str(totalFiles)+'.png')
+
+
 plt.show()
