@@ -54,7 +54,8 @@ SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 8
+totalFiles = 2
+num_para = 5
 
 np.random.seed(7)
 
@@ -82,18 +83,18 @@ AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$'
 
 AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns])
 
-lhd = pyDOE.lhs(5, samples=totalFiles, criterion=None) # c cm corr m
+lhd = pyDOE.lhs(num_para, samples=totalFiles, criterion=None) # c cm corr m
 print(lhd)
 print
 # lhd = norm(loc=0, scale=1).ppf(lhd)  # this applies to both factors here
 
 
 ##
-f, a = plt.subplots(5, 5, sharex=True, sharey=True)
+f, a = plt.subplots(num_para, num_para, sharex=True, sharey=True)
 plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=None)
 plt.rcParams.update({'font.size': 8})
 
-for i in range(5):
+for i in range(num_para):
     for j in range(i+1):
         print(i,j)
         # a[i,j].set_xlabel(AllLabels[i])
@@ -117,8 +118,8 @@ plt.savefig('../Cl_data/Plots/ExtendedLatinSq.png', figsize=(10, 10))
 plt.show()
 idx = (lhd * totalFiles).astype(int)
 
-AllCombinations = np.zeros((totalFiles, 5))
-for i in range(5):
+AllCombinations = np.zeros((totalFiles, num_para))
+for i in range(num_para):
     AllCombinations[:, i] = AllPara[i][idx[:, i]]
 
 np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   #### no
@@ -154,7 +155,7 @@ http://camb.readthedocs.io/en/latest/CAMBdemo.html
 https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_Code
 """
 
-numpara = 5
+# numpara = 5
 # ndim = 2551
 totalFiles =  8
 # lmax0 = 2500
@@ -173,7 +174,7 @@ para5 = np.loadtxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt'
 
 # print(para5)
 
-f, a = plt.subplots(5, 5, sharex=True, sharey=True)
+f, a = plt.subplots(num_para, num_para, sharex=True, sharey=True)
 plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=None)
 plt.rcParams.update({'font.size': 8})
 
@@ -181,7 +182,7 @@ plt.rcParams.update({'font.size': 8})
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
              r'$\tilde{n}_s$'] ### n_eff, mass nutrino -- tau
 
-for i in range(5):
+for i in range(num_para):
     for j in range(i+1):
         print(i,j)
         # a[i,j].set_xlabel(AllLabels[i])
@@ -243,10 +244,10 @@ plt.show()
 
 
 #---------------------------------------
-AllTT = np.zeros(shape=(totalFiles, numpara + ell_max + 1) ) # TT
-AllEE = np.zeros(shape=(totalFiles, numpara + ell_max + 1) ) #
-AllBB = np.zeros(shape=(totalFiles, numpara + ell_max + 1) )
-AllTE = np.zeros(shape=(totalFiles, numpara + ell_max + 1) ) # Check if this is actually TE --
+AllTT = np.zeros(shape=(totalFiles, num_para + ell_max + 1) ) # TT
+AllEE = np.zeros(shape=(totalFiles, num_para + ell_max + 1) ) #
+AllBB = np.zeros(shape=(totalFiles, num_para + ell_max + 1) )
+AllTE = np.zeros(shape=(totalFiles, num_para + ell_max + 1) ) # Check if this is actually TE --
 # negative
 # values and CAMB documentation incorrect.
 
@@ -284,6 +285,41 @@ for i in range(totalFiles):
 
 
     pars.InitPower.set_params(ns=para5[i, 4], r=0)
+
+
+    ######### DARK ENERGY #############
+
+
+    # The dark energy model can be changed as in the previous example, or by assigning to pars.DarkEnergy.
+    # e.g. use the PPF model
+    from camb.dark_energy import DarkEnergyPPF, DarkEnergyFluid
+
+    pars.DarkEnergy = DarkEnergyPPF(w=-1.2, wa=0.2)
+    print('w, wa model parameters:\n\n', pars.DarkEnergy)
+    # results = camb.get_background(pars)
+
+
+
+    # or can also use a w(a) numerical function
+    # (note this will slow things down; make your own dark energy class in fortran for best performance)
+    # a = np.logspace(-5, 0, 1000)
+    # w = -1.2 + 0.2 * (1 - a)
+    # pars.DarkEnergy = DarkEnergyPPF()
+    # pars.DarkEnergy.set_w_a_table(a, w)
+    # print('Table-interpolated parameters (w and wa are set to estimated values at 0):\n\n'
+    #       , pars.DarkEnergy)
+    # results2 = camb.get_background(pars)
+    #
+    # rho, _ = results.get_dark_energy_rho_w(a)
+    # rho2, _ = results2.get_dark_energy_rho_w(a)
+    # plt.plot(a, rho, color='k')
+    # plt.plot(a, rho2, color='r', ls='--')
+    # plt.ylabel(r'$\rho/\rho_0$')
+    # plt.xlabel('$a$')
+    # plt.xlim(0, 1)
+    # plt.title('Dark enery density');
+
+    ###################################
 
 
     # pars.set_for_lmax(lmax= lmax0, max_eta_k=None, k_eta_fac=12.5 , lens_potential_accuracy=1,
@@ -383,7 +419,7 @@ plt.show()
 
 
 
-plt.figure(32)
+plt.figure(33)
 plt.plot(AllTE[:, 7:].T)
 # plt.yscale('log')
 plt.xscale('log')
