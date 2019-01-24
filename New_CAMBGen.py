@@ -367,8 +367,8 @@ for i in range(totalFiles):
 
     sigma8_input = para5[i, 2]
 
-    r = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
-    # r = 1
+    sigma_ratio = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
+    # sigma_ratio = 1
     # #---------------------------------------------------
     # pars.set_for_lmax(lmax= lmax0, k_eta_fac=2.5 , lens_potential_accuracy=0)  ## THIS IS ONLY
 
@@ -383,8 +383,8 @@ for i in range(totalFiles):
     # powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
 
 
-    totCL = powers['total']*r
-    unlensedCL = powers['unlensed_scalar']*r
+    totCL = powers['total']*sigma_ratio
+    unlensedCL = powers['unlensed_scalar']*sigma_ratio
 
     AllTT[i] = np.hstack([para5[i], totCL[:,0] ])
     AllEE[i] = np.hstack([para5[i], totCL[:,1] ])
