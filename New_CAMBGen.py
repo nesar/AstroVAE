@@ -82,10 +82,24 @@ tau = np.linspace(0.01, 0.8, totalFiles)
 
 
 
+OmegaM = np.linspace(0.12, 0.12, totalFiles)
+Omegab = np.linspace(0.0225, 0.0225, totalFiles)
+sigma8 = np.linspace(0.8, 0.8, totalFiles)
+h = np.linspace(0.7, 0.7, totalFiles)
+ns = np.linspace(0.95, 0.95, totalFiles)
+Omega0 = np.linspace(-1.3, -0.7, totalFiles)
+# OmegaA = np.linspace(-1.73, 1.28, totalFiles)
+OmegaA = np.linspace(0.2, 0.2, totalFiles)
+tau = np.linspace(0.06, 0.06, totalFiles)
+
+
+
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
              r'$\tilde{n}_s$', r'$\tilde{\Omega}_0$', r'$\tilde{\Omega}_a$', r'$\tilde{\tau}$']
 
 AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau])
+
+
 
 lhd = pyDOE.lhs(num_para, samples=totalFiles, criterion=None) # c cm corr m
 print(lhd)
