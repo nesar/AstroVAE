@@ -54,7 +54,7 @@ SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 8
+totalFiles = 4
 num_para = 8
 
 np.random.seed(7)
@@ -81,7 +81,7 @@ OmegaA = np.linspace(0.01, 0.5, totalFiles)
 tau = np.linspace(0.01, 0.8, totalFiles)
 
 
-
+#### Trial De dependence ####
 OmegaM = np.linspace(0.12, 0.12, totalFiles)
 Omegab = np.linspace(0.0225, 0.0225, totalFiles)
 sigma8 = np.linspace(0.8, 0.8, totalFiles)
@@ -99,6 +99,8 @@ AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$'
 
 AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau])
 
+
+print AllPara
 
 
 lhd = pyDOE.lhs(num_para, samples=totalFiles, criterion=None) # c cm corr m
