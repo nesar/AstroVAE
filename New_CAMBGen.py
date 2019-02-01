@@ -94,6 +94,21 @@ tau = np.linspace(0.06, 0.06, totalFiles)
 
 
 
+
+#### Trial tau dependence ####
+OmegaM = np.linspace(0.12, 0.12, totalFiles)
+Omegab = np.linspace(0.0225, 0.0225, totalFiles)
+sigma8 = np.linspace(0.8, 0.8, totalFiles)
+h = np.linspace(0.7, 0.7, totalFiles)
+ns = np.linspace(0.95, 0.95, totalFiles)
+Omega0 = np.linspace(-1.0, -1.0, totalFiles)
+# OmegaA = np.linspace(-1.73, 1.28, totalFiles)
+OmegaA = np.linspace(0.2, 0.2, totalFiles)
+tau = np.linspace(0.01, 0.8, totalFiles)
+
+
+
+
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
              r'$\tilde{n}_s$', r'$\tilde{\Omega}_0$', r'$\tilde{\Omega}_a$', r'$\tilde{\tau}$']
 
@@ -447,7 +462,8 @@ plt.figure(32)
 fig, ax = plt.subplots(2,2, figsize = (12,8))
 
 lineObj = ax[0,0].plot(AllTT[:, num_para + 1:].T)
-ax[0,0].legend(iter(lineObj), Omega0.round(decimals=2), title = r'\omega_0')
+# ax[0,0].legend(iter(lineObj), Omega0.round(decimals=2), title = r'\omega_0')
+ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'tau')
 ax[0,0].set_yscale('log')
 ax[0,0].set_xscale('log')
 ax[0,0].set_ylabel(r'$C^{TT}_l$')
@@ -471,7 +487,7 @@ ax[0,1].set_ylabel(r'$C_l^{BB}$')
 # ax[0,1].set_yscale('log')
 ax[0,1].set_xscale('log')
 ax[0,1].set_xlabel('$l$')
-plt.savefig(PlotsDir + 'ExtendedClAll_'+str(totalFiles)+'.png')
+plt.savefig(PlotsDir + 'tauExtendedClAll_'+str(totalFiles)+'.png')
 
 
 plt.show()
