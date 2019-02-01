@@ -446,12 +446,12 @@ plt.figure(32)
 
 fig, ax = plt.subplots(2,2, figsize = (12,8))
 
-ax[0,0].plot(AllTT[:, num_para + 1:].T, label= Omega0.T)
+lineObj = ax[0,0].plot(AllTT[:, num_para + 1:].T)
+ax[0,0].legend(iter(lineObj), Omega0.round(decimals=2), title = r'\omega_0')
 ax[0,0].set_yscale('log')
 ax[0,0].set_xscale('log')
 ax[0,0].set_ylabel(r'$C^{TT}_l$')
 ax[0,0].set_xlabel('$l$')
-ax[0,0].legend(title = r'\Omega_0')
 
 
 ax[1,0].plot(AllTE[:, num_para + 1:].T)
