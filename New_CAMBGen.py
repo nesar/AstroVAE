@@ -185,7 +185,11 @@ lmax0 = 12000   ## something off above 8250
 # model.lmax_lensed.value = 8250 by default
 ell_max = 10000
 
-# ndim = lmax0 + 1
+
+lmax0 = 1200   ## something off above 8250
+# model.lmax_lensed.value = 8250 by default
+ell_max = 1000
+
 
 
 para5 = np.loadtxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt')
@@ -439,38 +443,41 @@ PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
 
 
 plt.figure(32)
-plt.plot(AllTT[:, num_para + 1:].T)
-plt.yscale('log')
-plt.xscale('log')
-plt.ylabel(r'$C_l$')
-plt.xlabel('$l$')
-plt.savefig(PlotsDir + 'ExtendedTTCl_'+str(totalFiles)+'.png')
+
+fig, ax = plt.subplots(2,2, figsize = (8,6))
+
+ax[0,0].plot(AllTT[:, num_para + 1:].T)
+ax[0,0].set_yscale('log')
+ax[0,0].set_xscale('log')
+ax[0,0].set_ylabel(r'$C^{TT}_l$')
+ax[0,0].set_xlabel('$l$')
+# plt.savefig(PlotsDir + 'ExtendedTTCl_'+str(totalFiles)+'.png')
 
 
-plt.figure(33)
-plt.plot(AllTE[:, num_para + 1:].T)
+# plt.figure(33)
+ax[1,0].plot(AllTE[:, num_para + 1:].T)
 # plt.yscale('log')
-plt.xscale('log')
-plt.ylabel(r'$C_l$')
-plt.xlabel('$l$')
-plt.savefig(PlotsDir + 'ExtendedTECl_'+str(totalFiles)+'.png')
+ax[1,0].set_xscale('log')
+ax[1,0].set_ylabel(r'$C^{TE}_l$')
+ax[1,0].set_xlabel('$l$')
+# ax[1,0].savefig(PlotsDir + 'ExtendedTECl_'+str(totalFiles)+'.png')
 
-plt.figure(34)
-plt.plot(AllEE[:, num_para + 1:].T)
-# plt.yscale('log')
-plt.xscale('log')
-plt.ylabel(r'$C_l$')
-plt.xlabel('$l$')
-plt.savefig(PlotsDir + 'ExtendedEECl_'+str(totalFiles)+'.png')
+# plt.figure(34)
+ax[1,1].plot(AllEE[:, num_para + 1:].T)
+ax[1,1].set_yscale('log')
+ax[1,1].set_xscale('log')
+ax[1,1].set_ylabel(r'$C_l^{EE}$')
+ax[1,1].set_xlabel('$l$')
+# plt.savefig(PlotsDir + 'ExtendedEECl_'+str(totalFiles)+'.png')
 
 
-plt.figure(35)
-plt.plot(AllBB[:, num_para + 1:].T)
-# plt.yscale('log')
-plt.xscale('log')
-plt.ylabel(r'$C_l$')
-plt.xlabel('$l$')
-plt.savefig(PlotsDir + 'ExtendedBBCl_'+str(totalFiles)+'.png')
+# plt.figure(35)
+ax[0,1].plot(AllBB[:, num_para + 1:].T)
+ax[0,1].yscale('log')
+ax[0,1].set_xscale('log')
+ax[0,1].set_ylabel(r'$C_l^{BB}$')
+ax[0,1].set_xlabel('$l$')
+# plt.savefig(PlotsDir + 'ExtendedBBCl_'+str(totalFiles)+'.png')
 
 
 plt.show()
