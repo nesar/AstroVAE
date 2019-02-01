@@ -444,40 +444,34 @@ PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
 
 plt.figure(32)
 
-fig, ax = plt.subplots(2,2, figsize = (8,6))
+fig, ax = plt.subplots(2,2, figsize = (12,8))
 
-ax[0,0].plot(AllTT[:, num_para + 1:].T)
+ax[0,0].plot(AllTT[:, num_para + 1:].T, label= Omega0.T)
 ax[0,0].set_yscale('log')
 ax[0,0].set_xscale('log')
 ax[0,0].set_ylabel(r'$C^{TT}_l$')
 ax[0,0].set_xlabel('$l$')
-# plt.savefig(PlotsDir + 'ExtendedTTCl_'+str(totalFiles)+'.png')
+ax[0,0].legend(title = r'\Omega_0')
 
 
-# plt.figure(33)
 ax[1,0].plot(AllTE[:, num_para + 1:].T)
-# plt.yscale('log')
 ax[1,0].set_xscale('log')
 ax[1,0].set_ylabel(r'$C^{TE}_l$')
 ax[1,0].set_xlabel('$l$')
-# ax[1,0].savefig(PlotsDir + 'ExtendedTECl_'+str(totalFiles)+'.png')
 
-# plt.figure(34)
 ax[1,1].plot(AllEE[:, num_para + 1:].T)
 ax[1,1].set_yscale('log')
 ax[1,1].set_xscale('log')
 ax[1,1].set_ylabel(r'$C_l^{EE}$')
 ax[1,1].set_xlabel('$l$')
-# plt.savefig(PlotsDir + 'ExtendedEECl_'+str(totalFiles)+'.png')
 
 
-# plt.figure(35)
 ax[0,1].plot(AllBB[:, num_para + 1:].T)
-ax[0,1].yscale('log')
-ax[0,1].set_xscale('log')
 ax[0,1].set_ylabel(r'$C_l^{BB}$')
+# ax[0,1].set_yscale('log')
+ax[0,1].set_xscale('log')
 ax[0,1].set_xlabel('$l$')
-# plt.savefig(PlotsDir + 'ExtendedBBCl_'+str(totalFiles)+'.png')
+plt.savefig(PlotsDir + 'ExtendedClAll_'+str(totalFiles)+'.png')
 
 
 plt.show()
