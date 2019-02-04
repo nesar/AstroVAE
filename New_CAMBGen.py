@@ -108,17 +108,17 @@ mnu = np.linspace(0.11, 0.11, totalFiles)
 # tau = np.linspace(0.01, 0.8, totalFiles)
 # mnu = np.linspace(0.11, 0.11, totalFiles)
 
-
-# #### Trial # $\sum m_\nu dependence ####
-OmegaM = np.linspace(0.12, 0.12, totalFiles)
-Omegab = np.linspace(0.0225, 0.0225, totalFiles)
-sigma8 = np.linspace(0.8, 0.8, totalFiles)
-h = np.linspace(0.7, 0.7, totalFiles)
-ns = np.linspace(0.95, 0.95, totalFiles)
-Omega0 = np.linspace(-1.0, -1.0, totalFiles)
-OmegaA = np.linspace(0.2, 0.2, totalFiles)
-tau = np.linspace(0.06, 0.06, totalFiles)
-mnu = np.linspace(0, 3, totalFiles)
+#
+# # #### Trial # $\sum m_\nu dependence ####
+# OmegaM = np.linspace(0.12, 0.12, totalFiles)
+# Omegab = np.linspace(0.0225, 0.0225, totalFiles)
+# sigma8 = np.linspace(0.8, 0.8, totalFiles)
+# h = np.linspace(0.7, 0.7, totalFiles)
+# ns = np.linspace(0.95, 0.95, totalFiles)
+# Omega0 = np.linspace(-1.0, -1.0, totalFiles)
+# OmegaA = np.linspace(0.2, 0.2, totalFiles)
+# tau = np.linspace(0.06, 0.06, totalFiles)
+# mnu = np.linspace(0, 3, totalFiles)
 
 
 #
@@ -502,7 +502,7 @@ MainDir = '../Cl_data/'
 PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
 
 
-sortedArg = np.argsort(para5[:, 2])
+sortedArg = np.argsort(para5[:, 5])
 
 
 plt.figure(32)
@@ -515,11 +515,12 @@ ax[0,0].set_xscale('log')
 ax[0,0].set_ylabel(r'$C^{TT}_l$')
 ax[0,0].set_xlabel('$l$')
 
-# ax[0,0].legend(iter(lineObj), Omega0.round(decimals=2), title = r'\omega_0')
+ax[0,0].legend(iter(lineObj), para5[:, 5][sortedArg].round(decimals=4), title = r'$\omega_0$')
+
 # ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'\tau')
 # ax[0,0].legend(iter(lineObj), OmegaA.round(decimals=2), title = r'\omega_a')
 # ax[0,0].legend(iter(lineObj), mnu.round(decimals=2), title = r'$\sum m_\nu$')
-ax[0,0].legend(iter(lineObj), para5[:, 2][sortedArg].round(decimals=4), title = r'$\sigma_8$')
+# ax[0,0].legend(iter(lineObj), para5[:, 2][sortedArg].round(decimals=4), title = r'$\sigma_8$')
 
 
 ax[1,0].plot(AllTE[:, num_para + 1:].T[:, sortedArg])
@@ -539,7 +540,7 @@ ax[0,1].set_ylabel(r'$C_l^{BB}$')
 # ax[0,1].set_yscale('log')
 ax[0,1].set_xscale('log')
 ax[0,1].set_xlabel('$l$')
-plt.savefig(PlotsDir + 'Sigma8ExtendedClAll_'+str(totalFiles)+'.png')
+plt.savefig(PlotsDir + 'Omega0ExtendedClAll_'+str(totalFiles)+'.png')
 
 
 plt.show()
