@@ -425,7 +425,7 @@ for i in range(totalFiles):
 
     pars.AccuratePolarization = True
     pars.AccurateReionization = True
-    pars.YHe = 0.24
+    pars.YHe = 0.24 ##helium_fraction
     # pars.omegan = 0.0006445
     pars.omegak = 0.
     pars.set_nonlinear_lensing(True)
