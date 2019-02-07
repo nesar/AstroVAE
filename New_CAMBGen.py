@@ -77,7 +77,8 @@ ns = np.linspace(0.85, 1.05, totalFiles)
 Omega0 = np.linspace(-1.3, -0.7, totalFiles)
 OmegaA = np.linspace(-1.73, 1.28, totalFiles)
 # OmegaA = np.linspace(0.01, 0.5, totalFiles)
-tau = np.linspace(0.01, 0.8, totalFiles)
+# tau = np.linspace(0.01, 0.8, totalFiles)
+tau = np.linspace(0.01, 0.6, totalFiles)
 mnu = np.linspace(0, 3, totalFiles)
 
 
