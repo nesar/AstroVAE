@@ -48,9 +48,8 @@ def rescale01(xmin, xmax, f):
     return (f - xmin) / (xmax - xmin)
 
 
-import SetPub
-
-SetPub.set_pub()
+# import SetPub
+# SetPub.set_pub()
 
 # nsize = 2
 # totalFiles = nsize**5 #32
@@ -77,23 +76,27 @@ h = np.linspace(0.55, 0.85, totalFiles)
 ns = np.linspace(0.85, 1.05, totalFiles)
 Omega0 = np.linspace(-1.3, -0.7, totalFiles)
 # OmegaA = np.linspace(-1.73, 1.28, totalFiles)
-OmegaA = np.linspace(0.01, 0.5, totalFiles)
-tau = np.linspace(0.01, 0.8, totalFiles)
+OmegaA = np.linspace(-1.5, 1.0, totalFiles)
+# tau = np.linspace(0.01, 0.8, totalFiles)
+tau = np.linspace(0.01, 0.6, totalFiles)
 mnu = np.linspace(0, 3, totalFiles)
+
+neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
+# standard_neutrino_neff=3.046
 
 
 #### Trial De dependence ####
-OmegaM = np.linspace(0.12, 0.12, totalFiles)
-Omegab = np.linspace(0.0225, 0.0225, totalFiles)
-sigma8 = np.linspace(0.8, 0.8, totalFiles)
-h = np.linspace(0.7, 0.7, totalFiles)
-ns = np.linspace(0.95, 0.95, totalFiles)
-Omega0 = np.linspace(-1.3, -0.7, totalFiles)
-# OmegaA = np.linspace(-1.73, 1.28, totalFiles)
-OmegaA = np.linspace(0.2, 0.2, totalFiles)
-tau = np.linspace(0.06, 0.06, totalFiles)
-mnu = np.linspace(0.11, 0.11, totalFiles)
-
+# OmegaM = np.linspace(0.12, 0.12, totalFiles)
+# Omegab = np.linspace(0.0225, 0.0225, totalFiles)
+# sigma8 = np.linspace(0.8, 0.8, totalFiles)
+# h = np.linspace(0.7, 0.7, totalFiles)
+# ns = np.linspace(0.95, 0.95, totalFiles)
+# Omega0 = np.linspace(-1.3, -0.7, totalFiles)
+# # OmegaA = np.linspace(-1.73, 1.28, totalFiles)
+# OmegaA = np.linspace(0.2, 0.2, totalFiles)
+# tau = np.linspace(0.06, 0.06, totalFiles)
+# mnu = np.linspace(0.11, 0.11, totalFiles)
+#
 
 
 
@@ -142,9 +145,9 @@ mnu = np.linspace(0.11, 0.11, totalFiles)
 
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
              r'$\tilde{n}_s$', r'$\tilde{\Omega}_0$', r'$\tilde{\Omega}_a$', r'$\tilde{\tau}$',
-             r'$\sum m_\nu$']
+             r'$\sum m_\nu$', r'$N_{eff}$']
 
-AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau, mnu])
+AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau, mnu, neff])
 
 
 print AllPara
@@ -233,10 +236,10 @@ lmax0 = 12000   ## something off above 8250
 ell_max = 10000
 
 
-lmax0 = 1200   ## something off above 8250
-# model.lmax_lensed.value = 8250 by default
-ell_max = 1000
-
+# lmax0 = 1200   ## something off above 8250
+# # model.lmax_lensed.value = 8250 by default
+# ell_max = 1000
+#
 
 
 para5 = np.loadtxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt')
@@ -362,7 +365,7 @@ for i in range(totalFiles):
 
     ####### Adding neutrinos #########
     pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=para5[i, 8],
-                       omk=0, tau=para5[i, 7])
+                       omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 8])
 
     ## add nnu (N_eff, num_massive_neutrinos. Omega_nu is approximated by CAMB
     ## https://camb.readthedocs.io/en/latest/model.html#camb.model.CAMBparams.set_cosmology
@@ -426,7 +429,7 @@ for i in range(totalFiles):
 
     pars.AccuratePolarization = True
     pars.AccurateReionization = True
-    pars.YHe = 0.24
+    pars.YHe = 0.24 ##helium_fraction
     # pars.omegan = 0.0006445
     pars.omegak = 0.
     pars.set_nonlinear_lensing(True)
@@ -483,64 +486,70 @@ for i in range(totalFiles):
     # np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
     # np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 
-ls = np.arange(totCL.shape[0])
+SaveCls = False
 
-# np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
-np.savetxt('../Cl_data/Data/Extended_ls_'+str(totalFiles)+'.txt', ls)
+if SaveCls:
 
-np.savetxt('../Cl_data/Data/ExtendedTTCl_'+str(totalFiles)+'.txt', AllTT)
-np.savetxt('../Cl_data/Data/ExtendedEECl_'+str(totalFiles)+'.txt', AllEE)
-np.savetxt('../Cl_data/Data/ExtendedBBCl_'+str(totalFiles)+'.txt', AllBB)
-np.savetxt('../Cl_data/Data/ExtendedTECl_'+str(totalFiles)+'.txt', AllTE)
+    ls = np.arange(totCL.shape[0])
+
+    # np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
+    np.savetxt('../Cl_data/Data/Extended_ls_'+str(totalFiles)+'.txt', ls)
+
+    np.savetxt('../Cl_data/Data/ExtendedTTCl_'+str(totalFiles)+'.txt', AllTT)
+    np.savetxt('../Cl_data/Data/ExtendedEECl_'+str(totalFiles)+'.txt', AllEE)
+    np.savetxt('../Cl_data/Data/ExtendedBBCl_'+str(totalFiles)+'.txt', AllBB)
+    np.savetxt('../Cl_data/Data/ExtendedTECl_'+str(totalFiles)+'.txt', AllTE)
 
 time1 = time.time()
 print('camb time:', time1 - time0)
 
+PlotCls = True
+
+if PlotCls:
+
+    MainDir = '../Cl_data/'
+    PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
 
 
-MainDir = '../Cl_data/'
-PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
+    sortedArg = np.argsort(para5[:, 5])
 
 
-sortedArg = np.argsort(para5[:, 5])
+    plt.figure(32)
+
+    fig, ax = plt.subplots(2,2, figsize = (12,8))
+
+    lineObj = ax[0,0].plot(AllTT[:, num_para + 1:].T[:, sortedArg])
+    ax[0,0].set_yscale('log')
+    ax[0,0].set_xscale('log')
+    ax[0,0].set_ylabel(r'$C^{TT}_l$')
+    ax[0,0].set_xlabel('$l$')
+
+    ax[0,0].legend(iter(lineObj), para5[:, 5][sortedArg].round(decimals=2), title = r'$\omega_0$')
+
+    # ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'\tau')
+    # ax[0,0].legend(iter(lineObj), OmegaA.round(decimals=2), title = r'\omega_a')
+    # ax[0,0].legend(iter(lineObj), mnu.round(decimals=2), title = r'$\sum m_\nu$')
+    # ax[0,0].legend(iter(lineObj), para5[:, 2][sortedArg].round(decimals=4), title = r'$\sigma_8$')
 
 
-plt.figure(32)
+    ax[1,0].plot(AllTE[:, num_para + 1:].T[:, sortedArg])
+    ax[1,0].set_xscale('log')
+    ax[1,0].set_ylabel(r'$C^{TE}_l$')
+    ax[1,0].set_xlabel('$l$')
 
-fig, ax = plt.subplots(2,2, figsize = (12,8))
-
-lineObj = ax[0,0].plot(AllTT[:, num_para + 1:].T[:, sortedArg])
-ax[0,0].set_yscale('log')
-ax[0,0].set_xscale('log')
-ax[0,0].set_ylabel(r'$C^{TT}_l$')
-ax[0,0].set_xlabel('$l$')
-
-ax[0,0].legend(iter(lineObj), para5[:, 5][sortedArg].round(decimals=4), title = r'$\omega_0$')
-
-# ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'\tau')
-# ax[0,0].legend(iter(lineObj), OmegaA.round(decimals=2), title = r'\omega_a')
-# ax[0,0].legend(iter(lineObj), mnu.round(decimals=2), title = r'$\sum m_\nu$')
-# ax[0,0].legend(iter(lineObj), para5[:, 2][sortedArg].round(decimals=4), title = r'$\sigma_8$')
+    ax[1,1].plot(AllEE[:, num_para + 1:].T[:, sortedArg])
+    ax[1,1].set_yscale('log')
+    ax[1,1].set_xscale('log')
+    ax[1,1].set_ylabel(r'$C_l^{EE}$')
+    ax[1,1].set_xlabel('$l$')
 
 
-ax[1,0].plot(AllTE[:, num_para + 1:].T[:, sortedArg])
-ax[1,0].set_xscale('log')
-ax[1,0].set_ylabel(r'$C^{TE}_l$')
-ax[1,0].set_xlabel('$l$')
-
-ax[1,1].plot(AllEE[:, num_para + 1:].T[:, sortedArg])
-ax[1,1].set_yscale('log')
-ax[1,1].set_xscale('log')
-ax[1,1].set_ylabel(r'$C_l^{EE}$')
-ax[1,1].set_xlabel('$l$')
+    ax[0,1].plot(AllBB[:, num_para + 1:].T[:, sortedArg])
+    ax[0,1].set_ylabel(r'$C_l^{BB}$')
+    # ax[0,1].set_yscale('log')
+    ax[0,1].set_xscale('log')
+    ax[0,1].set_xlabel('$l$')
+    plt.savefig(PlotsDir + 'Omega0ExtendedClAll_'+str(totalFiles)+'.png')
 
 
-ax[0,1].plot(AllBB[:, num_para + 1:].T[:, sortedArg])
-ax[0,1].set_ylabel(r'$C_l^{BB}$')
-# ax[0,1].set_yscale('log')
-ax[0,1].set_xscale('log')
-ax[0,1].set_xlabel('$l$')
-plt.savefig(PlotsDir + 'Omega0ExtendedClAll_'+str(totalFiles)+'.png')
-
-
-plt.show()
+    plt.show()
