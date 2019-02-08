@@ -199,13 +199,6 @@ np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCom
 
 
 
-
-
-
-
-
-
-
 ############################## CAMB ###############################
 
 import numpy as np
@@ -365,7 +358,7 @@ for i in range(totalFiles):
 
     ####### Adding neutrinos #########
     pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=para5[i, 8],
-                       omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 8])
+                       omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 9])
 
     ## add nnu (N_eff, num_massive_neutrinos. Omega_nu is approximated by CAMB
     ## https://camb.readthedocs.io/en/latest/model.html#camb.model.CAMBparams.set_cosmology
@@ -509,9 +502,10 @@ if PlotCls:
 
     MainDir = '../Cl_data/'
     PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
+    paramNo = 9
 
 
-    sortedArg = np.argsort(para5[:, 5])
+    sortedArg = np.argsort(para5[:, paramNo])
 
 
     plt.figure(32)
@@ -524,7 +518,8 @@ if PlotCls:
     ax[0,0].set_ylabel(r'$C^{TT}_l$')
     ax[0,0].set_xlabel('$l$')
 
-    ax[0,0].legend(iter(lineObj), para5[:, 5][sortedArg].round(decimals=2), title = r'$\omega_0$')
+    ax[0,0].legend(iter(lineObj), para5[:, paramNo][sortedArg].round(decimals=2),
+                   title = AllLabels[paramNo])
 
     # ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'\tau')
     # ax[0,0].legend(iter(lineObj), OmegaA.round(decimals=2), title = r'\omega_a')
@@ -549,7 +544,7 @@ if PlotCls:
     # ax[0,1].set_yscale('log')
     ax[0,1].set_xscale('log')
     ax[0,1].set_xlabel('$l$')
-    plt.savefig(PlotsDir + 'Omega0ExtendedClAll_'+str(totalFiles)+'.png')
+    plt.savefig(PlotsDir + 'Param' + str(paramNo) + '_ExtendedClAll_'+str(totalFiles)+'.png')
 
 
     plt.show()
