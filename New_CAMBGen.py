@@ -54,7 +54,7 @@ def rescale01(xmin, xmax, f):
 # nsize = 2
 # totalFiles = nsize**5 #32
 totalFiles = 4
-num_para = 9
+num_para = 10
 
 np.random.seed(7)
 
