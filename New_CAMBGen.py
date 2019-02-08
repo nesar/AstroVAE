@@ -53,7 +53,7 @@ def rescale01(xmin, xmax, f):
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 4
+totalFiles = 8
 num_para = 9
 
 np.random.seed(7)
@@ -75,8 +75,8 @@ sigma8 = np.linspace(0.7, 0.9, totalFiles)
 h = np.linspace(0.55, 0.85, totalFiles)
 ns = np.linspace(0.85, 1.05, totalFiles)
 Omega0 = np.linspace(-1.3, -0.7, totalFiles)
-OmegaA = np.linspace(-1.73, 1.28, totalFiles)
-# OmegaA = np.linspace(0.01, 0.5, totalFiles)
+# OmegaA = np.linspace(-1.73, 1.28, totalFiles)
+OmegaA = np.linspace(-1.5, 1.0, totalFiles)
 # tau = np.linspace(0.01, 0.8, totalFiles)
 tau = np.linspace(0.01, 0.6, totalFiles)
 mnu = np.linspace(0, 3, totalFiles)
@@ -500,7 +500,7 @@ if SaveCls:
 time1 = time.time()
 print('camb time:', time1 - time0)
 
-PlotCls = False
+PlotCls = True
 
 if PlotCls:
 
@@ -521,7 +521,7 @@ if PlotCls:
     ax[0,0].set_ylabel(r'$C^{TT}_l$')
     ax[0,0].set_xlabel('$l$')
 
-    ax[0,0].legend(iter(lineObj), para5[:, 5][sortedArg].round(decimals=4), title = r'$\omega_0$')
+    ax[0,0].legend(iter(lineObj), para5[:, 5][sortedArg].round(decimals=2), title = r'$\omega_0$')
 
     # ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'\tau')
     # ax[0,0].legend(iter(lineObj), OmegaA.round(decimals=2), title = r'\omega_a')
