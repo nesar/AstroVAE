@@ -229,10 +229,10 @@ lmax0 = 12000   ## something off above 8250
 ell_max = 10000
 
 
-# lmax0 = 1200   ## something off above 8250
-# # model.lmax_lensed.value = 8250 by default
-# ell_max = 1000
-#
+lmax0 = 1200   ## something off above 8250 -- sorted now
+# model.lmax_lensed.value = 8250 by default
+ell_max = 1000
+
 
 
 para5 = np.loadtxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt')
