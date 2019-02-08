@@ -53,7 +53,7 @@ def rescale01(xmin, xmax, f):
 
 # nsize = 2
 # totalFiles = nsize**5 #32
-totalFiles = 8
+totalFiles = 2
 num_para = 9
 
 np.random.seed(7)
@@ -80,6 +80,9 @@ OmegaA = np.linspace(-1.5, 1.0, totalFiles)
 # tau = np.linspace(0.01, 0.8, totalFiles)
 tau = np.linspace(0.01, 0.6, totalFiles)
 mnu = np.linspace(0, 3, totalFiles)
+
+neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
+# standard_neutrino_neff=3.046
 
 
 #### Trial De dependence ####
@@ -142,9 +145,9 @@ mnu = np.linspace(0, 3, totalFiles)
 
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
              r'$\tilde{n}_s$', r'$\tilde{\Omega}_0$', r'$\tilde{\Omega}_a$', r'$\tilde{\tau}$',
-             r'$\sum m_\nu$']
+             r'$\sum m_\nu$', r'$N_{eff}$']
 
-AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau, mnu])
+AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau, mnu, neff])
 
 
 print AllPara
@@ -362,7 +365,7 @@ for i in range(totalFiles):
 
     ####### Adding neutrinos #########
     pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=para5[i, 8],
-                       omk=0, tau=para5[i, 7])
+                       omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 8])
 
     ## add nnu (N_eff, num_massive_neutrinos. Omega_nu is approximated by CAMB
     ## https://camb.readthedocs.io/en/latest/model.html#camb.model.CAMBparams.set_cosmology
