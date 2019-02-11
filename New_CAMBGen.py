@@ -54,7 +54,7 @@ def rescale01(xmin, xmax, f):
 # nsize = 2
 # totalFiles = nsize**5 #32
 totalFiles = 4
-num_para = 9
+num_para = 10
 
 np.random.seed(7)
 
@@ -124,9 +124,8 @@ neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
 # mnu = np.linspace(0, 3, totalFiles)
 
 
-#
-#
-#
+
+
 # # #### Trial # $\sigma_8 dependence ####
 # OmegaM = np.linspace(0.12, 0.12, totalFiles)
 # Omegab = np.linspace(0.0225, 0.0225, totalFiles)
@@ -139,6 +138,17 @@ neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
 # mnu = np.linspace(0.11, 0.11, totalFiles)
 #
 
+OmegaM = np.linspace(0.12, 0.12, totalFiles)
+Omegab = np.linspace(0.0225, 0.0225, totalFiles)
+sigma8 = np.linspace(0.8, 0.8, totalFiles)
+h = np.linspace(0.55, 0.85, totalFiles)
+ns = np.linspace(0.95, 0.95, totalFiles)
+Omega0 = np.linspace(-1.0, -1.0, totalFiles)
+OmegaA = np.linspace(0.2, 0.2, totalFiles)
+tau = np.linspace(0.06, 0.06, totalFiles)
+mnu = np.linspace(0.11, 0.11, totalFiles)
+
+neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
 
 
 
@@ -199,13 +209,6 @@ np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCom
 
 
 
-
-
-
-
-
-
-
 ############################## CAMB ###############################
 
 import numpy as np
@@ -236,10 +239,10 @@ lmax0 = 12000   ## something off above 8250
 ell_max = 10000
 
 
-# lmax0 = 1200   ## something off above 8250
-# # model.lmax_lensed.value = 8250 by default
-# ell_max = 1000
-#
+lmax0 = 3000   ## something off above 8250 -- sorted now
+# model.lmax_lensed.value = 8250 by default
+ell_max = 2500
+
 
 
 para5 = np.loadtxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt')
@@ -365,7 +368,7 @@ for i in range(totalFiles):
 
     ####### Adding neutrinos #########
     pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=para5[i, 8],
-                       omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 8])
+                       omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 9])
 
     ## add nnu (N_eff, num_massive_neutrinos. Omega_nu is approximated by CAMB
     ## https://camb.readthedocs.io/en/latest/model.html#camb.model.CAMBparams.set_cosmology
@@ -509,9 +512,10 @@ if PlotCls:
 
     MainDir = '../Cl_data/'
     PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
+    paramNo = 9
 
 
-    sortedArg = np.argsort(para5[:, 5])
+    sortedArg = np.argsort(para5[:, paramNo])
 
 
     plt.figure(32)
@@ -524,7 +528,8 @@ if PlotCls:
     ax[0,0].set_ylabel(r'$C^{TT}_l$')
     ax[0,0].set_xlabel('$l$')
 
-    ax[0,0].legend(iter(lineObj), para5[:, 5][sortedArg].round(decimals=2), title = r'$\omega_0$')
+    ax[0,0].legend(iter(lineObj), para5[:, paramNo][sortedArg].round(decimals=2),
+                   title = AllLabels[paramNo])
 
     # ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'\tau')
     # ax[0,0].legend(iter(lineObj), OmegaA.round(decimals=2), title = r'\omega_a')
@@ -549,7 +554,7 @@ if PlotCls:
     # ax[0,1].set_yscale('log')
     ax[0,1].set_xscale('log')
     ax[0,1].set_xlabel('$l$')
-    plt.savefig(PlotsDir + 'Omega0ExtendedClAll_'+str(totalFiles)+'.png')
+    plt.savefig(PlotsDir + 'Param' + str(paramNo) + '_ExtendedClAll_'+str(totalFiles)+'.png')
 
 
     plt.show()
