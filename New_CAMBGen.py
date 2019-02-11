@@ -124,9 +124,8 @@ neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
 # mnu = np.linspace(0, 3, totalFiles)
 
 
-#
-#
-#
+
+
 # # #### Trial # $\sigma_8 dependence ####
 # OmegaM = np.linspace(0.12, 0.12, totalFiles)
 # Omegab = np.linspace(0.0225, 0.0225, totalFiles)
@@ -139,6 +138,17 @@ neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
 # mnu = np.linspace(0.11, 0.11, totalFiles)
 #
 
+OmegaM = np.linspace(0.12, 0.12, totalFiles)
+Omegab = np.linspace(0.0225, 0.0225, totalFiles)
+sigma8 = np.linspace(0.8, 0.8, totalFiles)
+h = np.linspace(0.55, 0.85, totalFiles)
+ns = np.linspace(0.95, 0.95, totalFiles)
+Omega0 = np.linspace(-1.0, -1.0, totalFiles)
+OmegaA = np.linspace(0.2, 0.2, totalFiles)
+tau = np.linspace(0.06, 0.06, totalFiles)
+mnu = np.linspace(0.11, 0.11, totalFiles)
+
+neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
 
 
 
@@ -229,9 +239,9 @@ lmax0 = 12000   ## something off above 8250
 ell_max = 10000
 
 
-lmax0 = 1200   ## something off above 8250 -- sorted now
+lmax0 = 3000   ## something off above 8250 -- sorted now
 # model.lmax_lensed.value = 8250 by default
-ell_max = 1000
+ell_max = 2500
 
 
 
