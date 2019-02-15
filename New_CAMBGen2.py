@@ -183,12 +183,12 @@ AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$'
 AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau, mnu, neff])
 
 
-print AllPara
+print(AllPara)
 
 
 lhd = pyDOE.lhs(num_para, samples=totalFiles, criterion=None) # c cm corr m
 print(lhd)
-print
+#print
 # lhd = norm(loc=0, scale=1).ppf(lhd)  # this applies to both factors here
 
 
@@ -396,7 +396,7 @@ for i in range(totalFiles):
     ## add nnu (N_eff, num_massive_neutrinos. Omega_nu is approximated by CAMB
     ## https://camb.readthedocs.io/en/latest/model.html#camb.model.CAMBparams.set_cosmology
 
-    ##### "mnu – sum of neutrino masses (in eV, Omega_nu is calculated approximately from this
+    ##### "mnu --sum of neutrino masses (in eV, Omega_nu is calculated approximately from this
     ### assuming neutrinos non-relativistic today). Set the field values directly if you need
     ### finer control or more complex models." ######
 
@@ -512,7 +512,7 @@ for i in range(totalFiles):
     # np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
     # np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 
-SaveCls = False
+SaveCls = True
 
 if SaveCls:
 
