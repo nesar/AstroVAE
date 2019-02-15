@@ -51,15 +51,12 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-# nsize = 2
-# totalFiles = nsize**5 #32
 totalFiles = 4
 num_para = 10
 
 np.random.seed(7)
 
 ###### NEED TO RECHECK THESE VALUES OMEGAM ~ 0.112
-
 
 OmegaM = np.linspace(0.10, 0.140, totalFiles)
 Omegab = np.linspace(0.0205, 0.0235, totalFiles)
@@ -238,23 +235,11 @@ for i in range(totalFiles):
 
     pars = camb.CAMBparams()
 
-    # pars.set_cosmology(H0=100*para5[i, 2], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
-    #                    tau=0.06)
 
-    # pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
-    #                    tau=0.06)
-
-    ###### Dynamical DE ############
-    # pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=0.06, omk=0,
-    #                    tau=para5[i, 7])
-
-
-
-    ####### Adding neutrinos #########
+    ####### Adding neutrinos, DE etc #########
     pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=para5[i, 8],
                        omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 9])
 
-    ## add nnu (N_eff, num_massive_neutrinos. Omega_nu is approximated by CAMB
     ## https://camb.readthedocs.io/en/latest/model.html#camb.model.CAMBparams.set_cosmology
 
     ##### "mnu --sum of neutrino masses (in eV, Omega_nu is calculated approximately from this
@@ -263,9 +248,7 @@ for i in range(totalFiles):
 
     pars.InitPower.set_params(ns=para5[i, 4], r=0)
 
-
     ######### DARK ENERGY #############
-
 
     # The dark energy model can be changed as in the previous example, or by assigning to pars.DarkEnergy.
     # e.g. use the PPF model
@@ -275,8 +258,6 @@ for i in range(totalFiles):
     pars.DarkEnergy = DarkEnergyPPF(w=para5[i, 5], wa=para5[i, 6])
     print('w, wa model parameters:\n\n', pars.DarkEnergy)
     # results = camb.get_background(pars)
-
-
 
     # or can also use a w(a) numerical function
     # (note this will slow things down; make your own dark energy class in fortran for best performance)
@@ -303,7 +284,7 @@ for i in range(totalFiles):
     # pars.set_for_lmax(lmax= lmax0, max_eta_k=None, k_eta_fac=12.5 , lens_potential_accuracy=1,
     #                   lens_k_eta_reference = 20000)
 
-    pars.set_for_lmax(lmax = lmax0, max_eta_k=20000, lens_potential_accuracy=4);
+    pars.set_for_lmax(lmax = lmax0, max_eta_k=max_k, lens_potential_accuracy=4);
 
 
     ## THIS IS ONLY FOR ACCURACY,
