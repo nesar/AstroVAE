@@ -135,9 +135,8 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 """
 
 lmax0 = 12000   ## something off above 8250
-# model.lmax_lensed.value = 8250 by default
 ell_max = 10000
-
+max_k = 20000 # 2xell_max is good
 #lmax0 = 3000   ## something off above 8250 -- sorted now
 # model.lmax_lensed.value = 8250 by default
 #ell_max = 2500
