@@ -58,110 +58,7 @@ num_para = 10
 
 np.random.seed(7)
 
-# OmegaM = np.linspace(0.12, 0.155, totalFiles)
-# Omegab = np.linspace(0.0215, 0.0235, totalFiles)
-# # sigma8 = np.linspace(0.7, 0.9, totalFiles)
-# # sigma8 = 0.8*np.ones(shape=totalFiles)
-# sigma8 = np.linspace(0.799, 0.8001, totalFiles)  # Dunno how to set sigma_8 in CAMB yet
-# h = np.linspace(0.55, 0.85, totalFiles)
-# ns = np.linspace(0.85, 1.05, totalFiles)
-
-
 ###### NEED TO RECHECK THESE VALUES OMEGAM ~ 0.112
-
-OmegaM = np.linspace(0.10, 0.140, totalFiles)
-Omegab = np.linspace(0.0205, 0.0235, totalFiles)
-sigma8 = np.linspace(0.7, 0.9, totalFiles)
-h = np.linspace(0.55, 0.85, totalFiles)
-ns = np.linspace(0.85, 1.05, totalFiles)
-Omega0 = np.linspace(-1.3, -0.7, totalFiles)
-# OmegaA = np.linspace(-1.73, 1.28, totalFiles)
-OmegaA = np.linspace(-1.5, 1.0, totalFiles)
-# tau = np.linspace(0.01, 0.8, totalFiles)
-tau = np.linspace(0.01, 0.6, totalFiles)
-mnu = np.linspace(0, 3, totalFiles)
-
-neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
-# standard_neutrino_neff=3.046
-
-
-#### Trial De dependence ####
-# OmegaM = np.linspace(0.12, 0.12, totalFiles)
-# Omegab = np.linspace(0.0225, 0.0225, totalFiles)
-# sigma8 = np.linspace(0.8, 0.8, totalFiles)
-# h = np.linspace(0.7, 0.7, totalFiles)
-# ns = np.linspace(0.95, 0.95, totalFiles)
-# Omega0 = np.linspace(-1.3, -0.7, totalFiles)
-# # OmegaA = np.linspace(-1.73, 1.28, totalFiles)
-# OmegaA = np.linspace(0.2, 0.2, totalFiles)
-# tau = np.linspace(0.06, 0.06, totalFiles)
-# mnu = np.linspace(0.11, 0.11, totalFiles)
-#
-
-
-
-# #### Trial tau dependence ####
-# OmegaM = np.linspace(0.12, 0.12, totalFiles)
-# Omegab = np.linspace(0.0225, 0.0225, totalFiles)
-# sigma8 = np.linspace(0.8, 0.8, totalFiles)
-# h = np.linspace(0.7, 0.7, totalFiles)
-# ns = np.linspace(0.95, 0.95, totalFiles)
-# Omega0 = np.linspace(-1.0, -1.0, totalFiles)
-# OmegaA = np.linspace(0.2, 0.2, totalFiles)
-# tau = np.linspace(0.01, 0.8, totalFiles)
-# mnu = np.linspace(0.11, 0.11, totalFiles)
-
-#
-# # #### Trial # $\sum m_\nu dependence ####
-# OmegaM = np.linspace(0.12, 0.12, totalFiles)
-# Omegab = np.linspace(0.0225, 0.0225, totalFiles)
-# sigma8 = np.linspace(0.8, 0.8, totalFiles)
-# h = np.linspace(0.7, 0.7, totalFiles)
-# ns = np.linspace(0.95, 0.95, totalFiles)
-# Omega0 = np.linspace(-1.0, -1.0, totalFiles)
-# OmegaA = np.linspace(0.2, 0.2, totalFiles)
-# tau = np.linspace(0.06, 0.06, totalFiles)
-# mnu = np.linspace(0, 3, totalFiles)
-
-
-
-
-# # #### Trial # $\sigma_8 dependence ####
-# OmegaM = np.linspace(0.12, 0.12, totalFiles)
-# Omegab = np.linspace(0.0225, 0.0225, totalFiles)
-# sigma8 = np.linspace(0.7, 0.9, totalFiles)
-# h = np.linspace(0.7, 0.7, totalFiles)
-# ns = np.linspace(0.95, 0.95, totalFiles)
-# Omega0 = np.linspace(-1.0, -1.0, totalFiles)
-# OmegaA = np.linspace(0.2, 0.2, totalFiles)
-# tau = np.linspace(0.06, 0.06, totalFiles)
-# mnu = np.linspace(0.11, 0.11, totalFiles)
-#
-
-#OmegaM = np.linspace(0.12, 0.12, totalFiles)
-#Omegab = np.linspace(0.0225, 0.0225, totalFiles)
-#sigma8 = np.linspace(0.8, 0.8, totalFiles)
-#h = np.linspace(0.55, 0.85, totalFiles)
-#ns = np.linspace(0.95, 0.95, totalFiles)
-#Omega0 = np.linspace(-1.0, -1.0, totalFiles)
-#OmegaA = np.linspace(0.2, 0.2, totalFiles)
-#tau = np.linspace(0.06, 0.06, totalFiles)
-#mnu = np.linspace(0.11, 0.11, totalFiles)
-#neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
-
-
-
-#OmegaM = np.linspace(0.10, 0.140, totalFiles)
-#Omegab = np.linspace(0.0205, 0.0235, totalFiles)
-#sigma8 = np.linspace(0.7, 0.9, totalFiles)
-#h = np.linspace(0.55, 0.85, totalFiles)
-#ns = np.linspace(0.85, 1.05, totalFiles)
-#Omega0 = np.linspace(-1.0, -1.0, totalFiles)
-#OmegaA = np.linspace(0.2, 0.2, totalFiles)
-#tau = np.linspace(0.06, 0.06, totalFiles)
-#mnu = np.linspace(0.11, 0.11, totalFiles)
-#neff = np.linspace(1.5, 3.5, totalFiles) # 3.046
-
 
 
 OmegaM = np.linspace(0.10, 0.140, totalFiles)
@@ -175,22 +72,21 @@ tau = np.linspace(0.01, 0.6, totalFiles)
 mnu = np.linspace(0, 3, totalFiles)
 neff = np.linspace(1.5, 3.5, totalFiles) 
 
+# OmegaA = np.linspace(-1.73, 1.28, totalFiles)
+# tau = np.linspace(0.01, 0.8, totalFiles)
+
+#################################################
+#################################################
 
 AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
              r'$\tilde{n}_s$', r'$\tilde{\Omega}_0$', r'$\tilde{\Omega}_a$', r'$\tilde{\tau}$',
              r'$\sum m_\nu$', r'$N_{eff}$']
 
 AllPara = np.vstack([OmegaM, Omegab, sigma8, h, ns, Omega0, OmegaA, tau, mnu, neff])
-
-
 print(AllPara)
-
 
 lhd = pyDOE.lhs(num_para, samples=totalFiles, criterion=None) # c cm corr m
 print(lhd)
-#print
-# lhd = norm(loc=0, scale=1).ppf(lhd)  # this applies to both factors here
-
 
 ##
 f, a = plt.subplots(num_para, num_para, sharex=True, sharey=True)
@@ -200,22 +96,16 @@ plt.rcParams.update({'font.size': 8})
 for i in range(num_para):
     for j in range(i+1):
         print(i,j)
-        # a[i,j].set_xlabel(AllLabels[i])
-        # a[i,j].set_ylabel(AllLabels[j])
         if(i!=j):
             a[i, j].scatter(lhd[:, i], lhd[:, j], s=5)
             a[i, j].grid(True)
         else:
-            # a[i,i].set_title(AllLabels[i])
             a[i, i].text(0.4, 0.4, AllLabels[i], size = 'xx-large')
             hist, bin_edges = np.histogram(lhd[:,i], density=True, bins=64)
-            # a[i,i].bar(hist)
             a[i,i].bar(bin_edges[:-1], hist/hist.max(), width=0.2)
             plt.xlim(0,1)
             plt.ylim(0,1)
 
-            # n, bins, patches = a[i,i].hist(lhd[:,i], bins = 'auto', facecolor='b', alpha=0.25)
-            # a[i, i].plot(lhd[:, i], 'go')
 
 plt.savefig('../Cl_data/Plots/ExtendedPlots/ExtendedLatinSq.png', figsize=(10, 10))
 plt.show()
@@ -227,10 +117,6 @@ for i in range(num_para):
 
 np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   #### no
 # saving files because the its random everytime
-
-
-
-
 
 ############################## CAMB ###############################
 
@@ -251,16 +137,9 @@ http://camb.readthedocs.io/en/latest/CAMBdemo.html
 https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_Code
 """
 
-# numpara = 5
-# ndim = 2551
-# totalFiles =  8
-# lmax0 = 2500
-
-
 lmax0 = 12000   ## something off above 8250
 # model.lmax_lensed.value = 8250 by default
 ell_max = 10000
-
 
 #lmax0 = 3000   ## something off above 8250 -- sorted now
 # model.lmax_lensed.value = 8250 by default
@@ -271,39 +150,21 @@ ell_max = 10000
 para5 = np.loadtxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt')
 
 
-
-# print(para5)
-
 f, a = plt.subplots(num_para, num_para, sharex=True, sharey=True)
 plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=None)
 plt.rcParams.update({'font.size': 8})
 
 
-# AllLabels = [r'$\tilde{\Omega}_m$', r'$\tilde{\Omega}_b$', r'$\tilde{\sigma}_8$', r'$\tilde{h}$',
-#              r'$\tilde{n}_s$'] ### n_eff, mass nutrino -- tau
-
 for i in range(num_para):
     for j in range(i+1):
         print(i,j)
-        # a[i,j].set_xlabel(AllLabels[i])
-        # a[i,j].set_ylabel(AllLabels[j])
         if(i!=j):
             a[i, j].scatter(para5[:, i], para5[:, j], s=10)
             a[i, j].grid(True)
         else:
-            # a[i,i].set_title(AllLabels[i])
             a[i, i].text(0.4, 0.4, AllLabels[i], size = 'xx-large')
             hist, bin_edges = np.histogram(para5[:,i], density=True, bins=64)
-            # a[i,i].bar(hist)
             a[i,i].bar(bin_edges[:-1], hist/hist.max(), width=0.2)
-            # plt.xlim(0,1)
-            # plt.ylim(0,1)
-
-            # n, bins, patches = a[i,i].hist(lhd[:,i], bins = 'auto', facecolor='b', alpha=0.25)
-            # a[i, i].plot(lhd[:, i], 'go')
-
-#plt.savefig('LatinSq.png', figsize=(10, 10))
-
 
 plt.show()
 
