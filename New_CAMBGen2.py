@@ -38,7 +38,6 @@ https://pythonhosted.org/pyDOE/randomized.html
 '''
 
 import numpy as np
-from matplotlib import pyplot as plt
 import pyDOE as pyDOE
 
 from scipy.stats.distributions import norm
@@ -51,11 +50,13 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 4
+totalFiles = 1024 
 num_para = 10
 
-np.random.seed(7)
+np.random.seed(17)
 
+PlotAll = False
+SaveCls = True
 ###### NEED TO RECHECK THESE VALUES OMEGAM ~ 0.112
 
 OmegaM = np.linspace(0.10, 0.140, totalFiles)
@@ -86,26 +87,30 @@ lhd = pyDOE.lhs(num_para, samples=totalFiles, criterion=None) # c cm corr m
 print(lhd)
 
 ##
-f, a = plt.subplots(num_para, num_para, sharex=True, sharey=True)
-plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=None)
-plt.rcParams.update({'font.size': 8})
+if PlotAll:
+	import matplotlib.pylab as plt
+	f, a = plt.subplots(num_para, num_para, sharex=True, sharey=True)
+	plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=None)
+	plt.rcParams.update({'font.size': 8})
 
-for i in range(num_para):
-    for j in range(i+1):
-        print(i,j)
-        if(i!=j):
-            a[i, j].scatter(lhd[:, i], lhd[:, j], s=5)
-            a[i, j].grid(True)
-        else:
-            a[i, i].text(0.4, 0.4, AllLabels[i], size = 'xx-large')
-            hist, bin_edges = np.histogram(lhd[:,i], density=True, bins=64)
-            a[i,i].bar(bin_edges[:-1], hist/hist.max(), width=0.2)
-            plt.xlim(0,1)
-            plt.ylim(0,1)
+	for i in range(num_para):
+		for j in range(i+1):
+			print(i,j)
+			if(i!=j):
+		    		a[i, j].scatter(lhd[:, i], lhd[:, j], s=5)
+		    		a[i, j].grid(True)
+			else:
+		    		a[i, i].text(0.4, 0.4, AllLabels[i], size = 'xx-large')
+		    		hist, bin_edges = np.histogram(lhd[:,i], density=True, bins=64)
+		    		a[i,i].bar(bin_edges[:-1], hist/hist.max(), width=0.2)
+		    		plt.xlim(0,1)
+		    		plt.ylim(0,1)
 
 
-plt.savefig('../Cl_data/Plots/ExtendedPlots/ExtendedLatinSq.png', figsize=(10, 10))
-plt.show()
+	plt.savefig('../Cl_data/Plots/ExtendedPlots/ExtendedLatinSq.png', figsize=(10, 10))
+	plt.show()
+
+
 idx = (lhd * totalFiles).astype(int)
 
 AllCombinations = np.zeros((totalFiles, num_para))
@@ -121,7 +126,6 @@ import numpy as np
 import camb
 import itertools
 from camb import model, initialpower
-import matplotlib.pylab as plt
 
 import time
 time0 = time.time()
@@ -136,7 +140,7 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 
 lmax0 = 12000   ## something off above 8250
 ell_max = 10000
-max_k = 20000 # 2xell_max is good
+max_k = 26000 # 2xell_max is good
 #lmax0 = 3000   ## something off above 8250 -- sorted now
 # model.lmax_lensed.value = 8250 by default
 #ell_max = 2500
@@ -145,24 +149,24 @@ max_k = 20000 # 2xell_max is good
 
 para5 = np.loadtxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt')
 
+if PlotAll:
 
-f, a = plt.subplots(num_para, num_para, sharex=True, sharey=True)
-plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=None)
-plt.rcParams.update({'font.size': 8})
+	f, a = plt.subplots(num_para, num_para, sharex=True, sharey=True)
+	plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=None)
+	plt.rcParams.update({'font.size': 8})
 
 
-for i in range(num_para):
-    for j in range(i+1):
-        print(i,j)
-        if(i!=j):
-            a[i, j].scatter(para5[:, i], para5[:, j], s=10)
-            a[i, j].grid(True)
-        else:
-            a[i, i].text(0.4, 0.4, AllLabels[i], size = 'xx-large')
-            hist, bin_edges = np.histogram(para5[:,i], density=True, bins=64)
-            a[i,i].bar(bin_edges[:-1], hist/hist.max(), width=0.2)
-
-plt.show()
+	for i in range(num_para):
+		for j in range(i+1):
+			#print(i,j)
+			if(i!=j):
+				a[i, j].scatter(para5[:, i], para5[:, j], s=10)
+				a[i, j].grid(True)
+			else:
+				a[i, i].text(0.4, 0.4, AllLabels[i], size = 'xx-large')
+				hist, bin_edges = np.histogram(para5[:,i], density=True, bins=64)
+				a[i,i].bar(bin_edges[:-1], hist/hist.max(), width=0.2)
+	plt.show()
 
 #
 #Set up a new set of parameters for CAMB
@@ -353,7 +357,6 @@ for i in range(totalFiles):
     # np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
     # np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 
-SaveCls = True
 
 if SaveCls:
 
@@ -370,55 +373,49 @@ if SaveCls:
 time1 = time.time()
 print('camb time:', time1 - time0)
 
-PlotCls = True
+if PlotAll:
+	MainDir = '../Cl_data/'
+	PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
+	paramNo = 9
+	sortedArg = np.argsort(para5[:, paramNo])
+	
+	plt.figure(32)
 
-if PlotCls:
+	fig, ax = plt.subplots(2,2, figsize = (12,8))
 
-    MainDir = '../Cl_data/'
-    PlotsDir = MainDir+'Plots/'+'ExtendedPlots/'
-    paramNo = 9
+	lineObj = ax[0,0].plot(AllTT[:, num_para + 1:].T[:, sortedArg])
+	ax[0,0].set_yscale('log')
+	ax[0,0].set_xscale('log')
+	ax[0,0].set_ylabel(r'$C^{TT}_l$')
+	ax[0,0].set_xlabel('$l$')
 
+	ax[0,0].legend(iter(lineObj), para5[:, paramNo][sortedArg].round(decimals=2),
+		   title = AllLabels[paramNo])
 
-    sortedArg = np.argsort(para5[:, paramNo])
-
-
-    plt.figure(32)
-
-    fig, ax = plt.subplots(2,2, figsize = (12,8))
-
-    lineObj = ax[0,0].plot(AllTT[:, num_para + 1:].T[:, sortedArg])
-    ax[0,0].set_yscale('log')
-    ax[0,0].set_xscale('log')
-    ax[0,0].set_ylabel(r'$C^{TT}_l$')
-    ax[0,0].set_xlabel('$l$')
-
-    ax[0,0].legend(iter(lineObj), para5[:, paramNo][sortedArg].round(decimals=2),
-                   title = AllLabels[paramNo])
-
-    # ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'\tau')
-    # ax[0,0].legend(iter(lineObj), OmegaA.round(decimals=2), title = r'\omega_a')
-    # ax[0,0].legend(iter(lineObj), mnu.round(decimals=2), title = r'$\sum m_\nu$')
-    # ax[0,0].legend(iter(lineObj), para5[:, 2][sortedArg].round(decimals=4), title = r'$\sigma_8$')
+	# ax[0,0].legend(iter(lineObj), tau.round(decimals=2), title = r'\tau')
+	# ax[0,0].legend(iter(lineObj), OmegaA.round(decimals=2), title = r'\omega_a')
+	# ax[0,0].legend(iter(lineObj), mnu.round(decimals=2), title = r'$\sum m_\nu$')
+	# ax[0,0].legend(iter(lineObj), para5[:, 2][sortedArg].round(decimals=4), title = r'$\sigma_8$')
 
 
-    ax[1,0].plot(AllTE[:, num_para + 1:].T[:, sortedArg])
-    ax[1,0].set_xscale('log')
-    ax[1,0].set_ylabel(r'$C^{TE}_l$')
-    ax[1,0].set_xlabel('$l$')
+	ax[1,0].plot(AllTE[:, num_para + 1:].T[:, sortedArg])
+	ax[1,0].set_xscale('log')
+	ax[1,0].set_ylabel(r'$C^{TE}_l$')
+	ax[1,0].set_xlabel('$l$')
 
-    ax[1,1].plot(AllEE[:, num_para + 1:].T[:, sortedArg])
-    ax[1,1].set_yscale('log')
-    ax[1,1].set_xscale('log')
-    ax[1,1].set_ylabel(r'$C_l^{EE}$')
-    ax[1,1].set_xlabel('$l$')
-
-
-    ax[0,1].plot(AllBB[:, num_para + 1:].T[:, sortedArg])
-    ax[0,1].set_ylabel(r'$C_l^{BB}$')
-    # ax[0,1].set_yscale('log')
-    ax[0,1].set_xscale('log')
-    ax[0,1].set_xlabel('$l$')
-    plt.savefig(PlotsDir + 'Param' + str(paramNo) + '_ExtendedClAll_'+str(totalFiles)+'.png')
+	ax[1,1].plot(AllEE[:, num_para + 1:].T[:, sortedArg])
+	ax[1,1].set_yscale('log')
+	ax[1,1].set_xscale('log')
+	ax[1,1].set_ylabel(r'$C_l^{EE}$')
+	ax[1,1].set_xlabel('$l$')
 
 
-    plt.show()
+	ax[0,1].plot(AllBB[:, num_para + 1:].T[:, sortedArg])
+	ax[0,1].set_ylabel(r'$C_l^{BB}$')
+	# ax[0,1].set_yscale('log')
+	ax[0,1].set_xscale('log')
+	ax[0,1].set_xlabel('$l$')
+	plt.savefig(PlotsDir + 'Param' + str(paramNo) + '_ExtendedClAll_'+str(totalFiles)+'.png')
+
+
+	plt.show()
