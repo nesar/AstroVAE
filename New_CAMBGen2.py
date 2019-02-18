@@ -233,7 +233,10 @@ for i in range(totalFiles):
 	# pars.set_nonlinear_lensing(True)
 
 
+	####################################################################################################
+	####################################################################################################
 
+	try: 
 
 
 	pars = camb.CAMBparams()
@@ -360,6 +363,9 @@ for i in range(totalFiles):
 
 	# np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
 	# np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
+	
+	except: 
+		STOP SIGINT1: Integration timed out
 
 
 #####################################################################
