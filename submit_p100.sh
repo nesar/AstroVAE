@@ -9,13 +9,13 @@ export KERAS_BACKEND=tensorflow
 echo [$SLURM_JOBID]
 
 
-source /cosmo/spack/share/spack/setup-env.sh
+#source /cosmo/spack/share/spack/setup-env.sh
 
-spack load cuda@10.0.130 
-spack load cudnn@6.0
-spack load mpich@3.2.1 
+#spack load cuda@10.0.130 
+#spack load cudnn@6.0
+#spack load mpich@3.2.1 
 
-export PATH="/homes/nramachandra/miniconda2/bin:$PATH"
+#export PATH="/homes/nramachandra/miniconda2/bin:$PATH"
 
 
 conda activate mlEnv
