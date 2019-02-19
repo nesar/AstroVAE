@@ -239,131 +239,131 @@ for i in range(totalFiles):
 	try: 
 
 
-	pars = camb.CAMBparams()
+		pars = camb.CAMBparams()
 
 
-	####### Adding neutrinos, DE etc #########
-	pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=para5[i, 8],
-		       omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 9])
+		####### Adding neutrinos, DE etc #########
+		pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=para5[i, 8],
+			       omk=0, tau=para5[i, 7], standard_neutrino_neff=para5[i, 9])
 
-	## https://camb.readthedocs.io/en/latest/model.html#camb.model.CAMBparams.set_cosmology
+		## https://camb.readthedocs.io/en/latest/model.html#camb.model.CAMBparams.set_cosmology
 
-	##### "mnu --sum of neutrino masses (in eV, Omega_nu is calculated approximately from this
-	### assuming neutrinos non-relativistic today). Set the field values directly if you need
-	### finer control or more complex models." ######
+		##### "mnu --sum of neutrino masses (in eV, Omega_nu is calculated approximately from this
+		### assuming neutrinos non-relativistic today). Set the field values directly if you need
+		### finer control or more complex models." ######
 
-	pars.InitPower.set_params(ns=para5[i, 4], r=0)
+		pars.InitPower.set_params(ns=para5[i, 4], r=0)
 
-	######### DARK ENERGY #############
+		######### DARK ENERGY #############
 
-	# The dark energy model can be changed as in the previous example, or by assigning to pars.DarkEnergy.
-	# e.g. use the PPF model
-	from camb.dark_energy import DarkEnergyPPF, DarkEnergyFluid
+		# The dark energy model can be changed as in the previous example, or by assigning to pars.DarkEnergy.
+		# e.g. use the PPF model
+		from camb.dark_energy import DarkEnergyPPF, DarkEnergyFluid
 
-	# pars.DarkEnergy = DarkEnergyPPF(w=-1.2, wa=0.2)
-	pars.DarkEnergy = DarkEnergyPPF(w=para5[i, 5], wa=para5[i, 6])
-	print('w, wa model parameters:\n\n', pars.DarkEnergy)
-	# results = camb.get_background(pars)
+		# pars.DarkEnergy = DarkEnergyPPF(w=-1.2, wa=0.2)
+		pars.DarkEnergy = DarkEnergyPPF(w=para5[i, 5], wa=para5[i, 6])
+		print('w, wa model parameters:\n\n', pars.DarkEnergy)
+		# results = camb.get_background(pars)
 
-	# or can also use a w(a) numerical function
-	# (note this will slow things down; make your own dark energy class in fortran for best performance)
-	# a = np.logspace(-5, 0, 1000)
-	# w = -1.2 + 0.2 * (1 - a)
-	# pars.DarkEnergy = DarkEnergyPPF()
-	# pars.DarkEnergy.set_w_a_table(a, w)
-	# print('Table-interpolated parameters (w and wa are set to estimated values at 0):\n\n'
-	#       , pars.DarkEnergy)
-	# results2 = camb.get_background(pars)
-	#
-	# rho, _ = results.get_dark_energy_rho_w(a)
-	# rho2, _ = results2.get_dark_energy_rho_w(a)
-	# plt.plot(a, rho, color='k')
-	# plt.plot(a, rho2, color='r', ls='--')
-	# plt.ylabel(r'$\rho/\rho_0$')
-	# plt.xlabel('$a$')
-	# plt.xlim(0, 1)
-	# plt.title('Dark enery density');
+		# or can also use a w(a) numerical function
+		# (note this will slow things down; make your own dark energy class in fortran for best performance)
+		# a = np.logspace(-5, 0, 1000)
+		# w = -1.2 + 0.2 * (1 - a)
+		# pars.DarkEnergy = DarkEnergyPPF()
+		# pars.DarkEnergy.set_w_a_table(a, w)
+		# print('Table-interpolated parameters (w and wa are set to estimated values at 0):\n\n'
+		#       , pars.DarkEnergy)
+		# results2 = camb.get_background(pars)
+		#
+		# rho, _ = results.get_dark_energy_rho_w(a)
+		# rho2, _ = results2.get_dark_energy_rho_w(a)
+		# plt.plot(a, rho, color='k')
+		# plt.plot(a, rho2, color='r', ls='--')
+		# plt.ylabel(r'$\rho/\rho_0$')
+		# plt.xlabel('$a$')
+		# plt.xlim(0, 1)
+		# plt.title('Dark enery density');
 
-	###################################
-
-
-	# pars.set_for_lmax(lmax= lmax0, max_eta_k=None, k_eta_fac=12.5 , lens_potential_accuracy=1,
-	#                   lens_k_eta_reference = 20000)
-
-	pars.set_for_lmax(lmax = lmax0, max_eta_k=max_k, lens_potential_accuracy=4);
+		###################################
 
 
-	## THIS IS ONLY FOR ACCURACY,
-	## actual lmax is set in results.get_cmb_power_spectra
+		# pars.set_for_lmax(lmax= lmax0, max_eta_k=None, k_eta_fac=12.5 , lens_potential_accuracy=1,
+		#                   lens_k_eta_reference = 20000)
 
-	# model.lmax_lensed = 10000  ## doesn't work
-
-
-	pars.set_accuracy(AccuracyBoost=3, lAccuracyBoost=3, lSampleBoost=3, DoLateRadTruncation=False)
-
-	pars.AccuratePolarization = True
-	pars.AccurateReionization = True
-	pars.YHe = 0.24 ##helium_fraction
-	# pars.omegan = 0.0006445
-	pars.omegak = 0.
-	pars.set_nonlinear_lensing(True)
+		pars.set_for_lmax(lmax = lmax0, max_eta_k=max_k, lens_potential_accuracy=4);
 
 
+		## THIS IS ONLY FOR ACCURACY,
+		## actual lmax is set in results.get_cmb_power_spectra
 
-	# print model.lmax_lensed   ########## 1.0.1 ISSUE
+		# model.lmax_lensed = 10000  ## doesn't work
+
+
+		pars.set_accuracy(AccuracyBoost=3, lAccuracyBoost=3, lSampleBoost=3, DoLateRadTruncation=False)
+
+		pars.AccuratePolarization = True
+		pars.AccurateReionization = True
+		pars.YHe = 0.24 ##helium_fraction
+		# pars.omegan = 0.0006445
+		pars.omegak = 0.
+		pars.set_nonlinear_lensing(True)
 
 
 
-	#-------- sigma_8 --------------------------
-	#pars.set_matter_power(redshifts=[0.], kmax=2.0)
-	pars.set_matter_power(redshifts=[0.], kmax=max_k)
-	# Linear spectra
-	# pars.NonLinear = model.NonLinear_none
-
-	results = camb.get_results(pars)
-	#kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
-	kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
-	s8 = np.array(results.get_sigma8())
-
-	# Non-Linear spectra (Halofit)
-	pars.NonLinear = model.NonLinear_both
-
-	results.calc_power_spectra(pars)
-	#kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
-	kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
-	sigma8_camb = results.get_sigma8()  # present value of sigma_8 --- check kman, mikh etc
-	#---------------------------------------------------
-
-	sigma8_input = para5[i, 2]
-
-	sigma_ratio = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
-	# sigma_ratio = 1
-	# #---------------------------------------------------
-	# pars.set_for_lmax(lmax= lmax0, k_eta_fac=2.5 , lens_potential_accuracy=0)  ## THIS IS ONLY
+		# print model.lmax_lensed   ########## 1.0.1 ISSUE
 
 
-	#calculate results for these parameters
-	# results0 = camb.get_results(pars)    ### Why this again??????????
+
+		#-------- sigma_8 --------------------------
+		#pars.set_matter_power(redshifts=[0.], kmax=2.0)
+		pars.set_matter_power(redshifts=[0.], kmax=max_k)
+		# Linear spectra
+		# pars.NonLinear = model.NonLinear_none
+
+		results = camb.get_results(pars)
+		#kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
+		kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
+		s8 = np.array(results.get_sigma8())
+
+		# Non-Linear spectra (Halofit)
+		pars.NonLinear = model.NonLinear_both
+
+		results.calc_power_spectra(pars)
+		#kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
+		kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
+		sigma8_camb = results.get_sigma8()  # present value of sigma_8 --- check kman, mikh etc
+		#---------------------------------------------------
+
+		sigma8_input = para5[i, 2]
+
+		sigma_ratio = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
+		# sigma_ratio = 1
+		# #---------------------------------------------------
+		# pars.set_for_lmax(lmax= lmax0, k_eta_fac=2.5 , lens_potential_accuracy=0)  ## THIS IS ONLY
 
 
-	#get dictionary of CAMB power spectra
-	powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=ell_max)
-	# powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
-	# powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
+		#calculate results for these parameters
+		# results0 = camb.get_results(pars)    ### Why this again??????????
 
 
-	totCL = powers['total']*sigma_ratio
-	unlensedCL = powers['unlensed_scalar']*sigma_ratio
-
-	AllTT[i] = np.hstack([para5[i], totCL[:,0] ])
-	AllEE[i] = np.hstack([para5[i], totCL[:,1] ])
-	AllBB[i] = np.hstack([para5[i], totCL[:,2] ])
-	AllTE[i] = np.hstack([para5[i], totCL[:,3] ])
+		#get dictionary of CAMB power spectra
+		powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=ell_max)
+		# powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
+		# powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
 
 
-	# np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
-	# np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
-	
+		totCL = powers['total']*sigma_ratio
+		unlensedCL = powers['unlensed_scalar']*sigma_ratio
+
+		AllTT[i] = np.hstack([para5[i], totCL[:,0] ])
+		AllEE[i] = np.hstack([para5[i], totCL[:,1] ])
+		AllBB[i] = np.hstack([para5[i], totCL[:,2] ])
+		AllTE[i] = np.hstack([para5[i], totCL[:,3] ])
+
+
+		# np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
+		# np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
+		
 	except: 
 		STOP SIGINT1: Integration timed out
 
