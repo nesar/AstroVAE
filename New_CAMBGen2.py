@@ -50,7 +50,7 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 1024 
+totalFiles = 32 #1024 
 num_para = 10
 
 np.random.seed(17)
@@ -140,7 +140,7 @@ https://wiki.cosmos.esa.int/planckpla2015/index.php/CMB_spectrum_%26_Likelihood_
 
 lmax0 = 12000   ## something off above 8250
 ell_max = 10000
-max_k = 26000 # 2xell_max is good
+max_k = 20000 # 2xell_max is good
 #lmax0 = 3000   ## something off above 8250 -- sorted now
 # model.lmax_lensed.value = 8250 by default
 #ell_max = 2500
@@ -212,6 +212,9 @@ AllTE = np.zeros(shape=(totalFiles, num_para + ell_max + 1) ) # Check if this is
 # negative
 # values and CAMB documentation incorrect.
 
+
+newErr = 'STOP SIGINT1: Integration timed out'
+
 for i in range(totalFiles):
 	print(i, para5[i])
 
@@ -237,7 +240,6 @@ for i in range(totalFiles):
 	####################################################################################################
 
 	try: 
-
 
 		pars = camb.CAMBparams()
 
@@ -313,27 +315,31 @@ for i in range(totalFiles):
 		# print model.lmax_lensed   ########## 1.0.1 ISSUE
 
 
-
 		#-------- sigma_8 --------------------------
-		#pars.set_matter_power(redshifts=[0.], kmax=2.0)
-		pars.set_matter_power(redshifts=[0.], kmax=max_k)
+		pars.set_matter_power(redshifts=[0.], kmax=2.0)
+		#pars.set_matter_power(redshifts=[0.], kmax=max_k)
 		# Linear spectra
 		# pars.NonLinear = model.NonLinear_none
 
+		print(20*'=+')
 		results = camb.get_results(pars)
-		#kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
-		kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
+		kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
+		print(20*'=+')
+		#kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
 		s8 = np.array(results.get_sigma8())
 
+		print(20*'=+')
 		# Non-Linear spectra (Halofit)
 		pars.NonLinear = model.NonLinear_both
 
+		print(30*'=+')
 		results.calc_power_spectra(pars)
-		#kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
-		kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
+		kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
+		#kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
 		sigma8_camb = results.get_sigma8()  # present value of sigma_8 --- check kman, mikh etc
 		#---------------------------------------------------
 
+		print(40*'=+')
 		sigma8_input = para5[i, 2]
 
 		sigma_ratio = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
@@ -345,12 +351,14 @@ for i in range(totalFiles):
 		#calculate results for these parameters
 		# results0 = camb.get_results(pars)    ### Why this again??????????
 
+		print(30*'=+')
 
 		#get dictionary of CAMB power spectra
 		powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=ell_max)
 		# powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
 		# powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
 
+		print(40*'-+')
 
 		totCL = powers['total']*sigma_ratio
 		unlensedCL = powers['unlensed_scalar']*sigma_ratio
@@ -363,9 +371,11 @@ for i in range(totalFiles):
 
 		# np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
 		# np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
-		
-	except: 
-		print('STOP SIGINT1: Integration timed out')
+		print(totCL)
+	#except newErr as error:
+	#	print(error)	
+	except:
+		print('Error, moving on')
 
 
 #####################################################################
