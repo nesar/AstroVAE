@@ -365,23 +365,22 @@ for i in range(totalFiles):
 		# np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 		
 	except: 
-		STOP SIGINT1: Integration timed out
+		print('STOP SIGINT1: Integration timed out')
 
 
 #####################################################################
 #####################################################################
 
 if SaveCls:
+	ls = np.arange(totCL.shape[0])
 
-    ls = np.arange(totCL.shape[0])
+	# np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
+	np.savetxt('../Cl_data/Data/Extended_ls_'+str(totalFiles)+'.txt', ls)
 
-    # np.save('../Cl_data/Data/LatinPara5P4_'+str(totalFiles)+'.npy', para5)
-    np.savetxt('../Cl_data/Data/Extended_ls_'+str(totalFiles)+'.txt', ls)
-
-    np.savetxt('../Cl_data/Data/ExtendedTTCl_'+str(totalFiles)+'.txt', AllTT)
-    np.savetxt('../Cl_data/Data/ExtendedEECl_'+str(totalFiles)+'.txt', AllEE)
-    np.savetxt('../Cl_data/Data/ExtendedBBCl_'+str(totalFiles)+'.txt', AllBB)
-    np.savetxt('../Cl_data/Data/ExtendedTECl_'+str(totalFiles)+'.txt', AllTE)
+	np.savetxt('../Cl_data/Data/ExtendedTTCl_'+str(totalFiles)+'.txt', AllTT)
+	np.savetxt('../Cl_data/Data/ExtendedEECl_'+str(totalFiles)+'.txt', AllEE)
+	np.savetxt('../Cl_data/Data/ExtendedBBCl_'+str(totalFiles)+'.txt', AllBB)
+	np.savetxt('../Cl_data/Data/ExtendedTECl_'+str(totalFiles)+'.txt', AllTE)
 
 time1 = time.time()
 print('camb time:', time1 - time0)
