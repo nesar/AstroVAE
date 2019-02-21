@@ -50,7 +50,7 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 32 #1024 
+totalFiles = 512 #1024 
 num_para = 10
 
 np.random.seed(17)
@@ -215,7 +215,7 @@ AllTE = np.zeros(shape=(totalFiles, num_para + ell_max + 1) ) # Check if this is
 
 newErr = 'STOP SIGINT1: Integration timed out'
 
-for i in range(totalFiles):
+for i in range(6, totalFiles):
 	print(i, para5[i])
 
 	# Set up a new set of parameters for CAMB
@@ -241,8 +241,8 @@ for i in range(totalFiles):
 
 	try: 
 
+		print(20*'=+')
 		pars = camb.CAMBparams()
-
 
 		####### Adding neutrinos, DE etc #########
 		pars.set_cosmology(H0=100*para5[i, 3], ombh2=para5[i, 1], omch2=para5[i, 0], mnu=para5[i, 8],
@@ -321,25 +321,20 @@ for i in range(totalFiles):
 		# Linear spectra
 		# pars.NonLinear = model.NonLinear_none
 
-		print(20*'=+')
 		results = camb.get_results(pars)
 		kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
-		print(20*'=+')
 		#kh, z, pk = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
 		s8 = np.array(results.get_sigma8())
 
-		print(20*'=+')
 		# Non-Linear spectra (Halofit)
 		pars.NonLinear = model.NonLinear_both
 
-		print(30*'=+')
 		results.calc_power_spectra(pars)
 		kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=1, npoints=200)
 		#kh_nonlin, z_nonlin, pk_nonlin = results.get_matter_power_spectrum(minkh=1e-4, maxkh=max_k, npoints=200)
 		sigma8_camb = results.get_sigma8()  # present value of sigma_8 --- check kman, mikh etc
 		#---------------------------------------------------
 
-		print(40*'=+')
 		sigma8_input = para5[i, 2]
 
 		sigma_ratio = (sigma8_input ** 2) / (sigma8_camb ** 2) # rescale factor
@@ -351,14 +346,12 @@ for i in range(totalFiles):
 		#calculate results for these parameters
 		# results0 = camb.get_results(pars)    ### Why this again??????????
 
-		print(30*'=+')
 
 		#get dictionary of CAMB power spectra
 		powers =results.get_cmb_power_spectra(pars, CMB_unit='muK', lmax=ell_max)
 		# powers =results.get_cmb_power_spectra(pars, CMB_unit='muK')
 		# powers0 =results0.get_cmb_power_spectra(pars, CMB_unit='muK')
 
-		print(40*'-+')
 
 		totCL = powers['total']*sigma_ratio
 		unlensedCL = powers['unlensed_scalar']*sigma_ratio
@@ -372,6 +365,7 @@ for i in range(totalFiles):
 		# np.save('../Cl_data/Data/LatintotCLP4'+str(totalFiles)+'_'+str(i) +'.npy', totCL)
 		# np.save('../Cl_data/Data/LatinunlensedCLP4'+str(totalFiles)+'_'+str(i)+'.npy', unlensedCL)
 		print(totCL)
+		print(40*'-+')
 	#except newErr as error:
 	#	print(error)	
 	except:
@@ -419,7 +413,6 @@ if PlotAll:
 	# ax[0,0].legend(iter(lineObj), mnu.round(decimals=2), title = r'$\sum m_\nu$')
 	# ax[0,0].legend(iter(lineObj), para5[:, 2][sortedArg].round(decimals=4), title = r'$\sigma_8$')
 
-
 	ax[1,0].plot(AllTE[:, num_para + 1:].T[:, sortedArg])
 	ax[1,0].set_xscale('log')
 	ax[1,0].set_ylabel(r'$C^{TE}_l$')
@@ -438,6 +431,5 @@ if PlotAll:
 	ax[0,1].set_xscale('log')
 	ax[0,1].set_xlabel('$l$')
 	plt.savefig(PlotsDir + 'Param' + str(paramNo) + '_ExtendedClAll_'+str(totalFiles)+'.png')
-
 
 	plt.show()
