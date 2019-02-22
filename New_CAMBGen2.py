@@ -122,7 +122,7 @@ np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCom
 
 
 AllCombinations = AllPara.T
-np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)
+np.savetxt('../Cl_data/Data/GridCosmoP5'+str(totalFiles)+'.txt', AllCombinations)
 
 
 ############################## CAMB ###############################
