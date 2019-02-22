@@ -122,9 +122,9 @@ np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCom
 
 
 AllCombinations = AllPara.T
-np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)
+np.savetxt('../Cl_data/Data/GridCosmoP5'+str(totalFiles)+'.txt', AllCombinations)
 
-
+print AllCombinations
 ############################## CAMB ###############################
 
 import numpy as np
@@ -220,7 +220,7 @@ AllTE = np.zeros(shape=(totalFiles, num_para + ell_max + 1) ) # Check if this is
 
 newErr = 'STOP SIGINT1: Integration timed out'
 
-for i in range(6, totalFiles):
+for i in range(totalFiles):
 	print(i, para5[i])
 
 	# Set up a new set of parameters for CAMB
