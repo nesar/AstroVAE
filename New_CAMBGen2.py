@@ -50,7 +50,7 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 512 #1024 
+totalFiles = 2 #1024
 num_para = 10
 
 np.random.seed(17)
@@ -119,6 +119,11 @@ for i in range(num_para):
 
 np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)   #### no
 # saving files because the its random everytime
+
+
+AllCombinations = AllPara.T
+np.savetxt('../Cl_data/Data/ExtendedLatinCosmoP5'+str(totalFiles)+'.txt', AllCombinations)
+
 
 ############################## CAMB ###############################
 
