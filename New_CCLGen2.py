@@ -142,9 +142,10 @@ print(AllCombinations)
 ################## CCL #################################################
 
 
-cosmo = ccl.Cosmology(Omega_c=0.27, Omega_b=0.045, h=0.67, n_s=0.96, sigma8 = 0.8, Omega_k = 0,
-                      Neff=2, m_nu= 0.2, w0= 1, wa= 0)
+cosmo = ccl.Cosmology(Omega_c=0.27, Omega_b=0.045, h=0.67, n_s=0.96, sigma8 = 0.8,
+                      Neff=2, m_nu= 1.0, w0= -1, wa= 0.5)
 
+# Omega_k = 0
 
 # Define a simple binned galaxy number density curve as a function of redshift
 z_n = np.linspace(0., 1., 200)
@@ -159,3 +160,6 @@ lens2 = ccl.WeakLensingTracer(cosmo, dndz=(z_n, n))
 ell = np.arange(2, 10)
 cls = ccl.angular_cl(cosmo, lens1, lens2, ell)
 print(cls)
+
+
+import matplotlib.pylab as plt
