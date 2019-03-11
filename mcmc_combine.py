@@ -5,8 +5,8 @@ import emcee
 import time
 from keras.models import load_model
 import params
-import george
-from george.kernels import Matern32Kernel
+# import george
+# from george.kernels import Matern32Kernel
 
 
 import pygtc
