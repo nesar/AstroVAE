@@ -24,7 +24,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import keras.backend as K
 
-import params
+import params_ext as params
 # import Cl_load
 # import SetPub
 # SetPub.set_pub()
