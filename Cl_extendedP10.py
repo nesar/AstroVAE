@@ -40,7 +40,7 @@ K.set_floatx('float32')
 ###################### PARAMETERS ##############################
 
 original_dim = params.original_dim # 2549
-# intermediate_dim3 = params.intermediate_dim3 # 1600
+intermediate_dim3 = params.intermediate_dim3 # 1600
 intermediate_dim2 = params.intermediate_dim2 # 1024
 intermediate_dim1 = params.intermediate_dim1 # 512
 intermediate_dim0 = params.intermediate_dim0 # 256
@@ -89,10 +89,16 @@ y_train = Trainfiles[:, 0: num_para]
 y_test =  Testfiles[:, 0: num_para]
 
 
-######## REDUCING SIZE OF THE ##########
+######## REDUCING SIZE OF ##########
 x_train = x_train[:, ::2]
 x_test = x_test[:, ::2]
 ls = ls[::2]
+
+## and chooping x_train because of invalid arguement error
+
+x_train = x_train[:992, :]
+y_train = y_train[:992, :]
+
 #######################################
 
 print(x_train.shape, 'train sequences')
@@ -105,6 +111,7 @@ print(y_test.shape, 'test sequences')
 #------------------------- SCALAR parameter for rescaling -----------------------
 #### ---- All the Cl's are rescaled uniformly #####################
 
+'''
 minVal = np.min( [np.min(x_train), np.min(x_test ) ])
 meanFactor = 1.1*minVal if minVal < 0 else 0
 # meanFactor = 0.0
@@ -125,11 +132,11 @@ x_test = x_test.astype('float32')/normFactor #/ 255.
 np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
 np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
-
+'''
 #########  New l-dependant rescaling (may not work with LSTMs) ###########
 #### - --   works Ok with iid assumption ############
 
-'''
+
 
 minVal = np.min( [np.min(x_train, axis = 0), np.min(x_test , axis = 0) ], axis=0)
 #meanFactor = 1.1*minVal if minVal < 0 else 0
@@ -152,7 +159,7 @@ x_test = x_test.astype('float32')/normFactor #/ 255.
 np.savetxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
 np.savetxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
-'''
+
 
 
 
@@ -186,8 +193,8 @@ x_train = K.cast_to_floatx(x_train)
 
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
-# h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
-h_q2 = Dense(intermediate_dim2, activation='relu')(inputs) # ADDED intermediate layer
+h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
+h_q2 = Dense(intermediate_dim2, activation='relu')(h_q3) # ADDED intermediate layer
 h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
 h_q0 = Dense(intermediate_dim0, activation='relu')(h_q1) # ADDED intermediate layer
 h_q = Dense(intermediate_dim, activation='relu')(h_q0)
@@ -213,7 +220,7 @@ decoder_hidden0 = Dense(intermediate_dim, activation='relu') # ADDED intermediat
 decoder_hidden1 = Dense(intermediate_dim0, activation='relu') # ADDED intermediate layer
 decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
 decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
-# decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
+decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
 decoder_out = Dense(original_dim, activation='sigmoid')
 
 h_p0 = decoder_hidden(z)
@@ -221,8 +228,8 @@ h_p1 = decoder_hidden0(h_p0) # ADDED intermediate layer
 h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
 h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
 h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
-# h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
-outputs = decoder_out(h_p4)
+h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
+outputs = decoder_out(h_p5)
 
 # ----------------------------------------------------------------------------
 
@@ -250,8 +257,8 @@ _h0_decoded = decoder_hidden0(_h_decoded)    ## ADDED layer_1
 _h1_decoded = decoder_hidden1(_h0_decoded)    ## ADDED layer_1
 _h2_decoded = decoder_hidden2(_h1_decoded)    ## ADDED ---
 _h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
-# _h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h3_decoded)
+_h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
+_x_decoded_mean = decoder_out(_h4_decoded)
 decoder = Model(decoder_input, _x_decoded_mean)
 
 
