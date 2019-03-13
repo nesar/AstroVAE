@@ -70,18 +70,31 @@ fileOut = params.fileOut
 Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.txt')
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
 
+ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
 
 x_train = Trainfiles[:, num_para+2:]
 x_test = Testfiles[:, num_para+2:]
 y_train = Trainfiles[:, 0: num_para]
 y_test =  Testfiles[:, 0: num_para]
 
+
+######## REDUCING SIZE OF ##########
+x_train = x_train[:, ::2]
+x_test = x_test[:, ::2]
+ls = ls[::2]
+
+## and chooping x_train because of invalid arguement error
+
+x_train = x_train[:992, :]
+y_train = y_train[:992, :]
+
+#######################################
+
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
-
-ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 #----------------------------------------------------------------------------
 
@@ -96,8 +109,15 @@ ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 # normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 
-normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
-meanFactor = np.loadtxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+# normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+# meanFactor = np.loadtxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
+
+meanFactor = np.loadtxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+normFactor = np.loadtxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
+
+
 
 print('-------normalization factor:', normFactor)
 print('-------rescaling factor:', meanFactor)
@@ -136,12 +156,12 @@ import george
 from george.kernels import Matern32Kernel# , ConstantKernel, WhiteKernel, Matern52Kernel
 
 # kernel = ConstantKernel(0.5, ndim=num_para) * Matern52Kernel(0.9, ndim=num_para) + WhiteKernel( 0.1, ndim=num_para)
-#kernel = Matern32Kernel(1000, ndim=num_para)
+# kernel = Matern32Kernel(1000, ndim=num_para)
 # kernel = Matern32Kernel( [1000,2000,2000,1000,1000], ndim=num_para)
-kernel = Matern32Kernel( [1000,4000,3000,1000,2000], ndim=num_para)
+kernel = Matern32Kernel( [1000,4000,3000,1000,2000, 1000,4000,3000,1000,2000], ndim=num_para)
 #kernel = Matern32Kernel( [1,0.5,1,1.4,0.5], ndim=num_para)
 
-#kernel = Matern32Kernel(ndim=num_para)
+# kernel = Matern32Kernel(0.5, ndim=num_para)
 
 # This kernel (and more importantly its subclasses) computes
 # the distance between two samples in an arbitrary metric and applies a radial function to this distance.
@@ -214,14 +234,34 @@ X5 = y_train[:, 4][:, np.newaxis]
 X5a = rescale01(np.min(X5), np.max(X5), X5)
 
 
-XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a])[:, :, 0])[:, np.newaxis]
+X6 = y_train[:, 5][:, np.newaxis]
+X6a = rescale01(np.min(X6), np.max(X6), X6)
+
+X7 = y_train[:, 6][:, np.newaxis]
+X7a = rescale01(np.min(X7), np.max(X7), X7)
+
+X8 = y_train[:, 7][:, np.newaxis]
+X8a = rescale01(np.min(X8), np.max(X8), X8)
+
+X9 = y_train[:, 8][:, np.newaxis]
+X9a = rescale01(np.min(X9), np.max(X9), X9)
+
+X10 = y_train[:, 9][:, np.newaxis]
+X10a = rescale01(np.min(X10), np.max(X10), X10)
+
+
+
+
+XY = np.array(np.array([X1a, X2a, X3a, X4a, X5a, X6a, X7a, X8a, X9a, X10a])[:, :, 0])[:, np.newaxis]
 
 
 
 minmax_rescale_ytrain =  [[np.min(X1), np.max(X1)], [np.min(X2), np.max(X2)],
 [np.min(X3), np.max(X3)],
 [np.min(X4), np.max(X4)],
-[np.min(X5), np.max(X5)] ]
+[np.min(X5), np.max(X5)], [np.min(X6), np.max(X6)], [np.min(X7), np.max(X7)], [np.min(X8),
+                                                                               np.max(X8)],
+                          [np.min(X9), np.max(X9)], [np.min(X10), np.max(X10)] ]
 
 
 np.savetxt(DataDir+'rescale_ytrain'+str(num_train)+ClID+'.txt', minmax_rescale_ytrain)
@@ -308,18 +348,17 @@ if PlotRatio:
 
         RealPara = RealParaArray[i]
 
-        # RealPara[0] = rescale01(min, maxP0, RealPara[0])
-        # RealPara[1] = rescale01(minP1, maxP1, RealPara[1])
-        # RealPara[2] = rescale01(minP2, maxP2, RealPara[2])
-        # RealPara[3] = rescale01(minP3, maxP3, RealPara[3])
-        # RealPara[4] = rescale01(minP4, maxP4, RealPara[4])
-
-
         RealPara[0] = rescale01(np.min(X1), np.max(X1), RealPara[0])
         RealPara[1] = rescale01(np.min(X2), np.max(X2), RealPara[1])
         RealPara[2] = rescale01(np.min(X3), np.max(X3), RealPara[2])
         RealPara[3] = rescale01(np.min(X4), np.max(X4), RealPara[3])
         RealPara[4] = rescale01(np.min(X5), np.max(X5), RealPara[4])
+
+        RealPara[5] = rescale01(np.min(X6), np.max(X6), RealPara[5])
+        RealPara[6] = rescale01(np.min(X7), np.max(X7), RealPara[6])
+        RealPara[7] = rescale01(np.min(X8), np.max(X8), RealPara[7])
+        RealPara[8] = rescale01(np.min(X9), np.max(X9), RealPara[8])
+        RealPara[9] = rescale01(np.min(X10), np.max(X10), RealPara[9])
 
         test_pts = RealPara[:num_para].reshape(num_para, -1).T
 
