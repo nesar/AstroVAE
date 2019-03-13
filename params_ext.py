@@ -1,12 +1,12 @@
 ######################## EXTENDED ell ~10k models ##########################
 
-original_dim = 9999 #/2 +1  #2551 # mnist ~ 784
-intermediate_dim3 = 4096
-intermediate_dim2 = 2048
-intermediate_dim1 = 1024
-intermediate_dim0 = 512
-intermediate_dim = 256
-latent_dim = 64
+original_dim = 2500 #/2 +1  #2551 # mnist ~ 784
+intermediate_dim3 = 2048
+intermediate_dim2 = 1024
+intermediate_dim1 = 512
+intermediate_dim0 = 256
+intermediate_dim = 128
+latent_dim = 32
 
 ClID = ['TT', 'EE', 'BB', 'TE'][0]
 num_train = 1024

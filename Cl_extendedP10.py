@@ -40,7 +40,7 @@ K.set_floatx('float32')
 ###################### PARAMETERS ##############################
 
 original_dim = params.original_dim # 2549
-intermediate_dim3 = params.intermediate_dim3 # 1600
+# intermediate_dim3 = params.intermediate_dim3 # 1600
 intermediate_dim2 = params.intermediate_dim2 # 1024
 intermediate_dim1 = params.intermediate_dim1 # 512
 intermediate_dim0 = params.intermediate_dim0 # 256
@@ -77,7 +77,10 @@ Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
 
 Trainfiles = (Trainfiles[~np.isnan(Trainfiles).any(axis=1)]) # removing rows with nan
+Testfiles = (Testfiles[~np.isnan(Testfiles).any(axis=1)]) # removing rows with nan
 
+
+ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 
 x_train = Trainfiles[:, num_para+2:]
@@ -85,12 +88,19 @@ x_test = Testfiles[:, num_para+2:]
 y_train = Trainfiles[:, 0: num_para]
 y_test =  Testfiles[:, 0: num_para]
 
+
+######## REDUCING SIZE OF THE ##########
+x_train = x_train[:, ::2]
+x_test = x_test[:, ::2]
+ls = ls[::2]
+#######################################
+
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
 
 #------------------------- SCALAR parameter for rescaling -----------------------
 #### ---- All the Cl's are rescaled uniformly #####################
@@ -176,7 +186,7 @@ x_train = K.cast_to_floatx(x_train)
 
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
-h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
+# h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
 h_q2 = Dense(intermediate_dim2, activation='relu')(inputs) # ADDED intermediate layer
 h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
 h_q0 = Dense(intermediate_dim0, activation='relu')(h_q1) # ADDED intermediate layer
@@ -203,7 +213,7 @@ decoder_hidden0 = Dense(intermediate_dim, activation='relu') # ADDED intermediat
 decoder_hidden1 = Dense(intermediate_dim0, activation='relu') # ADDED intermediate layer
 decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
 decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
-decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
+# decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
 decoder_out = Dense(original_dim, activation='sigmoid')
 
 h_p0 = decoder_hidden(z)
@@ -211,8 +221,8 @@ h_p1 = decoder_hidden0(h_p0) # ADDED intermediate layer
 h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
 h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
 h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
-h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
-outputs = decoder_out(h_p5)
+# h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
+outputs = decoder_out(h_p4)
 
 # ----------------------------------------------------------------------------
 
@@ -240,8 +250,8 @@ _h0_decoded = decoder_hidden0(_h_decoded)    ## ADDED layer_1
 _h1_decoded = decoder_hidden1(_h0_decoded)    ## ADDED layer_1
 _h2_decoded = decoder_hidden2(_h1_decoded)    ## ADDED ---
 _h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
-_h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h4_decoded)
+# _h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
+_x_decoded_mean = decoder_out(_h3_decoded)
 decoder = Model(decoder_input, _x_decoded_mean)
 
 
