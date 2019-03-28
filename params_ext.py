@@ -1,6 +1,6 @@
 ######################## EXTENDED ell ~10k models ##########################
 
-original_dim = 5000 #/2 +1  #2551 # mnist ~ 784
+original_dim = 9999 #/2 +1  #2551 # mnist ~ 784
 intermediate_dim3 = 2048
 intermediate_dim2 = 1024
 intermediate_dim1 = 512
@@ -13,8 +13,8 @@ num_train = 1024
 num_test = 32
 num_para = 10
 
-batch_size = 8
-num_epochs =  200 # 8000 #7500 # 20  #200 # 7500 # 200  #110 #50
+batch_size = 4
+num_epochs =  100 # 8000 #7500 # 20  #200 # 7500 # 200  #110 #50
 epsilon_mean = 0.0 # 1.0
 epsilon_std = 1e-4 ## original = 1.0, smaller the better 1e-4
 learning_rate =  1e-4

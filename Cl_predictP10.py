@@ -89,6 +89,10 @@ ls = ls[::2]
 x_train = x_train[:992, :]
 y_train = y_train[:992, :]
 
+# x_train = x_train[:, :]
+# y_train = y_train[:, :]
+
+
 #######################################
 
 print(x_train.shape, 'train sequences')

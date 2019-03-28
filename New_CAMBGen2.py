@@ -56,7 +56,7 @@ num_para = 10
 np.random.seed(17)
 
 PlotAll = False
-SaveCls = True
+SaveCls = False
 ###### NEED TO RECHECK THESE VALUES OMEGAM ~ 0.112
 
 OmegaM = np.linspace(0.10, 0.140, totalFiles)
