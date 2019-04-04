@@ -99,7 +99,7 @@ y_test =  Testfiles[:, 0: num_para]
 
 # x_train = x_train[:992, :]
 # y_train = y_train[:992, :]
-
+#
 x_train = x_train[:1000, :]
 y_train = y_train[:1000, :]
 

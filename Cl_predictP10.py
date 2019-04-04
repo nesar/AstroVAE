@@ -80,14 +80,14 @@ y_test =  Testfiles[:, 0: num_para]
 
 
 ######## REDUCING SIZE OF ##########
-x_train = x_train[:, ::2]
-x_test = x_test[:, ::2]
-ls = ls[::2]
+# x_train = x_train[:, ::2]
+# x_test = x_test[:, ::2]
+# ls = ls[::2]
 
 ## and chooping x_train because of invalid arguement error
-
-x_train = x_train[:992, :]
-y_train = y_train[:992, :]
+#
+x_train = x_train[:1000, :]
+y_train = y_train[:1000, :]
 
 # x_train = x_train[:, :]
 # y_train = y_train[:, :]
