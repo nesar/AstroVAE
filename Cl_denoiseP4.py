@@ -285,7 +285,8 @@ Checkpoint = True
 if Checkpoint:
     from keras.callbacks import ModelCheckpoint
     filepath= ModelDir+'CallbackfullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5'
-    checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+    checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True,
+                                 mode='max')
     callbacks_list = [checkpoint]
 
     vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
