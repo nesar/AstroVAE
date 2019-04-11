@@ -223,18 +223,18 @@ r('''''')
 ## All GP fitting together -- workes fine, except we get one value of variance for all
 # output dimensions, since they're considered independant
 
-
-import GPy
-
-kern = GPy.kern.Matern52(input_dim=num_para)
-
-m1 = GPy.models.GPRegression(W, u_train2, kernel=kern)
-m1.Gaussian_noise.variance.constrain_fixed(1e-12)
-m1.optimize(messages=True)
-m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive
-W_predArray = m1p[0]
-
-np.savetxt(DataDir + 'WPredArray_GPyNoVariance' + str(latent_dim) + '.txt', W_predArray)
+#
+# import GPy
+#
+# kern = GPy.kern.Matern52(input_dim=num_para)
+#
+# m1 = GPy.models.GPRegression(W, u_train2, kernel=kern)
+# m1.Gaussian_noise.variance.constrain_fixed(1e-12)
+# m1.optimize(messages=True)
+# m1p = m1.predict(x_test)  # [0] is the mean and [1] the predictive
+# W_predArray = m1p[0]
+#
+# np.savetxt(DataDir + 'WPredArray_GPyNoVariance' + str(latent_dim) + '.txt', W_predArray)
 
 
 ######################### INFERENCE ########################

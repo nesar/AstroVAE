@@ -256,8 +256,8 @@ x_camb = (normFactor * x_test[x_id]) + meanFactor
 plt.figure(1423)
 
 # plt.plot(x_decoded, 'k--', alpha = 0.4, label = 'George')
-plt.plot(x_decodedGPy, alpha = 0.4 , label = 'GPy')
-plt.plot(x_camb, alpha = 0.3 , label = 'camb')
+plt.plot(x_decodedGPy, '--', alpha = 0.4 , label = 'GPy')
+plt.plot(x_camb, 'r', alpha = 0.3 , label = 'camb')
 plt.legend()
 plt.show()
 

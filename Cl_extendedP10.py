@@ -24,7 +24,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import keras.backend as K
 
-import params
+import params_ext as params
 # import Cl_load
 # import SetPub
 # SetPub.set_pub()
@@ -77,7 +77,10 @@ Trainfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_train)+'.
 Testfiles = np.loadtxt(DataDir + 'P'+str(num_para)+ClID+'Cl_'+str(num_test)+'.txt')
 
 Trainfiles = (Trainfiles[~np.isnan(Trainfiles).any(axis=1)]) # removing rows with nan
+Testfiles = (Testfiles[~np.isnan(Testfiles).any(axis=1)]) # removing rows with nan
 
+
+ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 
 x_train = Trainfiles[:, num_para+2:]
@@ -85,16 +88,34 @@ x_test = Testfiles[:, num_para+2:]
 y_train = Trainfiles[:, 0: num_para]
 y_test =  Testfiles[:, 0: num_para]
 
+
+######## REDUCING SIZE OF ##########
+# x_train = x_train[:, ::2]
+# x_test = x_test[:, ::2]
+# ls = ls[::2]
+
+## and chooping x_train because of invalid arguement error
+## make sure it's divisible by batch size
+
+# x_train = x_train[:992, :]
+# y_train = y_train[:992, :]
+#
+x_train = x_train[:1000, :]
+y_train = y_train[:1000, :]
+
+#######################################
+
 print(x_train.shape, 'train sequences')
 print(x_test.shape, 'test sequences')
 print(y_train.shape, 'train sequences')
 print(y_test.shape, 'test sequences')
 
-ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
+
 
 #------------------------- SCALAR parameter for rescaling -----------------------
 #### ---- All the Cl's are rescaled uniformly #####################
 
+'''
 minVal = np.min( [np.min(x_train), np.min(x_test ) ])
 meanFactor = 1.1*minVal if minVal < 0 else 0
 # meanFactor = 0.0
@@ -115,11 +136,11 @@ x_test = x_test.astype('float32')/normFactor #/ 255.
 np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
 np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
-
+'''
 #########  New l-dependant rescaling (may not work with LSTMs) ###########
 #### - --   works Ok with iid assumption ############
 
-'''
+
 
 minVal = np.min( [np.min(x_train, axis = 0), np.min(x_test , axis = 0) ], axis=0)
 #meanFactor = 1.1*minVal if minVal < 0 else 0
@@ -142,7 +163,7 @@ x_test = x_test.astype('float32')/normFactor #/ 255.
 np.savetxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
 np.savetxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
-'''
+
 
 
 
@@ -177,7 +198,7 @@ x_train = K.cast_to_floatx(x_train)
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
 h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
-h_q2 = Dense(intermediate_dim2, activation='relu')(inputs) # ADDED intermediate layer
+h_q2 = Dense(intermediate_dim2, activation='relu')(h_q3) # ADDED intermediate layer
 h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
 h_q0 = Dense(intermediate_dim0, activation='relu')(h_q1) # ADDED intermediate layer
 h_q = Dense(intermediate_dim, activation='relu')(h_q0)
