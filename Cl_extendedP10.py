@@ -302,11 +302,63 @@ plot_model(vae, show_shapes = True, show_layer_names = False,  to_file='model.pn
 
 #TRAIN
 
-vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
+#TRAIN
+
+
+RestoreCheckPoint = False
+
+if RestoreCheckPoint:
+
+
+    new_epochs = 10
+    new_batch_size = 8
+
+    from keras.models import load_model
+    from keras.callbacks import ModelCheckpoint
+
+
+    filepath_load = ModelDir+'CallbackfullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5'
+
+    new_model = load_model(filepath_load)
+
+    filepath= ModelDir+'Resumed_CallbackfullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5'
+
+    checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True,
+                                 mode='auto', period=4)
+    new_model.fit(x_train_noisy, x_train, epochs=5, batch_size=2000, callbacks=[checkpoint], verbose=1)
+
+
+# Checkpoint
+
+Checkpoint = True
+
+if Checkpoint:
+    from keras.callbacks import ModelCheckpoint
+    filepath= ModelDir+'CallbackfullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5'
+    checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True,
+                                 mode='auto', period=4)
+    callbacks_list = [checkpoint]
+
+    vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
+            validation_data=(x_test_noisy, x_test), callbacks=callbacks_list)
+
+
+else:
+    vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
         validation_data=(x_test_noisy, x_test))
+
+
 
 print('--------learning rate : ', K.eval(vae.optimizer.lr) )
 # ----------------------------------------------------------------------------
+
+
+#
+# vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
+#         validation_data=(x_test_noisy, x_test))
+#
+# print('--------learning rate : ', K.eval(vae.optimizer.lr) )
+# # ----------------------------------------------------------------------------
 
 x_train_encoded = encoder.predict(x_train)
 x_train_decoded = decoder.predict(x_train_encoded)
