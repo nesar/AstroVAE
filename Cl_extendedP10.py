@@ -324,7 +324,7 @@ if RestoreCheckPoint:
     filepath= ModelDir+'Resumed_CallbackfullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5'
 
     checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True,
-                                 mode='min', period=4)
+                                 mode='auto', period=4)
     new_model.fit(x_train_noisy, x_train, epochs=5, batch_size=2000, callbacks=[checkpoint], verbose=1)
 
 
@@ -336,7 +336,7 @@ if Checkpoint:
     from keras.callbacks import ModelCheckpoint
     filepath= ModelDir+'CallbackfullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5'
     checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True,
-                                 mode='min', period=4)
+                                 mode='auto', period=4)
     callbacks_list = [checkpoint]
 
     vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
