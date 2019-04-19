@@ -19,7 +19,7 @@ from keras import optimizers
 from keras import losses
 
 import matplotlib as mpl
-# mpl.use('Agg')
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 import keras.backend as K
@@ -386,6 +386,7 @@ if SaveModel:
     encoder.save(ModelDir + 'EncoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
     decoder.save(ModelDir + 'DecoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
     np.savetxt(ModelDir + 'TrainingHistoryP'+str(num_para)+ClID+'_'+fileOut+'.txt', training_hist)
+    print('Models saved in:', ModelDir)
 
 # -------------------- Plotting routines --------------------------
 PlotScatter = True
