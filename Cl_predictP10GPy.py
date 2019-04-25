@@ -130,8 +130,18 @@ Cl_Original = x_test
 
 # normFactor = np.max( [np.max(para_train), np.max(para_test ) ])
 
-meanFactor = np.loadtxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt')
-normFactor = np.loadtxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
+UniformRescaling = True
+
+if UniformRescaling:
+
+    meanFactor = np.loadtxt(DataDir + 'meanfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+    normFactor = np.loadtxt(DataDir + 'normfactorP' + str(num_para) + ClID + '_' + fileOut + '.txt')
+
+
+else:
+    meanFactor = np.loadtxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+    normFactor = np.loadtxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt')
 
 
 

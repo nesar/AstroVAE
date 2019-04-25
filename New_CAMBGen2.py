@@ -50,7 +50,7 @@ def rescale01(xmin, xmax, f):
 # import SetPub
 # SetPub.set_pub()
 
-totalFiles = 2 #1024
+totalFiles = 32 #1024
 num_para = 10
 
 np.random.seed(17)
