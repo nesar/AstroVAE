@@ -360,8 +360,10 @@ print('--------learning rate : ', K.eval(vae.optimizer.lr) )
 
 time2 = time.time()
 
+print(20*'=~')
 print('Time taken ------------------:', (time2-time1)/60.)
 # ----------------------------------------------------------------------------
+print(20*'=~')
 
 
 #
