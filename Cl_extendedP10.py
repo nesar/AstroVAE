@@ -29,7 +29,9 @@ import params_ext as params
 # import SetPub
 # SetPub.set_pub()
 
+import time
 
+time1 = time.time()
 ############### Setting same float, random seeds ##############
 
 np.random.seed(42)
@@ -350,6 +352,10 @@ else:
 
 
 print('--------learning rate : ', K.eval(vae.optimizer.lr) )
+
+time2 = time.time()
+
+print('Time taken ------------------:', (time2-time1)/60.)
 # ----------------------------------------------------------------------------
 
 
