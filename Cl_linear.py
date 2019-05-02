@@ -29,7 +29,9 @@ import params
 # import SetPub
 # SetPub.set_pub()
 
+import time
 
+time1 = time.time()
 ############### Setting same float, random seeds ##############
 
 np.random.seed(42)
@@ -329,6 +331,10 @@ vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=nu
         validation_data=(x_test_noisy, x_test))
 
 print('--------learning rate : ', K.eval(vae.optimizer.lr) )
+
+time2 = time.time()
+
+print('Time taken -----------------:', (time2-time1)/60.)
 # ----------------------------------------------------------------------------
 
 x_train_encoded = encoder.predict(x_train)

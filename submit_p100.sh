@@ -21,8 +21,8 @@ echo [$SLURM_JOBID]
 conda activate mlEnv
 
 #srun -p cp100 python Cl_linear.py 
-python Cl_linear.py 
-
+#python Cl_linear.py 
+python Cl_extendedP10.py
 
 echo [$SECONDS] End job 
 
