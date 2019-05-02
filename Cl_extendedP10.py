@@ -30,6 +30,11 @@ import params_ext as params
 # SetPub.set_pub()
 
 import time
+import tensorflow as tf
+
+print(20*'=~')
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+print(20*'=~')
 
 time1 = time.time()
 ############### Setting same float, random seeds ##############
