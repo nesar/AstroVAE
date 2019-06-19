@@ -12,8 +12,8 @@ print(__doc__)
 
 import numpy as np
 
-# import matplotlib as mpl
-# mpl.use('Agg')
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 from keras.models import load_model
