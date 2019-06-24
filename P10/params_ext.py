@@ -61,7 +61,7 @@ decay_rate = 0.5
 noise_factor = 0.0 # 0.0 necessary
 
 ######################## I/O #################################
-MainDir = '../Cl_data/'
+MainDir = '../../Cl_data/'
 
 DataDir = MainDir+'Data/Extended/Extended'
 PlotsDir = MainDir+'Plots/Extended/'
