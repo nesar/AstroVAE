@@ -199,8 +199,8 @@ if PlotRatio:
 
             for j in range(latent_dim):
 
-                print '========= GP fit run -- test case:', i, ' output dim:', j, '========'
-                print
+                print('========= GP fit run -- test case:', i, ' output dim:', j, '========')
+                print()
 
 
                 m["fit{0}".format(j)] = GPy.models.GPRegression(x_train, y_train[:, j].reshape(
