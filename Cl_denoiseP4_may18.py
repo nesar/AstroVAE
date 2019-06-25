@@ -17,7 +17,7 @@ mpl.use('Agg')
 import matplotlib.pyplot as plt
 import keras.backend as K
 
-import params
+import params_may18 as params
 # import Cl_load
 # import SetPub
 # SetPub.set_pub()

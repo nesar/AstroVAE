@@ -11,13 +11,13 @@ from keras.models import Model
 from keras import optimizers
 from keras import losses
 
-# import matplotlib as mpl
-# mpl.use('Agg')
+import matplotlib as mpl
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 import keras.backend as K
 
-import params
+import params_apr18 as params
 # import Cl_load
 # import SetPub
 # SetPub.set_pub()
