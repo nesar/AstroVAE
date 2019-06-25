@@ -284,7 +284,7 @@ if PlotScatter:
     plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test[:, 0], cmap='copper')
     plt.colorbar()
     plt.title(fileOut)
-    plt.savefig( PlotsDir + 'Scatter_z'+ClID+fileOut+'.png')
+    plt.savefig( PlotsDir + 'OldScatter_z'+ClID+fileOut+'.png')
 
 
 
@@ -304,7 +304,7 @@ if PlotSample:
         # plt.yscale('log')
         plt.ylabel('reconstructed/real')
         plt.title('train(red) and test (black)')
-        plt.savefig(PlotsDir + 'Ratio_ttP'+str(num_para)+ClID+fileOut+'.png')
+        plt.savefig(PlotsDir + 'OldRatio_ttP'+str(num_para)+ClID+fileOut+'.png')
 
 
         if (i%2 == 1):
@@ -319,7 +319,7 @@ if PlotSample:
             # plt.xscale('log')
             # plt.yscale('log')
             plt.title('Testing: reconstructed (red) and real (blue)')
-            plt.savefig(PlotsDir + 'decoderTestP'+str(num_para)+ClID+ fileOut + '.png')
+            plt.savefig(PlotsDir + 'OlddecoderTestP'+str(num_para)+ClID+ fileOut + '.png')
 
     plt.show()
 
