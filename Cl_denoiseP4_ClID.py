@@ -12,7 +12,7 @@ from keras import optimizers
 from keras import losses
 
 import matplotlib as mpl
-# mpl.use('Agg')
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 import keras.backend as K

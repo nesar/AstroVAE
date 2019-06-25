@@ -1,0 +1,161 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+2019-06-25 15:14:49.328619: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
+2019-06-25 15:14:49.353660: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2100000000 Hz
+2019-06-25 15:14:49.358374: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x55f43497c250 executing computations on platform Host. Devices:
+2019-06-25 15:14:49.358411: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+2019-06-25 15:14:49.484921: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x55f434879080 executing computations on platform CUDA. Devices:
+2019-06-25 15:14:49.484980: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): Quadro GV100, Compute Capability 7.0
+2019-06-25 15:14:49.487487: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Quadro GV100 major: 7 minor: 0 memoryClockRate(GHz): 1.627
+pciBusID: 0000:2d:00.0
+totalMemory: 31.72GiB freeMemory: 31.41GiB
+2019-06-25 15:14:49.487520: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0
+2019-06-25 15:14:49.491407: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-06-25 15:14:49.491435: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 
+2019-06-25 15:14:49.491447: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N 
+2019-06-25 15:14:49.495643: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 30553 MB memory) -> physical GPU (device: 0, name: Quadro GV100, pci bus id: 0000:2d:00.0, compute capability: 7.0)
+Cl_denoiseP4_ClID.py:241: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  validation_data=(x_test_noisy, x_test))
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-06-25 15:14:51.892447: I tensorflow/stream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+(1024, 2549) train sequences
+(25, 2549) test sequences
+(1024, 5) train sequences
+(25, 5) test sequences
+-------mean factor: 0
+-------normalization factor: 11367.03490651889
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2549)         0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 1024)         2611200     input_1[0][0]                    
+__________________________________________________________________________________________________
+dense_2 (Dense)                 (None, 512)          524800      dense_1[0][0]                    
+__________________________________________________________________________________________________
+dense_3 (Dense)                 (None, 256)          131328      dense_2[0][0]                    
+__________________________________________________________________________________________________
+dense_4 (Dense)                 (None, 128)          32896       dense_3[0][0]                    
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 32)           4128        dense_4[0][0]                    
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 32)           4128        dense_4[0][0]                    
+__________________________________________________________________________________________________
+lambda_1 (Lambda)               (8, 32)              0           dense_5[0][0]                    
+                                                                 dense_6[0][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 multiple             1056        lambda_1[0][0]                   
+__________________________________________________________________________________________________
+dense_8 (Dense)                 multiple             4224        dense_7[0][0]                    
+__________________________________________________________________________________________________
+dense_9 (Dense)                 multiple             33024       dense_8[0][0]                    
+__________________________________________________________________________________________________
+dense_10 (Dense)                multiple             131584      dense_9[0][0]                    
+__________________________________________________________________________________________________
+dense_11 (Dense)                multiple             525312      dense_10[0][0]                   
+__________________________________________________________________________________________________
+dense_12 (Dense)                multiple             2612725     dense_11[0][0]                   
+==================================================================================================
+Total params: 6,616,405
+Trainable params: 6,616,405
+Non-trainable params: 0
+__________________________________________________________________________________________________
+None
+Train on 1024 samples, validate on 25 samples
+Epoch 1/7500
+ - 2s - loss: 1098.1353 - val_loss: 365.3274
+Epoch 2/7500
+ - 1s - loss: 349.6335 - val_loss: 343.1588
+Epoch 3/7500
+ - 1s - loss: 341.3587 - val_loss: 341.2837
+Epoch 4/7500
+ - 1s - loss: 340.4790 - val_loss: 340.8892
+Epoch 5/7500
+ - 1s - loss: 340.2012 - val_loss: 340.5407
+Epoch 6/7500
+ - 1s - loss: 339.9501 - val_loss: 340.4683
+Epoch 7/7500
+ - 1s - loss: 339.5670 - val_loss: 339.9354
+Epoch 8/7500
+ - 1s - loss: 338.9895 - val_loss: 339.7402
+Epoch 9/7500
+ - 1s - loss: 337.8380 - val_loss: 336.9429
+Epoch 10/7500
+ - 1s - loss: 336.3020 - val_loss: 342.5773
+Epoch 11/7500
+ - 1s - loss: 333.5934 - val_loss: 335.2299
+Epoch 12/7500
+ - 1s - loss: 330.7966 - val_loss: 328.1461
+Epoch 13/7500
+ - 1s - loss: 329.8155 - val_loss: 328.0342
+Epoch 14/7500
+ - 1s - loss: 329.3031 - val_loss: 327.8287
+Epoch 15/7500
+ - 1s - loss: 329.1444 - val_loss: 327.8844
+Epoch 16/7500
+ - 1s - loss: 329.0719 - val_loss: 327.7517
+Epoch 17/7500
+ - 1s - loss: 328.8572 - val_loss: 327.6149
+Epoch 18/7500
+ - 1s - loss: 328.9530 - val_loss: 327.5763
+Epoch 19/7500
+ - 1s - loss: 328.8255 - val_loss: 327.5610
+Epoch 20/7500
+ - 1s - loss: 328.7676 - val_loss: 327.5265
+Epoch 21/7500
+ - 1s - loss: 328.9935 - val_loss: 327.8840
+Epoch 22/7500
+ - 1s - loss: 328.9732 - val_loss: 327.5174
+Epoch 23/7500
+ - 1s - loss: 328.7962 - val_loss: 327.5103
+Epoch 24/7500
+ - 1s - loss: 328.8842 - val_loss: 327.5362
+Epoch 25/7500
+ - 1s - loss: 328.8169 - val_loss: 327.5014
+Epoch 26/7500
+ - 1s - loss: 328.8492 - val_loss: 327.6653
+Epoch 27/7500
+ - 1s - loss: 329.0441 - val_loss: 327.5083
+Epoch 28/7500
+ - 1s - loss: 328.7522 - val_loss: 327.6961
+Epoch 29/7500
+ - 1s - loss: 329.7471 - val_loss: 328.1671
+Epoch 30/7500
+ - 1s - loss: 328.9747 - val_loss: 327.5001
+Epoch 31/7500
+ - 1s - loss: 328.6969 - val_loss: 327.4925
+Epoch 32/7500
+ - 1s - loss: 328.7802 - val_loss: 327.4979
+Epoch 33/7500
+ - 1s - loss: 328.9780 - val_loss: 327.5315
+Epoch 34/7500
+ - 1s - loss: 328.6935 - val_loss: 327.4876
+Epoch 35/7500
+ - 1s - loss: 328.6856 - val_loss: 327.4874
+Epoch 36/7500
+ - 1s - loss: 328.8729 - val_loss: 327.4897
+Epoch 37/7500
+ - 1s - loss: 328.6465 - val_loss: 327.4860
+Epoch 38/7500
+ - 1s - loss: 328.6363 - val_loss: 327.4822
+Epoch 39/7500
+ - 1s - loss: 328.5727 - val_loss: 327.2881
+Epoch 40/7500
+ - 1s - loss: 329.4909 - val_loss: 338.0739
+Epoch 41/7500
+ - 1s - loss: 329.1682 - val_loss: 327.3094
+Epoch 42/7500
+ - 1s - loss: 328.5324 - val_loss: 327.2992
+Epoch 43/7500
+ - 1s - loss: 328.4942 - val_loss: 327.2948
+Epoch 44/7500
+ - 1s - loss: 328.5249 - val_loss: 327.2888
+Epoch 45/7500
+ - 1s - loss: 328.7525 - val_loss: 327.2979
+Epoch 46/7500
+ - 1s - loss: 328.4908 - val_loss: 327.2942
