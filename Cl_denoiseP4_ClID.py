@@ -1,13 +1,6 @@
 """
 
-Variational Autoencoding for CMB power spectra.
-
-Training scheme is unsupervised, i.e., the autoencoder is not given information about
-cosmological parameters.
-
-
-
-This script uses Keras for neural network architecture.
+Followed from https://wiseodd.github.io/techblog/2016/12/10/variational-autoencoder/
 
 """
 import numpy as np
@@ -40,7 +33,7 @@ K.set_floatx('float32')
 ###################### PARAMETERS ##############################
 
 original_dim = params.original_dim # 2549
-intermediate_dim3 = params.intermediate_dim3 # 1600
+#intermediate_dim3 = params.intermediate_dim3 # 1024
 intermediate_dim2 = params.intermediate_dim2 # 1024
 intermediate_dim1 = params.intermediate_dim1 # 512
 intermediate_dim0 = params.intermediate_dim0 # 256
@@ -88,8 +81,7 @@ print(y_test.shape, 'test sequences')
 
 ls = np.loadtxt(DataDir+'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
-#------------------------- SCALAR parameter for rescaling -----------------------
-#### ---- All the Cl's are rescaled uniformly #####################
+#----------------------------------------------------------------------------
 
 minVal = np.min( [np.min(x_train), np.min(x_test ) ])
 meanFactor = 1.1*minVal if minVal < 0 else 0
@@ -112,37 +104,8 @@ np.savetxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanF
 np.savetxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
 
 
-#########  New l-dependant rescaling (may not work with LSTMs) ###########
-#### - --   works Ok with iid assumption ############
-
-'''
-
-minVal = np.min( [np.min(x_train, axis = 0), np.min(x_test , axis = 0) ], axis=0)
-#meanFactor = 1.1*minVal if minVal < 0 else 0
-# meanFactor = 0.0
-meanFactor = 1.1*minVal
-print('-------mean factor:', meanFactor)
-x_train = x_train - meanFactor #/ 255.
-x_test = x_test - meanFactor #/ 255.
-
-# x_train = np.log10(x_train) #x_train[:,2:] #
-# x_test =  np.log10(x_test) #x_test[:,2:] #
-
-normFactor = np.max( [np.max(x_train, axis = 0), np.max(x_test, axis = 0 ) ], axis = 0)
-# normFactor = 1
-print('-------normalization factor:', normFactor)
-x_train = x_train.astype('float32')/normFactor #/ 255.
-x_test = x_test.astype('float32')/normFactor #/ 255.
 
 
-np.savetxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [meanFactor])
-np.savetxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt', [normFactor])
-
-'''
-
-
-
-##############################################
 x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
@@ -172,8 +135,8 @@ x_train = K.cast_to_floatx(x_train)
 
 # Q(z|X) -- encoder
 inputs = Input(shape=(original_dim,))
-h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
-h_q2 = Dense(intermediate_dim2, activation='relu')(h_q3) # ADDED intermediate layer
+#h_q3 = Dense(intermediate_dim3, activation='relu')(inputs) # ADDED intermediate layer
+h_q2 = Dense(intermediate_dim2, activation='relu')(inputs) # ADDED intermediate layer
 h_q1 = Dense(intermediate_dim1, activation='relu')(h_q2) # ADDED intermediate layer
 h_q0 = Dense(intermediate_dim0, activation='relu')(h_q1) # ADDED intermediate layer
 h_q = Dense(intermediate_dim, activation='relu')(h_q0)
@@ -199,7 +162,7 @@ decoder_hidden0 = Dense(intermediate_dim, activation='relu') # ADDED intermediat
 decoder_hidden1 = Dense(intermediate_dim0, activation='relu') # ADDED intermediate layer
 decoder_hidden2 = Dense(intermediate_dim1, activation='relu') # ADDED intermediate layer
 decoder_hidden3 = Dense(intermediate_dim2, activation='relu') # ADDED intermediate layer
-decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
+#decoder_hidden4 = Dense(intermediate_dim3, activation='relu') # ADDED intermediate layer
 decoder_out = Dense(original_dim, activation='sigmoid')
 
 h_p0 = decoder_hidden(z)
@@ -207,8 +170,8 @@ h_p1 = decoder_hidden0(h_p0) # ADDED intermediate layer
 h_p2 = decoder_hidden1(h_p1) # ADDED intermediate layer
 h_p3 = decoder_hidden2(h_p2) # ADDED intermediate layer
 h_p4 = decoder_hidden3(h_p3) # ADDED intermediate layer
-h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
-outputs = decoder_out(h_p5)
+#h_p5 = decoder_hidden4(h_p4) # ADDED intermediate layer
+outputs = decoder_out(h_p4)
 
 # ----------------------------------------------------------------------------
 
@@ -236,8 +199,8 @@ _h0_decoded = decoder_hidden0(_h_decoded)    ## ADDED layer_1
 _h1_decoded = decoder_hidden1(_h0_decoded)    ## ADDED layer_1
 _h2_decoded = decoder_hidden2(_h1_decoded)    ## ADDED ---
 _h3_decoded = decoder_hidden3(_h2_decoded)    ## ADDED --- should replicate decoder arch
-_h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
-_x_decoded_mean = decoder_out(_h4_decoded)
+#_h4_decoded = decoder_hidden4(_h3_decoded)    ## ADDED --- should replicate decoder arch
+_x_decoded_mean = decoder_out(_h3_decoded)
 decoder = Model(decoder_input, _x_decoded_mean)
 
 
@@ -271,33 +234,11 @@ K.set_value(vae.optimizer.decay, decay_rate)
 print(vae.summary())
 
 
-# from keras.utils import plot_model
-# plot_model(vae, show_shapes = True, show_layer_names = False,  to_file='model.png' )
-
 
 #TRAIN
 
-
-# checkpoint
-
-Checkpoint = False
-
-if Checkpoint:
-    from keras.callbacks import ModelCheckpoint
-    filepath= ModelDir+'CallbackfullAEP'+str(num_para)+ClID+'_' + fileOut + '.hdf5'
-    checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True,
-                                 mode='max')
-    callbacks_list = [checkpoint]
-
-    vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
-            validation_data=(x_test_noisy, x_test), callbacks=callbacks_list)
-
-
-else:
-    vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
+vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2,
         validation_data=(x_test_noisy, x_test))
-
-
 
 print('--------learning rate : ', K.eval(vae.optimizer.lr) )
 # ----------------------------------------------------------------------------
