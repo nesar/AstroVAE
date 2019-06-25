@@ -13,7 +13,7 @@ print(__doc__)
 import numpy as np
 
 import matplotlib as mpl
-# mpl.use('Agg')
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 
@@ -24,6 +24,8 @@ import params
 import SetPub
 SetPub.set_pub()
 
+
+plt.rc('text', usetex=False)   # Slower
 
 
 def rescale01(xmin, xmax, f):
