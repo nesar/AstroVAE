@@ -13,13 +13,13 @@ print(__doc__)
 import numpy as np
 
 import matplotlib as mpl
-# mpl.use('Agg')
+mpl.use('Agg')
 
 import matplotlib.pyplot as plt
 
 from keras.models import load_model
 
-import params
+import params_mar18 as params
 #import Cl_load
 import SetPub
 SetPub.set_pub()
@@ -132,8 +132,6 @@ if LoadModel:
     encoder = load_model(ModelDir + 'EncoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
     decoder = load_model(ModelDir + 'DecoderP'+str(num_para)+ClID+'_' + fileOut + '.hdf5')
     history = np.loadtxt(ModelDir + 'TrainingHistoryP'+str(num_para)+ClID+'_'+fileOut+'.txt')
-
-# vae = load_model(ModelDir + 'fullAEP'+str(num_para)+ClID+'_'+ fileOut + '.hdf5')
 
 
 import george
