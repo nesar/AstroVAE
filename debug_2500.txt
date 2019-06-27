@@ -1,0 +1,399 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+2019-06-27 15:57:42.770668: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
+2019-06-27 15:57:42.786765: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2100000000 Hz
+2019-06-27 15:57:42.791569: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x56258df4b8a0 executing computations on platform Host. Devices:
+2019-06-27 15:57:42.791614: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+2019-06-27 15:57:42.914367: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x56258df24830 executing computations on platform CUDA. Devices:
+2019-06-27 15:57:42.914439: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): Quadro GV100, Compute Capability 7.0
+2019-06-27 15:57:42.916928: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Quadro GV100 major: 7 minor: 0 memoryClockRate(GHz): 1.627
+pciBusID: 0000:2d:00.0
+totalMemory: 31.72GiB freeMemory: 30.06GiB
+2019-06-27 15:57:42.916967: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0
+2019-06-27 15:57:42.920612: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-06-27 15:57:42.920640: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 
+2019-06-27 15:57:42.920653: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N 
+2019-06-27 15:57:42.922873: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 29239 MB memory) -> physical GPU (device: 0, name: Quadro GV100, pci bus id: 0000:2d:00.0, compute capability: 7.0)
+Cl_denoiseP4_debug.py:296: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  validation_data=(x_test_noisy, x_test))
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-06-27 15:57:45.512846: I tensorflow/stream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+(1024, 2549) train sequences
+(25, 2549) test sequences
+(1024, 5) train sequences
+(25, 5) test sequences
+-------mean factor: [460.15748209 443.38691659 425.52264657 ...  32.56278447  32.48687909
+  32.41048494]
+-------normalization factor: [2551.94712155 2315.16942977 2112.93808435 ...  124.72727295  124.52468782
+  124.31939278]
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2549)         0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 1600)         4080000     input_1[0][0]                    
+__________________________________________________________________________________________________
+dense_2 (Dense)                 (None, 1024)         1639424     dense_1[0][0]                    
+__________________________________________________________________________________________________
+dense_3 (Dense)                 (None, 512)          524800      dense_2[0][0]                    
+__________________________________________________________________________________________________
+dense_4 (Dense)                 (None, 256)          131328      dense_3[0][0]                    
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 128)          32896       dense_4[0][0]                    
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 32)           4128        dense_5[0][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 32)           4128        dense_5[0][0]                    
+__________________________________________________________________________________________________
+lambda_1 (Lambda)               (8, 32)              0           dense_6[0][0]                    
+                                                                 dense_7[0][0]                    
+__________________________________________________________________________________________________
+dense_8 (Dense)                 multiple             1056        lambda_1[0][0]                   
+__________________________________________________________________________________________________
+dense_9 (Dense)                 multiple             4224        dense_8[0][0]                    
+__________________________________________________________________________________________________
+dense_10 (Dense)                multiple             33024       dense_9[0][0]                    
+__________________________________________________________________________________________________
+dense_11 (Dense)                multiple             131584      dense_10[0][0]                   
+__________________________________________________________________________________________________
+dense_12 (Dense)                multiple             525312      dense_11[0][0]                   
+__________________________________________________________________________________________________
+dense_13 (Dense)                multiple             1640000     dense_12[0][0]                   
+__________________________________________________________________________________________________
+dense_14 (Dense)                multiple             4080949     dense_13[0][0]                   
+==================================================================================================
+Total params: 12,832,853
+Trainable params: 12,832,853
+Non-trainable params: 0
+__________________________________________________________________________________________________
+None
+Train on 1024 samples, validate on 25 samples
+Epoch 1/2500
+ - 3s - loss: 1565.8231 - val_loss: 1228.7146
+Epoch 2/2500
+ - 1s - loss: 1256.9423 - val_loss: 1221.3924
+Epoch 3/2500
+ - 1s - loss: 1254.6709 - val_loss: 1196.6917
+Epoch 4/2500
+ - 1s - loss: 1245.2687 - val_loss: 1232.4466
+Epoch 5/2500
+ - 1s - loss: 1247.6755 - val_loss: 1220.0475
+Epoch 6/2500
+ - 1s - loss: 1243.6435 - val_loss: 1220.8096
+Epoch 7/2500
+ - 1s - loss: 1251.1657 - val_loss: 1221.7990
+Epoch 8/2500
+ - 1s - loss: 1180.8020 - val_loss: 980.1700
+Epoch 9/2500
+ - 1s - loss: 982.2276 - val_loss: 969.1925
+Epoch 10/2500
+ - 1s - loss: 934.6102 - val_loss: 925.9531
+Epoch 11/2500
+ - 1s - loss: 930.2349 - val_loss: 930.4241
+Epoch 12/2500
+ - 1s - loss: 932.1911 - val_loss: 919.7818
+Epoch 13/2500
+ - 1s - loss: 924.7608 - val_loss: 921.9000
+Epoch 14/2500
+ - 1s - loss: 926.0335 - val_loss: 918.5559
+Epoch 15/2500
+ - 1s - loss: 922.1964 - val_loss: 919.3907
+Epoch 16/2500
+ - 1s - loss: 929.5597 - val_loss: 924.1491
+Epoch 17/2500
+ - 1s - loss: 928.4475 - val_loss: 920.1456
+Epoch 18/2500
+ - 1s - loss: 925.7605 - val_loss: 924.6653
+Epoch 19/2500
+ - 1s - loss: 924.4460 - val_loss: 918.2378
+Epoch 20/2500
+ - 1s - loss: 926.3130 - val_loss: 922.4173
+Epoch 21/2500
+ - 1s - loss: 922.8149 - val_loss: 917.9377
+Epoch 22/2500
+ - 1s - loss: 920.0038 - val_loss: 921.7305
+Epoch 23/2500
+ - 1s - loss: 920.7944 - val_loss: 917.5813
+Epoch 24/2500
+ - 1s - loss: 938.7322 - val_loss: 917.8892
+Epoch 25/2500
+ - 1s - loss: 920.6739 - val_loss: 917.7206
+Epoch 26/2500
+ - 1s - loss: 922.0151 - val_loss: 917.2982
+Epoch 27/2500
+ - 1s - loss: 921.1999 - val_loss: 918.7108
+Epoch 28/2500
+ - 1s - loss: 920.8528 - val_loss: 921.7745
+Epoch 29/2500
+ - 1s - loss: 922.4595 - val_loss: 921.5398
+Epoch 30/2500
+ - 1s - loss: 919.8108 - val_loss: 923.6051
+Epoch 31/2500
+ - 1s - loss: 924.9612 - val_loss: 917.9095
+Epoch 32/2500
+ - 1s - loss: 920.2876 - val_loss: 915.6477
+Epoch 33/2500
+ - 1s - loss: 920.5473 - val_loss: 917.8494
+Epoch 34/2500
+ - 1s - loss: 922.2815 - val_loss: 920.8882
+Epoch 35/2500
+ - 1s - loss: 921.7753 - val_loss: 915.1188
+Epoch 36/2500
+ - 1s - loss: 920.4701 - val_loss: 916.7657
+Epoch 37/2500
+ - 1s - loss: 920.5180 - val_loss: 916.8138
+Epoch 38/2500
+ - 1s - loss: 921.8579 - val_loss: 929.7209
+Epoch 39/2500
+ - 1s - loss: 923.8981 - val_loss: 918.2319
+Epoch 40/2500
+ - 1s - loss: 924.9347 - val_loss: 936.9521
+Epoch 41/2500
+ - 1s - loss: 926.6913 - val_loss: 916.0077
+Epoch 42/2500
+ - 1s - loss: 923.5094 - val_loss: 920.4522
+Epoch 43/2500
+ - 1s - loss: 921.4361 - val_loss: 917.4634
+Epoch 44/2500
+ - 1s - loss: 919.3969 - val_loss: 916.5082
+Epoch 45/2500
+ - 1s - loss: 920.0534 - val_loss: 924.7525
+Epoch 46/2500
+ - 1s - loss: 920.8047 - val_loss: 919.3316
+Epoch 47/2500
+ - 1s - loss: 924.2111 - val_loss: 924.6533
+Epoch 48/2500
+ - 1s - loss: 919.1813 - val_loss: 918.3056
+Epoch 49/2500
+ - 1s - loss: 919.2215 - val_loss: 919.7661
+Epoch 50/2500
+ - 1s - loss: 920.2193 - val_loss: 919.1642
+Epoch 51/2500
+ - 1s - loss: 926.6828 - val_loss: 924.3858
+Epoch 52/2500
+ - 1s - loss: 920.0436 - val_loss: 917.0133
+Epoch 53/2500
+ - 1s - loss: 919.0490 - val_loss: 921.7567
+Epoch 54/2500
+ - 1s - loss: 920.0186 - val_loss: 916.0818
+Epoch 55/2500
+ - 1s - loss: 925.2117 - val_loss: 931.2659
+Epoch 56/2500
+ - 1s - loss: 921.5061 - val_loss: 922.3964
+Epoch 57/2500
+ - 1s - loss: 921.1625 - val_loss: 938.3453
+Epoch 58/2500
+ - 1s - loss: 921.3154 - val_loss: 916.5199
+Epoch 59/2500
+ - 1s - loss: 918.9749 - val_loss: 918.0344
+Epoch 60/2500
+ - 1s - loss: 923.6518 - val_loss: 919.2684
+Epoch 61/2500
+ - 1s - loss: 929.4771 - val_loss: 919.3341
+Epoch 62/2500
+ - 1s - loss: 921.5028 - val_loss: 923.0945
+Epoch 63/2500
+ - 1s - loss: 919.9968 - val_loss: 916.4955
+Epoch 64/2500
+ - 2s - loss: 918.8021 - val_loss: 915.5946
+Epoch 65/2500
+ - 2s - loss: 917.8986 - val_loss: 915.1919
+Epoch 66/2500
+ - 1s - loss: 919.2193 - val_loss: 914.7329
+Epoch 67/2500
+ - 1s - loss: 919.2142 - val_loss: 916.0888
+Epoch 68/2500
+ - 1s - loss: 922.8829 - val_loss: 917.7341
+Epoch 69/2500
+ - 1s - loss: 920.0068 - val_loss: 916.7162
+Epoch 70/2500
+ - 1s - loss: 918.8038 - val_loss: 920.8521
+Epoch 71/2500
+ - 1s - loss: 920.1255 - val_loss: 914.8779
+Epoch 72/2500
+ - 1s - loss: 918.3632 - val_loss: 920.5556
+Epoch 73/2500
+ - 1s - loss: 920.1500 - val_loss: 914.4680
+Epoch 74/2500
+ - 1s - loss: 919.4564 - val_loss: 920.1272
+Epoch 75/2500
+ - 1s - loss: 919.9697 - val_loss: 913.7200
+Epoch 76/2500
+ - 1s - loss: 918.1071 - val_loss: 915.0361
+Epoch 77/2500
+ - 1s - loss: 920.5205 - val_loss: 919.6005
+Epoch 78/2500
+ - 1s - loss: 922.2212 - val_loss: 939.9418
+Epoch 79/2500
+ - 1s - loss: 924.7784 - val_loss: 918.5318
+Epoch 80/2500
+ - 1s - loss: 921.7735 - val_loss: 925.2655
+Epoch 81/2500
+ - 1s - loss: 920.6084 - val_loss: 919.7991
+Epoch 82/2500
+ - 1s - loss: 920.2019 - val_loss: 914.4352
+Epoch 83/2500
+ - 1s - loss: 918.3194 - val_loss: 918.4493
+Epoch 84/2500
+ - 1s - loss: 919.0793 - val_loss: 914.9058
+Epoch 85/2500
+ - 1s - loss: 919.5179 - val_loss: 917.0138
+Epoch 86/2500
+ - 1s - loss: 918.9474 - val_loss: 917.8333
+Epoch 87/2500
+ - 1s - loss: 919.5923 - val_loss: 920.1759
+Epoch 88/2500
+ - 1s - loss: 918.5430 - val_loss: 916.5118
+Epoch 89/2500
+ - 1s - loss: 919.4567 - val_loss: 917.0883
+Epoch 90/2500
+ - 1s - loss: 918.7280 - val_loss: 912.9112
+Epoch 91/2500
+ - 1s - loss: 921.7347 - val_loss: 917.1766
+Epoch 92/2500
+ - 1s - loss: 919.0722 - val_loss: 916.8134
+Epoch 93/2500
+ - 1s - loss: 919.7986 - val_loss: 919.2393
+Epoch 94/2500
+ - 1s - loss: 920.2812 - val_loss: 916.5771
+Epoch 95/2500
+ - 1s - loss: 923.2659 - val_loss: 925.9265
+Epoch 96/2500
+ - 1s - loss: 921.2173 - val_loss: 922.2892
+Epoch 97/2500
+ - 1s - loss: 920.4288 - val_loss: 919.8059
+Epoch 98/2500
+ - 1s - loss: 919.6243 - val_loss: 914.0312
+Epoch 99/2500
+ - 1s - loss: 917.7586 - val_loss: 913.4399
+Epoch 100/2500
+ - 1s - loss: 918.1831 - val_loss: 924.4877
+Epoch 101/2500
+ - 1s - loss: 926.2545 - val_loss: 937.3035
+Epoch 102/2500
+ - 1s - loss: 920.8327 - val_loss: 915.9942
+Epoch 103/2500
+ - 1s - loss: 919.4845 - val_loss: 918.4701
+Epoch 104/2500
+ - 1s - loss: 920.5858 - val_loss: 914.4644
+Epoch 105/2500
+ - 1s - loss: 918.0172 - val_loss: 918.2557
+Epoch 106/2500
+ - 1s - loss: 918.5968 - val_loss: 915.9467
+Epoch 107/2500
+ - 1s - loss: 919.0010 - val_loss: 926.2513
+Epoch 108/2500
+ - 1s - loss: 918.7650 - val_loss: 915.6155
+Epoch 109/2500
+ - 1s - loss: 919.3134 - val_loss: 913.8288
+Epoch 110/2500
+ - 1s - loss: 923.1409 - val_loss: 913.8527
+Epoch 111/2500
+ - 1s - loss: 920.9404 - val_loss: 928.5370
+Epoch 112/2500
+ - 1s - loss: 921.8480 - val_loss: 912.6664
+Epoch 113/2500
+ - 1s - loss: 919.7367 - val_loss: 914.4130
+Epoch 114/2500
+ - 1s - loss: 918.1334 - val_loss: 922.9694
+Epoch 115/2500
+ - 1s - loss: 918.6872 - val_loss: 921.4252
+Epoch 116/2500
+ - 1s - loss: 919.9724 - val_loss: 917.6254
+Epoch 117/2500
+ - 1s - loss: 920.1227 - val_loss: 912.8800
+Epoch 118/2500
+ - 1s - loss: 918.1541 - val_loss: 912.0037
+Epoch 119/2500
+ - 1s - loss: 919.5955 - val_loss: 912.9150
+Epoch 120/2500
+ - 1s - loss: 918.6593 - val_loss: 912.5504
+Epoch 121/2500
+ - 1s - loss: 919.9194 - val_loss: 914.2955
+Epoch 122/2500
+ - 1s - loss: 916.8821 - val_loss: 915.1573
+Epoch 123/2500
+ - 1s - loss: 918.4050 - val_loss: 917.0204
+Epoch 124/2500
+ - 1s - loss: 917.1345 - val_loss: 912.0432
+Epoch 125/2500
+ - 1s - loss: 918.2186 - val_loss: 913.5908
+Epoch 126/2500
+ - 1s - loss: 933.0123 - val_loss: 922.9402
+Epoch 127/2500
+ - 1s - loss: 917.6810 - val_loss: 920.9400
+Epoch 128/2500
+ - 1s - loss: 930.8703 - val_loss: 917.7206
+Epoch 129/2500
+ - 1s - loss: 925.0803 - val_loss: 921.1545
+Epoch 130/2500
+ - 1s - loss: 918.1909 - val_loss: 915.0259
+Epoch 131/2500
+ - 1s - loss: 919.1729 - val_loss: 916.9567
+Epoch 132/2500
+ - 1s - loss: 917.4445 - val_loss: 926.1561
+Epoch 133/2500
+ - 1s - loss: 918.4315 - val_loss: 912.0773
+Epoch 134/2500
+ - 1s - loss: 916.3468 - val_loss: 910.4288
+Epoch 135/2500
+ - 1s - loss: 916.6038 - val_loss: 909.5210
+Epoch 136/2500
+ - 1s - loss: 914.2662 - val_loss: 909.6416
+Epoch 137/2500
+ - 1s - loss: 913.8554 - val_loss: 914.3138
+Epoch 138/2500
+ - 1s - loss: 913.1251 - val_loss: 907.8277
+Epoch 139/2500
+ - 1s - loss: 910.5603 - val_loss: 903.3577
+Epoch 140/2500
+ - 1s - loss: 909.3596 - val_loss: 902.8644
+Epoch 141/2500
+ - 1s - loss: 908.5062 - val_loss: 901.6774
+Epoch 142/2500
+ - 1s - loss: 907.5935 - val_loss: 901.1899
+Epoch 143/2500
+ - 1s - loss: 907.0304 - val_loss: 903.0157
+Epoch 144/2500
+ - 1s - loss: 906.9473 - val_loss: 902.1524
+Epoch 145/2500
+ - 1s - loss: 906.5090 - val_loss: 902.0153
+Epoch 146/2500
+ - 1s - loss: 906.1238 - val_loss: 900.4829
+Epoch 147/2500
+ - 1s - loss: 906.1678 - val_loss: 900.7741
+Epoch 148/2500
+ - 1s - loss: 908.2135 - val_loss: 904.8170
+Epoch 149/2500
+ - 1s - loss: 907.4873 - val_loss: 898.9078
+Epoch 150/2500
+ - 1s - loss: 905.6178 - val_loss: 899.3821
+Epoch 151/2500
+ - 1s - loss: 904.9329 - val_loss: 900.0970
+Epoch 152/2500
+ - 1s - loss: 905.9188 - val_loss: 899.6751
+Epoch 153/2500
+ - 1s - loss: 905.6692 - val_loss: 898.6779
+Epoch 154/2500
+ - 1s - loss: 904.5895 - val_loss: 898.8964
+Epoch 155/2500
+ - 1s - loss: 904.8775 - val_loss: 899.3587
+Epoch 156/2500
+ - 1s - loss: 904.7148 - val_loss: 901.0190
+Epoch 157/2500
+ - 1s - loss: 905.4012 - val_loss: 897.5901
+Epoch 158/2500
+ - 1s - loss: 904.1972 - val_loss: 896.9450
+Epoch 159/2500
+ - 1s - loss: 904.1357 - val_loss: 897.7510
+Epoch 160/2500
+ - 1s - loss: 903.6523 - val_loss: 897.2271
+Epoch 161/2500
+ - 1s - loss: 904.2020 - val_loss: 897.6039
+Epoch 162/2500
+ - 1s - loss: 903.8189 - val_loss: 897.9380

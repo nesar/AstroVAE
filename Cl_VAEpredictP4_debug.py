@@ -98,8 +98,17 @@ ls = np.loadtxt( DataDir + 'P'+str(num_para)+'ls_'+str(num_train)+'.txt')[2:]
 
 # normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 
+
+###### universal rescaling ########
+'''
 normFactor = np.loadtxt(DataDir+'normfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
 meanFactor = np.loadtxt(DataDir+'meanfactorP'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+'''
+
+######### New l-dependant rescaling ###########
+normFactor = np.loadtxt(DataDir+'normfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+meanFactor = np.loadtxt(DataDir+'meanfactorPArr'+str(num_para)+ClID+'_'+ fileOut +'.txt')
+
 
 print('-------normalization factor:', normFactor)
 print('-------rescaling factor:', meanFactor)
