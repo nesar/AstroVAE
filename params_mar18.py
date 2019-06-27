@@ -1,7 +1,7 @@
 ######################## PARAMETERS ##########################
 
 original_dim = 2549#/2 +1  #2551 # mnist ~ 784
-#intermediate_dim3 = 1600
+intermediate_dim3 = 1600
 intermediate_dim2 = 1024
 intermediate_dim1 = 512
 intermediate_dim0 = 256
