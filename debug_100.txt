@@ -1,0 +1,277 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+2019-06-27 18:05:13.543112: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
+2019-06-27 18:05:13.566864: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2100000000 Hz
+2019-06-27 18:05:13.572395: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x5653bca1be60 executing computations on platform Host. Devices:
+2019-06-27 18:05:13.572458: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+2019-06-27 18:05:13.699427: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x5653bca14720 executing computations on platform CUDA. Devices:
+2019-06-27 18:05:13.699500: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): Quadro GV100, Compute Capability 7.0
+2019-06-27 18:05:13.701917: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Quadro GV100 major: 7 minor: 0 memoryClockRate(GHz): 1.627
+pciBusID: 0000:2d:00.0
+totalMemory: 31.72GiB freeMemory: 30.06GiB
+2019-06-27 18:05:13.701955: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0
+2019-06-27 18:05:13.705670: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-06-27 18:05:13.705697: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 
+2019-06-27 18:05:13.705710: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N 
+2019-06-27 18:05:13.707946: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 29239 MB memory) -> physical GPU (device: 0, name: Quadro GV100, pci bus id: 0000:2d:00.0, compute capability: 7.0)
+Cl_denoiseP4_debug.py:297: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2) ## excluding validation for now -- otherwise creates problems for batch size > 8
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-06-27 18:05:15.895312: I tensorflow/stream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+(1024, 2549) train sequences
+(25, 2549) test sequences
+(1024, 5) train sequences
+(25, 5) test sequences
+-------mean factor: [460.15748209 443.38691659 425.52264657 ...  32.56278447  32.48687909
+  32.41048494]
+-------normalization factor: [2551.94712155 2315.16942977 2112.93808435 ...  124.72727295  124.52468782
+  124.31939278]
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2549)         0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 1024)         2611200     input_1[0][0]                    
+__________________________________________________________________________________________________
+dense_2 (Dense)                 (None, 512)          524800      dense_1[0][0]                    
+__________________________________________________________________________________________________
+dense_3 (Dense)                 (None, 256)          131328      dense_2[0][0]                    
+__________________________________________________________________________________________________
+dense_4 (Dense)                 (None, 128)          32896       dense_3[0][0]                    
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 32)           4128        dense_4[0][0]                    
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 32)           4128        dense_4[0][0]                    
+__________________________________________________________________________________________________
+lambda_1 (Lambda)               (32, 32)             0           dense_5[0][0]                    
+                                                                 dense_6[0][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 multiple             1056        lambda_1[0][0]                   
+__________________________________________________________________________________________________
+dense_8 (Dense)                 multiple             4224        dense_7[0][0]                    
+__________________________________________________________________________________________________
+dense_9 (Dense)                 multiple             33024       dense_8[0][0]                    
+__________________________________________________________________________________________________
+dense_10 (Dense)                multiple             131584      dense_9[0][0]                    
+__________________________________________________________________________________________________
+dense_11 (Dense)                multiple             525312      dense_10[0][0]                   
+__________________________________________________________________________________________________
+dense_12 (Dense)                multiple             2612725     dense_11[0][0]                   
+==================================================================================================
+Total params: 6,616,405
+Trainable params: 6,616,405
+Non-trainable params: 0
+__________________________________________________________________________________________________
+None
+Epoch 1/100
+ - 1s - loss: 2268.1686
+Epoch 2/100
+ - 0s - loss: 1543.5642
+Epoch 3/100
+ - 0s - loss: 1271.9665
+Epoch 4/100
+ - 0s - loss: 1220.7651
+Epoch 5/100
+ - 0s - loss: 1215.3389
+Epoch 6/100
+ - 0s - loss: 1127.1848
+Epoch 7/100
+ - 0s - loss: 1002.3670
+Epoch 8/100
+ - 0s - loss: 985.1068
+Epoch 9/100
+ - 0s - loss: 1220.8895
+Epoch 10/100
+ - 0s - loss: 1000.2578
+Epoch 11/100
+ - 0s - loss: 953.4619
+Epoch 12/100
+ - 0s - loss: 944.7030
+Epoch 13/100
+ - 0s - loss: 945.4867
+Epoch 14/100
+ - 0s - loss: 937.0295
+Epoch 15/100
+ - 0s - loss: 936.3297
+Epoch 16/100
+ - 0s - loss: 930.5046
+Epoch 17/100
+ - 0s - loss: 930.6885
+Epoch 18/100
+ - 0s - loss: 930.9435
+Epoch 19/100
+ - 0s - loss: 930.1731
+Epoch 20/100
+ - 0s - loss: 933.3187
+Epoch 21/100
+ - 0s - loss: 932.9913
+Epoch 22/100
+ - 0s - loss: 932.7858
+Epoch 23/100
+ - 0s - loss: 924.9644
+Epoch 24/100
+ - 0s - loss: 934.5985
+Epoch 25/100
+ - 0s - loss: 929.7844
+Epoch 26/100
+ - 0s - loss: 923.2727
+Epoch 27/100
+ - 0s - loss: 924.5270
+Epoch 28/100
+ - 0s - loss: 928.2232
+Epoch 29/100
+ - 0s - loss: 923.0648
+Epoch 30/100
+ - 0s - loss: 920.9974
+Epoch 31/100
+ - 0s - loss: 923.9211
+Epoch 32/100
+ - 0s - loss: 920.8319
+Epoch 33/100
+ - 0s - loss: 922.2828
+Epoch 34/100
+ - 0s - loss: 920.3948
+Epoch 35/100
+ - 0s - loss: 918.9543
+Epoch 36/100
+ - 0s - loss: 919.1259
+Epoch 37/100
+ - 0s - loss: 920.8461
+Epoch 38/100
+ - 0s - loss: 920.2006
+Epoch 39/100
+ - 0s - loss: 919.7519
+Epoch 40/100
+ - 0s - loss: 916.7988
+Epoch 41/100
+ - 0s - loss: 916.3667
+Epoch 42/100
+ - 0s - loss: 918.9504
+Epoch 43/100
+ - 0s - loss: 917.6224
+Epoch 44/100
+ - 0s - loss: 919.0656
+Epoch 45/100
+ - 0s - loss: 920.3004
+Epoch 46/100
+ - 0s - loss: 918.0772
+Epoch 47/100
+ - 0s - loss: 916.9994
+Epoch 48/100
+ - 0s - loss: 916.7791
+Epoch 49/100
+ - 0s - loss: 916.1651
+Epoch 50/100
+ - 0s - loss: 923.7845
+Epoch 51/100
+ - 0s - loss: 919.3423
+Epoch 52/100
+ - 0s - loss: 916.8405
+Epoch 53/100
+ - 0s - loss: 919.1065
+Epoch 54/100
+ - 0s - loss: 921.0350
+Epoch 55/100
+ - 0s - loss: 920.2493
+Epoch 56/100
+ - 0s - loss: 916.4928
+Epoch 57/100
+ - 0s - loss: 914.0993
+Epoch 58/100
+ - 0s - loss: 915.0342
+Epoch 59/100
+ - 0s - loss: 915.2093
+Epoch 60/100
+ - 0s - loss: 915.7634
+Epoch 61/100
+ - 0s - loss: 915.6812
+Epoch 62/100
+ - 0s - loss: 919.9555
+Epoch 63/100
+ - 0s - loss: 918.6698
+Epoch 64/100
+ - 0s - loss: 915.1806
+Epoch 65/100
+ - 0s - loss: 915.7581
+Epoch 66/100
+ - 0s - loss: 914.6129
+Epoch 67/100
+ - 0s - loss: 914.9834
+Epoch 68/100
+ - 0s - loss: 916.1105
+Epoch 69/100
+ - 0s - loss: 913.9208
+Epoch 70/100
+ - 0s - loss: 921.3568
+Epoch 71/100
+ - 0s - loss: 918.3300
+Epoch 72/100
+ - 0s - loss: 914.2829
+Epoch 73/100
+ - 0s - loss: 915.9953
+Epoch 74/100
+ - 0s - loss: 916.2872
+Epoch 75/100
+ - 0s - loss: 917.4365
+Epoch 76/100
+ - 0s - loss: 916.8683
+Epoch 77/100
+ - 0s - loss: 916.2186
+Epoch 78/100
+ - 0s - loss: 915.8060
+Epoch 79/100
+ - 0s - loss: 915.5662
+Epoch 80/100
+ - 0s - loss: 915.3386
+Epoch 81/100
+ - 0s - loss: 913.9660
+Epoch 82/100
+ - 0s - loss: 914.4843
+Epoch 83/100
+ - 0s - loss: 916.6150
+Epoch 84/100
+ - 0s - loss: 916.5806
+Epoch 85/100
+ - 0s - loss: 918.7757
+Epoch 86/100
+ - 0s - loss: 918.6133
+Epoch 87/100
+ - 0s - loss: 922.2637
+Epoch 88/100
+ - 0s - loss: 914.8179
+Epoch 89/100
+ - 0s - loss: 915.2190
+Epoch 90/100
+ - 0s - loss: 913.2230
+Epoch 91/100
+ - 0s - loss: 913.2399
+Epoch 92/100
+ - 0s - loss: 913.0463
+Epoch 93/100
+ - 0s - loss: 913.8780
+Epoch 94/100
+ - 0s - loss: 913.2415
+Epoch 95/100
+ - 0s - loss: 916.6542
+Epoch 96/100
+ - 0s - loss: 912.4351
+Epoch 97/100
+ - 0s - loss: 911.0685
+Epoch 98/100
+ - 0s - loss: 913.0361
+Epoch 99/100
+ - 0s - loss: 915.6983
+Epoch 100/100
+ - 0s - loss: 917.1066
+libGL error: No matching fbConfigs or visuals found
+libGL error: failed to load driver: swrast
+--------learning rate :  1e-04
+P5Model_debug_tot1024_batch32_lr0.0001_decay1.0_z32_epoch100
+TT
+--------max ratio (train) :  4.82541
+--------max ratio (test)  :  4.167576018723241
