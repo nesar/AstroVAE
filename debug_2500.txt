@@ -397,3 +397,4686 @@ Epoch 161/2500
  - 1s - loss: 904.2020 - val_loss: 897.6039
 Epoch 162/2500
  - 1s - loss: 903.8189 - val_loss: 897.9380
+Epoch 163/2500
+ - 1s - loss: 903.9361 - val_loss: 897.8064
+Epoch 164/2500
+ - 1s - loss: 904.0804 - val_loss: 897.6206
+Epoch 165/2500
+ - 1s - loss: 903.2900 - val_loss: 896.9625
+Epoch 166/2500
+ - 1s - loss: 903.8943 - val_loss: 897.8217
+Epoch 167/2500
+ - 1s - loss: 903.4546 - val_loss: 897.6439
+Epoch 168/2500
+ - 1s - loss: 903.5406 - val_loss: 897.9067
+Epoch 169/2500
+ - 1s - loss: 904.3706 - val_loss: 897.4981
+Epoch 170/2500
+ - 1s - loss: 904.3228 - val_loss: 897.4149
+Epoch 171/2500
+ - 1s - loss: 903.7260 - val_loss: 897.4245
+Epoch 172/2500
+ - 1s - loss: 903.1379 - val_loss: 898.7850
+Epoch 173/2500
+ - 1s - loss: 903.7250 - val_loss: 897.0067
+Epoch 174/2500
+ - 1s - loss: 903.4413 - val_loss: 899.3953
+Epoch 175/2500
+ - 1s - loss: 903.2200 - val_loss: 897.2070
+Epoch 176/2500
+ - 1s - loss: 903.2802 - val_loss: 896.7723
+Epoch 177/2500
+ - 1s - loss: 903.1217 - val_loss: 899.6998
+Epoch 178/2500
+ - 1s - loss: 903.2254 - val_loss: 897.4955
+Epoch 179/2500
+ - 1s - loss: 903.2102 - val_loss: 896.7249
+Epoch 180/2500
+ - 1s - loss: 903.1452 - val_loss: 895.8160
+Epoch 181/2500
+ - 1s - loss: 903.1056 - val_loss: 897.7340
+Epoch 182/2500
+ - 1s - loss: 904.4210 - val_loss: 896.4072
+Epoch 183/2500
+ - 1s - loss: 903.8694 - val_loss: 896.9756
+Epoch 184/2500
+ - 1s - loss: 903.2169 - val_loss: 896.8358
+Epoch 185/2500
+ - 1s - loss: 903.0034 - val_loss: 896.5207
+Epoch 186/2500
+ - 1s - loss: 903.3798 - val_loss: 896.9956
+Epoch 187/2500
+ - 1s - loss: 903.5440 - val_loss: 897.4551
+Epoch 188/2500
+ - 1s - loss: 903.0369 - val_loss: 896.8140
+Epoch 189/2500
+ - 1s - loss: 902.9225 - val_loss: 895.8179
+Epoch 190/2500
+ - 1s - loss: 903.6107 - val_loss: 896.6585
+Epoch 191/2500
+ - 1s - loss: 902.5456 - val_loss: 897.9108
+Epoch 192/2500
+ - 1s - loss: 903.0260 - val_loss: 901.6285
+Epoch 193/2500
+ - 1s - loss: 904.6378 - val_loss: 896.0056
+Epoch 194/2500
+ - 1s - loss: 903.0284 - val_loss: 895.8160
+Epoch 195/2500
+ - 1s - loss: 902.8296 - val_loss: 896.9062
+Epoch 196/2500
+ - 1s - loss: 902.9570 - val_loss: 896.1123
+Epoch 197/2500
+ - 1s - loss: 903.9015 - val_loss: 896.3768
+Epoch 198/2500
+ - 1s - loss: 903.7195 - val_loss: 896.8410
+Epoch 199/2500
+ - 1s - loss: 903.1475 - val_loss: 896.5718
+Epoch 200/2500
+ - 1s - loss: 902.6013 - val_loss: 895.7509
+Epoch 201/2500
+ - 1s - loss: 902.6140 - val_loss: 896.0486
+Epoch 202/2500
+ - 1s - loss: 902.7936 - val_loss: 896.1383
+Epoch 203/2500
+ - 1s - loss: 902.5932 - val_loss: 896.1002
+Epoch 204/2500
+ - 1s - loss: 903.0305 - val_loss: 896.6073
+Epoch 205/2500
+ - 1s - loss: 902.6150 - val_loss: 895.4990
+Epoch 206/2500
+ - 1s - loss: 903.3464 - val_loss: 895.4809
+Epoch 207/2500
+ - 1s - loss: 902.6437 - val_loss: 897.9545
+Epoch 208/2500
+ - 2s - loss: 903.0596 - val_loss: 895.9482
+Epoch 209/2500
+ - 2s - loss: 902.3770 - val_loss: 897.4683
+Epoch 210/2500
+ - 2s - loss: 902.5533 - val_loss: 896.2222
+Epoch 211/2500
+ - 1s - loss: 902.5220 - val_loss: 895.5939
+Epoch 212/2500
+ - 2s - loss: 902.5884 - val_loss: 898.3306
+Epoch 213/2500
+ - 1s - loss: 903.2829 - val_loss: 903.5362
+Epoch 214/2500
+ - 1s - loss: 906.1491 - val_loss: 895.4539
+Epoch 215/2500
+ - 1s - loss: 902.5027 - val_loss: 895.7684
+Epoch 216/2500
+ - 1s - loss: 902.4638 - val_loss: 897.2115
+Epoch 217/2500
+ - 1s - loss: 902.5540 - val_loss: 895.2060
+Epoch 218/2500
+ - 1s - loss: 902.6441 - val_loss: 896.5463
+Epoch 219/2500
+ - 1s - loss: 903.2021 - val_loss: 898.8638
+Epoch 220/2500
+ - 1s - loss: 902.6224 - val_loss: 896.1410
+Epoch 221/2500
+ - 1s - loss: 902.1750 - val_loss: 896.2911
+Epoch 222/2500
+ - 1s - loss: 902.6440 - val_loss: 897.2899
+Epoch 223/2500
+ - 1s - loss: 903.0903 - val_loss: 896.8780
+Epoch 224/2500
+ - 1s - loss: 902.7506 - val_loss: 895.9080
+Epoch 225/2500
+ - 1s - loss: 902.4721 - val_loss: 895.4076
+Epoch 226/2500
+ - 1s - loss: 902.0741 - val_loss: 895.8255
+Epoch 227/2500
+ - 1s - loss: 902.8827 - val_loss: 896.3280
+Epoch 228/2500
+ - 1s - loss: 902.9266 - val_loss: 896.7327
+Epoch 229/2500
+ - 1s - loss: 902.6981 - val_loss: 895.7101
+Epoch 230/2500
+ - 1s - loss: 902.5515 - val_loss: 897.2312
+Epoch 231/2500
+ - 1s - loss: 902.2800 - val_loss: 896.2726
+Epoch 232/2500
+ - 1s - loss: 903.7469 - val_loss: 897.1539
+Epoch 233/2500
+ - 1s - loss: 902.4787 - val_loss: 895.8422
+Epoch 234/2500
+ - 1s - loss: 902.1147 - val_loss: 895.9923
+Epoch 235/2500
+ - 1s - loss: 902.1689 - val_loss: 896.1622
+Epoch 236/2500
+ - 1s - loss: 902.1142 - val_loss: 896.4226
+Epoch 237/2500
+ - 1s - loss: 902.3170 - val_loss: 896.3806
+Epoch 238/2500
+ - 1s - loss: 902.3029 - val_loss: 895.0920
+Epoch 239/2500
+ - 1s - loss: 902.2214 - val_loss: 895.8876
+Epoch 240/2500
+ - 1s - loss: 902.9547 - val_loss: 895.8253
+Epoch 241/2500
+ - 1s - loss: 902.7463 - val_loss: 897.6078
+Epoch 242/2500
+ - 1s - loss: 902.8489 - val_loss: 896.0694
+Epoch 243/2500
+ - 1s - loss: 903.0347 - val_loss: 897.9750
+Epoch 244/2500
+ - 2s - loss: 902.3243 - val_loss: 897.1955
+Epoch 245/2500
+ - 1s - loss: 902.6972 - val_loss: 895.4695
+Epoch 246/2500
+ - 1s - loss: 902.4694 - val_loss: 895.7328
+Epoch 247/2500
+ - 1s - loss: 902.8065 - val_loss: 895.2117
+Epoch 248/2500
+ - 1s - loss: 902.7813 - val_loss: 897.6055
+Epoch 249/2500
+ - 1s - loss: 902.6750 - val_loss: 896.3496
+Epoch 250/2500
+ - 1s - loss: 901.9061 - val_loss: 895.5656
+Epoch 251/2500
+ - 1s - loss: 902.4679 - val_loss: 895.5007
+Epoch 252/2500
+ - 1s - loss: 902.4289 - val_loss: 895.3959
+Epoch 253/2500
+ - 1s - loss: 902.0060 - val_loss: 896.4921
+Epoch 254/2500
+ - 1s - loss: 903.1180 - val_loss: 895.9498
+Epoch 255/2500
+ - 1s - loss: 901.9458 - val_loss: 895.3243
+Epoch 256/2500
+ - 1s - loss: 901.8829 - val_loss: 894.8614
+Epoch 257/2500
+ - 1s - loss: 902.2219 - val_loss: 895.4326
+Epoch 258/2500
+ - 1s - loss: 902.3215 - val_loss: 895.3340
+Epoch 259/2500
+ - 1s - loss: 902.2488 - val_loss: 896.3963
+Epoch 260/2500
+ - 1s - loss: 902.6416 - val_loss: 895.6247
+Epoch 261/2500
+ - 1s - loss: 902.0755 - val_loss: 895.9946
+Epoch 262/2500
+ - 1s - loss: 903.3967 - val_loss: 901.3708
+Epoch 263/2500
+ - 1s - loss: 902.5239 - val_loss: 894.9320
+Epoch 264/2500
+ - 1s - loss: 901.8749 - val_loss: 895.2845
+Epoch 265/2500
+ - 1s - loss: 902.3814 - val_loss: 896.9416
+Epoch 266/2500
+ - 1s - loss: 902.0406 - val_loss: 895.4479
+Epoch 267/2500
+ - 1s - loss: 902.5266 - val_loss: 898.7668
+Epoch 268/2500
+ - 1s - loss: 902.6825 - val_loss: 895.1394
+Epoch 269/2500
+ - 1s - loss: 901.7402 - val_loss: 895.8989
+Epoch 270/2500
+ - 1s - loss: 901.6755 - val_loss: 895.7661
+Epoch 271/2500
+ - 1s - loss: 902.1667 - val_loss: 895.1299
+Epoch 272/2500
+ - 1s - loss: 902.2725 - val_loss: 895.4900
+Epoch 273/2500
+ - 1s - loss: 902.7881 - val_loss: 895.8196
+Epoch 274/2500
+ - 1s - loss: 903.0492 - val_loss: 899.2378
+Epoch 275/2500
+ - 1s - loss: 902.4737 - val_loss: 897.0971
+Epoch 276/2500
+ - 1s - loss: 902.4600 - val_loss: 895.8971
+Epoch 277/2500
+ - 1s - loss: 901.7534 - val_loss: 895.9213
+Epoch 278/2500
+ - 1s - loss: 902.7698 - val_loss: 913.3961
+Epoch 279/2500
+ - 1s - loss: 902.7591 - val_loss: 895.3203
+Epoch 280/2500
+ - 1s - loss: 901.9646 - val_loss: 896.1260
+Epoch 281/2500
+ - 1s - loss: 901.7001 - val_loss: 894.8974
+Epoch 282/2500
+ - 1s - loss: 902.0707 - val_loss: 895.3544
+Epoch 283/2500
+ - 1s - loss: 901.9479 - val_loss: 899.1230
+Epoch 284/2500
+ - 1s - loss: 902.1703 - val_loss: 896.2329
+Epoch 285/2500
+ - 1s - loss: 901.8229 - val_loss: 895.7994
+Epoch 286/2500
+ - 1s - loss: 901.6987 - val_loss: 895.0587
+Epoch 287/2500
+ - 1s - loss: 901.8153 - val_loss: 894.9969
+Epoch 288/2500
+ - 1s - loss: 901.5324 - val_loss: 894.5163
+Epoch 289/2500
+ - 1s - loss: 901.8725 - val_loss: 899.0386
+Epoch 290/2500
+ - 1s - loss: 902.1601 - val_loss: 894.9389
+Epoch 291/2500
+ - 1s - loss: 901.6142 - val_loss: 894.6860
+Epoch 292/2500
+ - 1s - loss: 903.7862 - val_loss: 895.7881
+Epoch 293/2500
+ - 1s - loss: 902.0663 - val_loss: 894.7151
+Epoch 294/2500
+ - 1s - loss: 901.6820 - val_loss: 894.9672
+Epoch 295/2500
+ - 1s - loss: 902.6768 - val_loss: 897.6555
+Epoch 296/2500
+ - 1s - loss: 902.3835 - val_loss: 895.5045
+Epoch 297/2500
+ - 2s - loss: 901.7497 - val_loss: 894.9058
+Epoch 298/2500
+ - 1s - loss: 901.5667 - val_loss: 894.6616
+Epoch 299/2500
+ - 1s - loss: 901.5851 - val_loss: 894.4612
+Epoch 300/2500
+ - 1s - loss: 901.9615 - val_loss: 898.3144
+Epoch 301/2500
+ - 1s - loss: 903.8960 - val_loss: 894.6292
+Epoch 302/2500
+ - 1s - loss: 901.6993 - val_loss: 894.2009
+Epoch 303/2500
+ - 1s - loss: 901.3481 - val_loss: 894.6304
+Epoch 304/2500
+ - 1s - loss: 901.5785 - val_loss: 894.0488
+Epoch 305/2500
+ - 1s - loss: 901.4318 - val_loss: 893.7336
+Epoch 306/2500
+ - 1s - loss: 901.1483 - val_loss: 893.4747
+Epoch 307/2500
+ - 1s - loss: 901.1565 - val_loss: 893.5484
+Epoch 308/2500
+ - 1s - loss: 900.9560 - val_loss: 893.4683
+Epoch 309/2500
+ - 1s - loss: 901.3647 - val_loss: 894.4577
+Epoch 310/2500
+ - 1s - loss: 901.0368 - val_loss: 892.9799
+Epoch 311/2500
+ - 1s - loss: 900.8135 - val_loss: 892.4100
+Epoch 312/2500
+ - 1s - loss: 900.6925 - val_loss: 892.6406
+Epoch 313/2500
+ - 1s - loss: 900.7996 - val_loss: 892.8285
+Epoch 314/2500
+ - 1s - loss: 901.7996 - val_loss: 892.3197
+Epoch 315/2500
+ - 1s - loss: 900.5363 - val_loss: 892.0090
+Epoch 316/2500
+ - 1s - loss: 900.5587 - val_loss: 892.8590
+Epoch 317/2500
+ - 1s - loss: 900.7727 - val_loss: 893.3618
+Epoch 318/2500
+ - 1s - loss: 900.4725 - val_loss: 891.8911
+Epoch 319/2500
+ - 1s - loss: 900.5010 - val_loss: 894.6318
+Epoch 320/2500
+ - 1s - loss: 900.5564 - val_loss: 893.2428
+Epoch 321/2500
+ - 1s - loss: 900.6213 - val_loss: 895.2074
+Epoch 322/2500
+ - 1s - loss: 901.2587 - val_loss: 891.7858
+Epoch 323/2500
+ - 1s - loss: 900.1326 - val_loss: 892.0403
+Epoch 324/2500
+ - 1s - loss: 900.0950 - val_loss: 892.6406
+Epoch 325/2500
+ - 1s - loss: 900.0720 - val_loss: 892.1571
+Epoch 326/2500
+ - 1s - loss: 900.3584 - val_loss: 891.7102
+Epoch 327/2500
+ - 1s - loss: 900.0656 - val_loss: 892.3689
+Epoch 328/2500
+ - 1s - loss: 900.3330 - val_loss: 891.9282
+Epoch 329/2500
+ - 1s - loss: 900.2834 - val_loss: 891.6329
+Epoch 330/2500
+ - 1s - loss: 899.9417 - val_loss: 891.6382
+Epoch 331/2500
+ - 1s - loss: 899.8438 - val_loss: 891.7816
+Epoch 332/2500
+ - 1s - loss: 900.6018 - val_loss: 891.9954
+Epoch 333/2500
+ - 1s - loss: 901.1355 - val_loss: 893.1427
+Epoch 334/2500
+ - 1s - loss: 900.1276 - val_loss: 891.7398
+Epoch 335/2500
+ - 1s - loss: 899.8246 - val_loss: 891.4688
+Epoch 336/2500
+ - 1s - loss: 899.9330 - val_loss: 892.0144
+Epoch 337/2500
+ - 1s - loss: 899.6961 - val_loss: 891.4289
+Epoch 338/2500
+ - 1s - loss: 900.0104 - val_loss: 891.9097
+Epoch 339/2500
+ - 1s - loss: 900.9864 - val_loss: 891.9124
+Epoch 340/2500
+ - 1s - loss: 900.1815 - val_loss: 891.6458
+Epoch 341/2500
+ - 1s - loss: 899.9963 - val_loss: 891.9264
+Epoch 342/2500
+ - 1s - loss: 899.7989 - val_loss: 891.6350
+Epoch 343/2500
+ - 1s - loss: 899.7726 - val_loss: 892.0645
+Epoch 344/2500
+ - 1s - loss: 899.9294 - val_loss: 891.6381
+Epoch 345/2500
+ - 1s - loss: 899.7204 - val_loss: 891.6025
+Epoch 346/2500
+ - 1s - loss: 899.7012 - val_loss: 891.8689
+Epoch 347/2500
+ - 1s - loss: 900.0566 - val_loss: 893.7252
+Epoch 348/2500
+ - 1s - loss: 901.2777 - val_loss: 893.5133
+Epoch 349/2500
+ - 1s - loss: 900.7697 - val_loss: 891.8064
+Epoch 350/2500
+ - 1s - loss: 899.8606 - val_loss: 892.2281
+Epoch 351/2500
+ - 1s - loss: 899.9599 - val_loss: 891.8654
+Epoch 352/2500
+ - 1s - loss: 899.8356 - val_loss: 892.4781
+Epoch 353/2500
+ - 1s - loss: 899.9324 - val_loss: 892.4889
+Epoch 354/2500
+ - 1s - loss: 899.7612 - val_loss: 891.4945
+Epoch 355/2500
+ - 1s - loss: 899.8980 - val_loss: 891.9576
+Epoch 356/2500
+ - 1s - loss: 899.9304 - val_loss: 891.6504
+Epoch 357/2500
+ - 1s - loss: 899.7424 - val_loss: 891.6423
+Epoch 358/2500
+ - 1s - loss: 900.3349 - val_loss: 892.1982
+Epoch 359/2500
+ - 1s - loss: 899.8866 - val_loss: 892.2852
+Epoch 360/2500
+ - 1s - loss: 899.8414 - val_loss: 892.5809
+Epoch 361/2500
+ - 1s - loss: 900.2957 - val_loss: 896.9678
+Epoch 362/2500
+ - 1s - loss: 900.1394 - val_loss: 891.9764
+Epoch 363/2500
+ - 1s - loss: 899.8438 - val_loss: 891.7968
+Epoch 364/2500
+ - 1s - loss: 899.6469 - val_loss: 892.0041
+Epoch 365/2500
+ - 1s - loss: 900.1132 - val_loss: 891.8140
+Epoch 366/2500
+ - 1s - loss: 899.9822 - val_loss: 891.6590
+Epoch 367/2500
+ - 1s - loss: 899.7345 - val_loss: 891.5088
+Epoch 368/2500
+ - 1s - loss: 900.1709 - val_loss: 891.4647
+Epoch 369/2500
+ - 1s - loss: 899.9205 - val_loss: 891.8110
+Epoch 370/2500
+ - 1s - loss: 899.7155 - val_loss: 891.5848
+Epoch 371/2500
+ - 1s - loss: 899.7889 - val_loss: 892.0662
+Epoch 372/2500
+ - 1s - loss: 899.8643 - val_loss: 892.4987
+Epoch 373/2500
+ - 1s - loss: 899.8157 - val_loss: 891.9030
+Epoch 374/2500
+ - 1s - loss: 899.7917 - val_loss: 891.6208
+Epoch 375/2500
+ - 1s - loss: 899.7061 - val_loss: 892.3133
+Epoch 376/2500
+ - 1s - loss: 900.2203 - val_loss: 894.9074
+Epoch 377/2500
+ - 1s - loss: 900.0342 - val_loss: 892.4178
+Epoch 378/2500
+ - 1s - loss: 900.2604 - val_loss: 891.8875
+Epoch 379/2500
+ - 1s - loss: 900.0388 - val_loss: 892.0433
+Epoch 380/2500
+ - 1s - loss: 899.6336 - val_loss: 891.8160
+Epoch 381/2500
+ - 1s - loss: 899.8623 - val_loss: 892.1717
+Epoch 382/2500
+ - 1s - loss: 900.1472 - val_loss: 892.4143
+Epoch 383/2500
+ - 1s - loss: 899.7217 - val_loss: 891.6391
+Epoch 384/2500
+ - 1s - loss: 899.6680 - val_loss: 891.7474
+Epoch 385/2500
+ - 1s - loss: 899.6512 - val_loss: 891.7793
+Epoch 386/2500
+ - 1s - loss: 901.1539 - val_loss: 892.4040
+Epoch 387/2500
+ - 1s - loss: 899.9171 - val_loss: 891.8016
+Epoch 388/2500
+ - 1s - loss: 899.5772 - val_loss: 891.6283
+Epoch 389/2500
+ - 1s - loss: 899.7764 - val_loss: 891.6631
+Epoch 390/2500
+ - 1s - loss: 899.6495 - val_loss: 891.5627
+Epoch 391/2500
+ - 1s - loss: 899.6341 - val_loss: 891.6626
+Epoch 392/2500
+ - 1s - loss: 899.8845 - val_loss: 891.3108
+Epoch 393/2500
+ - 1s - loss: 899.5946 - val_loss: 891.6691
+Epoch 394/2500
+ - 1s - loss: 899.7420 - val_loss: 891.5939
+Epoch 395/2500
+ - 1s - loss: 899.7200 - val_loss: 892.0072
+Epoch 396/2500
+ - 1s - loss: 899.5859 - val_loss: 891.7702
+Epoch 397/2500
+ - 1s - loss: 899.5728 - val_loss: 892.0584
+Epoch 398/2500
+ - 1s - loss: 900.0743 - val_loss: 892.0719
+Epoch 399/2500
+ - 1s - loss: 900.4100 - val_loss: 891.6368
+Epoch 400/2500
+ - 1s - loss: 899.8392 - val_loss: 892.4638
+Epoch 401/2500
+ - 1s - loss: 899.8013 - val_loss: 891.6414
+Epoch 402/2500
+ - 1s - loss: 899.5399 - val_loss: 892.0712
+Epoch 403/2500
+ - 1s - loss: 900.2290 - val_loss: 891.5557
+Epoch 404/2500
+ - 1s - loss: 900.0650 - val_loss: 896.1431
+Epoch 405/2500
+ - 1s - loss: 899.9042 - val_loss: 892.7583
+Epoch 406/2500
+ - 1s - loss: 899.6709 - val_loss: 891.7416
+Epoch 407/2500
+ - 1s - loss: 899.9841 - val_loss: 891.8322
+Epoch 408/2500
+ - 1s - loss: 899.7871 - val_loss: 891.8751
+Epoch 409/2500
+ - 1s - loss: 899.7367 - val_loss: 891.4411
+Epoch 410/2500
+ - 1s - loss: 899.5804 - val_loss: 891.4435
+Epoch 411/2500
+ - 1s - loss: 899.7692 - val_loss: 891.7698
+Epoch 412/2500
+ - 1s - loss: 899.6942 - val_loss: 891.8629
+Epoch 413/2500
+ - 1s - loss: 899.7426 - val_loss: 891.6927
+Epoch 414/2500
+ - 1s - loss: 899.6937 - val_loss: 891.6361
+Epoch 415/2500
+ - 1s - loss: 900.0699 - val_loss: 891.7074
+Epoch 416/2500
+ - 1s - loss: 899.7686 - val_loss: 892.1126
+Epoch 417/2500
+ - 1s - loss: 900.2417 - val_loss: 895.2805
+Epoch 418/2500
+ - 1s - loss: 900.8910 - val_loss: 892.1217
+Epoch 419/2500
+ - 1s - loss: 899.8488 - val_loss: 891.7264
+Epoch 420/2500
+ - 1s - loss: 899.6093 - val_loss: 891.5096
+Epoch 421/2500
+ - 1s - loss: 899.8558 - val_loss: 892.0254
+Epoch 422/2500
+ - 1s - loss: 899.7702 - val_loss: 891.8639
+Epoch 423/2500
+ - 1s - loss: 899.5313 - val_loss: 891.9966
+Epoch 424/2500
+ - 1s - loss: 899.7681 - val_loss: 891.8390
+Epoch 425/2500
+ - 1s - loss: 899.5700 - val_loss: 891.4930
+Epoch 426/2500
+ - 1s - loss: 899.6623 - val_loss: 891.5718
+Epoch 427/2500
+ - 1s - loss: 899.4993 - val_loss: 891.7951
+Epoch 428/2500
+ - 1s - loss: 900.0139 - val_loss: 891.4487
+Epoch 429/2500
+ - 1s - loss: 899.5590 - val_loss: 891.5540
+Epoch 430/2500
+ - 1s - loss: 899.6392 - val_loss: 891.7370
+Epoch 431/2500
+ - 1s - loss: 899.6360 - val_loss: 891.6275
+Epoch 432/2500
+ - 1s - loss: 899.5072 - val_loss: 891.7358
+Epoch 433/2500
+ - 1s - loss: 901.6971 - val_loss: 892.8083
+Epoch 434/2500
+ - 1s - loss: 900.0626 - val_loss: 891.7820
+Epoch 435/2500
+ - 1s - loss: 899.7104 - val_loss: 892.8592
+Epoch 436/2500
+ - 1s - loss: 899.8149 - val_loss: 892.2276
+Epoch 437/2500
+ - 1s - loss: 899.5417 - val_loss: 892.1049
+Epoch 438/2500
+ - 1s - loss: 899.5446 - val_loss: 891.7967
+Epoch 439/2500
+ - 1s - loss: 899.6129 - val_loss: 891.5812
+Epoch 440/2500
+ - 1s - loss: 899.5751 - val_loss: 892.1807
+Epoch 441/2500
+ - 1s - loss: 899.9273 - val_loss: 892.0023
+Epoch 442/2500
+ - 1s - loss: 899.7498 - val_loss: 892.1572
+Epoch 443/2500
+ - 1s - loss: 899.8504 - val_loss: 891.5166
+Epoch 444/2500
+ - 1s - loss: 899.6994 - val_loss: 891.9638
+Epoch 445/2500
+ - 1s - loss: 899.5866 - val_loss: 891.4857
+Epoch 446/2500
+ - 1s - loss: 899.4652 - val_loss: 891.5198
+Epoch 447/2500
+ - 1s - loss: 899.5794 - val_loss: 891.8104
+Epoch 448/2500
+ - 1s - loss: 899.8431 - val_loss: 891.6862
+Epoch 449/2500
+ - 1s - loss: 900.9288 - val_loss: 892.2322
+Epoch 450/2500
+ - 1s - loss: 899.9082 - val_loss: 892.0711
+Epoch 451/2500
+ - 1s - loss: 899.5724 - val_loss: 891.6824
+Epoch 452/2500
+ - 1s - loss: 899.8157 - val_loss: 892.1859
+Epoch 453/2500
+ - 1s - loss: 900.1587 - val_loss: 892.1729
+Epoch 454/2500
+ - 1s - loss: 899.7817 - val_loss: 891.9499
+Epoch 455/2500
+ - 1s - loss: 899.6253 - val_loss: 891.5235
+Epoch 456/2500
+ - 1s - loss: 899.5515 - val_loss: 891.6550
+Epoch 457/2500
+ - 1s - loss: 899.5381 - val_loss: 891.5661
+Epoch 458/2500
+ - 1s - loss: 899.5766 - val_loss: 891.5843
+Epoch 459/2500
+ - 1s - loss: 899.5040 - val_loss: 892.0373
+Epoch 460/2500
+ - 1s - loss: 900.2902 - val_loss: 893.4665
+Epoch 461/2500
+ - 1s - loss: 900.4323 - val_loss: 893.1963
+Epoch 462/2500
+ - 1s - loss: 900.0890 - val_loss: 893.9775
+Epoch 463/2500
+ - 1s - loss: 900.0095 - val_loss: 892.6007
+Epoch 464/2500
+ - 1s - loss: 899.7965 - val_loss: 891.5972
+Epoch 465/2500
+ - 1s - loss: 899.4997 - val_loss: 891.5964
+Epoch 466/2500
+ - 1s - loss: 899.4572 - val_loss: 891.6056
+Epoch 467/2500
+ - 1s - loss: 899.4786 - val_loss: 891.5328
+Epoch 468/2500
+ - 1s - loss: 899.5458 - val_loss: 891.4515
+Epoch 469/2500
+ - 1s - loss: 899.6047 - val_loss: 891.9286
+Epoch 470/2500
+ - 1s - loss: 899.8060 - val_loss: 891.6448
+Epoch 471/2500
+ - 1s - loss: 899.8141 - val_loss: 892.7432
+Epoch 472/2500
+ - 1s - loss: 899.8454 - val_loss: 891.4747
+Epoch 473/2500
+ - 1s - loss: 899.6120 - val_loss: 891.8858
+Epoch 474/2500
+ - 1s - loss: 899.9205 - val_loss: 892.3547
+Epoch 475/2500
+ - 1s - loss: 899.8747 - val_loss: 891.8170
+Epoch 476/2500
+ - 1s - loss: 899.6104 - val_loss: 891.4651
+Epoch 477/2500
+ - 1s - loss: 899.5138 - val_loss: 891.6976
+Epoch 478/2500
+ - 1s - loss: 900.2379 - val_loss: 892.3213
+Epoch 479/2500
+ - 1s - loss: 899.6739 - val_loss: 891.7022
+Epoch 480/2500
+ - 1s - loss: 899.4527 - val_loss: 891.5349
+Epoch 481/2500
+ - 1s - loss: 899.4823 - val_loss: 891.6133
+Epoch 482/2500
+ - 1s - loss: 899.8245 - val_loss: 891.6310
+Epoch 483/2500
+ - 1s - loss: 899.5698 - val_loss: 891.7565
+Epoch 484/2500
+ - 1s - loss: 899.5132 - val_loss: 891.6809
+Epoch 485/2500
+ - 1s - loss: 899.7259 - val_loss: 891.9081
+Epoch 486/2500
+ - 1s - loss: 899.6452 - val_loss: 891.6975
+Epoch 487/2500
+ - 1s - loss: 899.8006 - val_loss: 892.1405
+Epoch 488/2500
+ - 1s - loss: 899.6013 - val_loss: 891.5371
+Epoch 489/2500
+ - 1s - loss: 899.5424 - val_loss: 891.8239
+Epoch 490/2500
+ - 1s - loss: 900.0832 - val_loss: 892.9009
+Epoch 491/2500
+ - 1s - loss: 899.6261 - val_loss: 891.5976
+Epoch 492/2500
+ - 1s - loss: 899.4989 - val_loss: 891.7223
+Epoch 493/2500
+ - 1s - loss: 899.7189 - val_loss: 892.9294
+Epoch 494/2500
+ - 1s - loss: 900.7041 - val_loss: 892.2241
+Epoch 495/2500
+ - 1s - loss: 899.6076 - val_loss: 891.4921
+Epoch 496/2500
+ - 1s - loss: 899.6341 - val_loss: 891.5709
+Epoch 497/2500
+ - 1s - loss: 899.6468 - val_loss: 891.4756
+Epoch 498/2500
+ - 1s - loss: 899.6387 - val_loss: 893.0951
+Epoch 499/2500
+ - 2s - loss: 899.6610 - val_loss: 892.5603
+Epoch 500/2500
+ - 1s - loss: 899.6303 - val_loss: 891.4484
+Epoch 501/2500
+ - 1s - loss: 899.4213 - val_loss: 891.3625
+Epoch 502/2500
+ - 2s - loss: 899.4589 - val_loss: 891.5018
+Epoch 503/2500
+ - 1s - loss: 899.7687 - val_loss: 893.0963
+Epoch 504/2500
+ - 1s - loss: 899.6863 - val_loss: 891.9945
+Epoch 505/2500
+ - 1s - loss: 899.6289 - val_loss: 891.8121
+Epoch 506/2500
+ - 1s - loss: 899.9849 - val_loss: 893.9538
+Epoch 507/2500
+ - 1s - loss: 900.0710 - val_loss: 892.3171
+Epoch 508/2500
+ - 1s - loss: 899.6006 - val_loss: 891.9320
+Epoch 509/2500
+ - 1s - loss: 899.4612 - val_loss: 891.7351
+Epoch 510/2500
+ - 1s - loss: 899.6191 - val_loss: 891.9794
+Epoch 511/2500
+ - 1s - loss: 899.6408 - val_loss: 891.6615
+Epoch 512/2500
+ - 1s - loss: 899.5451 - val_loss: 891.7260
+Epoch 513/2500
+ - 1s - loss: 899.5891 - val_loss: 891.8686
+Epoch 514/2500
+ - 1s - loss: 899.4236 - val_loss: 891.5453
+Epoch 515/2500
+ - 1s - loss: 899.5130 - val_loss: 891.7622
+Epoch 516/2500
+ - 1s - loss: 899.6450 - val_loss: 891.8113
+Epoch 517/2500
+ - 1s - loss: 899.7618 - val_loss: 892.5909
+Epoch 518/2500
+ - 1s - loss: 900.2159 - val_loss: 892.3738
+Epoch 519/2500
+ - 1s - loss: 900.0604 - val_loss: 892.2173
+Epoch 520/2500
+ - 1s - loss: 899.8886 - val_loss: 892.3287
+Epoch 521/2500
+ - 1s - loss: 899.7413 - val_loss: 891.8440
+Epoch 522/2500
+ - 1s - loss: 899.5548 - val_loss: 891.5377
+Epoch 523/2500
+ - 1s - loss: 900.1348 - val_loss: 892.0829
+Epoch 524/2500
+ - 1s - loss: 899.5442 - val_loss: 891.5310
+Epoch 525/2500
+ - 1s - loss: 899.5509 - val_loss: 891.6618
+Epoch 526/2500
+ - 1s - loss: 899.4915 - val_loss: 891.5184
+Epoch 527/2500
+ - 1s - loss: 899.6017 - val_loss: 891.5221
+Epoch 528/2500
+ - 1s - loss: 899.5227 - val_loss: 892.1877
+Epoch 529/2500
+ - 1s - loss: 899.4767 - val_loss: 892.0289
+Epoch 530/2500
+ - 1s - loss: 899.6355 - val_loss: 892.4167
+Epoch 531/2500
+ - 1s - loss: 899.5138 - val_loss: 892.1929
+Epoch 532/2500
+ - 1s - loss: 899.6645 - val_loss: 891.7561
+Epoch 533/2500
+ - 1s - loss: 899.8760 - val_loss: 891.8559
+Epoch 534/2500
+ - 1s - loss: 899.5298 - val_loss: 891.4043
+Epoch 535/2500
+ - 1s - loss: 899.5442 - val_loss: 893.0426
+Epoch 536/2500
+ - 1s - loss: 900.0768 - val_loss: 891.7384
+Epoch 537/2500
+ - 1s - loss: 899.5401 - val_loss: 891.4739
+Epoch 538/2500
+ - 1s - loss: 899.6234 - val_loss: 891.8869
+Epoch 539/2500
+ - 1s - loss: 899.4691 - val_loss: 891.6095
+Epoch 540/2500
+ - 1s - loss: 899.4742 - val_loss: 891.6453
+Epoch 541/2500
+ - 1s - loss: 899.4651 - val_loss: 891.4833
+Epoch 542/2500
+ - 1s - loss: 900.4422 - val_loss: 895.4326
+Epoch 543/2500
+ - 1s - loss: 900.4166 - val_loss: 892.4610
+Epoch 544/2500
+ - 1s - loss: 899.7369 - val_loss: 892.2870
+Epoch 545/2500
+ - 1s - loss: 899.5384 - val_loss: 892.1366
+Epoch 546/2500
+ - 1s - loss: 899.4484 - val_loss: 891.9398
+Epoch 547/2500
+ - 1s - loss: 899.4255 - val_loss: 891.8416
+Epoch 548/2500
+ - 1s - loss: 899.4168 - val_loss: 891.6580
+Epoch 549/2500
+ - 1s - loss: 899.4338 - val_loss: 891.6403
+Epoch 550/2500
+ - 1s - loss: 900.1272 - val_loss: 891.8076
+Epoch 551/2500
+ - 1s - loss: 900.3157 - val_loss: 892.1262
+Epoch 552/2500
+ - 1s - loss: 900.0390 - val_loss: 891.7001
+Epoch 553/2500
+ - 1s - loss: 899.8708 - val_loss: 891.7208
+Epoch 554/2500
+ - 1s - loss: 899.6405 - val_loss: 891.9134
+Epoch 555/2500
+ - 1s - loss: 899.4216 - val_loss: 891.5733
+Epoch 556/2500
+ - 1s - loss: 899.5216 - val_loss: 891.7780
+Epoch 557/2500
+ - 1s - loss: 899.5266 - val_loss: 891.9709
+Epoch 558/2500
+ - 1s - loss: 899.4278 - val_loss: 891.9780
+Epoch 559/2500
+ - 1s - loss: 899.5089 - val_loss: 891.6713
+Epoch 560/2500
+ - 1s - loss: 899.6285 - val_loss: 891.8524
+Epoch 561/2500
+ - 1s - loss: 899.6172 - val_loss: 891.6294
+Epoch 562/2500
+ - 1s - loss: 900.6314 - val_loss: 892.9807
+Epoch 563/2500
+ - 1s - loss: 900.1417 - val_loss: 891.8471
+Epoch 564/2500
+ - 1s - loss: 899.5322 - val_loss: 891.7109
+Epoch 565/2500
+ - 1s - loss: 899.4260 - val_loss: 891.4734
+Epoch 566/2500
+ - 1s - loss: 899.3991 - val_loss: 891.5786
+Epoch 567/2500
+ - 1s - loss: 899.3616 - val_loss: 891.4191
+Epoch 568/2500
+ - 1s - loss: 899.3961 - val_loss: 891.5087
+Epoch 569/2500
+ - 2s - loss: 899.5359 - val_loss: 891.6228
+Epoch 570/2500
+ - 1s - loss: 900.2048 - val_loss: 895.0833
+Epoch 571/2500
+ - 1s - loss: 900.6150 - val_loss: 891.6279
+Epoch 572/2500
+ - 1s - loss: 899.4905 - val_loss: 891.6805
+Epoch 573/2500
+ - 2s - loss: 899.4028 - val_loss: 891.8776
+Epoch 574/2500
+ - 1s - loss: 899.4455 - val_loss: 891.5723
+Epoch 575/2500
+ - 2s - loss: 899.3949 - val_loss: 892.1943
+Epoch 576/2500
+ - 2s - loss: 899.4838 - val_loss: 891.8400
+Epoch 577/2500
+ - 1s - loss: 899.8199 - val_loss: 892.5595
+Epoch 578/2500
+ - 2s - loss: 899.6833 - val_loss: 892.2744
+Epoch 579/2500
+ - 1s - loss: 899.9094 - val_loss: 891.5837
+Epoch 580/2500
+ - 2s - loss: 900.4777 - val_loss: 891.9765
+Epoch 581/2500
+ - 1s - loss: 899.5698 - val_loss: 891.6404
+Epoch 582/2500
+ - 1s - loss: 899.4359 - val_loss: 891.7194
+Epoch 583/2500
+ - 1s - loss: 899.4508 - val_loss: 891.5584
+Epoch 584/2500
+ - 1s - loss: 899.4808 - val_loss: 891.8397
+Epoch 585/2500
+ - 2s - loss: 899.8641 - val_loss: 892.2763
+Epoch 586/2500
+ - 2s - loss: 899.6338 - val_loss: 891.5902
+Epoch 587/2500
+ - 1s - loss: 899.4892 - val_loss: 891.5733
+Epoch 588/2500
+ - 1s - loss: 899.9572 - val_loss: 891.6404
+Epoch 589/2500
+ - 1s - loss: 899.4251 - val_loss: 891.7313
+Epoch 590/2500
+ - 1s - loss: 899.3928 - val_loss: 891.7012
+Epoch 591/2500
+ - 1s - loss: 899.5572 - val_loss: 891.6339
+Epoch 592/2500
+ - 1s - loss: 899.7206 - val_loss: 892.0434
+Epoch 593/2500
+ - 1s - loss: 899.4924 - val_loss: 891.5073
+Epoch 594/2500
+ - 1s - loss: 899.4431 - val_loss: 891.7943
+Epoch 595/2500
+ - 1s - loss: 899.4876 - val_loss: 892.4285
+Epoch 596/2500
+ - 1s - loss: 899.4609 - val_loss: 891.9635
+Epoch 597/2500
+ - 1s - loss: 900.9913 - val_loss: 891.6813
+Epoch 598/2500
+ - 1s - loss: 900.1699 - val_loss: 891.8890
+Epoch 599/2500
+ - 1s - loss: 899.7586 - val_loss: 891.9381
+Epoch 600/2500
+ - 1s - loss: 899.5792 - val_loss: 891.5135
+Epoch 601/2500
+ - 1s - loss: 899.4257 - val_loss: 891.7442
+Epoch 602/2500
+ - 1s - loss: 899.4119 - val_loss: 891.6103
+Epoch 603/2500
+ - 1s - loss: 899.4858 - val_loss: 892.0304
+Epoch 604/2500
+ - 1s - loss: 899.7001 - val_loss: 891.5388
+Epoch 605/2500
+ - 1s - loss: 899.5118 - val_loss: 891.6486
+Epoch 606/2500
+ - 1s - loss: 899.4771 - val_loss: 891.6291
+Epoch 607/2500
+ - 1s - loss: 899.4100 - val_loss: 891.5090
+Epoch 608/2500
+ - 1s - loss: 899.5610 - val_loss: 892.2146
+Epoch 609/2500
+ - 1s - loss: 899.9286 - val_loss: 891.6270
+Epoch 610/2500
+ - 1s - loss: 901.2393 - val_loss: 892.2180
+Epoch 611/2500
+ - 1s - loss: 899.5621 - val_loss: 891.5138
+Epoch 612/2500
+ - 1s - loss: 899.4224 - val_loss: 891.7353
+Epoch 613/2500
+ - 1s - loss: 899.3730 - val_loss: 891.6037
+Epoch 614/2500
+ - 1s - loss: 899.3630 - val_loss: 891.4181
+Epoch 615/2500
+ - 1s - loss: 899.3545 - val_loss: 891.6800
+Epoch 616/2500
+ - 1s - loss: 899.5287 - val_loss: 892.1990
+Epoch 617/2500
+ - 1s - loss: 899.4355 - val_loss: 891.9227
+Epoch 618/2500
+ - 1s - loss: 899.6887 - val_loss: 892.7099
+Epoch 619/2500
+ - 1s - loss: 899.9172 - val_loss: 892.2750
+Epoch 620/2500
+ - 1s - loss: 899.5267 - val_loss: 891.5964
+Epoch 621/2500
+ - 1s - loss: 899.5397 - val_loss: 892.0669
+Epoch 622/2500
+ - 1s - loss: 899.6382 - val_loss: 891.7846
+Epoch 623/2500
+ - 1s - loss: 899.4863 - val_loss: 891.8442
+Epoch 624/2500
+ - 1s - loss: 899.4768 - val_loss: 892.1024
+Epoch 625/2500
+ - 1s - loss: 899.6648 - val_loss: 891.8583
+Epoch 626/2500
+ - 1s - loss: 899.5960 - val_loss: 891.8917
+Epoch 627/2500
+ - 1s - loss: 899.5864 - val_loss: 891.6695
+Epoch 628/2500
+ - 1s - loss: 899.4379 - val_loss: 891.5299
+Epoch 629/2500
+ - 1s - loss: 899.5704 - val_loss: 892.2376
+Epoch 630/2500
+ - 1s - loss: 899.6730 - val_loss: 891.8319
+Epoch 631/2500
+ - 2s - loss: 899.7011 - val_loss: 891.9384
+Epoch 632/2500
+ - 1s - loss: 899.7478 - val_loss: 895.5880
+Epoch 633/2500
+ - 1s - loss: 900.1333 - val_loss: 892.1022
+Epoch 634/2500
+ - 1s - loss: 899.5785 - val_loss: 891.5062
+Epoch 635/2500
+ - 1s - loss: 899.4332 - val_loss: 891.7970
+Epoch 636/2500
+ - 1s - loss: 899.4072 - val_loss: 891.5352
+Epoch 637/2500
+ - 1s - loss: 899.4909 - val_loss: 893.1320
+Epoch 638/2500
+ - 1s - loss: 899.6105 - val_loss: 891.5463
+Epoch 639/2500
+ - 1s - loss: 899.4993 - val_loss: 891.6577
+Epoch 640/2500
+ - 1s - loss: 899.3514 - val_loss: 891.5395
+Epoch 641/2500
+ - 1s - loss: 899.3383 - val_loss: 891.4255
+Epoch 642/2500
+ - 1s - loss: 899.8557 - val_loss: 891.8335
+Epoch 643/2500
+ - 1s - loss: 899.5038 - val_loss: 891.7469
+Epoch 644/2500
+ - 1s - loss: 899.7215 - val_loss: 892.1836
+Epoch 645/2500
+ - 1s - loss: 899.4742 - val_loss: 891.5442
+Epoch 646/2500
+ - 1s - loss: 899.4175 - val_loss: 891.8078
+Epoch 647/2500
+ - 1s - loss: 899.5178 - val_loss: 892.8308
+Epoch 648/2500
+ - 1s - loss: 899.8111 - val_loss: 891.8693
+Epoch 649/2500
+ - 1s - loss: 899.4234 - val_loss: 891.7122
+Epoch 650/2500
+ - 1s - loss: 899.3806 - val_loss: 892.0408
+Epoch 651/2500
+ - 1s - loss: 899.4402 - val_loss: 891.6312
+Epoch 652/2500
+ - 1s - loss: 899.3524 - val_loss: 891.5534
+Epoch 653/2500
+ - 1s - loss: 899.7876 - val_loss: 891.7884
+Epoch 654/2500
+ - 1s - loss: 899.6727 - val_loss: 891.8938
+Epoch 655/2500
+ - 1s - loss: 899.6112 - val_loss: 891.8563
+Epoch 656/2500
+ - 1s - loss: 899.4960 - val_loss: 891.8721
+Epoch 657/2500
+ - 1s - loss: 899.5399 - val_loss: 891.5655
+Epoch 658/2500
+ - 1s - loss: 899.5852 - val_loss: 891.8828
+Epoch 659/2500
+ - 1s - loss: 899.3838 - val_loss: 891.5370
+Epoch 660/2500
+ - 1s - loss: 899.3978 - val_loss: 891.6124
+Epoch 661/2500
+ - 1s - loss: 899.8083 - val_loss: 891.8601
+Epoch 662/2500
+ - 1s - loss: 899.4490 - val_loss: 891.6196
+Epoch 663/2500
+ - 1s - loss: 899.7543 - val_loss: 892.3008
+Epoch 664/2500
+ - 1s - loss: 900.1196 - val_loss: 893.3471
+Epoch 665/2500
+ - 1s - loss: 900.1022 - val_loss: 891.7284
+Epoch 666/2500
+ - 1s - loss: 899.6557 - val_loss: 891.6956
+Epoch 667/2500
+ - 1s - loss: 899.5313 - val_loss: 891.6741
+Epoch 668/2500
+ - 1s - loss: 899.4139 - val_loss: 891.5603
+Epoch 669/2500
+ - 1s - loss: 899.3995 - val_loss: 891.7808
+Epoch 670/2500
+ - 1s - loss: 899.4846 - val_loss: 891.4834
+Epoch 671/2500
+ - 1s - loss: 899.5122 - val_loss: 891.6125
+Epoch 672/2500
+ - 1s - loss: 899.4808 - val_loss: 892.1559
+Epoch 673/2500
+ - 1s - loss: 899.7400 - val_loss: 891.7865
+Epoch 674/2500
+ - 1s - loss: 899.3918 - val_loss: 891.5718
+Epoch 675/2500
+ - 1s - loss: 899.4237 - val_loss: 891.5325
+Epoch 676/2500
+ - 1s - loss: 899.5249 - val_loss: 892.8186
+Epoch 677/2500
+ - 1s - loss: 899.9368 - val_loss: 891.9239
+Epoch 678/2500
+ - 1s - loss: 899.4294 - val_loss: 891.4776
+Epoch 679/2500
+ - 1s - loss: 899.5227 - val_loss: 891.5347
+Epoch 680/2500
+ - 1s - loss: 899.3641 - val_loss: 891.5596
+Epoch 681/2500
+ - 1s - loss: 899.4301 - val_loss: 891.6577
+Epoch 682/2500
+ - 1s - loss: 899.3630 - val_loss: 891.5570
+Epoch 683/2500
+ - 1s - loss: 899.5492 - val_loss: 891.6324
+Epoch 684/2500
+ - 1s - loss: 899.4814 - val_loss: 891.6248
+Epoch 685/2500
+ - 1s - loss: 899.6013 - val_loss: 891.8674
+Epoch 686/2500
+ - 1s - loss: 899.7674 - val_loss: 893.8841
+Epoch 687/2500
+ - 1s - loss: 900.8109 - val_loss: 891.7744
+Epoch 688/2500
+ - 1s - loss: 899.5078 - val_loss: 891.6402
+Epoch 689/2500
+ - 1s - loss: 899.3791 - val_loss: 891.4407
+Epoch 690/2500
+ - 1s - loss: 899.5799 - val_loss: 891.4306
+Epoch 691/2500
+ - 1s - loss: 899.5777 - val_loss: 892.6486
+Epoch 692/2500
+ - 1s - loss: 899.5681 - val_loss: 891.7733
+Epoch 693/2500
+ - 1s - loss: 899.8129 - val_loss: 892.2937
+Epoch 694/2500
+ - 1s - loss: 899.5362 - val_loss: 892.0151
+Epoch 695/2500
+ - 1s - loss: 899.5706 - val_loss: 891.8357
+Epoch 696/2500
+ - 1s - loss: 899.4719 - val_loss: 891.4550
+Epoch 697/2500
+ - 1s - loss: 899.5396 - val_loss: 891.5857
+Epoch 698/2500
+ - 1s - loss: 899.4184 - val_loss: 891.9327
+Epoch 699/2500
+ - 1s - loss: 899.3765 - val_loss: 891.7658
+Epoch 700/2500
+ - 1s - loss: 899.3560 - val_loss: 891.5727
+Epoch 701/2500
+ - 1s - loss: 899.7994 - val_loss: 892.9927
+Epoch 702/2500
+ - 1s - loss: 899.5642 - val_loss: 891.5900
+Epoch 703/2500
+ - 1s - loss: 899.3286 - val_loss: 891.7670
+Epoch 704/2500
+ - 1s - loss: 900.0137 - val_loss: 893.3651
+Epoch 705/2500
+ - 1s - loss: 900.0024 - val_loss: 892.0734
+Epoch 706/2500
+ - 1s - loss: 899.4660 - val_loss: 891.7585
+Epoch 707/2500
+ - 1s - loss: 899.3761 - val_loss: 891.8182
+Epoch 708/2500
+ - 2s - loss: 899.3923 - val_loss: 892.0613
+Epoch 709/2500
+ - 1s - loss: 899.3829 - val_loss: 891.8133
+Epoch 710/2500
+ - 1s - loss: 899.5378 - val_loss: 891.7131
+Epoch 711/2500
+ - 1s - loss: 899.5997 - val_loss: 891.7185
+Epoch 712/2500
+ - 1s - loss: 899.3837 - val_loss: 891.4961
+Epoch 713/2500
+ - 1s - loss: 899.4490 - val_loss: 891.6060
+Epoch 714/2500
+ - 1s - loss: 900.3449 - val_loss: 893.8453
+Epoch 715/2500
+ - 1s - loss: 900.1770 - val_loss: 891.7313
+Epoch 716/2500
+ - 1s - loss: 899.5632 - val_loss: 891.7859
+Epoch 717/2500
+ - 1s - loss: 899.5813 - val_loss: 891.6015
+Epoch 718/2500
+ - 1s - loss: 899.6315 - val_loss: 893.9087
+Epoch 719/2500
+ - 1s - loss: 900.2274 - val_loss: 892.0276
+Epoch 720/2500
+ - 1s - loss: 899.6569 - val_loss: 891.6470
+Epoch 721/2500
+ - 1s - loss: 899.5000 - val_loss: 891.6154
+Epoch 722/2500
+ - 1s - loss: 899.3341 - val_loss: 891.6670
+Epoch 723/2500
+ - 1s - loss: 899.6170 - val_loss: 892.6799
+Epoch 724/2500
+ - 1s - loss: 899.4400 - val_loss: 891.6302
+Epoch 725/2500
+ - 1s - loss: 899.3614 - val_loss: 891.9431
+Epoch 726/2500
+ - 1s - loss: 899.3914 - val_loss: 891.5305
+Epoch 727/2500
+ - 1s - loss: 899.3785 - val_loss: 891.4764
+Epoch 728/2500
+ - 1s - loss: 899.3607 - val_loss: 891.6505
+Epoch 729/2500
+ - 1s - loss: 899.6801 - val_loss: 893.7321
+Epoch 730/2500
+ - 1s - loss: 900.1378 - val_loss: 891.7948
+Epoch 731/2500
+ - 1s - loss: 899.5623 - val_loss: 891.5429
+Epoch 732/2500
+ - 1s - loss: 899.5987 - val_loss: 891.6618
+Epoch 733/2500
+ - 1s - loss: 899.3565 - val_loss: 891.8250
+Epoch 734/2500
+ - 1s - loss: 899.3733 - val_loss: 891.6048
+Epoch 735/2500
+ - 1s - loss: 899.6037 - val_loss: 891.9139
+Epoch 736/2500
+ - 1s - loss: 899.3617 - val_loss: 891.5339
+Epoch 737/2500
+ - 1s - loss: 899.3578 - val_loss: 891.6462
+Epoch 738/2500
+ - 1s - loss: 900.0972 - val_loss: 893.7780
+Epoch 739/2500
+ - 1s - loss: 900.2596 - val_loss: 892.4422
+Epoch 740/2500
+ - 1s - loss: 899.5142 - val_loss: 891.9880
+Epoch 741/2500
+ - 1s - loss: 899.4912 - val_loss: 891.5677
+Epoch 742/2500
+ - 1s - loss: 899.5543 - val_loss: 891.7815
+Epoch 743/2500
+ - 1s - loss: 899.7852 - val_loss: 891.5886
+Epoch 744/2500
+ - 1s - loss: 899.6944 - val_loss: 891.5765
+Epoch 745/2500
+ - 1s - loss: 899.5043 - val_loss: 891.7908
+Epoch 746/2500
+ - 1s - loss: 899.4634 - val_loss: 891.6528
+Epoch 747/2500
+ - 2s - loss: 899.3893 - val_loss: 891.6891
+Epoch 748/2500
+ - 1s - loss: 899.3263 - val_loss: 891.6419
+Epoch 749/2500
+ - 1s - loss: 899.4411 - val_loss: 891.7486
+Epoch 750/2500
+ - 1s - loss: 899.3114 - val_loss: 891.7270
+Epoch 751/2500
+ - 1s - loss: 899.4755 - val_loss: 891.7269
+Epoch 752/2500
+ - 1s - loss: 899.3516 - val_loss: 891.8327
+Epoch 753/2500
+ - 1s - loss: 899.3842 - val_loss: 891.6666
+Epoch 754/2500
+ - 1s - loss: 899.3861 - val_loss: 892.0544
+Epoch 755/2500
+ - 1s - loss: 899.5822 - val_loss: 891.8000
+Epoch 756/2500
+ - 1s - loss: 899.6509 - val_loss: 891.8864
+Epoch 757/2500
+ - 1s - loss: 899.4413 - val_loss: 891.6192
+Epoch 758/2500
+ - 1s - loss: 899.3621 - val_loss: 891.7077
+Epoch 759/2500
+ - 1s - loss: 899.5569 - val_loss: 891.6678
+Epoch 760/2500
+ - 1s - loss: 899.8857 - val_loss: 892.4699
+Epoch 761/2500
+ - 1s - loss: 899.6903 - val_loss: 891.7644
+Epoch 762/2500
+ - 1s - loss: 899.5565 - val_loss: 891.6449
+Epoch 763/2500
+ - 1s - loss: 899.4756 - val_loss: 891.7427
+Epoch 764/2500
+ - 1s - loss: 899.6578 - val_loss: 892.0125
+Epoch 765/2500
+ - 1s - loss: 899.5354 - val_loss: 892.8194
+Epoch 766/2500
+ - 1s - loss: 899.5852 - val_loss: 892.1711
+Epoch 767/2500
+ - 1s - loss: 899.4823 - val_loss: 891.9660
+Epoch 768/2500
+ - 1s - loss: 899.3736 - val_loss: 891.5841
+Epoch 769/2500
+ - 1s - loss: 899.3404 - val_loss: 891.6172
+Epoch 770/2500
+ - 1s - loss: 899.5692 - val_loss: 891.6718
+Epoch 771/2500
+ - 1s - loss: 899.8134 - val_loss: 891.8950
+Epoch 772/2500
+ - 1s - loss: 899.7774 - val_loss: 891.8187
+Epoch 773/2500
+ - 1s - loss: 899.9564 - val_loss: 892.6877
+Epoch 774/2500
+ - 1s - loss: 899.7930 - val_loss: 891.6639
+Epoch 775/2500
+ - 1s - loss: 899.6545 - val_loss: 892.0284
+Epoch 776/2500
+ - 1s - loss: 899.3474 - val_loss: 891.5922
+Epoch 777/2500
+ - 1s - loss: 899.5012 - val_loss: 891.4780
+Epoch 778/2500
+ - 1s - loss: 899.4913 - val_loss: 893.0860
+Epoch 779/2500
+ - 1s - loss: 899.4219 - val_loss: 891.6808
+Epoch 780/2500
+ - 1s - loss: 899.5869 - val_loss: 891.8763
+Epoch 781/2500
+ - 1s - loss: 899.3855 - val_loss: 891.6564
+Epoch 782/2500
+ - 1s - loss: 899.8622 - val_loss: 891.8739
+Epoch 783/2500
+ - 1s - loss: 899.6587 - val_loss: 891.7515
+Epoch 784/2500
+ - 1s - loss: 899.5695 - val_loss: 891.9267
+Epoch 785/2500
+ - 1s - loss: 899.7472 - val_loss: 892.3891
+Epoch 786/2500
+ - 1s - loss: 899.4519 - val_loss: 891.6194
+Epoch 787/2500
+ - 1s - loss: 899.3373 - val_loss: 891.5098
+Epoch 788/2500
+ - 1s - loss: 900.2860 - val_loss: 892.2331
+Epoch 789/2500
+ - 1s - loss: 899.6415 - val_loss: 891.8131
+Epoch 790/2500
+ - 1s - loss: 899.3606 - val_loss: 891.8054
+Epoch 791/2500
+ - 1s - loss: 899.4112 - val_loss: 891.5441
+Epoch 792/2500
+ - 1s - loss: 899.3479 - val_loss: 891.4657
+Epoch 793/2500
+ - 1s - loss: 899.3134 - val_loss: 891.6346
+Epoch 794/2500
+ - 1s - loss: 899.4481 - val_loss: 891.5948
+Epoch 795/2500
+ - 1s - loss: 899.3215 - val_loss: 891.4822
+Epoch 796/2500
+ - 1s - loss: 899.5061 - val_loss: 891.7397
+Epoch 797/2500
+ - 1s - loss: 899.5303 - val_loss: 891.8304
+Epoch 798/2500
+ - 1s - loss: 899.5963 - val_loss: 891.6026
+Epoch 799/2500
+ - 1s - loss: 899.4124 - val_loss: 891.9254
+Epoch 800/2500
+ - 1s - loss: 899.6648 - val_loss: 892.8981
+Epoch 801/2500
+ - 1s - loss: 899.7859 - val_loss: 891.9560
+Epoch 802/2500
+ - 1s - loss: 899.4900 - val_loss: 891.6812
+Epoch 803/2500
+ - 1s - loss: 899.3273 - val_loss: 891.7556
+Epoch 804/2500
+ - 1s - loss: 899.3274 - val_loss: 891.5240
+Epoch 805/2500
+ - 1s - loss: 899.3053 - val_loss: 891.5264
+Epoch 806/2500
+ - 1s - loss: 900.0161 - val_loss: 892.5745
+Epoch 807/2500
+ - 1s - loss: 899.5781 - val_loss: 891.5449
+Epoch 808/2500
+ - 1s - loss: 899.8695 - val_loss: 891.7717
+Epoch 809/2500
+ - 1s - loss: 899.6668 - val_loss: 892.5052
+Epoch 810/2500
+ - 1s - loss: 899.7874 - val_loss: 891.9200
+Epoch 811/2500
+ - 1s - loss: 899.8286 - val_loss: 891.9202
+Epoch 812/2500
+ - 1s - loss: 899.6088 - val_loss: 891.8761
+Epoch 813/2500
+ - 1s - loss: 899.4831 - val_loss: 891.6285
+Epoch 814/2500
+ - 1s - loss: 899.4392 - val_loss: 891.9874
+Epoch 815/2500
+ - 1s - loss: 899.4431 - val_loss: 891.6076
+Epoch 816/2500
+ - 1s - loss: 899.4392 - val_loss: 891.7966
+Epoch 817/2500
+ - 1s - loss: 899.6322 - val_loss: 891.5245
+Epoch 818/2500
+ - 1s - loss: 899.3545 - val_loss: 892.5885
+Epoch 819/2500
+ - 1s - loss: 899.4012 - val_loss: 891.8796
+Epoch 820/2500
+ - 1s - loss: 899.3315 - val_loss: 891.5150
+Epoch 821/2500
+ - 1s - loss: 899.3371 - val_loss: 892.3462
+Epoch 822/2500
+ - 1s - loss: 899.5524 - val_loss: 891.9515
+Epoch 823/2500
+ - 1s - loss: 899.5218 - val_loss: 891.6446
+Epoch 824/2500
+ - 1s - loss: 899.7010 - val_loss: 891.8417
+Epoch 825/2500
+ - 1s - loss: 900.1566 - val_loss: 893.5736
+Epoch 826/2500
+ - 1s - loss: 900.3241 - val_loss: 891.6823
+Epoch 827/2500
+ - 1s - loss: 899.4718 - val_loss: 891.5894
+Epoch 828/2500
+ - 1s - loss: 899.3431 - val_loss: 891.5330
+Epoch 829/2500
+ - 1s - loss: 899.3499 - val_loss: 891.6946
+Epoch 830/2500
+ - 1s - loss: 899.2957 - val_loss: 891.9802
+Epoch 831/2500
+ - 1s - loss: 899.3120 - val_loss: 891.7505
+Epoch 832/2500
+ - 1s - loss: 899.4634 - val_loss: 891.5098
+Epoch 833/2500
+ - 1s - loss: 899.5990 - val_loss: 891.8843
+Epoch 834/2500
+ - 1s - loss: 899.4294 - val_loss: 891.8249
+Epoch 835/2500
+ - 1s - loss: 899.3572 - val_loss: 891.5062
+Epoch 836/2500
+ - 1s - loss: 899.3110 - val_loss: 891.4696
+Epoch 837/2500
+ - 1s - loss: 900.1319 - val_loss: 892.2188
+Epoch 838/2500
+ - 1s - loss: 899.7926 - val_loss: 892.8320
+Epoch 839/2500
+ - 1s - loss: 899.6565 - val_loss: 891.6599
+Epoch 840/2500
+ - 1s - loss: 900.2035 - val_loss: 892.0788
+Epoch 841/2500
+ - 1s - loss: 899.5026 - val_loss: 892.0092
+Epoch 842/2500
+ - 1s - loss: 899.6372 - val_loss: 891.6163
+Epoch 843/2500
+ - 1s - loss: 899.3748 - val_loss: 891.7387
+Epoch 844/2500
+ - 1s - loss: 899.3364 - val_loss: 891.5606
+Epoch 845/2500
+ - 1s - loss: 899.3876 - val_loss: 892.1404
+Epoch 846/2500
+ - 1s - loss: 899.8884 - val_loss: 891.6205
+Epoch 847/2500
+ - 1s - loss: 899.4566 - val_loss: 891.7515
+Epoch 848/2500
+ - 1s - loss: 899.3588 - val_loss: 891.7682
+Epoch 849/2500
+ - 1s - loss: 899.3065 - val_loss: 891.6339
+Epoch 850/2500
+ - 1s - loss: 899.2661 - val_loss: 891.7863
+Epoch 851/2500
+ - 1s - loss: 899.5859 - val_loss: 891.8977
+Epoch 852/2500
+ - 1s - loss: 899.7140 - val_loss: 891.6316
+Epoch 853/2500
+ - 1s - loss: 899.3424 - val_loss: 891.5911
+Epoch 854/2500
+ - 1s - loss: 899.3031 - val_loss: 891.8424
+Epoch 855/2500
+ - 1s - loss: 899.5426 - val_loss: 892.1638
+Epoch 856/2500
+ - 1s - loss: 899.6197 - val_loss: 891.8020
+Epoch 857/2500
+ - 1s - loss: 899.3361 - val_loss: 891.6462
+Epoch 858/2500
+ - 1s - loss: 899.4047 - val_loss: 891.8292
+Epoch 859/2500
+ - 1s - loss: 899.5621 - val_loss: 892.0016
+Epoch 860/2500
+ - 1s - loss: 899.5891 - val_loss: 891.6231
+Epoch 861/2500
+ - 1s - loss: 899.6197 - val_loss: 891.9157
+Epoch 862/2500
+ - 1s - loss: 899.3889 - val_loss: 891.6814
+Epoch 863/2500
+ - 1s - loss: 899.3142 - val_loss: 891.7793
+Epoch 864/2500
+ - 1s - loss: 899.3757 - val_loss: 891.6839
+Epoch 865/2500
+ - 1s - loss: 899.6649 - val_loss: 891.7425
+Epoch 866/2500
+ - 1s - loss: 899.4014 - val_loss: 891.6172
+Epoch 867/2500
+ - 1s - loss: 899.6394 - val_loss: 891.8676
+Epoch 868/2500
+ - 1s - loss: 900.0208 - val_loss: 892.2550
+Epoch 869/2500
+ - 1s - loss: 902.7124 - val_loss: 892.6897
+Epoch 870/2500
+ - 1s - loss: 900.3893 - val_loss: 891.9354
+Epoch 871/2500
+ - 1s - loss: 899.5583 - val_loss: 891.8617
+Epoch 872/2500
+ - 1s - loss: 899.4858 - val_loss: 891.6385
+Epoch 873/2500
+ - 1s - loss: 899.6324 - val_loss: 892.1784
+Epoch 874/2500
+ - 1s - loss: 899.5757 - val_loss: 891.5361
+Epoch 875/2500
+ - 1s - loss: 899.4168 - val_loss: 891.5550
+Epoch 876/2500
+ - 1s - loss: 899.4626 - val_loss: 892.2706
+Epoch 877/2500
+ - 1s - loss: 899.4096 - val_loss: 891.9170
+Epoch 878/2500
+ - 1s - loss: 899.4830 - val_loss: 891.7238
+Epoch 879/2500
+ - 1s - loss: 899.5597 - val_loss: 891.8115
+Epoch 880/2500
+ - 1s - loss: 899.5606 - val_loss: 892.0569
+Epoch 881/2500
+ - 1s - loss: 899.5993 - val_loss: 891.7029
+Epoch 882/2500
+ - 1s - loss: 899.3655 - val_loss: 891.7338
+Epoch 883/2500
+ - 1s - loss: 899.4470 - val_loss: 891.5785
+Epoch 884/2500
+ - 1s - loss: 899.3314 - val_loss: 891.7925
+Epoch 885/2500
+ - 1s - loss: 899.4062 - val_loss: 891.5403
+Epoch 886/2500
+ - 1s - loss: 899.3422 - val_loss: 891.5665
+Epoch 887/2500
+ - 1s - loss: 899.5483 - val_loss: 891.7840
+Epoch 888/2500
+ - 1s - loss: 899.5006 - val_loss: 891.7113
+Epoch 889/2500
+ - 1s - loss: 899.6546 - val_loss: 894.2992
+Epoch 890/2500
+ - 1s - loss: 899.6308 - val_loss: 891.4765
+Epoch 891/2500
+ - 1s - loss: 899.5698 - val_loss: 892.0351
+Epoch 892/2500
+ - 1s - loss: 900.9348 - val_loss: 892.2355
+Epoch 893/2500
+ - 1s - loss: 899.4459 - val_loss: 891.6389
+Epoch 894/2500
+ - 1s - loss: 899.3835 - val_loss: 891.5910
+Epoch 895/2500
+ - 1s - loss: 899.3294 - val_loss: 891.5341
+Epoch 896/2500
+ - 1s - loss: 899.3112 - val_loss: 891.5127
+Epoch 897/2500
+ - 1s - loss: 899.3346 - val_loss: 891.6484
+Epoch 898/2500
+ - 1s - loss: 899.5278 - val_loss: 893.6357
+Epoch 899/2500
+ - 1s - loss: 899.5183 - val_loss: 891.8345
+Epoch 900/2500
+ - 1s - loss: 899.3413 - val_loss: 891.5411
+Epoch 901/2500
+ - 2s - loss: 899.6465 - val_loss: 892.2028
+Epoch 902/2500
+ - 1s - loss: 899.6743 - val_loss: 891.6407
+Epoch 903/2500
+ - 1s - loss: 899.4500 - val_loss: 891.8436
+Epoch 904/2500
+ - 1s - loss: 899.4633 - val_loss: 891.6645
+Epoch 905/2500
+ - 1s - loss: 899.4808 - val_loss: 892.3284
+Epoch 906/2500
+ - 1s - loss: 899.4406 - val_loss: 894.2017
+Epoch 907/2500
+ - 1s - loss: 899.9157 - val_loss: 891.8471
+Epoch 908/2500
+ - 1s - loss: 899.5913 - val_loss: 891.5194
+Epoch 909/2500
+ - 1s - loss: 899.3276 - val_loss: 892.0089
+Epoch 910/2500
+ - 1s - loss: 899.3643 - val_loss: 891.6870
+Epoch 911/2500
+ - 1s - loss: 899.3034 - val_loss: 891.5762
+Epoch 912/2500
+ - 1s - loss: 899.3916 - val_loss: 891.6765
+Epoch 913/2500
+ - 1s - loss: 900.3621 - val_loss: 893.3354
+Epoch 914/2500
+ - 1s - loss: 899.6471 - val_loss: 891.5622
+Epoch 915/2500
+ - 1s - loss: 899.3777 - val_loss: 891.8067
+Epoch 916/2500
+ - 1s - loss: 899.4635 - val_loss: 891.6242
+Epoch 917/2500
+ - 1s - loss: 899.3656 - val_loss: 891.8253
+Epoch 918/2500
+ - 1s - loss: 899.5568 - val_loss: 892.6279
+Epoch 919/2500
+ - 1s - loss: 899.4471 - val_loss: 891.5942
+Epoch 920/2500
+ - 1s - loss: 899.4227 - val_loss: 891.7715
+Epoch 921/2500
+ - 1s - loss: 899.3373 - val_loss: 892.9111
+Epoch 922/2500
+ - 1s - loss: 899.6158 - val_loss: 892.2963
+Epoch 923/2500
+ - 1s - loss: 899.6470 - val_loss: 892.0725
+Epoch 924/2500
+ - 1s - loss: 899.5954 - val_loss: 891.7931
+Epoch 925/2500
+ - 1s - loss: 899.3558 - val_loss: 891.7438
+Epoch 926/2500
+ - 1s - loss: 899.3843 - val_loss: 891.7060
+Epoch 927/2500
+ - 1s - loss: 899.3369 - val_loss: 891.8282
+Epoch 928/2500
+ - 1s - loss: 899.5007 - val_loss: 891.5851
+Epoch 929/2500
+ - 1s - loss: 899.5680 - val_loss: 891.8749
+Epoch 930/2500
+ - 1s - loss: 899.6742 - val_loss: 891.8044
+Epoch 931/2500
+ - 1s - loss: 900.1957 - val_loss: 892.9234
+Epoch 932/2500
+ - 1s - loss: 899.6739 - val_loss: 891.6164
+Epoch 933/2500
+ - 1s - loss: 899.3646 - val_loss: 891.6097
+Epoch 934/2500
+ - 1s - loss: 899.3474 - val_loss: 891.7400
+Epoch 935/2500
+ - 1s - loss: 899.4046 - val_loss: 891.4626
+Epoch 936/2500
+ - 1s - loss: 899.3328 - val_loss: 892.1492
+Epoch 937/2500
+ - 1s - loss: 899.8352 - val_loss: 891.6556
+Epoch 938/2500
+ - 1s - loss: 899.4269 - val_loss: 891.7019
+Epoch 939/2500
+ - 1s - loss: 899.3322 - val_loss: 891.9615
+Epoch 940/2500
+ - 1s - loss: 899.3136 - val_loss: 891.4819
+Epoch 941/2500
+ - 1s - loss: 899.2935 - val_loss: 891.9348
+Epoch 942/2500
+ - 1s - loss: 899.4973 - val_loss: 891.9575
+Epoch 943/2500
+ - 1s - loss: 899.5926 - val_loss: 892.0287
+Epoch 944/2500
+ - 1s - loss: 899.5841 - val_loss: 891.5319
+Epoch 945/2500
+ - 1s - loss: 899.4963 - val_loss: 891.9637
+Epoch 946/2500
+ - 1s - loss: 899.8310 - val_loss: 891.6516
+Epoch 947/2500
+ - 1s - loss: 899.3535 - val_loss: 891.7629
+Epoch 948/2500
+ - 1s - loss: 899.3159 - val_loss: 891.6185
+Epoch 949/2500
+ - 1s - loss: 899.3740 - val_loss: 891.6469
+Epoch 950/2500
+ - 1s - loss: 899.3737 - val_loss: 893.5017
+Epoch 951/2500
+ - 1s - loss: 899.9195 - val_loss: 891.8327
+Epoch 952/2500
+ - 1s - loss: 899.4774 - val_loss: 891.7623
+Epoch 953/2500
+ - 1s - loss: 899.3887 - val_loss: 891.5399
+Epoch 954/2500
+ - 1s - loss: 899.3278 - val_loss: 891.8190
+Epoch 955/2500
+ - 1s - loss: 899.4013 - val_loss: 891.6634
+Epoch 956/2500
+ - 1s - loss: 899.4060 - val_loss: 891.7189
+Epoch 957/2500
+ - 1s - loss: 899.4381 - val_loss: 891.5089
+Epoch 958/2500
+ - 1s - loss: 899.4098 - val_loss: 893.1175
+Epoch 959/2500
+ - 1s - loss: 899.3519 - val_loss: 891.6810
+Epoch 960/2500
+ - 1s - loss: 899.3801 - val_loss: 891.6448
+Epoch 961/2500
+ - 1s - loss: 899.4991 - val_loss: 891.7142
+Epoch 962/2500
+ - 1s - loss: 899.6228 - val_loss: 891.8812
+Epoch 963/2500
+ - 1s - loss: 899.7806 - val_loss: 891.7336
+Epoch 964/2500
+ - 1s - loss: 899.4998 - val_loss: 891.7474
+Epoch 965/2500
+ - 1s - loss: 899.5249 - val_loss: 891.8058
+Epoch 966/2500
+ - 1s - loss: 899.4654 - val_loss: 892.0768
+Epoch 967/2500
+ - 1s - loss: 899.5140 - val_loss: 891.7324
+Epoch 968/2500
+ - 1s - loss: 900.8666 - val_loss: 893.9352
+Epoch 969/2500
+ - 1s - loss: 900.0299 - val_loss: 891.8147
+Epoch 970/2500
+ - 1s - loss: 899.6020 - val_loss: 891.9919
+Epoch 971/2500
+ - 1s - loss: 899.6187 - val_loss: 891.9092
+Epoch 972/2500
+ - 1s - loss: 899.5450 - val_loss: 891.7566
+Epoch 973/2500
+ - 1s - loss: 899.3664 - val_loss: 891.5940
+Epoch 974/2500
+ - 1s - loss: 899.3421 - val_loss: 891.6966
+Epoch 975/2500
+ - 1s - loss: 899.2912 - val_loss: 891.6610
+Epoch 976/2500
+ - 1s - loss: 899.3059 - val_loss: 891.8564
+Epoch 977/2500
+ - 1s - loss: 899.3825 - val_loss: 891.5844
+Epoch 978/2500
+ - 1s - loss: 899.6053 - val_loss: 891.7598
+Epoch 979/2500
+ - 1s - loss: 899.5327 - val_loss: 892.2511
+Epoch 980/2500
+ - 1s - loss: 899.5196 - val_loss: 891.6763
+Epoch 981/2500
+ - 1s - loss: 899.3996 - val_loss: 891.5919
+Epoch 982/2500
+ - 1s - loss: 899.4902 - val_loss: 891.8159
+Epoch 983/2500
+ - 1s - loss: 899.4369 - val_loss: 891.9494
+Epoch 984/2500
+ - 1s - loss: 900.3044 - val_loss: 891.8140
+Epoch 985/2500
+ - 1s - loss: 899.9581 - val_loss: 891.8903
+Epoch 986/2500
+ - 1s - loss: 899.3909 - val_loss: 891.5754
+Epoch 987/2500
+ - 1s - loss: 899.3302 - val_loss: 891.8439
+Epoch 988/2500
+ - 1s - loss: 899.4549 - val_loss: 891.9476
+Epoch 989/2500
+ - 1s - loss: 899.4625 - val_loss: 892.3853
+Epoch 990/2500
+ - 1s - loss: 899.4461 - val_loss: 891.6177
+Epoch 991/2500
+ - 1s - loss: 899.3378 - val_loss: 893.8302
+Epoch 992/2500
+ - 1s - loss: 899.5108 - val_loss: 891.7509
+Epoch 993/2500
+ - 1s - loss: 899.3349 - val_loss: 891.7239
+Epoch 994/2500
+ - 1s - loss: 899.4269 - val_loss: 891.5996
+Epoch 995/2500
+ - 1s - loss: 899.3167 - val_loss: 891.5835
+Epoch 996/2500
+ - 1s - loss: 899.4322 - val_loss: 891.4307
+Epoch 997/2500
+ - 1s - loss: 899.6541 - val_loss: 891.8901
+Epoch 998/2500
+ - 1s - loss: 899.5157 - val_loss: 891.8005
+Epoch 999/2500
+ - 1s - loss: 899.3631 - val_loss: 891.6500
+Epoch 1000/2500
+ - 1s - loss: 899.3175 - val_loss: 891.6211
+Epoch 1001/2500
+ - 1s - loss: 899.2707 - val_loss: 891.6333
+Epoch 1002/2500
+ - 1s - loss: 899.2869 - val_loss: 891.5362
+Epoch 1003/2500
+ - 1s - loss: 899.2494 - val_loss: 891.5663
+Epoch 1004/2500
+ - 1s - loss: 899.4595 - val_loss: 891.7248
+Epoch 1005/2500
+ - 1s - loss: 900.2314 - val_loss: 892.1484
+Epoch 1006/2500
+ - 1s - loss: 899.9270 - val_loss: 892.1631
+Epoch 1007/2500
+ - 1s - loss: 899.9841 - val_loss: 892.4283
+Epoch 1008/2500
+ - 1s - loss: 899.8096 - val_loss: 891.5565
+Epoch 1009/2500
+ - 1s - loss: 899.3662 - val_loss: 891.7195
+Epoch 1010/2500
+ - 1s - loss: 899.3809 - val_loss: 891.5908
+Epoch 1011/2500
+ - 1s - loss: 899.3226 - val_loss: 891.5404
+Epoch 1012/2500
+ - 1s - loss: 899.3671 - val_loss: 891.4029
+Epoch 1013/2500
+ - 1s - loss: 899.2802 - val_loss: 891.5828
+Epoch 1014/2500
+ - 1s - loss: 899.4982 - val_loss: 891.6778
+Epoch 1015/2500
+ - 1s - loss: 899.6290 - val_loss: 891.6716
+Epoch 1016/2500
+ - 1s - loss: 899.4028 - val_loss: 891.5589
+Epoch 1017/2500
+ - 1s - loss: 899.3590 - val_loss: 891.5442
+Epoch 1018/2500
+ - 1s - loss: 899.3073 - val_loss: 891.8514
+Epoch 1019/2500
+ - 1s - loss: 899.4381 - val_loss: 891.6314
+Epoch 1020/2500
+ - 1s - loss: 899.4616 - val_loss: 891.6025
+Epoch 1021/2500
+ - 1s - loss: 911.2786 - val_loss: 891.6507
+Epoch 1022/2500
+ - 1s - loss: 899.9145 - val_loss: 892.0734
+Epoch 1023/2500
+ - 1s - loss: 899.5570 - val_loss: 891.7487
+Epoch 1024/2500
+ - 1s - loss: 899.5314 - val_loss: 892.0083
+Epoch 1025/2500
+ - 1s - loss: 899.5436 - val_loss: 891.6260
+Epoch 1026/2500
+ - 1s - loss: 899.5590 - val_loss: 892.2969
+Epoch 1027/2500
+ - 1s - loss: 899.5030 - val_loss: 891.5621
+Epoch 1028/2500
+ - 1s - loss: 899.5674 - val_loss: 892.4959
+Epoch 1029/2500
+ - 1s - loss: 899.6883 - val_loss: 891.5218
+Epoch 1030/2500
+ - 1s - loss: 899.3625 - val_loss: 891.5660
+Epoch 1031/2500
+ - 1s - loss: 899.4121 - val_loss: 891.9153
+Epoch 1032/2500
+ - 1s - loss: 899.4386 - val_loss: 892.0994
+Epoch 1033/2500
+ - 1s - loss: 899.5904 - val_loss: 891.8880
+Epoch 1034/2500
+ - 1s - loss: 899.7583 - val_loss: 893.4973
+Epoch 1035/2500
+ - 1s - loss: 901.2933 - val_loss: 892.1009
+Epoch 1036/2500
+ - 1s - loss: 899.5120 - val_loss: 891.7889
+Epoch 1037/2500
+ - 1s - loss: 899.3645 - val_loss: 892.1160
+Epoch 1038/2500
+ - 1s - loss: 899.4293 - val_loss: 891.7599
+Epoch 1039/2500
+ - 1s - loss: 899.3503 - val_loss: 891.5766
+Epoch 1040/2500
+ - 1s - loss: 899.3359 - val_loss: 891.5016
+Epoch 1041/2500
+ - 1s - loss: 899.3234 - val_loss: 891.6082
+Epoch 1042/2500
+ - 1s - loss: 899.3007 - val_loss: 891.5608
+Epoch 1043/2500
+ - 1s - loss: 899.2892 - val_loss: 891.4998
+Epoch 1044/2500
+ - 1s - loss: 899.3023 - val_loss: 891.4159
+Epoch 1045/2500
+ - 1s - loss: 899.5589 - val_loss: 891.7384
+Epoch 1046/2500
+ - 1s - loss: 899.5246 - val_loss: 891.7832
+Epoch 1047/2500
+ - 1s - loss: 899.3596 - val_loss: 891.4659
+Epoch 1048/2500
+ - 1s - loss: 899.3483 - val_loss: 891.9926
+Epoch 1049/2500
+ - 1s - loss: 899.3964 - val_loss: 891.7961
+Epoch 1050/2500
+ - 1s - loss: 899.5106 - val_loss: 891.9288
+Epoch 1051/2500
+ - 1s - loss: 899.5542 - val_loss: 892.1708
+Epoch 1052/2500
+ - 1s - loss: 899.3409 - val_loss: 891.6281
+Epoch 1053/2500
+ - 1s - loss: 899.3996 - val_loss: 891.8722
+Epoch 1054/2500
+ - 1s - loss: 899.3358 - val_loss: 891.5308
+Epoch 1055/2500
+ - 1s - loss: 899.4053 - val_loss: 891.6438
+Epoch 1056/2500
+ - 1s - loss: 899.3235 - val_loss: 891.5282
+Epoch 1057/2500
+ - 1s - loss: 899.4203 - val_loss: 891.5621
+Epoch 1058/2500
+ - 1s - loss: 899.3326 - val_loss: 891.6150
+Epoch 1059/2500
+ - 1s - loss: 899.4250 - val_loss: 891.7544
+Epoch 1060/2500
+ - 1s - loss: 899.3427 - val_loss: 891.7919
+Epoch 1061/2500
+ - 1s - loss: 899.4357 - val_loss: 891.6259
+Epoch 1062/2500
+ - 1s - loss: 899.4663 - val_loss: 891.6928
+Epoch 1063/2500
+ - 1s - loss: 899.6498 - val_loss: 891.7592
+Epoch 1064/2500
+ - 1s - loss: 899.7023 - val_loss: 891.8907
+Epoch 1065/2500
+ - 1s - loss: 899.5642 - val_loss: 891.7005
+Epoch 1066/2500
+ - 1s - loss: 899.4986 - val_loss: 891.8596
+Epoch 1067/2500
+ - 1s - loss: 899.3424 - val_loss: 891.9097
+Epoch 1068/2500
+ - 1s - loss: 899.4018 - val_loss: 891.6756
+Epoch 1069/2500
+ - 1s - loss: 899.7640 - val_loss: 891.6275
+Epoch 1070/2500
+ - 1s - loss: 899.5065 - val_loss: 891.4680
+Epoch 1071/2500
+ - 1s - loss: 899.2782 - val_loss: 891.5281
+Epoch 1072/2500
+ - 1s - loss: 899.2799 - val_loss: 891.5531
+Epoch 1073/2500
+ - 1s - loss: 899.3211 - val_loss: 891.5846
+Epoch 1074/2500
+ - 1s - loss: 899.6628 - val_loss: 891.4779
+Epoch 1075/2500
+ - 1s - loss: 900.0508 - val_loss: 891.7070
+Epoch 1076/2500
+ - 2s - loss: 899.4224 - val_loss: 891.7745
+Epoch 1077/2500
+ - 1s - loss: 899.3501 - val_loss: 891.6139
+Epoch 1078/2500
+ - 1s - loss: 899.4759 - val_loss: 892.0752
+Epoch 1079/2500
+ - 1s - loss: 899.4982 - val_loss: 892.9142
+Epoch 1080/2500
+ - 1s - loss: 899.5525 - val_loss: 891.5944
+Epoch 1081/2500
+ - 1s - loss: 899.2873 - val_loss: 891.4454
+Epoch 1082/2500
+ - 1s - loss: 899.7444 - val_loss: 892.8355
+Epoch 1083/2500
+ - 1s - loss: 900.3913 - val_loss: 891.5517
+Epoch 1084/2500
+ - 1s - loss: 899.4115 - val_loss: 891.4729
+Epoch 1085/2500
+ - 1s - loss: 899.3987 - val_loss: 891.7991
+Epoch 1086/2500
+ - 1s - loss: 899.4287 - val_loss: 891.5269
+Epoch 1087/2500
+ - 1s - loss: 899.3780 - val_loss: 891.6258
+Epoch 1088/2500
+ - 1s - loss: 899.2882 - val_loss: 891.6938
+Epoch 1089/2500
+ - 1s - loss: 899.3147 - val_loss: 891.8944
+Epoch 1090/2500
+ - 1s - loss: 899.3296 - val_loss: 891.8298
+Epoch 1091/2500
+ - 1s - loss: 899.6288 - val_loss: 891.7700
+Epoch 1092/2500
+ - 1s - loss: 899.3796 - val_loss: 891.4734
+Epoch 1093/2500
+ - 1s - loss: 899.3827 - val_loss: 891.5820
+Epoch 1094/2500
+ - 1s - loss: 899.4366 - val_loss: 891.9545
+Epoch 1095/2500
+ - 1s - loss: 899.4198 - val_loss: 891.6105
+Epoch 1096/2500
+ - 1s - loss: 899.8078 - val_loss: 891.8084
+Epoch 1097/2500
+ - 1s - loss: 899.5477 - val_loss: 892.0881
+Epoch 1098/2500
+ - 1s - loss: 899.5240 - val_loss: 891.8246
+Epoch 1099/2500
+ - 1s - loss: 899.7821 - val_loss: 891.9983
+Epoch 1100/2500
+ - 2s - loss: 899.3595 - val_loss: 891.6383
+Epoch 1101/2500
+ - 2s - loss: 899.2999 - val_loss: 891.6552
+Epoch 1102/2500
+ - 1s - loss: 899.4426 - val_loss: 892.0304
+Epoch 1103/2500
+ - 1s - loss: 899.3464 - val_loss: 891.6708
+Epoch 1104/2500
+ - 1s - loss: 899.3190 - val_loss: 891.8517
+Epoch 1105/2500
+ - 2s - loss: 899.3276 - val_loss: 891.6338
+Epoch 1106/2500
+ - 2s - loss: 899.2672 - val_loss: 891.6832
+Epoch 1107/2500
+ - 2s - loss: 899.3083 - val_loss: 891.5852
+Epoch 1108/2500
+ - 2s - loss: 899.2473 - val_loss: 891.8263
+Epoch 1109/2500
+ - 2s - loss: 899.4940 - val_loss: 892.2604
+Epoch 1110/2500
+ - 2s - loss: 899.6769 - val_loss: 892.0462
+Epoch 1111/2500
+ - 2s - loss: 899.3720 - val_loss: 891.7145
+Epoch 1112/2500
+ - 2s - loss: 899.5511 - val_loss: 893.3482
+Epoch 1113/2500
+ - 1s - loss: 899.4241 - val_loss: 891.7873
+Epoch 1114/2500
+ - 2s - loss: 899.7413 - val_loss: 891.8689
+Epoch 1115/2500
+ - 2s - loss: 899.7339 - val_loss: 891.7403
+Epoch 1116/2500
+ - 2s - loss: 900.3364 - val_loss: 891.8057
+Epoch 1117/2500
+ - 1s - loss: 899.7370 - val_loss: 891.6792
+Epoch 1118/2500
+ - 2s - loss: 899.4149 - val_loss: 891.6900
+Epoch 1119/2500
+ - 1s - loss: 899.5063 - val_loss: 892.0100
+Epoch 1120/2500
+ - 1s - loss: 899.4825 - val_loss: 891.5373
+Epoch 1121/2500
+ - 1s - loss: 899.2996 - val_loss: 891.6730
+Epoch 1122/2500
+ - 1s - loss: 899.3259 - val_loss: 891.4738
+Epoch 1123/2500
+ - 2s - loss: 899.3585 - val_loss: 891.6033
+Epoch 1124/2500
+ - 2s - loss: 899.2896 - val_loss: 891.5681
+Epoch 1125/2500
+ - 2s - loss: 899.4298 - val_loss: 891.6920
+Epoch 1126/2500
+ - 2s - loss: 899.2832 - val_loss: 891.7397
+Epoch 1127/2500
+ - 1s - loss: 899.6895 - val_loss: 891.8164
+Epoch 1128/2500
+ - 2s - loss: 899.7080 - val_loss: 891.5904
+Epoch 1129/2500
+ - 1s - loss: 899.5991 - val_loss: 892.3773
+Epoch 1130/2500
+ - 1s - loss: 899.6486 - val_loss: 891.9205
+Epoch 1131/2500
+ - 1s - loss: 899.4139 - val_loss: 891.6111
+Epoch 1132/2500
+ - 2s - loss: 899.2760 - val_loss: 891.5080
+Epoch 1133/2500
+ - 1s - loss: 899.2696 - val_loss: 891.7354
+Epoch 1134/2500
+ - 1s - loss: 899.3316 - val_loss: 891.6724
+Epoch 1135/2500
+ - 1s - loss: 899.3253 - val_loss: 891.5499
+Epoch 1136/2500
+ - 1s - loss: 899.6246 - val_loss: 891.7840
+Epoch 1137/2500
+ - 2s - loss: 899.6581 - val_loss: 891.6700
+Epoch 1138/2500
+ - 2s - loss: 899.6964 - val_loss: 891.6855
+Epoch 1139/2500
+ - 1s - loss: 899.9536 - val_loss: 892.3523
+Epoch 1140/2500
+ - 2s - loss: 899.5859 - val_loss: 891.4893
+Epoch 1141/2500
+ - 1s - loss: 899.3153 - val_loss: 891.5290
+Epoch 1142/2500
+ - 1s - loss: 899.2553 - val_loss: 891.4911
+Epoch 1143/2500
+ - 1s - loss: 899.2246 - val_loss: 891.5650
+Epoch 1144/2500
+ - 2s - loss: 899.2704 - val_loss: 891.6604
+Epoch 1145/2500
+ - 2s - loss: 899.2918 - val_loss: 891.5857
+Epoch 1146/2500
+ - 2s - loss: 899.8701 - val_loss: 891.8740
+Epoch 1147/2500
+ - 2s - loss: 899.3248 - val_loss: 891.9583
+Epoch 1148/2500
+ - 1s - loss: 900.1715 - val_loss: 892.4601
+Epoch 1149/2500
+ - 2s - loss: 899.4929 - val_loss: 891.4706
+Epoch 1150/2500
+ - 2s - loss: 899.3557 - val_loss: 891.4871
+Epoch 1151/2500
+ - 1s - loss: 899.2999 - val_loss: 892.4712
+Epoch 1152/2500
+ - 1s - loss: 899.3735 - val_loss: 891.6191
+Epoch 1153/2500
+ - 2s - loss: 899.2642 - val_loss: 891.6339
+Epoch 1154/2500
+ - 1s - loss: 899.6816 - val_loss: 892.0638
+Epoch 1155/2500
+ - 1s - loss: 899.8832 - val_loss: 891.9123
+Epoch 1156/2500
+ - 1s - loss: 899.3591 - val_loss: 891.6794
+Epoch 1157/2500
+ - 1s - loss: 899.3293 - val_loss: 891.7278
+Epoch 1158/2500
+ - 1s - loss: 899.2729 - val_loss: 891.6422
+Epoch 1159/2500
+ - 1s - loss: 899.3476 - val_loss: 892.1644
+Epoch 1160/2500
+ - 1s - loss: 899.5989 - val_loss: 891.6765
+Epoch 1161/2500
+ - 1s - loss: 899.4253 - val_loss: 891.5779
+Epoch 1162/2500
+ - 2s - loss: 899.2865 - val_loss: 891.6881
+Epoch 1163/2500
+ - 1s - loss: 899.2826 - val_loss: 891.5082
+Epoch 1164/2500
+ - 1s - loss: 899.9780 - val_loss: 891.5864
+Epoch 1165/2500
+ - 1s - loss: 899.3515 - val_loss: 891.4739
+Epoch 1166/2500
+ - 1s - loss: 899.2861 - val_loss: 891.5228
+Epoch 1167/2500
+ - 1s - loss: 899.2305 - val_loss: 891.7075
+Epoch 1168/2500
+ - 2s - loss: 899.7098 - val_loss: 891.7890
+Epoch 1169/2500
+ - 1s - loss: 899.5339 - val_loss: 891.4311
+Epoch 1170/2500
+ - 1s - loss: 899.3150 - val_loss: 891.4659
+Epoch 1171/2500
+ - 2s - loss: 899.4940 - val_loss: 892.1319
+Epoch 1172/2500
+ - 1s - loss: 899.6351 - val_loss: 891.8038
+Epoch 1173/2500
+ - 2s - loss: 899.4894 - val_loss: 891.8644
+Epoch 1174/2500
+ - 2s - loss: 899.2966 - val_loss: 891.5384
+Epoch 1175/2500
+ - 2s - loss: 899.2779 - val_loss: 891.6603
+Epoch 1176/2500
+ - 2s - loss: 899.3065 - val_loss: 891.5351
+Epoch 1177/2500
+ - 1s - loss: 899.3595 - val_loss: 891.6133
+Epoch 1178/2500
+ - 1s - loss: 899.2537 - val_loss: 891.5478
+Epoch 1179/2500
+ - 2s - loss: 899.4374 - val_loss: 891.8943
+Epoch 1180/2500
+ - 2s - loss: 899.8173 - val_loss: 894.2933
+Epoch 1181/2500
+ - 2s - loss: 899.6310 - val_loss: 891.6188
+Epoch 1182/2500
+ - 2s - loss: 899.5161 - val_loss: 892.3034
+Epoch 1183/2500
+ - 1s - loss: 899.4590 - val_loss: 892.0825
+Epoch 1184/2500
+ - 1s - loss: 899.4383 - val_loss: 891.6639
+Epoch 1185/2500
+ - 1s - loss: 899.3147 - val_loss: 891.6404
+Epoch 1186/2500
+ - 2s - loss: 899.5683 - val_loss: 893.0225
+Epoch 1187/2500
+ - 2s - loss: 899.5457 - val_loss: 891.6278
+Epoch 1188/2500
+ - 2s - loss: 899.2779 - val_loss: 891.5092
+Epoch 1189/2500
+ - 2s - loss: 899.2622 - val_loss: 892.8664
+Epoch 1190/2500
+ - 2s - loss: 899.2224 - val_loss: 891.5532
+Epoch 1191/2500
+ - 2s - loss: 899.2184 - val_loss: 891.6077
+Epoch 1192/2500
+ - 2s - loss: 899.2479 - val_loss: 891.5011
+Epoch 1193/2500
+ - 2s - loss: 899.5020 - val_loss: 892.4528
+Epoch 1194/2500
+ - 2s - loss: 900.2847 - val_loss: 891.5373
+Epoch 1195/2500
+ - 1s - loss: 899.4042 - val_loss: 891.7015
+Epoch 1196/2500
+ - 1s - loss: 899.3329 - val_loss: 891.7885
+Epoch 1197/2500
+ - 2s - loss: 899.4787 - val_loss: 891.6400
+Epoch 1198/2500
+ - 2s - loss: 899.2655 - val_loss: 892.3540
+Epoch 1199/2500
+ - 2s - loss: 899.3292 - val_loss: 891.5620
+Epoch 1200/2500
+ - 2s - loss: 899.5108 - val_loss: 891.9498
+Epoch 1201/2500
+ - 2s - loss: 899.5485 - val_loss: 891.9222
+Epoch 1202/2500
+ - 2s - loss: 899.3603 - val_loss: 891.4712
+Epoch 1203/2500
+ - 2s - loss: 899.2625 - val_loss: 891.5861
+Epoch 1204/2500
+ - 2s - loss: 899.2518 - val_loss: 891.6229
+Epoch 1205/2500
+ - 2s - loss: 899.2690 - val_loss: 891.4978
+Epoch 1206/2500
+ - 2s - loss: 899.4457 - val_loss: 892.6663
+Epoch 1207/2500
+ - 2s - loss: 899.3095 - val_loss: 892.6809
+Epoch 1208/2500
+ - 1s - loss: 899.5189 - val_loss: 891.7166
+Epoch 1209/2500
+ - 2s - loss: 899.6180 - val_loss: 892.3912
+Epoch 1210/2500
+ - 1s - loss: 900.2553 - val_loss: 891.9707
+Epoch 1211/2500
+ - 2s - loss: 900.3489 - val_loss: 892.2169
+Epoch 1212/2500
+ - 2s - loss: 899.4889 - val_loss: 891.7138
+Epoch 1213/2500
+ - 2s - loss: 899.3159 - val_loss: 891.6354
+Epoch 1214/2500
+ - 2s - loss: 899.3079 - val_loss: 891.5381
+Epoch 1215/2500
+ - 1s - loss: 899.4359 - val_loss: 891.7687
+Epoch 1216/2500
+ - 1s - loss: 899.3099 - val_loss: 891.5464
+Epoch 1217/2500
+ - 1s - loss: 899.3445 - val_loss: 891.6197
+Epoch 1218/2500
+ - 1s - loss: 899.4232 - val_loss: 892.0690
+Epoch 1219/2500
+ - 2s - loss: 899.3232 - val_loss: 891.5663
+Epoch 1220/2500
+ - 1s - loss: 899.2579 - val_loss: 891.8050
+Epoch 1221/2500
+ - 1s - loss: 899.7231 - val_loss: 891.9204
+Epoch 1222/2500
+ - 2s - loss: 899.6589 - val_loss: 891.7283
+Epoch 1223/2500
+ - 2s - loss: 899.3049 - val_loss: 891.5361
+Epoch 1224/2500
+ - 2s - loss: 899.2731 - val_loss: 891.7066
+Epoch 1225/2500
+ - 1s - loss: 899.3663 - val_loss: 891.6841
+Epoch 1226/2500
+ - 1s - loss: 899.2698 - val_loss: 891.5329
+Epoch 1227/2500
+ - 2s - loss: 899.2493 - val_loss: 891.6152
+Epoch 1228/2500
+ - 2s - loss: 899.4104 - val_loss: 891.8202
+Epoch 1229/2500
+ - 2s - loss: 899.3323 - val_loss: 891.6407
+Epoch 1230/2500
+ - 2s - loss: 899.3018 - val_loss: 891.7998
+Epoch 1231/2500
+ - 2s - loss: 899.2797 - val_loss: 891.6887
+Epoch 1232/2500
+ - 1s - loss: 899.4418 - val_loss: 891.4176
+Epoch 1233/2500
+ - 1s - loss: 899.5432 - val_loss: 891.6550
+Epoch 1234/2500
+ - 1s - loss: 899.3569 - val_loss: 891.5399
+Epoch 1235/2500
+ - 1s - loss: 899.3426 - val_loss: 891.5695
+Epoch 1236/2500
+ - 1s - loss: 899.5343 - val_loss: 892.5890
+Epoch 1237/2500
+ - 2s - loss: 899.4967 - val_loss: 892.0939
+Epoch 1238/2500
+ - 2s - loss: 899.3758 - val_loss: 891.4393
+Epoch 1239/2500
+ - 2s - loss: 899.2887 - val_loss: 891.4631
+Epoch 1240/2500
+ - 1s - loss: 899.3288 - val_loss: 891.7681
+Epoch 1241/2500
+ - 2s - loss: 900.0873 - val_loss: 892.8547
+Epoch 1242/2500
+ - 2s - loss: 899.4716 - val_loss: 891.7019
+Epoch 1243/2500
+ - 2s - loss: 899.2851 - val_loss: 891.6073
+Epoch 1244/2500
+ - 1s - loss: 899.2544 - val_loss: 891.6135
+Epoch 1245/2500
+ - 2s - loss: 899.2204 - val_loss: 891.6466
+Epoch 1246/2500
+ - 2s - loss: 899.2801 - val_loss: 891.5638
+Epoch 1247/2500
+ - 2s - loss: 899.3884 - val_loss: 891.4592
+Epoch 1248/2500
+ - 1s - loss: 899.3811 - val_loss: 891.9377
+Epoch 1249/2500
+ - 2s - loss: 899.5484 - val_loss: 891.7187
+Epoch 1250/2500
+ - 1s - loss: 899.5328 - val_loss: 891.7204
+Epoch 1251/2500
+ - 1s - loss: 899.5757 - val_loss: 892.3838
+Epoch 1252/2500
+ - 2s - loss: 899.6164 - val_loss: 891.6367
+Epoch 1253/2500
+ - 2s - loss: 899.3538 - val_loss: 891.6655
+Epoch 1254/2500
+ - 1s - loss: 899.4185 - val_loss: 891.6140
+Epoch 1255/2500
+ - 2s - loss: 899.3079 - val_loss: 891.4855
+Epoch 1256/2500
+ - 2s - loss: 899.5979 - val_loss: 891.8072
+Epoch 1257/2500
+ - 2s - loss: 899.7396 - val_loss: 891.8430
+Epoch 1258/2500
+ - 2s - loss: 899.4898 - val_loss: 891.6885
+Epoch 1259/2500
+ - 2s - loss: 899.3343 - val_loss: 891.8012
+Epoch 1260/2500
+ - 2s - loss: 899.4839 - val_loss: 891.6460
+Epoch 1261/2500
+ - 2s - loss: 899.3694 - val_loss: 891.7266
+Epoch 1262/2500
+ - 2s - loss: 899.3287 - val_loss: 891.5445
+Epoch 1263/2500
+ - 1s - loss: 899.2394 - val_loss: 891.7525
+Epoch 1264/2500
+ - 2s - loss: 899.2764 - val_loss: 891.4673
+Epoch 1265/2500
+ - 2s - loss: 899.2635 - val_loss: 891.4616
+Epoch 1266/2500
+ - 1s - loss: 899.2402 - val_loss: 891.6879
+Epoch 1267/2500
+ - 1s - loss: 899.3758 - val_loss: 891.4869
+Epoch 1268/2500
+ - 1s - loss: 900.7048 - val_loss: 893.0800
+Epoch 1269/2500
+ - 2s - loss: 900.0330 - val_loss: 891.5545
+Epoch 1270/2500
+ - 2s - loss: 899.6181 - val_loss: 893.8350
+Epoch 1271/2500
+ - 1s - loss: 899.4875 - val_loss: 892.0484
+Epoch 1272/2500
+ - 1s - loss: 899.6676 - val_loss: 891.9599
+Epoch 1273/2500
+ - 1s - loss: 899.4967 - val_loss: 891.8226
+Epoch 1274/2500
+ - 2s - loss: 899.3837 - val_loss: 891.9745
+Epoch 1275/2500
+ - 1s - loss: 899.4477 - val_loss: 891.8530
+Epoch 1276/2500
+ - 1s - loss: 899.3244 - val_loss: 892.3041
+Epoch 1277/2500
+ - 1s - loss: 899.3589 - val_loss: 891.6883
+Epoch 1278/2500
+ - 1s - loss: 899.5330 - val_loss: 891.6864
+Epoch 1279/2500
+ - 1s - loss: 899.5023 - val_loss: 892.1857
+Epoch 1280/2500
+ - 2s - loss: 899.7936 - val_loss: 891.8670
+Epoch 1281/2500
+ - 1s - loss: 899.3140 - val_loss: 891.5094
+Epoch 1282/2500
+ - 1s - loss: 899.2514 - val_loss: 891.4211
+Epoch 1283/2500
+ - 1s - loss: 899.2316 - val_loss: 891.7241
+Epoch 1284/2500
+ - 1s - loss: 899.5021 - val_loss: 891.7643
+Epoch 1285/2500
+ - 1s - loss: 899.4655 - val_loss: 891.5541
+Epoch 1286/2500
+ - 1s - loss: 899.5482 - val_loss: 891.7638
+Epoch 1287/2500
+ - 2s - loss: 899.5205 - val_loss: 892.0326
+Epoch 1288/2500
+ - 1s - loss: 899.3173 - val_loss: 891.5925
+Epoch 1289/2500
+ - 1s - loss: 899.2770 - val_loss: 891.5858
+Epoch 1290/2500
+ - 1s - loss: 899.3051 - val_loss: 892.0640
+Epoch 1291/2500
+ - 2s - loss: 900.1015 - val_loss: 892.0643
+Epoch 1292/2500
+ - 2s - loss: 899.9483 - val_loss: 891.7118
+Epoch 1293/2500
+ - 2s - loss: 899.3362 - val_loss: 891.6869
+Epoch 1294/2500
+ - 2s - loss: 899.3079 - val_loss: 891.8995
+Epoch 1295/2500
+ - 2s - loss: 899.2796 - val_loss: 891.6213
+Epoch 1296/2500
+ - 2s - loss: 899.2536 - val_loss: 891.5101
+Epoch 1297/2500
+ - 1s - loss: 899.2656 - val_loss: 891.6243
+Epoch 1298/2500
+ - 2s - loss: 899.3987 - val_loss: 891.7614
+Epoch 1299/2500
+ - 1s - loss: 899.2845 - val_loss: 892.4283
+Epoch 1300/2500
+ - 1s - loss: 899.3242 - val_loss: 891.8709
+Epoch 1301/2500
+ - 2s - loss: 899.5528 - val_loss: 891.5160
+Epoch 1302/2500
+ - 2s - loss: 899.3526 - val_loss: 891.6152
+Epoch 1303/2500
+ - 2s - loss: 899.5793 - val_loss: 892.1800
+Epoch 1304/2500
+ - 2s - loss: 899.8823 - val_loss: 891.7665
+Epoch 1305/2500
+ - 2s - loss: 899.4267 - val_loss: 891.8291
+Epoch 1306/2500
+ - 1s - loss: 899.3450 - val_loss: 891.7457
+Epoch 1307/2500
+ - 1s - loss: 899.5998 - val_loss: 892.3275
+Epoch 1308/2500
+ - 2s - loss: 899.7405 - val_loss: 892.0692
+Epoch 1309/2500
+ - 1s - loss: 899.3334 - val_loss: 891.8817
+Epoch 1310/2500
+ - 1s - loss: 899.2973 - val_loss: 891.5399
+Epoch 1311/2500
+ - 1s - loss: 899.2983 - val_loss: 891.8470
+Epoch 1312/2500
+ - 2s - loss: 899.3700 - val_loss: 891.6451
+Epoch 1313/2500
+ - 1s - loss: 899.7208 - val_loss: 892.1883
+Epoch 1314/2500
+ - 2s - loss: 899.5955 - val_loss: 891.9280
+Epoch 1315/2500
+ - 2s - loss: 899.8558 - val_loss: 892.2802
+Epoch 1316/2500
+ - 2s - loss: 899.8976 - val_loss: 891.7786
+Epoch 1317/2500
+ - 2s - loss: 899.3611 - val_loss: 891.8379
+Epoch 1318/2500
+ - 2s - loss: 899.3063 - val_loss: 891.8752
+Epoch 1319/2500
+ - 2s - loss: 899.3665 - val_loss: 891.9554
+Epoch 1320/2500
+ - 1s - loss: 899.4265 - val_loss: 891.5369
+Epoch 1321/2500
+ - 1s - loss: 899.2546 - val_loss: 891.6429
+Epoch 1322/2500
+ - 1s - loss: 899.3738 - val_loss: 891.5564
+Epoch 1323/2500
+ - 2s - loss: 900.7101 - val_loss: 892.9770
+Epoch 1324/2500
+ - 1s - loss: 900.0725 - val_loss: 891.7937
+Epoch 1325/2500
+ - 1s - loss: 899.4458 - val_loss: 891.6385
+Epoch 1326/2500
+ - 1s - loss: 899.3577 - val_loss: 891.5020
+Epoch 1327/2500
+ - 1s - loss: 899.6786 - val_loss: 892.1391
+Epoch 1328/2500
+ - 1s - loss: 899.4364 - val_loss: 891.7253
+Epoch 1329/2500
+ - 2s - loss: 899.3274 - val_loss: 891.6310
+Epoch 1330/2500
+ - 1s - loss: 899.3992 - val_loss: 891.4658
+Epoch 1331/2500
+ - 2s - loss: 899.3222 - val_loss: 891.4885
+Epoch 1332/2500
+ - 2s - loss: 899.2540 - val_loss: 891.6730
+Epoch 1333/2500
+ - 2s - loss: 900.3310 - val_loss: 892.2486
+Epoch 1334/2500
+ - 2s - loss: 900.2170 - val_loss: 891.8768
+Epoch 1335/2500
+ - 2s - loss: 899.3479 - val_loss: 891.8951
+Epoch 1336/2500
+ - 1s - loss: 899.3704 - val_loss: 891.7100
+Epoch 1337/2500
+ - 1s - loss: 899.5760 - val_loss: 891.6524
+Epoch 1338/2500
+ - 2s - loss: 899.3492 - val_loss: 891.9264
+Epoch 1339/2500
+ - 1s - loss: 899.4212 - val_loss: 891.9769
+Epoch 1340/2500
+ - 1s - loss: 899.2936 - val_loss: 891.4584
+Epoch 1341/2500
+ - 2s - loss: 899.2893 - val_loss: 891.5508
+Epoch 1342/2500
+ - 1s - loss: 899.3889 - val_loss: 891.6306
+Epoch 1343/2500
+ - 1s - loss: 899.2746 - val_loss: 891.5472
+Epoch 1344/2500
+ - 1s - loss: 899.2721 - val_loss: 891.4656
+Epoch 1345/2500
+ - 1s - loss: 899.2809 - val_loss: 891.7685
+Epoch 1346/2500
+ - 2s - loss: 899.6038 - val_loss: 891.7064
+Epoch 1347/2500
+ - 2s - loss: 899.4696 - val_loss: 891.9243
+Epoch 1348/2500
+ - 2s - loss: 899.7477 - val_loss: 891.8470
+Epoch 1349/2500
+ - 2s - loss: 899.3739 - val_loss: 891.9619
+Epoch 1350/2500
+ - 2s - loss: 899.4207 - val_loss: 891.7474
+Epoch 1351/2500
+ - 2s - loss: 899.5654 - val_loss: 891.6442
+Epoch 1352/2500
+ - 1s - loss: 899.3382 - val_loss: 891.7277
+Epoch 1353/2500
+ - 1s - loss: 899.3262 - val_loss: 892.0782
+Epoch 1354/2500
+ - 2s - loss: 899.4727 - val_loss: 891.5606
+Epoch 1355/2500
+ - 1s - loss: 899.2674 - val_loss: 891.6716
+Epoch 1356/2500
+ - 2s - loss: 899.3471 - val_loss: 891.6115
+Epoch 1357/2500
+ - 2s - loss: 899.3634 - val_loss: 891.9524
+Epoch 1358/2500
+ - 1s - loss: 899.4284 - val_loss: 891.5070
+Epoch 1359/2500
+ - 2s - loss: 899.4779 - val_loss: 891.9604
+Epoch 1360/2500
+ - 1s - loss: 899.7001 - val_loss: 891.9584
+Epoch 1361/2500
+ - 2s - loss: 899.3537 - val_loss: 891.7737
+Epoch 1362/2500
+ - 1s - loss: 899.2774 - val_loss: 891.5988
+Epoch 1363/2500
+ - 2s - loss: 899.4299 - val_loss: 891.8572
+Epoch 1364/2500
+ - 1s - loss: 899.4787 - val_loss: 891.9891
+Epoch 1365/2500
+ - 1s - loss: 899.5255 - val_loss: 892.2336
+Epoch 1366/2500
+ - 1s - loss: 899.3543 - val_loss: 891.5691
+Epoch 1367/2500
+ - 1s - loss: 899.2853 - val_loss: 891.4718
+Epoch 1368/2500
+ - 1s - loss: 899.3201 - val_loss: 892.0346
+Epoch 1369/2500
+ - 1s - loss: 899.4547 - val_loss: 892.2424
+Epoch 1370/2500
+ - 1s - loss: 899.6405 - val_loss: 891.7185
+Epoch 1371/2500
+ - 1s - loss: 899.6305 - val_loss: 891.5963
+Epoch 1372/2500
+ - 2s - loss: 899.2570 - val_loss: 891.7062
+Epoch 1373/2500
+ - 2s - loss: 899.2914 - val_loss: 891.8992
+Epoch 1374/2500
+ - 2s - loss: 899.3250 - val_loss: 892.1164
+Epoch 1375/2500
+ - 1s - loss: 899.5479 - val_loss: 891.5333
+Epoch 1376/2500
+ - 1s - loss: 899.2800 - val_loss: 891.5454
+Epoch 1377/2500
+ - 2s - loss: 899.2877 - val_loss: 891.6352
+Epoch 1378/2500
+ - 2s - loss: 899.2312 - val_loss: 891.5973
+Epoch 1379/2500
+ - 2s - loss: 899.3722 - val_loss: 892.5430
+Epoch 1380/2500
+ - 1s - loss: 899.8546 - val_loss: 891.7627
+Epoch 1381/2500
+ - 2s - loss: 899.2951 - val_loss: 891.6985
+Epoch 1382/2500
+ - 1s - loss: 899.3838 - val_loss: 891.6375
+Epoch 1383/2500
+ - 1s - loss: 899.4969 - val_loss: 891.6400
+Epoch 1384/2500
+ - 2s - loss: 900.0021 - val_loss: 892.1315
+Epoch 1385/2500
+ - 1s - loss: 899.5117 - val_loss: 891.4417
+Epoch 1386/2500
+ - 2s - loss: 899.3494 - val_loss: 891.5190
+Epoch 1387/2500
+ - 1s - loss: 899.3309 - val_loss: 892.1295
+Epoch 1388/2500
+ - 1s - loss: 899.5686 - val_loss: 893.1188
+Epoch 1389/2500
+ - 1s - loss: 900.1182 - val_loss: 891.6797
+Epoch 1390/2500
+ - 1s - loss: 899.3216 - val_loss: 891.7503
+Epoch 1391/2500
+ - 2s - loss: 899.3807 - val_loss: 891.6528
+Epoch 1392/2500
+ - 1s - loss: 899.4072 - val_loss: 891.7698
+Epoch 1393/2500
+ - 1s - loss: 899.7006 - val_loss: 893.1275
+Epoch 1394/2500
+ - 1s - loss: 900.4842 - val_loss: 892.1671
+Epoch 1395/2500
+ - 2s - loss: 899.5559 - val_loss: 891.8987
+Epoch 1396/2500
+ - 2s - loss: 899.6720 - val_loss: 891.9730
+Epoch 1397/2500
+ - 2s - loss: 899.3727 - val_loss: 891.6325
+Epoch 1398/2500
+ - 2s - loss: 899.2930 - val_loss: 891.5995
+Epoch 1399/2500
+ - 2s - loss: 899.2826 - val_loss: 891.5466
+Epoch 1400/2500
+ - 2s - loss: 899.2543 - val_loss: 891.5564
+Epoch 1401/2500
+ - 2s - loss: 899.2198 - val_loss: 891.8688
+Epoch 1402/2500
+ - 2s - loss: 899.3180 - val_loss: 891.7201
+Epoch 1403/2500
+ - 1s - loss: 899.2725 - val_loss: 891.6770
+Epoch 1404/2500
+ - 2s - loss: 899.4582 - val_loss: 891.5972
+Epoch 1405/2500
+ - 1s - loss: 899.2940 - val_loss: 891.6855
+Epoch 1406/2500
+ - 1s - loss: 899.6431 - val_loss: 892.2045
+Epoch 1407/2500
+ - 1s - loss: 899.4636 - val_loss: 891.9533
+Epoch 1408/2500
+ - 1s - loss: 899.3608 - val_loss: 891.6115
+Epoch 1409/2500
+ - 1s - loss: 899.2659 - val_loss: 891.5880
+Epoch 1410/2500
+ - 1s - loss: 899.2805 - val_loss: 891.5607
+Epoch 1411/2500
+ - 1s - loss: 899.2663 - val_loss: 892.0001
+Epoch 1412/2500
+ - 1s - loss: 899.3015 - val_loss: 891.5510
+Epoch 1413/2500
+ - 2s - loss: 899.3171 - val_loss: 891.8849
+Epoch 1414/2500
+ - 2s - loss: 899.2760 - val_loss: 891.6737
+Epoch 1415/2500
+ - 2s - loss: 899.2635 - val_loss: 891.8048
+Epoch 1416/2500
+ - 2s - loss: 899.4861 - val_loss: 891.5826
+Epoch 1417/2500
+ - 2s - loss: 899.5933 - val_loss: 893.0645
+Epoch 1418/2500
+ - 2s - loss: 899.7220 - val_loss: 893.0099
+Epoch 1419/2500
+ - 1s - loss: 899.5849 - val_loss: 891.5274
+Epoch 1420/2500
+ - 1s - loss: 899.3298 - val_loss: 891.8993
+Epoch 1421/2500
+ - 1s - loss: 899.4906 - val_loss: 891.8157
+Epoch 1422/2500
+ - 1s - loss: 899.3943 - val_loss: 891.6086
+Epoch 1423/2500
+ - 2s - loss: 899.3857 - val_loss: 891.9760
+Epoch 1424/2500
+ - 2s - loss: 899.2973 - val_loss: 891.6479
+Epoch 1425/2500
+ - 1s - loss: 899.3007 - val_loss: 891.9916
+Epoch 1426/2500
+ - 1s - loss: 899.3890 - val_loss: 891.6799
+Epoch 1427/2500
+ - 1s - loss: 899.2716 - val_loss: 891.4931
+Epoch 1428/2500
+ - 1s - loss: 899.3674 - val_loss: 892.7971
+Epoch 1429/2500
+ - 1s - loss: 899.4308 - val_loss: 892.3023
+Epoch 1430/2500
+ - 1s - loss: 899.9158 - val_loss: 891.7606
+Epoch 1431/2500
+ - 1s - loss: 899.3008 - val_loss: 891.4930
+Epoch 1432/2500
+ - 1s - loss: 899.2632 - val_loss: 891.5475
+Epoch 1433/2500
+ - 1s - loss: 899.2627 - val_loss: 891.6167
+Epoch 1434/2500
+ - 2s - loss: 899.3821 - val_loss: 891.6363
+Epoch 1435/2500
+ - 1s - loss: 899.2558 - val_loss: 891.5714
+Epoch 1436/2500
+ - 1s - loss: 899.3007 - val_loss: 891.9617
+Epoch 1437/2500
+ - 1s - loss: 899.2337 - val_loss: 891.4360
+Epoch 1438/2500
+ - 1s - loss: 899.2797 - val_loss: 891.8009
+Epoch 1439/2500
+ - 1s - loss: 899.3056 - val_loss: 892.2227
+Epoch 1440/2500
+ - 2s - loss: 899.3207 - val_loss: 891.8056
+Epoch 1441/2500
+ - 1s - loss: 899.9056 - val_loss: 892.2363
+Epoch 1442/2500
+ - 2s - loss: 902.2353 - val_loss: 893.3865
+Epoch 1443/2500
+ - 2s - loss: 900.1012 - val_loss: 891.7345
+Epoch 1444/2500
+ - 2s - loss: 899.4055 - val_loss: 891.5536
+Epoch 1445/2500
+ - 2s - loss: 899.3426 - val_loss: 891.5080
+Epoch 1446/2500
+ - 1s - loss: 899.2953 - val_loss: 891.5077
+Epoch 1447/2500
+ - 2s - loss: 899.2649 - val_loss: 891.4967
+Epoch 1448/2500
+ - 1s - loss: 899.2497 - val_loss: 891.5090
+Epoch 1449/2500
+ - 2s - loss: 899.3197 - val_loss: 891.6903
+Epoch 1450/2500
+ - 2s - loss: 899.2983 - val_loss: 891.5961
+Epoch 1451/2500
+ - 1s - loss: 899.5085 - val_loss: 891.7164
+Epoch 1452/2500
+ - 2s - loss: 899.2884 - val_loss: 891.9831
+Epoch 1453/2500
+ - 2s - loss: 899.3019 - val_loss: 892.5949
+Epoch 1454/2500
+ - 2s - loss: 899.3862 - val_loss: 892.3410
+Epoch 1455/2500
+ - 2s - loss: 899.6784 - val_loss: 892.1770
+Epoch 1456/2500
+ - 2s - loss: 900.1293 - val_loss: 892.8490
+Epoch 1457/2500
+ - 2s - loss: 899.4725 - val_loss: 891.5701
+Epoch 1458/2500
+ - 2s - loss: 899.5273 - val_loss: 891.6382
+Epoch 1459/2500
+ - 1s - loss: 899.2852 - val_loss: 891.6432
+Epoch 1460/2500
+ - 2s - loss: 899.3043 - val_loss: 891.6094
+Epoch 1461/2500
+ - 1s - loss: 899.3474 - val_loss: 892.1586
+Epoch 1462/2500
+ - 1s - loss: 899.3743 - val_loss: 891.5259
+Epoch 1463/2500
+ - 1s - loss: 899.3933 - val_loss: 893.2257
+Epoch 1464/2500
+ - 2s - loss: 899.7823 - val_loss: 891.9165
+Epoch 1465/2500
+ - 2s - loss: 899.3757 - val_loss: 891.8162
+Epoch 1466/2500
+ - 2s - loss: 899.2477 - val_loss: 891.7720
+Epoch 1467/2500
+ - 2s - loss: 899.3608 - val_loss: 891.6216
+Epoch 1468/2500
+ - 2s - loss: 899.3103 - val_loss: 891.6470
+Epoch 1469/2500
+ - 2s - loss: 899.2433 - val_loss: 891.7476
+Epoch 1470/2500
+ - 2s - loss: 899.2596 - val_loss: 891.6186
+Epoch 1471/2500
+ - 2s - loss: 899.4952 - val_loss: 891.6414
+Epoch 1472/2500
+ - 2s - loss: 899.2438 - val_loss: 891.7361
+Epoch 1473/2500
+ - 2s - loss: 899.5207 - val_loss: 891.4120
+Epoch 1474/2500
+ - 2s - loss: 899.2737 - val_loss: 891.5885
+Epoch 1475/2500
+ - 1s - loss: 899.3103 - val_loss: 891.7039
+Epoch 1476/2500
+ - 1s - loss: 899.4018 - val_loss: 891.8334
+Epoch 1477/2500
+ - 1s - loss: 900.1548 - val_loss: 891.8664
+Epoch 1478/2500
+ - 1s - loss: 899.6237 - val_loss: 891.8764
+Epoch 1479/2500
+ - 1s - loss: 899.4387 - val_loss: 891.7690
+Epoch 1480/2500
+ - 1s - loss: 899.3914 - val_loss: 891.5569
+Epoch 1481/2500
+ - 1s - loss: 899.2824 - val_loss: 891.8814
+Epoch 1482/2500
+ - 2s - loss: 899.4503 - val_loss: 892.7816
+Epoch 1483/2500
+ - 2s - loss: 900.0897 - val_loss: 892.1391
+Epoch 1484/2500
+ - 2s - loss: 899.6271 - val_loss: 891.6487
+Epoch 1485/2500
+ - 1s - loss: 899.4212 - val_loss: 891.7365
+Epoch 1486/2500
+ - 1s - loss: 899.4224 - val_loss: 891.7247
+Epoch 1487/2500
+ - 1s - loss: 899.3256 - val_loss: 891.5246
+Epoch 1488/2500
+ - 1s - loss: 899.2990 - val_loss: 892.3660
+Epoch 1489/2500
+ - 2s - loss: 899.6800 - val_loss: 891.5727
+Epoch 1490/2500
+ - 1s - loss: 900.4546 - val_loss: 893.2763
+Epoch 1491/2500
+ - 1s - loss: 899.6836 - val_loss: 891.7904
+Epoch 1492/2500
+ - 1s - loss: 899.5777 - val_loss: 891.8178
+Epoch 1493/2500
+ - 1s - loss: 899.3246 - val_loss: 891.5675
+Epoch 1494/2500
+ - 1s - loss: 899.2578 - val_loss: 891.9498
+Epoch 1495/2500
+ - 1s - loss: 899.2470 - val_loss: 891.6284
+Epoch 1496/2500
+ - 1s - loss: 899.2332 - val_loss: 891.6949
+Epoch 1497/2500
+ - 1s - loss: 899.5113 - val_loss: 891.7534
+Epoch 1498/2500
+ - 1s - loss: 899.4217 - val_loss: 891.6093
+Epoch 1499/2500
+ - 1s - loss: 899.2562 - val_loss: 891.6375
+Epoch 1500/2500
+ - 1s - loss: 899.2801 - val_loss: 891.6015
+Epoch 1501/2500
+ - 2s - loss: 899.2423 - val_loss: 891.5619
+Epoch 1502/2500
+ - 2s - loss: 899.3757 - val_loss: 891.5721
+Epoch 1503/2500
+ - 1s - loss: 899.2923 - val_loss: 891.6811
+Epoch 1504/2500
+ - 1s - loss: 899.3784 - val_loss: 891.9198
+Epoch 1505/2500
+ - 2s - loss: 899.3964 - val_loss: 891.5586
+Epoch 1506/2500
+ - 1s - loss: 899.4290 - val_loss: 891.5984
+Epoch 1507/2500
+ - 2s - loss: 899.4817 - val_loss: 892.0359
+Epoch 1508/2500
+ - 1s - loss: 899.3689 - val_loss: 891.5908
+Epoch 1509/2500
+ - 2s - loss: 899.2474 - val_loss: 891.8191
+Epoch 1510/2500
+ - 1s - loss: 899.2400 - val_loss: 891.7691
+Epoch 1511/2500
+ - 2s - loss: 899.2230 - val_loss: 891.6492
+Epoch 1512/2500
+ - 2s - loss: 899.3334 - val_loss: 892.1096
+Epoch 1513/2500
+ - 2s - loss: 899.3800 - val_loss: 891.5122
+Epoch 1514/2500
+ - 2s - loss: 899.6031 - val_loss: 892.9676
+Epoch 1515/2500
+ - 1s - loss: 899.5209 - val_loss: 891.6452
+Epoch 1516/2500
+ - 1s - loss: 901.0396 - val_loss: 892.1414
+Epoch 1517/2500
+ - 1s - loss: 899.4821 - val_loss: 891.9669
+Epoch 1518/2500
+ - 2s - loss: 899.3272 - val_loss: 891.7725
+Epoch 1519/2500
+ - 1s - loss: 899.2511 - val_loss: 891.8805
+Epoch 1520/2500
+ - 2s - loss: 899.2409 - val_loss: 891.6337
+Epoch 1521/2500
+ - 2s - loss: 900.3518 - val_loss: 891.7130
+Epoch 1522/2500
+ - 2s - loss: 899.3408 - val_loss: 891.5958
+Epoch 1523/2500
+ - 2s - loss: 899.3230 - val_loss: 891.6272
+Epoch 1524/2500
+ - 2s - loss: 899.3589 - val_loss: 891.7333
+Epoch 1525/2500
+ - 2s - loss: 899.2617 - val_loss: 891.7116
+Epoch 1526/2500
+ - 2s - loss: 899.2697 - val_loss: 891.6139
+Epoch 1527/2500
+ - 1s - loss: 899.3989 - val_loss: 891.6486
+Epoch 1528/2500
+ - 1s - loss: 899.2910 - val_loss: 891.8875
+Epoch 1529/2500
+ - 1s - loss: 899.3532 - val_loss: 891.6158
+Epoch 1530/2500
+ - 2s - loss: 899.2382 - val_loss: 891.6239
+Epoch 1531/2500
+ - 2s - loss: 899.4167 - val_loss: 894.6798
+Epoch 1532/2500
+ - 1s - loss: 899.7068 - val_loss: 892.1579
+Epoch 1533/2500
+ - 1s - loss: 899.4299 - val_loss: 891.5491
+Epoch 1534/2500
+ - 1s - loss: 899.6002 - val_loss: 891.7358
+Epoch 1535/2500
+ - 1s - loss: 899.3439 - val_loss: 891.6848
+Epoch 1536/2500
+ - 1s - loss: 899.2710 - val_loss: 891.6698
+Epoch 1537/2500
+ - 1s - loss: 899.3867 - val_loss: 892.0202
+Epoch 1538/2500
+ - 1s - loss: 899.4056 - val_loss: 891.6638
+Epoch 1539/2500
+ - 2s - loss: 899.3791 - val_loss: 891.7186
+Epoch 1540/2500
+ - 1s - loss: 899.3674 - val_loss: 891.6580
+Epoch 1541/2500
+ - 2s - loss: 899.2335 - val_loss: 891.5643
+Epoch 1542/2500
+ - 2s - loss: 899.2153 - val_loss: 891.7142
+Epoch 1543/2500
+ - 1s - loss: 899.3096 - val_loss: 891.6390
+Epoch 1544/2500
+ - 2s - loss: 899.2691 - val_loss: 891.5777
+Epoch 1545/2500
+ - 1s - loss: 899.2467 - val_loss: 891.8240
+Epoch 1546/2500
+ - 1s - loss: 899.4380 - val_loss: 891.7689
+Epoch 1547/2500
+ - 1s - loss: 899.6408 - val_loss: 892.1716
+Epoch 1548/2500
+ - 2s - loss: 899.4644 - val_loss: 891.7592
+Epoch 1549/2500
+ - 1s - loss: 899.7493 - val_loss: 892.4558
+Epoch 1550/2500
+ - 2s - loss: 899.7552 - val_loss: 892.3431
+Epoch 1551/2500
+ - 1s - loss: 899.4471 - val_loss: 891.8058
+Epoch 1552/2500
+ - 2s - loss: 899.3745 - val_loss: 891.5799
+Epoch 1553/2500
+ - 2s - loss: 899.5623 - val_loss: 891.7934
+Epoch 1554/2500
+ - 2s - loss: 899.3233 - val_loss: 892.0116
+Epoch 1555/2500
+ - 2s - loss: 899.6431 - val_loss: 891.7637
+Epoch 1556/2500
+ - 2s - loss: 899.3959 - val_loss: 891.8283
+Epoch 1557/2500
+ - 2s - loss: 899.3628 - val_loss: 891.8719
+Epoch 1558/2500
+ - 2s - loss: 899.4108 - val_loss: 891.6443
+Epoch 1559/2500
+ - 2s - loss: 899.2418 - val_loss: 891.5573
+Epoch 1560/2500
+ - 1s - loss: 899.2616 - val_loss: 891.6991
+Epoch 1561/2500
+ - 1s - loss: 899.2455 - val_loss: 891.5915
+Epoch 1562/2500
+ - 1s - loss: 899.8018 - val_loss: 893.0587
+Epoch 1563/2500
+ - 1s - loss: 899.8127 - val_loss: 892.0263
+Epoch 1564/2500
+ - 2s - loss: 899.3685 - val_loss: 891.8265
+Epoch 1565/2500
+ - 2s - loss: 899.3767 - val_loss: 891.9287
+Epoch 1566/2500
+ - 2s - loss: 899.4229 - val_loss: 892.0581
+Epoch 1567/2500
+ - 2s - loss: 899.2736 - val_loss: 891.8713
+Epoch 1568/2500
+ - 2s - loss: 899.2949 - val_loss: 891.8349
+Epoch 1569/2500
+ - 2s - loss: 899.4265 - val_loss: 893.2722
+Epoch 1570/2500
+ - 1s - loss: 899.5724 - val_loss: 893.2733
+Epoch 1571/2500
+ - 2s - loss: 899.5625 - val_loss: 892.3117
+Epoch 1572/2500
+ - 2s - loss: 899.9015 - val_loss: 892.5222
+Epoch 1573/2500
+ - 2s - loss: 899.4685 - val_loss: 893.7369
+Epoch 1574/2500
+ - 2s - loss: 899.3781 - val_loss: 891.7674
+Epoch 1575/2500
+ - 2s - loss: 899.2293 - val_loss: 891.6589
+Epoch 1576/2500
+ - 1s - loss: 899.3580 - val_loss: 892.1086
+Epoch 1577/2500
+ - 1s - loss: 899.2626 - val_loss: 891.6151
+Epoch 1578/2500
+ - 2s - loss: 899.2444 - val_loss: 891.6681
+Epoch 1579/2500
+ - 2s - loss: 899.2237 - val_loss: 891.8569
+Epoch 1580/2500
+ - 2s - loss: 899.3822 - val_loss: 892.0672
+Epoch 1581/2500
+ - 2s - loss: 899.6866 - val_loss: 893.2149
+Epoch 1582/2500
+ - 2s - loss: 901.2223 - val_loss: 892.3321
+Epoch 1583/2500
+ - 1s - loss: 899.6225 - val_loss: 891.7893
+Epoch 1584/2500
+ - 2s - loss: 899.5508 - val_loss: 891.7180
+Epoch 1585/2500
+ - 2s - loss: 899.3159 - val_loss: 891.8352
+Epoch 1586/2500
+ - 2s - loss: 899.3254 - val_loss: 891.8067
+Epoch 1587/2500
+ - 2s - loss: 899.2824 - val_loss: 891.6514
+Epoch 1588/2500
+ - 2s - loss: 899.2485 - val_loss: 891.5740
+Epoch 1589/2500
+ - 2s - loss: 899.2290 - val_loss: 891.6271
+Epoch 1590/2500
+ - 2s - loss: 899.5432 - val_loss: 892.3412
+Epoch 1591/2500
+ - 2s - loss: 899.3187 - val_loss: 891.5735
+Epoch 1592/2500
+ - 1s - loss: 899.2397 - val_loss: 891.6733
+Epoch 1593/2500
+ - 2s - loss: 899.2335 - val_loss: 891.9013
+Epoch 1594/2500
+ - 2s - loss: 899.2992 - val_loss: 891.6409
+Epoch 1595/2500
+ - 2s - loss: 899.2852 - val_loss: 891.7267
+Epoch 1596/2500
+ - 2s - loss: 899.4685 - val_loss: 892.0027
+Epoch 1597/2500
+ - 2s - loss: 899.3282 - val_loss: 891.5963
+Epoch 1598/2500
+ - 2s - loss: 899.2506 - val_loss: 891.8320
+Epoch 1599/2500
+ - 2s - loss: 899.2788 - val_loss: 891.7502
+Epoch 1600/2500
+ - 2s - loss: 899.2813 - val_loss: 891.5663
+Epoch 1601/2500
+ - 2s - loss: 899.3679 - val_loss: 892.1812
+Epoch 1602/2500
+ - 1s - loss: 899.3566 - val_loss: 891.5803
+Epoch 1603/2500
+ - 2s - loss: 899.2660 - val_loss: 891.5343
+Epoch 1604/2500
+ - 2s - loss: 899.3306 - val_loss: 891.6490
+Epoch 1605/2500
+ - 2s - loss: 899.2608 - val_loss: 891.8039
+Epoch 1606/2500
+ - 2s - loss: 899.2272 - val_loss: 891.5956
+Epoch 1607/2500
+ - 2s - loss: 899.3128 - val_loss: 891.5577
+Epoch 1608/2500
+ - 1s - loss: 899.5690 - val_loss: 895.2692
+Epoch 1609/2500
+ - 2s - loss: 900.6872 - val_loss: 892.2522
+Epoch 1610/2500
+ - 2s - loss: 899.8424 - val_loss: 891.8140
+Epoch 1611/2500
+ - 2s - loss: 899.3680 - val_loss: 891.6432
+Epoch 1612/2500
+ - 2s - loss: 899.2829 - val_loss: 891.6093
+Epoch 1613/2500
+ - 2s - loss: 899.3073 - val_loss: 891.7272
+Epoch 1614/2500
+ - 2s - loss: 899.3294 - val_loss: 892.5382
+Epoch 1615/2500
+ - 2s - loss: 899.4275 - val_loss: 892.1998
+Epoch 1616/2500
+ - 2s - loss: 899.5944 - val_loss: 891.9078
+Epoch 1617/2500
+ - 2s - loss: 899.7313 - val_loss: 891.8897
+Epoch 1618/2500
+ - 2s - loss: 899.8296 - val_loss: 892.9376
+Epoch 1619/2500
+ - 1s - loss: 899.6392 - val_loss: 892.0435
+Epoch 1620/2500
+ - 1s - loss: 899.3551 - val_loss: 891.7886
+Epoch 1621/2500
+ - 1s - loss: 899.3091 - val_loss: 892.3656
+Epoch 1622/2500
+ - 2s - loss: 899.3938 - val_loss: 892.0377
+Epoch 1623/2500
+ - 2s - loss: 899.5939 - val_loss: 893.3794
+Epoch 1624/2500
+ - 1s - loss: 899.4416 - val_loss: 891.6968
+Epoch 1625/2500
+ - 1s - loss: 899.6397 - val_loss: 892.1169
+Epoch 1626/2500
+ - 1s - loss: 899.3593 - val_loss: 891.7740
+Epoch 1627/2500
+ - 1s - loss: 899.3150 - val_loss: 891.7471
+Epoch 1628/2500
+ - 1s - loss: 899.2486 - val_loss: 891.6873
+Epoch 1629/2500
+ - 1s - loss: 899.2294 - val_loss: 892.1337
+Epoch 1630/2500
+ - 1s - loss: 899.2653 - val_loss: 891.7023
+Epoch 1631/2500
+ - 1s - loss: 899.3138 - val_loss: 892.2394
+Epoch 1632/2500
+ - 1s - loss: 900.0555 - val_loss: 891.7427
+Epoch 1633/2500
+ - 1s - loss: 900.0861 - val_loss: 891.8403
+Epoch 1634/2500
+ - 1s - loss: 899.3507 - val_loss: 891.6353
+Epoch 1635/2500
+ - 1s - loss: 899.3697 - val_loss: 892.5525
+Epoch 1636/2500
+ - 1s - loss: 899.3000 - val_loss: 891.6338
+Epoch 1637/2500
+ - 1s - loss: 899.2980 - val_loss: 891.6544
+Epoch 1638/2500
+ - 1s - loss: 899.2295 - val_loss: 891.6864
+Epoch 1639/2500
+ - 1s - loss: 899.3329 - val_loss: 891.9515
+Epoch 1640/2500
+ - 2s - loss: 899.3348 - val_loss: 891.6491
+Epoch 1641/2500
+ - 2s - loss: 899.4006 - val_loss: 892.3975
+Epoch 1642/2500
+ - 1s - loss: 899.4471 - val_loss: 892.0265
+Epoch 1643/2500
+ - 1s - loss: 899.2743 - val_loss: 891.5482
+Epoch 1644/2500
+ - 1s - loss: 899.3398 - val_loss: 891.9602
+Epoch 1645/2500
+ - 1s - loss: 899.2892 - val_loss: 891.5781
+Epoch 1646/2500
+ - 2s - loss: 899.2913 - val_loss: 891.6911
+Epoch 1647/2500
+ - 1s - loss: 899.3678 - val_loss: 891.6982
+Epoch 1648/2500
+ - 1s - loss: 899.2311 - val_loss: 891.7021
+Epoch 1649/2500
+ - 1s - loss: 899.4109 - val_loss: 891.6411
+Epoch 1650/2500
+ - 2s - loss: 899.4508 - val_loss: 892.8730
+Epoch 1651/2500
+ - 1s - loss: 900.9682 - val_loss: 892.4144
+Epoch 1652/2500
+ - 1s - loss: 899.6402 - val_loss: 891.6675
+Epoch 1653/2500
+ - 1s - loss: 899.3643 - val_loss: 891.8199
+Epoch 1654/2500
+ - 2s - loss: 899.9066 - val_loss: 895.8855
+Epoch 1655/2500
+ - 1s - loss: 900.1535 - val_loss: 892.0748
+Epoch 1656/2500
+ - 1s - loss: 899.3074 - val_loss: 891.6966
+Epoch 1657/2500
+ - 1s - loss: 899.4699 - val_loss: 892.4847
+Epoch 1658/2500
+ - 2s - loss: 899.3719 - val_loss: 891.6891
+Epoch 1659/2500
+ - 2s - loss: 899.2958 - val_loss: 891.6459
+Epoch 1660/2500
+ - 2s - loss: 899.2619 - val_loss: 891.6832
+Epoch 1661/2500
+ - 1s - loss: 899.2957 - val_loss: 891.6911
+Epoch 1662/2500
+ - 2s - loss: 899.2192 - val_loss: 891.7222
+Epoch 1663/2500
+ - 2s - loss: 899.2234 - val_loss: 891.5989
+Epoch 1664/2500
+ - 1s - loss: 899.5188 - val_loss: 893.2058
+Epoch 1665/2500
+ - 1s - loss: 899.4630 - val_loss: 891.6712
+Epoch 1666/2500
+ - 1s - loss: 899.4226 - val_loss: 892.0154
+Epoch 1667/2500
+ - 1s - loss: 899.3884 - val_loss: 891.7293
+Epoch 1668/2500
+ - 1s - loss: 899.6075 - val_loss: 891.7140
+Epoch 1669/2500
+ - 1s - loss: 899.6778 - val_loss: 891.9093
+Epoch 1670/2500
+ - 2s - loss: 899.4593 - val_loss: 891.9051
+Epoch 1671/2500
+ - 1s - loss: 899.2770 - val_loss: 891.5698
+Epoch 1672/2500
+ - 2s - loss: 899.2145 - val_loss: 891.5632
+Epoch 1673/2500
+ - 1s - loss: 899.3159 - val_loss: 891.7778
+Epoch 1674/2500
+ - 1s - loss: 899.9391 - val_loss: 892.6492
+Epoch 1675/2500
+ - 2s - loss: 899.6883 - val_loss: 891.6681
+Epoch 1676/2500
+ - 1s - loss: 899.2808 - val_loss: 891.6266
+Epoch 1677/2500
+ - 2s - loss: 899.3003 - val_loss: 891.5724
+Epoch 1678/2500
+ - 2s - loss: 899.2398 - val_loss: 891.8297
+Epoch 1679/2500
+ - 1s - loss: 899.2336 - val_loss: 891.7379
+Epoch 1680/2500
+ - 1s - loss: 899.4098 - val_loss: 891.6409
+Epoch 1681/2500
+ - 1s - loss: 899.2774 - val_loss: 891.8469
+Epoch 1682/2500
+ - 2s - loss: 899.2661 - val_loss: 891.9086
+Epoch 1683/2500
+ - 1s - loss: 899.7646 - val_loss: 892.9535
+Epoch 1684/2500
+ - 1s - loss: 899.8926 - val_loss: 891.6345
+Epoch 1685/2500
+ - 1s - loss: 899.3467 - val_loss: 891.8264
+Epoch 1686/2500
+ - 1s - loss: 899.3995 - val_loss: 891.5705
+Epoch 1687/2500
+ - 2s - loss: 899.2283 - val_loss: 891.6128
+Epoch 1688/2500
+ - 1s - loss: 899.2190 - val_loss: 891.6915
+Epoch 1689/2500
+ - 1s - loss: 899.3051 - val_loss: 891.6272
+Epoch 1690/2500
+ - 1s - loss: 899.2342 - val_loss: 891.4997
+Epoch 1691/2500
+ - 1s - loss: 899.7412 - val_loss: 892.5004
+Epoch 1692/2500
+ - 1s - loss: 899.8371 - val_loss: 891.9455
+Epoch 1693/2500
+ - 1s - loss: 899.3287 - val_loss: 891.6177
+Epoch 1694/2500
+ - 2s - loss: 899.3119 - val_loss: 891.8545
+Epoch 1695/2500
+ - 1s - loss: 899.2560 - val_loss: 893.1432
+Epoch 1696/2500
+ - 1s - loss: 899.3550 - val_loss: 891.6740
+Epoch 1697/2500
+ - 2s - loss: 899.2851 - val_loss: 891.6934
+Epoch 1698/2500
+ - 1s - loss: 899.2099 - val_loss: 891.6096
+Epoch 1699/2500
+ - 1s - loss: 899.2598 - val_loss: 891.5977
+Epoch 1700/2500
+ - 2s - loss: 899.3859 - val_loss: 891.8809
+Epoch 1701/2500
+ - 1s - loss: 900.3163 - val_loss: 891.7741
+Epoch 1702/2500
+ - 1s - loss: 899.7853 - val_loss: 892.0358
+Epoch 1703/2500
+ - 1s - loss: 899.7279 - val_loss: 891.7280
+Epoch 1704/2500
+ - 1s - loss: 899.4051 - val_loss: 892.2728
+Epoch 1705/2500
+ - 2s - loss: 899.3361 - val_loss: 891.7171
+Epoch 1706/2500
+ - 2s - loss: 899.7101 - val_loss: 891.8792
+Epoch 1707/2500
+ - 1s - loss: 899.4553 - val_loss: 891.9931
+Epoch 1708/2500
+ - 1s - loss: 899.5082 - val_loss: 891.9110
+Epoch 1709/2500
+ - 1s - loss: 899.2698 - val_loss: 891.6060
+Epoch 1710/2500
+ - 1s - loss: 899.2347 - val_loss: 891.7275
+Epoch 1711/2500
+ - 1s - loss: 899.2285 - val_loss: 891.5897
+Epoch 1712/2500
+ - 2s - loss: 899.2407 - val_loss: 892.3946
+Epoch 1713/2500
+ - 1s - loss: 900.7847 - val_loss: 893.5487
+Epoch 1714/2500
+ - 1s - loss: 900.6499 - val_loss: 892.1727
+Epoch 1715/2500
+ - 1s - loss: 899.7450 - val_loss: 891.7723
+Epoch 1716/2500
+ - 1s - loss: 899.4506 - val_loss: 892.5942
+Epoch 1717/2500
+ - 2s - loss: 899.4097 - val_loss: 891.8187
+Epoch 1718/2500
+ - 1s - loss: 899.2755 - val_loss: 891.8314
+Epoch 1719/2500
+ - 1s - loss: 899.8370 - val_loss: 891.8097
+Epoch 1720/2500
+ - 2s - loss: 899.5115 - val_loss: 891.6370
+Epoch 1721/2500
+ - 2s - loss: 899.2671 - val_loss: 891.6554
+Epoch 1722/2500
+ - 2s - loss: 899.3058 - val_loss: 891.8120
+Epoch 1723/2500
+ - 2s - loss: 899.2507 - val_loss: 891.6735
+Epoch 1724/2500
+ - 2s - loss: 899.2716 - val_loss: 891.6629
+Epoch 1725/2500
+ - 2s - loss: 899.2475 - val_loss: 891.6375
+Epoch 1726/2500
+ - 2s - loss: 899.3252 - val_loss: 892.1253
+Epoch 1727/2500
+ - 1s - loss: 899.4732 - val_loss: 891.6262
+Epoch 1728/2500
+ - 2s - loss: 899.3751 - val_loss: 892.1346
+Epoch 1729/2500
+ - 1s - loss: 899.4498 - val_loss: 891.7331
+Epoch 1730/2500
+ - 1s - loss: 899.2883 - val_loss: 891.4935
+Epoch 1731/2500
+ - 2s - loss: 899.3013 - val_loss: 891.9004
+Epoch 1732/2500
+ - 2s - loss: 899.2871 - val_loss: 891.6751
+Epoch 1733/2500
+ - 1s - loss: 899.2659 - val_loss: 891.6356
+Epoch 1734/2500
+ - 1s - loss: 899.3795 - val_loss: 892.1166
+Epoch 1735/2500
+ - 1s - loss: 900.1513 - val_loss: 892.3080
+Epoch 1736/2500
+ - 2s - loss: 899.6370 - val_loss: 891.7873
+Epoch 1737/2500
+ - 1s - loss: 899.3239 - val_loss: 891.6956
+Epoch 1738/2500
+ - 1s - loss: 899.3034 - val_loss: 891.5649
+Epoch 1739/2500
+ - 2s - loss: 899.2868 - val_loss: 891.6449
+Epoch 1740/2500
+ - 1s - loss: 899.2800 - val_loss: 891.6507
+Epoch 1741/2500
+ - 1s - loss: 899.2761 - val_loss: 891.6027
+Epoch 1742/2500
+ - 2s - loss: 899.2485 - val_loss: 891.7178
+Epoch 1743/2500
+ - 1s - loss: 899.2809 - val_loss: 892.2244
+Epoch 1744/2500
+ - 2s - loss: 899.8357 - val_loss: 892.8491
+Epoch 1745/2500
+ - 1s - loss: 900.6441 - val_loss: 891.9379
+Epoch 1746/2500
+ - 2s - loss: 899.8594 - val_loss: 894.1788
+Epoch 1747/2500
+ - 1s - loss: 899.8813 - val_loss: 891.6364
+Epoch 1748/2500
+ - 1s - loss: 899.3426 - val_loss: 891.7313
+Epoch 1749/2500
+ - 1s - loss: 899.5888 - val_loss: 891.8495
+Epoch 1750/2500
+ - 1s - loss: 899.3866 - val_loss: 891.7327
+Epoch 1751/2500
+ - 1s - loss: 899.3657 - val_loss: 892.0175
+Epoch 1752/2500
+ - 1s - loss: 899.3997 - val_loss: 891.9241
+Epoch 1753/2500
+ - 2s - loss: 899.3104 - val_loss: 891.7877
+Epoch 1754/2500
+ - 2s - loss: 899.2250 - val_loss: 891.5475
+Epoch 1755/2500
+ - 2s - loss: 899.2068 - val_loss: 891.5731
+Epoch 1756/2500
+ - 2s - loss: 899.2586 - val_loss: 891.7407
+Epoch 1757/2500
+ - 2s - loss: 899.5151 - val_loss: 892.7271
+Epoch 1758/2500
+ - 2s - loss: 899.4733 - val_loss: 891.8090
+Epoch 1759/2500
+ - 2s - loss: 899.2768 - val_loss: 891.8402
+Epoch 1760/2500
+ - 2s - loss: 899.3599 - val_loss: 891.7806
+Epoch 1761/2500
+ - 2s - loss: 899.3382 - val_loss: 891.7735
+Epoch 1762/2500
+ - 2s - loss: 899.3448 - val_loss: 892.0765
+Epoch 1763/2500
+ - 2s - loss: 899.2828 - val_loss: 891.9674
+Epoch 1764/2500
+ - 2s - loss: 899.3982 - val_loss: 891.6315
+Epoch 1765/2500
+ - 2s - loss: 899.3060 - val_loss: 892.0139
+Epoch 1766/2500
+ - 1s - loss: 899.7145 - val_loss: 893.4839
+Epoch 1767/2500
+ - 1s - loss: 899.6216 - val_loss: 892.1542
+Epoch 1768/2500
+ - 1s - loss: 899.3202 - val_loss: 891.7109
+Epoch 1769/2500
+ - 1s - loss: 899.3307 - val_loss: 891.7139
+Epoch 1770/2500
+ - 2s - loss: 899.9004 - val_loss: 893.0360
+Epoch 1771/2500
+ - 2s - loss: 899.8242 - val_loss: 891.9782
+Epoch 1772/2500
+ - 2s - loss: 899.4259 - val_loss: 892.2492
+Epoch 1773/2500
+ - 2s - loss: 899.2880 - val_loss: 891.9860
+Epoch 1774/2500
+ - 1s - loss: 899.3223 - val_loss: 891.8354
+Epoch 1775/2500
+ - 2s - loss: 899.4194 - val_loss: 891.9645
+Epoch 1776/2500
+ - 2s - loss: 899.3835 - val_loss: 892.1849
+Epoch 1777/2500
+ - 1s - loss: 899.4342 - val_loss: 891.8581
+Epoch 1778/2500
+ - 1s - loss: 899.6099 - val_loss: 891.6915
+Epoch 1779/2500
+ - 2s - loss: 899.2946 - val_loss: 891.6463
+Epoch 1780/2500
+ - 1s - loss: 899.2973 - val_loss: 891.7371
+Epoch 1781/2500
+ - 1s - loss: 899.2740 - val_loss: 891.7352
+Epoch 1782/2500
+ - 1s - loss: 899.2762 - val_loss: 891.6970
+Epoch 1783/2500
+ - 2s - loss: 899.4966 - val_loss: 891.9270
+Epoch 1784/2500
+ - 2s - loss: 899.3071 - val_loss: 891.5606
+Epoch 1785/2500
+ - 1s - loss: 899.3710 - val_loss: 891.5649
+Epoch 1786/2500
+ - 2s - loss: 899.2627 - val_loss: 891.6037
+Epoch 1787/2500
+ - 2s - loss: 899.8307 - val_loss: 891.6143
+Epoch 1788/2500
+ - 2s - loss: 899.9642 - val_loss: 892.1878
+Epoch 1789/2500
+ - 1s - loss: 899.4656 - val_loss: 891.6208
+Epoch 1790/2500
+ - 2s - loss: 899.8483 - val_loss: 891.6141
+Epoch 1791/2500
+ - 2s - loss: 899.3540 - val_loss: 891.5144
+Epoch 1792/2500
+ - 1s - loss: 899.2508 - val_loss: 891.6053
+Epoch 1793/2500
+ - 1s - loss: 899.5961 - val_loss: 892.0174
+Epoch 1794/2500
+ - 2s - loss: 899.4242 - val_loss: 892.3635
+Epoch 1795/2500
+ - 1s - loss: 900.4448 - val_loss: 892.1012
+Epoch 1796/2500
+ - 2s - loss: 899.5674 - val_loss: 891.9191
+Epoch 1797/2500
+ - 1s - loss: 899.5992 - val_loss: 892.6878
+Epoch 1798/2500
+ - 2s - loss: 899.6897 - val_loss: 891.6194
+Epoch 1799/2500
+ - 2s - loss: 899.3441 - val_loss: 891.5450
+Epoch 1800/2500
+ - 1s - loss: 899.2994 - val_loss: 891.7271
+Epoch 1801/2500
+ - 1s - loss: 899.3736 - val_loss: 891.7002
+Epoch 1802/2500
+ - 2s - loss: 899.3637 - val_loss: 891.9888
+Epoch 1803/2500
+ - 2s - loss: 899.6289 - val_loss: 891.5980
+Epoch 1804/2500
+ - 2s - loss: 899.3283 - val_loss: 891.6933
+Epoch 1805/2500
+ - 2s - loss: 899.2821 - val_loss: 891.7457
+Epoch 1806/2500
+ - 2s - loss: 899.3000 - val_loss: 891.7181
+Epoch 1807/2500
+ - 2s - loss: 899.2967 - val_loss: 891.6142
+Epoch 1808/2500
+ - 1s - loss: 899.3609 - val_loss: 891.7684
+Epoch 1809/2500
+ - 2s - loss: 899.4493 - val_loss: 892.1961
+Epoch 1810/2500
+ - 1s - loss: 899.5440 - val_loss: 891.6500
+Epoch 1811/2500
+ - 1s - loss: 899.8360 - val_loss: 891.7541
+Epoch 1812/2500
+ - 2s - loss: 899.3828 - val_loss: 891.6644
+Epoch 1813/2500
+ - 2s - loss: 899.3817 - val_loss: 892.2034
+Epoch 1814/2500
+ - 1s - loss: 899.3186 - val_loss: 891.5867
+Epoch 1815/2500
+ - 2s - loss: 899.2197 - val_loss: 891.6238
+Epoch 1816/2500
+ - 2s - loss: 899.3607 - val_loss: 891.7820
+Epoch 1817/2500
+ - 2s - loss: 899.4582 - val_loss: 891.8137
+Epoch 1818/2500
+ - 2s - loss: 899.3817 - val_loss: 891.7570
+Epoch 1819/2500
+ - 2s - loss: 899.2753 - val_loss: 891.7209
+Epoch 1820/2500
+ - 2s - loss: 899.3682 - val_loss: 892.4892
+Epoch 1821/2500
+ - 2s - loss: 899.2790 - val_loss: 891.9219
+Epoch 1822/2500
+ - 1s - loss: 899.2718 - val_loss: 892.4172
+Epoch 1823/2500
+ - 1s - loss: 899.4533 - val_loss: 892.2963
+Epoch 1824/2500
+ - 2s - loss: 899.3065 - val_loss: 891.7748
+Epoch 1825/2500
+ - 2s - loss: 899.3633 - val_loss: 891.6720
+Epoch 1826/2500
+ - 1s - loss: 899.2448 - val_loss: 891.5855
+Epoch 1827/2500
+ - 2s - loss: 899.3110 - val_loss: 891.7864
+Epoch 1828/2500
+ - 1s - loss: 899.4215 - val_loss: 891.6673
+Epoch 1829/2500
+ - 2s - loss: 899.2632 - val_loss: 891.6604
+Epoch 1830/2500
+ - 2s - loss: 899.4939 - val_loss: 892.4273
+Epoch 1831/2500
+ - 1s - loss: 899.4287 - val_loss: 892.9620
+Epoch 1832/2500
+ - 2s - loss: 899.4289 - val_loss: 891.7555
+Epoch 1833/2500
+ - 2s - loss: 899.3649 - val_loss: 891.7595
+Epoch 1834/2500
+ - 2s - loss: 899.3359 - val_loss: 892.0844
+Epoch 1835/2500
+ - 2s - loss: 899.4053 - val_loss: 891.6595
+Epoch 1836/2500
+ - 2s - loss: 899.3233 - val_loss: 891.7722
+Epoch 1837/2500
+ - 2s - loss: 899.9687 - val_loss: 892.1220
+Epoch 1838/2500
+ - 1s - loss: 899.3329 - val_loss: 891.7172
+Epoch 1839/2500
+ - 1s - loss: 899.3911 - val_loss: 892.1949
+Epoch 1840/2500
+ - 1s - loss: 899.2699 - val_loss: 891.6064
+Epoch 1841/2500
+ - 1s - loss: 899.5459 - val_loss: 891.8151
+Epoch 1842/2500
+ - 1s - loss: 899.3299 - val_loss: 892.0190
+Epoch 1843/2500
+ - 2s - loss: 899.5607 - val_loss: 891.7134
+Epoch 1844/2500
+ - 2s - loss: 899.4101 - val_loss: 891.6062
+Epoch 1845/2500
+ - 1s - loss: 899.5234 - val_loss: 891.9253
+Epoch 1846/2500
+ - 2s - loss: 899.4864 - val_loss: 891.8087
+Epoch 1847/2500
+ - 2s - loss: 899.3842 - val_loss: 892.8395
+Epoch 1848/2500
+ - 1s - loss: 899.3805 - val_loss: 891.9187
+Epoch 1849/2500
+ - 1s - loss: 899.3862 - val_loss: 891.5433
+Epoch 1850/2500
+ - 2s - loss: 899.2269 - val_loss: 891.5477
+Epoch 1851/2500
+ - 2s - loss: 899.8627 - val_loss: 891.9488
+Epoch 1852/2500
+ - 1s - loss: 899.5668 - val_loss: 891.7939
+Epoch 1853/2500
+ - 1s - loss: 899.2986 - val_loss: 891.9135
+Epoch 1854/2500
+ - 1s - loss: 899.2789 - val_loss: 891.6306
+Epoch 1855/2500
+ - 1s - loss: 899.2705 - val_loss: 892.3680
+Epoch 1856/2500
+ - 1s - loss: 899.4466 - val_loss: 891.5693
+Epoch 1857/2500
+ - 1s - loss: 899.2884 - val_loss: 891.8183
+Epoch 1858/2500
+ - 1s - loss: 899.2983 - val_loss: 891.6063
+Epoch 1859/2500
+ - 1s - loss: 899.3903 - val_loss: 891.6115
+Epoch 1860/2500
+ - 1s - loss: 899.3178 - val_loss: 892.7141
+Epoch 1861/2500
+ - 1s - loss: 899.4328 - val_loss: 891.9334
+Epoch 1862/2500
+ - 1s - loss: 899.2400 - val_loss: 891.6510
+Epoch 1863/2500
+ - 1s - loss: 899.5273 - val_loss: 891.8304
+Epoch 1864/2500
+ - 2s - loss: 899.2619 - val_loss: 891.7531
+Epoch 1865/2500
+ - 2s - loss: 899.3468 - val_loss: 891.9636
+Epoch 1866/2500
+ - 1s - loss: 899.5929 - val_loss: 891.8155
+Epoch 1867/2500
+ - 1s - loss: 899.6685 - val_loss: 891.9936
+Epoch 1868/2500
+ - 1s - loss: 899.3981 - val_loss: 891.6745
+Epoch 1869/2500
+ - 2s - loss: 899.3022 - val_loss: 891.6015
+Epoch 1870/2500
+ - 2s - loss: 899.3266 - val_loss: 891.6670
+Epoch 1871/2500
+ - 2s - loss: 899.2212 - val_loss: 891.5883
+Epoch 1872/2500
+ - 1s - loss: 899.4962 - val_loss: 892.3125
+Epoch 1873/2500
+ - 1s - loss: 900.0935 - val_loss: 891.6158
+Epoch 1874/2500
+ - 1s - loss: 899.5144 - val_loss: 891.7287
+Epoch 1875/2500
+ - 1s - loss: 899.2995 - val_loss: 891.6779
+Epoch 1876/2500
+ - 1s - loss: 899.3366 - val_loss: 891.8430
+Epoch 1877/2500
+ - 2s - loss: 899.4695 - val_loss: 891.5805
+Epoch 1878/2500
+ - 1s - loss: 899.2246 - val_loss: 891.6221
+Epoch 1879/2500
+ - 1s - loss: 899.4321 - val_loss: 891.8867
+Epoch 1880/2500
+ - 1s - loss: 899.2730 - val_loss: 891.7085
+Epoch 1881/2500
+ - 2s - loss: 899.3175 - val_loss: 891.6619
+Epoch 1882/2500
+ - 2s - loss: 900.1417 - val_loss: 891.7820
+Epoch 1883/2500
+ - 2s - loss: 899.3746 - val_loss: 892.0210
+Epoch 1884/2500
+ - 1s - loss: 899.4315 - val_loss: 891.9325
+Epoch 1885/2500
+ - 2s - loss: 899.3955 - val_loss: 891.5999
+Epoch 1886/2500
+ - 1s - loss: 899.3938 - val_loss: 892.7618
+Epoch 1887/2500
+ - 1s - loss: 899.3416 - val_loss: 891.6901
+Epoch 1888/2500
+ - 1s - loss: 899.9978 - val_loss: 892.5254
+Epoch 1889/2500
+ - 1s - loss: 899.6071 - val_loss: 891.5781
+Epoch 1890/2500
+ - 1s - loss: 899.2985 - val_loss: 891.6572
+Epoch 1891/2500
+ - 1s - loss: 899.2603 - val_loss: 891.6168
+Epoch 1892/2500
+ - 1s - loss: 899.2357 - val_loss: 891.6620
+Epoch 1893/2500
+ - 1s - loss: 899.3919 - val_loss: 891.9106
+Epoch 1894/2500
+ - 1s - loss: 899.2851 - val_loss: 891.7049
+Epoch 1895/2500
+ - 2s - loss: 899.5185 - val_loss: 892.0223
+Epoch 1896/2500
+ - 2s - loss: 899.4265 - val_loss: 891.8012
+Epoch 1897/2500
+ - 2s - loss: 899.4257 - val_loss: 891.8405
+Epoch 1898/2500
+ - 2s - loss: 899.2419 - val_loss: 891.6667
+Epoch 1899/2500
+ - 2s - loss: 899.2503 - val_loss: 891.7202
+Epoch 1900/2500
+ - 1s - loss: 899.4043 - val_loss: 891.8601
+Epoch 1901/2500
+ - 1s - loss: 899.3020 - val_loss: 891.8222
+Epoch 1902/2500
+ - 2s - loss: 899.2410 - val_loss: 891.5547
+Epoch 1903/2500
+ - 1s - loss: 899.4440 - val_loss: 891.8616
+Epoch 1904/2500
+ - 2s - loss: 900.0320 - val_loss: 892.6944
+Epoch 1905/2500
+ - 1s - loss: 899.7997 - val_loss: 891.8105
+Epoch 1906/2500
+ - 2s - loss: 899.3006 - val_loss: 891.6202
+Epoch 1907/2500
+ - 1s - loss: 899.2689 - val_loss: 891.5681
+Epoch 1908/2500
+ - 1s - loss: 899.2635 - val_loss: 891.6645
+Epoch 1909/2500
+ - 1s - loss: 899.2913 - val_loss: 891.5485
+Epoch 1910/2500
+ - 1s - loss: 899.2920 - val_loss: 892.0219
+Epoch 1911/2500
+ - 2s - loss: 899.9258 - val_loss: 892.2436
+Epoch 1912/2500
+ - 2s - loss: 899.6911 - val_loss: 891.8767
+Epoch 1913/2500
+ - 1s - loss: 899.3329 - val_loss: 891.7313
+Epoch 1914/2500
+ - 2s - loss: 899.2632 - val_loss: 891.5437
+Epoch 1915/2500
+ - 2s - loss: 899.2150 - val_loss: 891.6281
+Epoch 1916/2500
+ - 2s - loss: 899.1963 - val_loss: 891.5892
+Epoch 1917/2500
+ - 2s - loss: 899.3281 - val_loss: 892.4631
+Epoch 1918/2500
+ - 2s - loss: 899.3573 - val_loss: 891.5468
+Epoch 1919/2500
+ - 1s - loss: 899.2742 - val_loss: 891.5763
+Epoch 1920/2500
+ - 1s - loss: 899.3267 - val_loss: 891.8906
+Epoch 1921/2500
+ - 1s - loss: 899.3846 - val_loss: 891.8862
+Epoch 1922/2500
+ - 1s - loss: 899.3267 - val_loss: 891.6001
+Epoch 1923/2500
+ - 1s - loss: 899.3492 - val_loss: 891.8519
+Epoch 1924/2500
+ - 2s - loss: 899.3145 - val_loss: 891.6261
+Epoch 1925/2500
+ - 1s - loss: 899.3711 - val_loss: 891.8373
+Epoch 1926/2500
+ - 1s - loss: 899.2403 - val_loss: 891.6547
+Epoch 1927/2500
+ - 2s - loss: 899.2258 - val_loss: 891.8108
+Epoch 1928/2500
+ - 2s - loss: 899.3551 - val_loss: 891.8456
+Epoch 1929/2500
+ - 2s - loss: 899.8500 - val_loss: 891.8782
+Epoch 1930/2500
+ - 2s - loss: 899.6745 - val_loss: 892.4529
+Epoch 1931/2500
+ - 2s - loss: 900.2248 - val_loss: 891.7693
+Epoch 1932/2500
+ - 2s - loss: 899.4504 - val_loss: 891.7345
+Epoch 1933/2500
+ - 1s - loss: 899.2873 - val_loss: 891.6548
+Epoch 1934/2500
+ - 1s - loss: 899.2406 - val_loss: 891.5927
+Epoch 1935/2500
+ - 1s - loss: 899.2567 - val_loss: 892.2057
+Epoch 1936/2500
+ - 1s - loss: 899.5668 - val_loss: 891.8957
+Epoch 1937/2500
+ - 1s - loss: 899.5977 - val_loss: 892.1043
+Epoch 1938/2500
+ - 2s - loss: 899.4927 - val_loss: 891.6577
+Epoch 1939/2500
+ - 1s - loss: 899.3792 - val_loss: 891.5568
+Epoch 1940/2500
+ - 1s - loss: 899.2631 - val_loss: 891.6940
+Epoch 1941/2500
+ - 1s - loss: 899.2794 - val_loss: 891.9691
+Epoch 1942/2500
+ - 1s - loss: 899.2150 - val_loss: 891.5645
+Epoch 1943/2500
+ - 2s - loss: 899.3062 - val_loss: 891.5695
+Epoch 1944/2500
+ - 2s - loss: 899.2170 - val_loss: 891.6775
+Epoch 1945/2500
+ - 2s - loss: 899.2450 - val_loss: 891.9585
+Epoch 1946/2500
+ - 2s - loss: 899.2802 - val_loss: 891.8649
+Epoch 1947/2500
+ - 2s - loss: 899.2755 - val_loss: 891.8787
+Epoch 1948/2500
+ - 2s - loss: 899.4760 - val_loss: 892.0521
+Epoch 1949/2500
+ - 2s - loss: 899.4914 - val_loss: 891.7512
+Epoch 1950/2500
+ - 2s - loss: 899.2323 - val_loss: 891.7170
+Epoch 1951/2500
+ - 1s - loss: 899.2459 - val_loss: 891.7687
+Epoch 1952/2500
+ - 1s - loss: 899.2490 - val_loss: 892.1400
+Epoch 1953/2500
+ - 1s - loss: 899.3593 - val_loss: 891.9641
+Epoch 1954/2500
+ - 2s - loss: 899.4120 - val_loss: 891.6746
+Epoch 1955/2500
+ - 1s - loss: 899.3873 - val_loss: 891.5663
+Epoch 1956/2500
+ - 1s - loss: 899.4265 - val_loss: 891.8874
+Epoch 1957/2500
+ - 2s - loss: 899.3505 - val_loss: 891.6980
+Epoch 1958/2500
+ - 2s - loss: 899.3428 - val_loss: 891.8504
+Epoch 1959/2500
+ - 2s - loss: 899.3155 - val_loss: 891.8415
+Epoch 1960/2500
+ - 2s - loss: 899.6250 - val_loss: 892.6665
+Epoch 1961/2500
+ - 1s - loss: 899.3773 - val_loss: 891.8490
+Epoch 1962/2500
+ - 2s - loss: 899.4347 - val_loss: 891.8107
+Epoch 1963/2500
+ - 2s - loss: 899.3154 - val_loss: 891.6293
+Epoch 1964/2500
+ - 2s - loss: 899.2382 - val_loss: 891.9713
+Epoch 1965/2500
+ - 2s - loss: 899.3672 - val_loss: 891.5398
+Epoch 1966/2500
+ - 2s - loss: 899.2149 - val_loss: 891.5953
+Epoch 1967/2500
+ - 2s - loss: 899.1744 - val_loss: 891.6599
+Epoch 1968/2500
+ - 2s - loss: 899.3411 - val_loss: 891.6302
+Epoch 1969/2500
+ - 2s - loss: 899.2280 - val_loss: 891.8082
+Epoch 1970/2500
+ - 2s - loss: 899.2101 - val_loss: 891.8783
+Epoch 1971/2500
+ - 1s - loss: 899.4572 - val_loss: 891.7789
+Epoch 1972/2500
+ - 1s - loss: 899.2852 - val_loss: 891.5429
+Epoch 1973/2500
+ - 1s - loss: 899.2983 - val_loss: 891.8115
+Epoch 1974/2500
+ - 1s - loss: 899.2466 - val_loss: 891.6071
+Epoch 1975/2500
+ - 1s - loss: 899.2300 - val_loss: 891.5611
+Epoch 1976/2500
+ - 1s - loss: 900.7480 - val_loss: 893.0674
+Epoch 1977/2500
+ - 1s - loss: 900.3639 - val_loss: 891.6705
+Epoch 1978/2500
+ - 1s - loss: 900.0223 - val_loss: 892.8257
+Epoch 1979/2500
+ - 1s - loss: 899.6134 - val_loss: 891.7635
+Epoch 1980/2500
+ - 1s - loss: 899.5168 - val_loss: 892.7883
+Epoch 1981/2500
+ - 1s - loss: 899.4424 - val_loss: 891.7808
+Epoch 1982/2500
+ - 1s - loss: 899.2923 - val_loss: 891.6550
+Epoch 1983/2500
+ - 2s - loss: 899.2688 - val_loss: 891.8078
+Epoch 1984/2500
+ - 1s - loss: 899.3642 - val_loss: 891.6385
+Epoch 1985/2500
+ - 2s - loss: 899.3658 - val_loss: 891.7576
+Epoch 1986/2500
+ - 1s - loss: 899.3540 - val_loss: 891.7324
+Epoch 1987/2500
+ - 1s - loss: 899.3061 - val_loss: 891.8698
+Epoch 1988/2500
+ - 2s - loss: 899.8171 - val_loss: 891.8066
+Epoch 1989/2500
+ - 2s - loss: 899.3599 - val_loss: 891.8137
+Epoch 1990/2500
+ - 1s - loss: 899.2309 - val_loss: 891.7249
+Epoch 1991/2500
+ - 1s - loss: 899.1978 - val_loss: 891.7476
+Epoch 1992/2500
+ - 2s - loss: 899.2810 - val_loss: 891.6497
+Epoch 1993/2500
+ - 1s - loss: 899.3453 - val_loss: 891.6480
+Epoch 1994/2500
+ - 1s - loss: 899.8337 - val_loss: 891.7244
+Epoch 1995/2500
+ - 1s - loss: 899.4561 - val_loss: 891.8779
+Epoch 1996/2500
+ - 1s - loss: 899.2770 - val_loss: 891.6703
+Epoch 1997/2500
+ - 1s - loss: 899.2398 - val_loss: 891.8829
+Epoch 1998/2500
+ - 1s - loss: 899.2386 - val_loss: 891.6012
+Epoch 1999/2500
+ - 1s - loss: 899.4276 - val_loss: 891.8100
+Epoch 2000/2500
+ - 1s - loss: 899.2583 - val_loss: 891.6031
+Epoch 2001/2500
+ - 1s - loss: 899.2998 - val_loss: 891.7543
+Epoch 2002/2500
+ - 2s - loss: 899.2238 - val_loss: 891.7101
+Epoch 2003/2500
+ - 2s - loss: 899.3320 - val_loss: 891.7980
+Epoch 2004/2500
+ - 1s - loss: 899.3139 - val_loss: 891.8382
+Epoch 2005/2500
+ - 1s - loss: 899.2729 - val_loss: 892.1143
+Epoch 2006/2500
+ - 2s - loss: 899.1985 - val_loss: 891.7398
+Epoch 2007/2500
+ - 1s - loss: 899.4477 - val_loss: 893.5894
+Epoch 2008/2500
+ - 1s - loss: 899.6522 - val_loss: 891.7244
+Epoch 2009/2500
+ - 1s - loss: 899.7129 - val_loss: 892.2171
+Epoch 2010/2500
+ - 2s - loss: 899.6064 - val_loss: 891.7762
+Epoch 2011/2500
+ - 2s - loss: 899.2759 - val_loss: 891.6144
+Epoch 2012/2500
+ - 1s - loss: 899.2510 - val_loss: 891.5678
+Epoch 2013/2500
+ - 1s - loss: 899.3066 - val_loss: 891.6427
+Epoch 2014/2500
+ - 2s - loss: 899.2788 - val_loss: 891.5655
+Epoch 2015/2500
+ - 1s - loss: 899.1949 - val_loss: 891.5174
+Epoch 2016/2500
+ - 1s - loss: 899.2271 - val_loss: 891.7805
+Epoch 2017/2500
+ - 1s - loss: 899.3394 - val_loss: 891.7182
+Epoch 2018/2500
+ - 1s - loss: 899.2758 - val_loss: 891.7145
+Epoch 2019/2500
+ - 1s - loss: 899.5080 - val_loss: 892.3779
+Epoch 2020/2500
+ - 1s - loss: 899.5866 - val_loss: 891.7394
+Epoch 2021/2500
+ - 1s - loss: 899.3943 - val_loss: 891.7063
+Epoch 2022/2500
+ - 1s - loss: 899.4278 - val_loss: 891.8643
+Epoch 2023/2500
+ - 1s - loss: 899.4827 - val_loss: 891.7913
+Epoch 2024/2500
+ - 1s - loss: 899.4204 - val_loss: 891.7160
+Epoch 2025/2500
+ - 2s - loss: 899.2370 - val_loss: 891.4968
+Epoch 2026/2500
+ - 2s - loss: 899.3212 - val_loss: 892.1028
+Epoch 2027/2500
+ - 1s - loss: 899.7397 - val_loss: 893.0315
+Epoch 2028/2500
+ - 1s - loss: 899.3384 - val_loss: 891.6823
+Epoch 2029/2500
+ - 2s - loss: 899.1930 - val_loss: 891.6698
+Epoch 2030/2500
+ - 2s - loss: 899.4269 - val_loss: 892.0714
+Epoch 2031/2500
+ - 2s - loss: 899.8346 - val_loss: 891.6993
+Epoch 2032/2500
+ - 1s - loss: 899.4360 - val_loss: 891.7380
+Epoch 2033/2500
+ - 1s - loss: 899.3146 - val_loss: 892.6741
+Epoch 2034/2500
+ - 2s - loss: 899.3603 - val_loss: 891.6080
+Epoch 2035/2500
+ - 2s - loss: 899.2448 - val_loss: 891.7050
+Epoch 2036/2500
+ - 2s - loss: 899.3653 - val_loss: 891.8903
+Epoch 2037/2500
+ - 2s - loss: 899.2513 - val_loss: 891.7902
+Epoch 2038/2500
+ - 1s - loss: 899.2870 - val_loss: 891.6225
+Epoch 2039/2500
+ - 1s - loss: 899.2683 - val_loss: 891.7440
+Epoch 2040/2500
+ - 2s - loss: 899.2839 - val_loss: 891.7377
+Epoch 2041/2500
+ - 2s - loss: 899.2005 - val_loss: 891.8205
+Epoch 2042/2500
+ - 2s - loss: 899.4250 - val_loss: 891.7321
+Epoch 2043/2500
+ - 1s - loss: 899.4326 - val_loss: 891.7370
+Epoch 2044/2500
+ - 2s - loss: 899.4990 - val_loss: 892.2964
+Epoch 2045/2500
+ - 1s - loss: 901.0648 - val_loss: 891.7082
+Epoch 2046/2500
+ - 1s - loss: 899.2882 - val_loss: 891.8266
+Epoch 2047/2500
+ - 1s - loss: 899.2633 - val_loss: 891.6150
+Epoch 2048/2500
+ - 2s - loss: 899.3146 - val_loss: 892.6149
+Epoch 2049/2500
+ - 2s - loss: 899.3570 - val_loss: 891.8558
+Epoch 2050/2500
+ - 2s - loss: 899.2245 - val_loss: 891.6399
+Epoch 2051/2500
+ - 2s - loss: 899.3176 - val_loss: 891.6200
+Epoch 2052/2500
+ - 2s - loss: 899.3829 - val_loss: 891.8291
+Epoch 2053/2500
+ - 2s - loss: 899.3291 - val_loss: 891.7691
+Epoch 2054/2500
+ - 2s - loss: 899.2367 - val_loss: 891.6873
+Epoch 2055/2500
+ - 2s - loss: 899.1762 - val_loss: 891.7774
+Epoch 2056/2500
+ - 2s - loss: 899.3118 - val_loss: 891.6694
+Epoch 2057/2500
+ - 1s - loss: 899.3318 - val_loss: 891.7548
+Epoch 2058/2500
+ - 2s - loss: 899.2221 - val_loss: 891.6608
+Epoch 2059/2500
+ - 2s - loss: 899.2589 - val_loss: 891.7306
+Epoch 2060/2500
+ - 2s - loss: 899.9880 - val_loss: 892.8896
+Epoch 2061/2500
+ - 2s - loss: 900.0774 - val_loss: 892.1763
+Epoch 2062/2500
+ - 2s - loss: 899.3558 - val_loss: 891.5377
+Epoch 2063/2500
+ - 2s - loss: 899.2434 - val_loss: 891.6231
+Epoch 2064/2500
+ - 1s - loss: 899.2151 - val_loss: 891.6621
+Epoch 2065/2500
+ - 2s - loss: 899.5561 - val_loss: 892.5405
+Epoch 2066/2500
+ - 2s - loss: 899.5475 - val_loss: 891.6313
+Epoch 2067/2500
+ - 2s - loss: 899.4356 - val_loss: 891.9083
+Epoch 2068/2500
+ - 1s - loss: 899.5653 - val_loss: 892.5304
+Epoch 2069/2500
+ - 2s - loss: 899.5603 - val_loss: 891.7977
+Epoch 2070/2500
+ - 1s - loss: 899.2851 - val_loss: 891.6537
+Epoch 2071/2500
+ - 2s - loss: 899.4057 - val_loss: 891.7567
+Epoch 2072/2500
+ - 1s - loss: 899.3339 - val_loss: 891.7158
+Epoch 2073/2500
+ - 1s - loss: 899.2988 - val_loss: 891.6962
+Epoch 2074/2500
+ - 2s - loss: 899.3198 - val_loss: 891.7627
+Epoch 2075/2500
+ - 2s - loss: 899.6116 - val_loss: 891.9230
+Epoch 2076/2500
+ - 2s - loss: 899.4111 - val_loss: 892.2417
+Epoch 2077/2500
+ - 2s - loss: 899.2448 - val_loss: 891.6345
+Epoch 2078/2500
+ - 2s - loss: 899.2376 - val_loss: 891.6188
+Epoch 2079/2500
+ - 1s - loss: 899.3785 - val_loss: 891.6372
+Epoch 2080/2500
+ - 2s - loss: 899.2236 - val_loss: 891.6336
+Epoch 2081/2500
+ - 1s - loss: 899.2609 - val_loss: 891.6797
+Epoch 2082/2500
+ - 1s - loss: 899.9613 - val_loss: 894.3622
+Epoch 2083/2500
+ - 2s - loss: 899.8358 - val_loss: 891.8383
+Epoch 2084/2500
+ - 2s - loss: 899.3422 - val_loss: 891.9365
+Epoch 2085/2500
+ - 2s - loss: 899.2352 - val_loss: 891.7217
+Epoch 2086/2500
+ - 1s - loss: 899.2386 - val_loss: 892.2117
+Epoch 2087/2500
+ - 2s - loss: 899.2732 - val_loss: 891.7738
+Epoch 2088/2500
+ - 1s - loss: 899.2435 - val_loss: 891.5937
+Epoch 2089/2500
+ - 1s - loss: 899.7821 - val_loss: 892.4073
+Epoch 2090/2500
+ - 2s - loss: 899.4926 - val_loss: 891.8523
+Epoch 2091/2500
+ - 2s - loss: 899.2593 - val_loss: 891.7270
+Epoch 2092/2500
+ - 2s - loss: 899.2770 - val_loss: 891.8069
+Epoch 2093/2500
+ - 1s - loss: 899.2018 - val_loss: 891.6297
+Epoch 2094/2500
+ - 1s - loss: 899.4897 - val_loss: 891.8930
+Epoch 2095/2500
+ - 1s - loss: 899.2553 - val_loss: 891.6612
+Epoch 2096/2500
+ - 1s - loss: 899.1928 - val_loss: 891.6279
+Epoch 2097/2500
+ - 2s - loss: 899.2232 - val_loss: 891.8337
+Epoch 2098/2500
+ - 2s - loss: 899.3370 - val_loss: 891.9889
+Epoch 2099/2500
+ - 2s - loss: 899.3843 - val_loss: 892.3792
+Epoch 2100/2500
+ - 1s - loss: 899.4362 - val_loss: 891.7405
+Epoch 2101/2500
+ - 1s - loss: 899.2425 - val_loss: 892.0169
+Epoch 2102/2500
+ - 1s - loss: 899.2443 - val_loss: 891.7243
+Epoch 2103/2500
+ - 2s - loss: 899.2402 - val_loss: 892.6179
+Epoch 2104/2500
+ - 2s - loss: 899.5104 - val_loss: 891.6788
+Epoch 2105/2500
+ - 1s - loss: 899.2079 - val_loss: 891.7651
+Epoch 2106/2500
+ - 1s - loss: 899.2419 - val_loss: 891.8258
+Epoch 2107/2500
+ - 2s - loss: 900.2249 - val_loss: 892.3210
+Epoch 2108/2500
+ - 2s - loss: 899.8200 - val_loss: 891.8145
+Epoch 2109/2500
+ - 2s - loss: 899.3203 - val_loss: 891.9590
+Epoch 2110/2500
+ - 2s - loss: 899.3131 - val_loss: 892.1982
+Epoch 2111/2500
+ - 1s - loss: 899.4165 - val_loss: 891.7903
+Epoch 2112/2500
+ - 2s - loss: 899.8414 - val_loss: 892.2240
+Epoch 2113/2500
+ - 1s - loss: 899.3526 - val_loss: 891.8228
+Epoch 2114/2500
+ - 1s - loss: 899.3004 - val_loss: 891.7732
+Epoch 2115/2500
+ - 2s - loss: 899.2116 - val_loss: 891.8371
+Epoch 2116/2500
+ - 2s - loss: 899.4165 - val_loss: 891.6727
+Epoch 2117/2500
+ - 2s - loss: 899.2145 - val_loss: 891.6774
+Epoch 2118/2500
+ - 2s - loss: 899.2795 - val_loss: 891.6815
+Epoch 2119/2500
+ - 2s - loss: 899.2584 - val_loss: 891.6411
+Epoch 2120/2500
+ - 2s - loss: 899.2090 - val_loss: 891.7644
+Epoch 2121/2500
+ - 2s - loss: 899.2360 - val_loss: 891.8511
+Epoch 2122/2500
+ - 2s - loss: 899.3622 - val_loss: 893.1767
+Epoch 2123/2500
+ - 2s - loss: 899.5211 - val_loss: 891.7621
+Epoch 2124/2500
+ - 1s - loss: 899.8171 - val_loss: 893.2822
+Epoch 2125/2500
+ - 1s - loss: 900.2163 - val_loss: 892.8017
+Epoch 2126/2500
+ - 2s - loss: 899.5256 - val_loss: 891.6915
+Epoch 2127/2500
+ - 1s - loss: 899.2453 - val_loss: 891.6725
+Epoch 2128/2500
+ - 1s - loss: 899.4414 - val_loss: 891.7735
+Epoch 2129/2500
+ - 1s - loss: 899.2388 - val_loss: 891.8084
+Epoch 2130/2500
+ - 1s - loss: 899.2167 - val_loss: 891.6612
+Epoch 2131/2500
+ - 1s - loss: 899.3465 - val_loss: 892.0900
+Epoch 2132/2500
+ - 2s - loss: 899.2869 - val_loss: 891.7349
+Epoch 2133/2500
+ - 1s - loss: 899.2565 - val_loss: 892.5833
+Epoch 2134/2500
+ - 2s - loss: 899.3272 - val_loss: 891.9806
+Epoch 2135/2500
+ - 1s - loss: 899.2680 - val_loss: 891.6727
+Epoch 2136/2500
+ - 1s - loss: 899.6641 - val_loss: 891.9487
+Epoch 2137/2500
+ - 1s - loss: 899.2605 - val_loss: 891.7380
+Epoch 2138/2500
+ - 1s - loss: 899.4301 - val_loss: 891.8249
+Epoch 2139/2500
+ - 1s - loss: 899.2998 - val_loss: 891.6426
+Epoch 2140/2500
+ - 1s - loss: 899.2612 - val_loss: 891.7498
+Epoch 2141/2500
+ - 1s - loss: 899.2164 - val_loss: 891.5998
+Epoch 2142/2500
+ - 2s - loss: 899.2242 - val_loss: 891.8922
+Epoch 2143/2500
+ - 2s - loss: 899.2231 - val_loss: 891.7468
+Epoch 2144/2500
+ - 1s - loss: 899.2689 - val_loss: 891.9473
+Epoch 2145/2500
+ - 1s - loss: 899.9180 - val_loss: 892.7066
+Epoch 2146/2500
+ - 1s - loss: 899.5310 - val_loss: 891.6965
+Epoch 2147/2500
+ - 1s - loss: 899.3097 - val_loss: 891.9547
+Epoch 2148/2500
+ - 1s - loss: 899.2594 - val_loss: 891.6414
+Epoch 2149/2500
+ - 1s - loss: 899.2458 - val_loss: 891.9700
+Epoch 2150/2500
+ - 1s - loss: 899.5755 - val_loss: 891.7316
+Epoch 2151/2500
+ - 1s - loss: 899.2311 - val_loss: 891.8011
+Epoch 2152/2500
+ - 1s - loss: 900.1485 - val_loss: 892.6283
+Epoch 2153/2500
+ - 2s - loss: 899.3365 - val_loss: 891.6470
+Epoch 2154/2500
+ - 2s - loss: 899.2366 - val_loss: 891.6404
+Epoch 2155/2500
+ - 1s - loss: 899.2479 - val_loss: 891.7522
+Epoch 2156/2500
+ - 1s - loss: 899.2685 - val_loss: 892.9086
+Epoch 2157/2500
+ - 1s - loss: 899.4051 - val_loss: 891.8624
+Epoch 2158/2500
+ - 2s - loss: 899.2224 - val_loss: 891.7295
+Epoch 2159/2500
+ - 2s - loss: 899.2343 - val_loss: 891.5811
+Epoch 2160/2500
+ - 2s - loss: 899.2035 - val_loss: 891.8023
+Epoch 2161/2500
+ - 2s - loss: 899.1963 - val_loss: 891.5372
+Epoch 2162/2500
+ - 1s - loss: 899.3097 - val_loss: 892.0250
+Epoch 2163/2500
+ - 1s - loss: 899.7396 - val_loss: 891.7984
+Epoch 2164/2500
+ - 1s - loss: 899.5388 - val_loss: 892.7783
+Epoch 2165/2500
+ - 1s - loss: 899.5544 - val_loss: 891.7062
+Epoch 2166/2500
+ - 1s - loss: 899.6099 - val_loss: 891.9150
+Epoch 2167/2500
+ - 1s - loss: 899.7434 - val_loss: 892.2624
+Epoch 2168/2500
+ - 1s - loss: 899.3049 - val_loss: 891.6931
+Epoch 2169/2500
+ - 2s - loss: 899.4528 - val_loss: 892.0319
+Epoch 2170/2500
+ - 2s - loss: 899.2748 - val_loss: 891.8948
+Epoch 2171/2500
+ - 2s - loss: 899.2861 - val_loss: 892.2240
+Epoch 2172/2500
+ - 2s - loss: 899.8555 - val_loss: 892.8454
+Epoch 2173/2500
+ - 2s - loss: 899.3923 - val_loss: 891.6799
+Epoch 2174/2500
+ - 1s - loss: 899.3079 - val_loss: 891.7504
+Epoch 2175/2500
+ - 2s - loss: 899.2955 - val_loss: 891.5587
+Epoch 2176/2500
+ - 1s - loss: 899.2296 - val_loss: 891.7337
+Epoch 2177/2500
+ - 2s - loss: 899.2528 - val_loss: 891.8547
+Epoch 2178/2500
+ - 1s - loss: 899.2384 - val_loss: 891.7422
+Epoch 2179/2500
+ - 1s - loss: 900.6133 - val_loss: 892.5237
+Epoch 2180/2500
+ - 1s - loss: 899.7912 - val_loss: 892.1459
+Epoch 2181/2500
+ - 1s - loss: 899.3893 - val_loss: 891.9923
+Epoch 2182/2500
+ - 1s - loss: 899.3059 - val_loss: 891.8301
+Epoch 2183/2500
+ - 1s - loss: 899.2986 - val_loss: 891.7435
+Epoch 2184/2500
+ - 2s - loss: 899.2371 - val_loss: 891.6994
+Epoch 2185/2500
+ - 2s - loss: 899.4265 - val_loss: 892.0735
+Epoch 2186/2500
+ - 2s - loss: 899.2745 - val_loss: 891.6490
+Epoch 2187/2500
+ - 2s - loss: 899.3375 - val_loss: 891.8654
+Epoch 2188/2500
+ - 2s - loss: 899.3022 - val_loss: 891.7351
+Epoch 2189/2500
+ - 2s - loss: 899.3740 - val_loss: 891.8208
+Epoch 2190/2500
+ - 2s - loss: 900.0698 - val_loss: 892.7350
+Epoch 2191/2500
+ - 2s - loss: 899.4944 - val_loss: 891.8731
+Epoch 2192/2500
+ - 2s - loss: 899.3312 - val_loss: 891.7905
+Epoch 2193/2500
+ - 2s - loss: 899.4454 - val_loss: 892.0126
+Epoch 2194/2500
+ - 2s - loss: 899.2857 - val_loss: 891.7997
+Epoch 2195/2500
+ - 1s - loss: 899.3321 - val_loss: 891.6728
+Epoch 2196/2500
+ - 2s - loss: 899.5232 - val_loss: 891.6395
+Epoch 2197/2500
+ - 2s - loss: 899.2805 - val_loss: 891.8043
+Epoch 2198/2500
+ - 2s - loss: 899.2255 - val_loss: 891.6935
+Epoch 2199/2500
+ - 1s - loss: 899.2302 - val_loss: 891.6176
+Epoch 2200/2500
+ - 1s - loss: 899.2254 - val_loss: 891.8391
+Epoch 2201/2500
+ - 1s - loss: 899.2494 - val_loss: 891.7355
+Epoch 2202/2500
+ - 2s - loss: 899.3026 - val_loss: 891.7621
+Epoch 2203/2500
+ - 2s - loss: 899.2910 - val_loss: 891.6998
+Epoch 2204/2500
+ - 2s - loss: 899.2104 - val_loss: 891.8179
+Epoch 2205/2500
+ - 2s - loss: 899.2224 - val_loss: 891.9427
+Epoch 2206/2500
+ - 2s - loss: 899.8300 - val_loss: 895.2443
+Epoch 2207/2500
+ - 2s - loss: 900.3666 - val_loss: 892.1029
+Epoch 2208/2500
+ - 2s - loss: 899.6375 - val_loss: 892.0707
+Epoch 2209/2500
+ - 2s - loss: 899.2810 - val_loss: 891.7607
+Epoch 2210/2500
+ - 1s - loss: 899.2369 - val_loss: 891.8021
+Epoch 2211/2500
+ - 2s - loss: 899.3526 - val_loss: 891.8365
+Epoch 2212/2500
+ - 2s - loss: 899.6590 - val_loss: 891.6863
+Epoch 2213/2500
+ - 2s - loss: 899.2966 - val_loss: 891.9351
+Epoch 2214/2500
+ - 2s - loss: 899.2601 - val_loss: 891.6533
+Epoch 2215/2500
+ - 2s - loss: 899.2811 - val_loss: 891.6943
+Epoch 2216/2500
+ - 1s - loss: 899.3082 - val_loss: 891.7529
+Epoch 2217/2500
+ - 1s - loss: 899.3133 - val_loss: 891.7621
+Epoch 2218/2500
+ - 1s - loss: 899.1912 - val_loss: 891.7018
+Epoch 2219/2500
+ - 1s - loss: 899.5819 - val_loss: 891.9401
+Epoch 2220/2500
+ - 2s - loss: 899.3186 - val_loss: 891.7550
+Epoch 2221/2500
+ - 1s - loss: 899.2805 - val_loss: 891.8402
+Epoch 2222/2500
+ - 1s - loss: 899.2856 - val_loss: 891.7150
+Epoch 2223/2500
+ - 1s - loss: 899.2921 - val_loss: 892.2481
+Epoch 2224/2500
+ - 2s - loss: 899.5473 - val_loss: 891.8372
+Epoch 2225/2500
+ - 1s - loss: 899.2929 - val_loss: 891.8406
+Epoch 2226/2500
+ - 1s - loss: 900.5431 - val_loss: 893.7379
+Epoch 2227/2500
+ - 2s - loss: 899.9148 - val_loss: 891.6735
+Epoch 2228/2500
+ - 2s - loss: 899.6153 - val_loss: 891.7972
+Epoch 2229/2500
+ - 1s - loss: 899.4252 - val_loss: 892.6470
+Epoch 2230/2500
+ - 1s - loss: 899.3130 - val_loss: 891.7901
+Epoch 2231/2500
+ - 2s - loss: 899.2604 - val_loss: 891.5879
+Epoch 2232/2500
+ - 1s - loss: 899.2189 - val_loss: 891.5312
+Epoch 2233/2500
+ - 2s - loss: 899.3699 - val_loss: 891.5593
+Epoch 2234/2500
+ - 2s - loss: 899.2631 - val_loss: 891.4894
+Epoch 2235/2500
+ - 1s - loss: 899.6224 - val_loss: 893.8196
+Epoch 2236/2500
+ - 1s - loss: 900.1779 - val_loss: 892.0322
+Epoch 2237/2500
+ - 1s - loss: 899.5255 - val_loss: 891.5623
+Epoch 2238/2500
+ - 1s - loss: 899.2548 - val_loss: 891.7630
+Epoch 2239/2500
+ - 2s - loss: 899.2352 - val_loss: 891.6640
+Epoch 2240/2500
+ - 2s - loss: 899.2017 - val_loss: 891.6118
+Epoch 2241/2500
+ - 2s - loss: 899.2251 - val_loss: 891.8002
+Epoch 2242/2500
+ - 2s - loss: 899.2518 - val_loss: 891.7294
+Epoch 2243/2500
+ - 2s - loss: 899.2123 - val_loss: 892.1110
+Epoch 2244/2500
+ - 2s - loss: 899.3956 - val_loss: 892.2121
+Epoch 2245/2500
+ - 2s - loss: 899.5733 - val_loss: 892.0619
+Epoch 2246/2500
+ - 1s - loss: 899.3233 - val_loss: 892.2438
+Epoch 2247/2500
+ - 2s - loss: 899.3176 - val_loss: 891.6362
+Epoch 2248/2500
+ - 2s - loss: 899.2737 - val_loss: 892.2198
+Epoch 2249/2500
+ - 1s - loss: 899.4732 - val_loss: 891.8301
+Epoch 2250/2500
+ - 1s - loss: 899.2453 - val_loss: 891.7212
+Epoch 2251/2500
+ - 1s - loss: 899.1930 - val_loss: 891.5468
+Epoch 2252/2500
+ - 2s - loss: 899.3637 - val_loss: 891.6952
+Epoch 2253/2500
+ - 1s - loss: 899.3429 - val_loss: 891.8030
+Epoch 2254/2500
+ - 2s - loss: 899.7888 - val_loss: 892.0223
+Epoch 2255/2500
+ - 2s - loss: 899.7092 - val_loss: 892.0975
+Epoch 2256/2500
+ - 2s - loss: 899.4993 - val_loss: 891.7177
+Epoch 2257/2500
+ - 2s - loss: 899.2498 - val_loss: 891.6678
+Epoch 2258/2500
+ - 2s - loss: 899.1997 - val_loss: 891.6934
+Epoch 2259/2500
+ - 1s - loss: 899.3317 - val_loss: 891.6721
+Epoch 2260/2500
+ - 1s - loss: 899.2775 - val_loss: 891.7412
+Epoch 2261/2500
+ - 1s - loss: 899.2213 - val_loss: 891.6659
+Epoch 2262/2500
+ - 1s - loss: 899.2016 - val_loss: 891.7208
+Epoch 2263/2500
+ - 1s - loss: 899.2918 - val_loss: 891.7956
+Epoch 2264/2500
+ - 1s - loss: 900.0096 - val_loss: 893.5226
+Epoch 2265/2500
+ - 2s - loss: 900.6903 - val_loss: 891.9344
+Epoch 2266/2500
+ - 2s - loss: 899.3926 - val_loss: 891.8676
+Epoch 2267/2500
+ - 2s - loss: 899.3467 - val_loss: 892.4692
+Epoch 2268/2500
+ - 2s - loss: 899.4645 - val_loss: 892.0769
+Epoch 2269/2500
+ - 2s - loss: 899.2503 - val_loss: 891.7606
+Epoch 2270/2500
+ - 2s - loss: 899.3435 - val_loss: 893.0952
+Epoch 2271/2500
+ - 2s - loss: 899.7541 - val_loss: 892.1016
+Epoch 2272/2500
+ - 1s - loss: 899.3975 - val_loss: 891.7105
+Epoch 2273/2500
+ - 2s - loss: 899.2228 - val_loss: 891.6820
+Epoch 2274/2500
+ - 1s - loss: 899.2021 - val_loss: 891.6488
+Epoch 2275/2500
+ - 1s - loss: 899.1860 - val_loss: 891.7898
+Epoch 2276/2500
+ - 1s - loss: 899.2791 - val_loss: 891.8316
+Epoch 2277/2500
+ - 1s - loss: 899.3073 - val_loss: 892.2460
+Epoch 2278/2500
+ - 1s - loss: 899.3122 - val_loss: 891.7201
+Epoch 2279/2500
+ - 1s - loss: 899.2406 - val_loss: 892.4039
+Epoch 2280/2500
+ - 1s - loss: 899.6492 - val_loss: 891.9132
+Epoch 2281/2500
+ - 2s - loss: 899.3382 - val_loss: 891.7768
+Epoch 2282/2500
+ - 2s - loss: 899.2166 - val_loss: 891.6818
+Epoch 2283/2500
+ - 1s - loss: 899.2001 - val_loss: 891.7386
+Epoch 2284/2500
+ - 1s - loss: 899.2344 - val_loss: 891.6365
+Epoch 2285/2500
+ - 1s - loss: 899.2078 - val_loss: 891.6449
+Epoch 2286/2500
+ - 1s - loss: 899.4490 - val_loss: 891.8027
+Epoch 2287/2500
+ - 1s - loss: 899.3514 - val_loss: 891.6647
+Epoch 2288/2500
+ - 2s - loss: 899.6398 - val_loss: 892.5981
+Epoch 2289/2500
+ - 1s - loss: 899.4467 - val_loss: 891.6895
+Epoch 2290/2500
+ - 1s - loss: 899.2376 - val_loss: 891.7136
+Epoch 2291/2500
+ - 1s - loss: 899.3128 - val_loss: 891.8092
+Epoch 2292/2500
+ - 1s - loss: 899.2380 - val_loss: 891.8210
+Epoch 2293/2500
+ - 1s - loss: 899.3766 - val_loss: 891.6412
+Epoch 2294/2500
+ - 1s - loss: 899.2076 - val_loss: 891.6442
+Epoch 2295/2500
+ - 1s - loss: 901.1200 - val_loss: 892.2996
+Epoch 2296/2500
+ - 1s - loss: 900.9367 - val_loss: 891.8440
+Epoch 2297/2500
+ - 1s - loss: 899.7550 - val_loss: 892.1193
+Epoch 2298/2500
+ - 1s - loss: 899.5684 - val_loss: 891.8518
+Epoch 2299/2500
+ - 1s - loss: 899.6172 - val_loss: 891.8239
+Epoch 2300/2500
+ - 1s - loss: 899.4182 - val_loss: 891.8313
+Epoch 2301/2500
+ - 2s - loss: 899.3645 - val_loss: 891.8635
+Epoch 2302/2500
+ - 2s - loss: 899.2792 - val_loss: 891.8435
+Epoch 2303/2500
+ - 2s - loss: 899.3130 - val_loss: 892.5771
+Epoch 2304/2500
+ - 2s - loss: 899.5863 - val_loss: 891.9090
+Epoch 2305/2500
+ - 1s - loss: 899.5497 - val_loss: 891.7258
+Epoch 2306/2500
+ - 1s - loss: 899.2692 - val_loss: 891.9160
+Epoch 2307/2500
+ - 1s - loss: 899.2823 - val_loss: 891.6821
+Epoch 2308/2500
+ - 1s - loss: 899.2725 - val_loss: 891.5988
+Epoch 2309/2500
+ - 1s - loss: 899.3162 - val_loss: 891.6176
+Epoch 2310/2500
+ - 2s - loss: 899.3677 - val_loss: 891.6846
+Epoch 2311/2500
+ - 1s - loss: 899.3161 - val_loss: 892.2042
+Epoch 2312/2500
+ - 1s - loss: 899.6970 - val_loss: 892.0058
+Epoch 2313/2500
+ - 1s - loss: 899.2706 - val_loss: 891.8494
+Epoch 2314/2500
+ - 1s - loss: 899.3873 - val_loss: 892.5273
+Epoch 2315/2500
+ - 2s - loss: 899.3621 - val_loss: 891.7384
+Epoch 2316/2500
+ - 1s - loss: 899.2093 - val_loss: 891.8167
+Epoch 2317/2500
+ - 1s - loss: 899.3155 - val_loss: 891.7850
+Epoch 2318/2500
+ - 2s - loss: 899.3271 - val_loss: 891.6960
+Epoch 2319/2500
+ - 1s - loss: 899.2566 - val_loss: 891.9188
+Epoch 2320/2500
+ - 2s - loss: 899.7106 - val_loss: 891.8031
+Epoch 2321/2500
+ - 2s - loss: 900.8804 - val_loss: 893.0336
+Epoch 2322/2500
+ - 2s - loss: 900.1099 - val_loss: 891.9427
+Epoch 2323/2500
+ - 1s - loss: 899.3967 - val_loss: 892.0748
+Epoch 2324/2500
+ - 1s - loss: 899.5640 - val_loss: 892.3760
+Epoch 2325/2500
+ - 1s - loss: 900.2130 - val_loss: 893.3514
+Epoch 2326/2500
+ - 2s - loss: 899.6337 - val_loss: 892.1990
+Epoch 2327/2500
+ - 1s - loss: 899.6127 - val_loss: 891.8023
+Epoch 2328/2500
+ - 1s - loss: 899.3394 - val_loss: 891.8421
+Epoch 2329/2500
+ - 1s - loss: 899.2720 - val_loss: 892.0461
+Epoch 2330/2500
+ - 2s - loss: 899.2262 - val_loss: 891.6830
+Epoch 2331/2500
+ - 1s - loss: 899.2763 - val_loss: 891.7973
+Epoch 2332/2500
+ - 1s - loss: 899.4354 - val_loss: 891.8188
+Epoch 2333/2500
+ - 2s - loss: 899.4999 - val_loss: 891.6982
+Epoch 2334/2500
+ - 2s - loss: 899.2656 - val_loss: 891.6729
+Epoch 2335/2500
+ - 2s - loss: 899.2360 - val_loss: 891.6169
+Epoch 2336/2500
+ - 2s - loss: 899.2262 - val_loss: 891.6100
+Epoch 2337/2500
+ - 2s - loss: 899.7102 - val_loss: 891.8471
+Epoch 2338/2500
+ - 2s - loss: 899.2456 - val_loss: 891.7111
+Epoch 2339/2500
+ - 1s - loss: 899.2319 - val_loss: 892.2407
+Epoch 2340/2500
+ - 1s - loss: 899.4586 - val_loss: 891.6883
+Epoch 2341/2500
+ - 1s - loss: 899.3350 - val_loss: 891.9242
+Epoch 2342/2500
+ - 2s - loss: 899.2600 - val_loss: 891.8543
+Epoch 2343/2500
+ - 1s - loss: 899.3150 - val_loss: 891.7178
+Epoch 2344/2500
+ - 1s - loss: 899.2951 - val_loss: 891.8625
+Epoch 2345/2500
+ - 2s - loss: 899.2488 - val_loss: 892.1901
+Epoch 2346/2500
+ - 2s - loss: 899.4363 - val_loss: 891.9176
+Epoch 2347/2500
+ - 2s - loss: 899.3559 - val_loss: 891.8184
+Epoch 2348/2500
+ - 2s - loss: 899.2012 - val_loss: 891.8962
+Epoch 2349/2500
+ - 1s - loss: 899.4742 - val_loss: 891.8100
+Epoch 2350/2500
+ - 1s - loss: 899.2311 - val_loss: 892.1171
+Epoch 2351/2500
+ - 2s - loss: 899.8911 - val_loss: 891.8075
+Epoch 2352/2500
+ - 2s - loss: 899.2992 - val_loss: 892.4212
+Epoch 2353/2500
+ - 1s - loss: 899.3322 - val_loss: 892.0442
+Epoch 2354/2500
+ - 1s - loss: 899.3757 - val_loss: 891.8637
+Epoch 2355/2500
+ - 1s - loss: 899.2886 - val_loss: 891.6574
+Epoch 2356/2500
+ - 2s - loss: 899.5640 - val_loss: 891.9830
+Epoch 2357/2500
+ - 2s - loss: 899.6851 - val_loss: 891.7816
+Epoch 2358/2500
+ - 2s - loss: 899.5004 - val_loss: 894.4854
+Epoch 2359/2500
+ - 1s - loss: 899.7541 - val_loss: 891.7529
+Epoch 2360/2500
+ - 1s - loss: 899.2560 - val_loss: 892.1157
+Epoch 2361/2500
+ - 1s - loss: 899.4654 - val_loss: 891.9020
+Epoch 2362/2500
+ - 1s - loss: 899.2657 - val_loss: 892.1436
+Epoch 2363/2500
+ - 1s - loss: 899.6632 - val_loss: 893.3047
+Epoch 2364/2500
+ - 1s - loss: 899.5814 - val_loss: 891.7119
+Epoch 2365/2500
+ - 2s - loss: 899.2480 - val_loss: 892.0888
+Epoch 2366/2500
+ - 1s - loss: 899.2357 - val_loss: 891.5982
+Epoch 2367/2500
+ - 1s - loss: 899.2917 - val_loss: 891.6917
+Epoch 2368/2500
+ - 2s - loss: 899.1969 - val_loss: 891.7540
+Epoch 2369/2500
+ - 2s - loss: 899.3252 - val_loss: 895.5158
+Epoch 2370/2500
+ - 1s - loss: 899.4935 - val_loss: 892.1237
+Epoch 2371/2500
+ - 2s - loss: 899.3096 - val_loss: 891.8521
+Epoch 2372/2500
+ - 2s - loss: 899.4463 - val_loss: 892.0093
+Epoch 2373/2500
+ - 2s - loss: 899.5455 - val_loss: 891.7556
+Epoch 2374/2500
+ - 1s - loss: 899.2696 - val_loss: 892.0397
+Epoch 2375/2500
+ - 2s - loss: 899.3663 - val_loss: 892.1366
+Epoch 2376/2500
+ - 2s - loss: 899.4388 - val_loss: 891.8784
+Epoch 2377/2500
+ - 1s - loss: 899.3452 - val_loss: 891.8338
+Epoch 2378/2500
+ - 1s - loss: 899.2236 - val_loss: 891.7207
+Epoch 2379/2500
+ - 2s - loss: 899.9066 - val_loss: 892.5739
+Epoch 2380/2500
+ - 1s - loss: 899.6485 - val_loss: 892.8860
+Epoch 2381/2500
+ - 1s - loss: 899.4083 - val_loss: 891.7492
+Epoch 2382/2500
+ - 1s - loss: 899.2450 - val_loss: 891.8112
+Epoch 2383/2500
+ - 1s - loss: 899.2670 - val_loss: 891.9460
+Epoch 2384/2500
+ - 2s - loss: 900.4116 - val_loss: 891.9598
+Epoch 2385/2500
+ - 1s - loss: 899.4525 - val_loss: 891.9331
+Epoch 2386/2500
+ - 1s - loss: 899.2588 - val_loss: 892.5213
+Epoch 2387/2500
+ - 1s - loss: 899.4616 - val_loss: 892.1312
+Epoch 2388/2500
+ - 2s - loss: 899.3054 - val_loss: 891.6983
+Epoch 2389/2500
+ - 1s - loss: 899.2079 - val_loss: 891.9381
+Epoch 2390/2500
+ - 2s - loss: 899.2840 - val_loss: 892.0713
+Epoch 2391/2500
+ - 2s - loss: 899.2871 - val_loss: 891.6868
+Epoch 2392/2500
+ - 2s - loss: 899.2482 - val_loss: 892.5448
+Epoch 2393/2500
+ - 2s - loss: 899.5352 - val_loss: 895.2489
+Epoch 2394/2500
+ - 2s - loss: 899.8997 - val_loss: 891.7349
+Epoch 2395/2500
+ - 1s - loss: 899.9585 - val_loss: 894.0947
+Epoch 2396/2500
+ - 1s - loss: 899.7320 - val_loss: 891.6884
+Epoch 2397/2500
+ - 2s - loss: 899.2703 - val_loss: 891.6981
+Epoch 2398/2500
+ - 1s - loss: 899.2317 - val_loss: 891.6030
+Epoch 2399/2500
+ - 2s - loss: 899.2454 - val_loss: 891.6177
+Epoch 2400/2500
+ - 2s - loss: 899.1969 - val_loss: 891.5927
+Epoch 2401/2500
+ - 1s - loss: 899.2112 - val_loss: 891.6715
+Epoch 2402/2500
+ - 1s - loss: 900.1725 - val_loss: 892.6102
+Epoch 2403/2500
+ - 1s - loss: 899.7265 - val_loss: 891.9244
+Epoch 2404/2500
+ - 1s - loss: 899.4603 - val_loss: 892.0154
+Epoch 2405/2500
+ - 1s - loss: 899.3119 - val_loss: 891.6973
+Epoch 2406/2500
+ - 1s - loss: 899.2791 - val_loss: 891.6700
+Epoch 2407/2500
+ - 1s - loss: 899.2305 - val_loss: 891.6233
+Epoch 2408/2500
+ - 1s - loss: 899.1998 - val_loss: 891.6049
+Epoch 2409/2500
+ - 1s - loss: 899.2487 - val_loss: 891.6233
+Epoch 2410/2500
+ - 1s - loss: 899.4870 - val_loss: 891.8756
+Epoch 2411/2500
+ - 1s - loss: 899.5058 - val_loss: 892.8698
+Epoch 2412/2500
+ - 1s - loss: 900.3671 - val_loss: 891.7882
+Epoch 2413/2500
+ - 1s - loss: 899.8159 - val_loss: 893.5567
+Epoch 2414/2500
+ - 1s - loss: 899.5013 - val_loss: 891.8830
+Epoch 2415/2500
+ - 1s - loss: 899.2837 - val_loss: 891.6967
+Epoch 2416/2500
+ - 2s - loss: 899.3007 - val_loss: 891.6913
+Epoch 2417/2500
+ - 1s - loss: 899.2248 - val_loss: 891.8671
+Epoch 2418/2500
+ - 1s - loss: 899.2275 - val_loss: 891.8011
+Epoch 2419/2500
+ - 1s - loss: 899.2550 - val_loss: 891.7456
+Epoch 2420/2500
+ - 1s - loss: 899.2348 - val_loss: 891.7939
+Epoch 2421/2500
+ - 2s - loss: 899.7713 - val_loss: 904.6339
+Epoch 2422/2500
+ - 2s - loss: 900.1884 - val_loss: 891.8056
+Epoch 2423/2500
+ - 2s - loss: 899.3294 - val_loss: 891.5876
+Epoch 2424/2500
+ - 1s - loss: 899.3376 - val_loss: 892.5562
+Epoch 2425/2500
+ - 2s - loss: 899.5442 - val_loss: 891.6121
+Epoch 2426/2500
+ - 2s - loss: 899.4179 - val_loss: 891.5740
+Epoch 2427/2500
+ - 2s - loss: 899.3389 - val_loss: 891.9958
+Epoch 2428/2500
+ - 1s - loss: 899.3414 - val_loss: 891.8413
+Epoch 2429/2500
+ - 2s - loss: 899.3322 - val_loss: 891.9810
+Epoch 2430/2500
+ - 2s - loss: 899.2722 - val_loss: 891.9073
+Epoch 2431/2500
+ - 2s - loss: 899.3928 - val_loss: 892.0877
+Epoch 2432/2500
+ - 2s - loss: 899.2348 - val_loss: 891.7044
+Epoch 2433/2500
+ - 2s - loss: 899.5173 - val_loss: 891.7840
+Epoch 2434/2500
+ - 2s - loss: 899.3638 - val_loss: 892.1702
+Epoch 2435/2500
+ - 1s - loss: 899.2449 - val_loss: 891.6128
+Epoch 2436/2500
+ - 1s - loss: 899.2259 - val_loss: 891.6720
+Epoch 2437/2500
+ - 2s - loss: 899.2052 - val_loss: 891.7781
+Epoch 2438/2500
+ - 2s - loss: 899.2398 - val_loss: 892.6750
+Epoch 2439/2500
+ - 2s - loss: 899.5613 - val_loss: 892.3785
+Epoch 2440/2500
+ - 2s - loss: 899.4157 - val_loss: 892.1705
+Epoch 2441/2500
+ - 1s - loss: 899.2796 - val_loss: 891.7002
+Epoch 2442/2500
+ - 1s - loss: 899.3484 - val_loss: 891.6295
+Epoch 2443/2500
+ - 2s - loss: 899.3756 - val_loss: 893.0532
+Epoch 2444/2500
+ - 2s - loss: 899.4379 - val_loss: 893.6935
+Epoch 2445/2500
+ - 2s - loss: 900.5851 - val_loss: 892.0317
+Epoch 2446/2500
+ - 2s - loss: 899.5904 - val_loss: 892.0555
+Epoch 2447/2500
+ - 1s - loss: 899.3326 - val_loss: 891.6030
+Epoch 2448/2500
+ - 2s - loss: 899.2412 - val_loss: 891.7000
+Epoch 2449/2500
+ - 2s - loss: 899.3812 - val_loss: 891.9080
+Epoch 2450/2500
+ - 2s - loss: 899.4044 - val_loss: 892.1806
+Epoch 2451/2500
+ - 2s - loss: 899.4176 - val_loss: 891.8113
+Epoch 2452/2500
+ - 1s - loss: 899.2457 - val_loss: 891.7770
+Epoch 2453/2500
+ - 2s - loss: 899.3178 - val_loss: 891.8064
+Epoch 2454/2500
+ - 1s - loss: 899.2563 - val_loss: 891.9964
+Epoch 2455/2500
+ - 1s - loss: 899.3900 - val_loss: 891.9762
+Epoch 2456/2500
+ - 1s - loss: 899.2746 - val_loss: 891.9430
+Epoch 2457/2500
+ - 1s - loss: 899.1997 - val_loss: 891.6816
+Epoch 2458/2500
+ - 1s - loss: 899.2558 - val_loss: 891.8054
+Epoch 2459/2500
+ - 1s - loss: 899.2502 - val_loss: 891.6858
+Epoch 2460/2500
+ - 1s - loss: 899.5339 - val_loss: 892.5486
+Epoch 2461/2500
+ - 1s - loss: 899.7311 - val_loss: 891.8712
+Epoch 2462/2500
+ - 1s - loss: 900.0576 - val_loss: 891.7972
+Epoch 2463/2500
+ - 2s - loss: 899.3299 - val_loss: 891.6810
+Epoch 2464/2500
+ - 2s - loss: 899.2236 - val_loss: 891.6991
+Epoch 2465/2500
+ - 2s - loss: 899.4489 - val_loss: 891.8377
+Epoch 2466/2500
+ - 2s - loss: 899.3095 - val_loss: 892.0765
+Epoch 2467/2500
+ - 2s - loss: 899.2904 - val_loss: 891.8259
+Epoch 2468/2500
+ - 2s - loss: 899.2131 - val_loss: 891.7623
+Epoch 2469/2500
+ - 2s - loss: 899.2427 - val_loss: 891.6946
+Epoch 2470/2500
+ - 2s - loss: 899.2337 - val_loss: 891.6175
+Epoch 2471/2500
+ - 1s - loss: 899.3241 - val_loss: 892.3066
+Epoch 2472/2500
+ - 2s - loss: 899.2677 - val_loss: 891.6450
+Epoch 2473/2500
+ - 2s - loss: 899.3360 - val_loss: 891.9341
+Epoch 2474/2500
+ - 2s - loss: 899.4062 - val_loss: 892.2142
+Epoch 2475/2500
+ - 2s - loss: 899.4230 - val_loss: 892.0986
+Epoch 2476/2500
+ - 1s - loss: 899.3664 - val_loss: 891.9057
+Epoch 2477/2500
+ - 1s - loss: 899.3140 - val_loss: 891.8378
+Epoch 2478/2500
+ - 2s - loss: 899.3924 - val_loss: 892.2066
+Epoch 2479/2500
+ - 2s - loss: 900.5119 - val_loss: 894.1993
+Epoch 2480/2500
+ - 1s - loss: 899.5807 - val_loss: 892.2749
+Epoch 2481/2500
+ - 1s - loss: 899.3727 - val_loss: 891.7646
+Epoch 2482/2500
+ - 2s - loss: 899.3549 - val_loss: 891.8069
+Epoch 2483/2500
+ - 1s - loss: 899.2703 - val_loss: 891.7000
+Epoch 2484/2500
+ - 2s - loss: 899.2352 - val_loss: 891.7628
+Epoch 2485/2500
+ - 2s - loss: 899.2452 - val_loss: 891.6663
+Epoch 2486/2500
+ - 1s - loss: 899.2584 - val_loss: 892.3465
+Epoch 2487/2500
+ - 1s - loss: 899.9192 - val_loss: 892.0972
+Epoch 2488/2500
+ - 1s - loss: 899.5645 - val_loss: 891.9882
+Epoch 2489/2500
+ - 2s - loss: 899.9760 - val_loss: 892.5466
+Epoch 2490/2500
+ - 2s - loss: 899.7802 - val_loss: 891.9568
+Epoch 2491/2500
+ - 1s - loss: 899.6290 - val_loss: 892.2115
+Epoch 2492/2500
+ - 1s - loss: 899.4539 - val_loss: 891.7634
+Epoch 2493/2500
+ - 2s - loss: 899.5521 - val_loss: 892.2232
+Epoch 2494/2500
+ - 2s - loss: 899.2847 - val_loss: 891.6468
+Epoch 2495/2500
+ - 1s - loss: 899.2104 - val_loss: 891.8641
+Epoch 2496/2500
+ - 2s - loss: 899.2275 - val_loss: 891.8757
+Epoch 2497/2500
+ - 2s - loss: 899.2608 - val_loss: 891.7182
+Epoch 2498/2500
+ - 2s - loss: 899.2473 - val_loss: 891.7593
+Epoch 2499/2500
+ - 2s - loss: 899.5857 - val_loss: 894.0636
+Epoch 2500/2500
+ - 1s - loss: 899.4274 - val_loss: 891.9655
+libGL error: No matching fbConfigs or visuals found
+libGL error: failed to load driver: swrast
+--------learning rate :  1e-04
+P5Model_debug_tot1024_batch8_lr0.0001_decay1.0_z32_epoch2500
+TT
+--------max ratio (train) :  2.2669823
+--------max ratio (test)  :  2.1672339579944557

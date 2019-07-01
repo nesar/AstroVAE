@@ -1,0 +1,652 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+2019-06-27 18:06:31.194508: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
+2019-06-27 18:06:31.213568: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2100000000 Hz
+2019-06-27 18:06:31.219201: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x560ca5da7e60 executing computations on platform Host. Devices:
+2019-06-27 18:06:31.219247: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+2019-06-27 18:06:31.343290: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x560ca5da0720 executing computations on platform CUDA. Devices:
+2019-06-27 18:06:31.343349: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): Quadro GV100, Compute Capability 7.0
+2019-06-27 18:06:31.345826: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Quadro GV100 major: 7 minor: 0 memoryClockRate(GHz): 1.627
+pciBusID: 0000:2d:00.0
+totalMemory: 31.72GiB freeMemory: 30.06GiB
+2019-06-27 18:06:31.345861: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0
+2019-06-27 18:06:31.349426: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-06-27 18:06:31.349452: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 
+2019-06-27 18:06:31.349464: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N 
+2019-06-27 18:06:31.351760: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 29239 MB memory) -> physical GPU (device: 0, name: Quadro GV100, pci bus id: 0000:2d:00.0, compute capability: 7.0)
+Cl_denoiseP4_debug.py:297: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2) ## excluding validation for now -- otherwise creates problems for batch size > 8
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-06-27 18:06:33.528731: I tensorflow/stream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+(1024, 2549) train sequences
+(25, 2549) test sequences
+(1024, 5) train sequences
+(25, 5) test sequences
+-------mean factor: [460.15748209 443.38691659 425.52264657 ...  32.56278447  32.48687909
+  32.41048494]
+-------normalization factor: [2551.94712155 2315.16942977 2112.93808435 ...  124.72727295  124.52468782
+  124.31939278]
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_1 (InputLayer)            (None, 2549)         0                                            
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 1024)         2611200     input_1[0][0]                    
+__________________________________________________________________________________________________
+dense_2 (Dense)                 (None, 512)          524800      dense_1[0][0]                    
+__________________________________________________________________________________________________
+dense_3 (Dense)                 (None, 256)          131328      dense_2[0][0]                    
+__________________________________________________________________________________________________
+dense_4 (Dense)                 (None, 128)          32896       dense_3[0][0]                    
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 32)           4128        dense_4[0][0]                    
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 32)           4128        dense_4[0][0]                    
+__________________________________________________________________________________________________
+lambda_1 (Lambda)               (32, 32)             0           dense_5[0][0]                    
+                                                                 dense_6[0][0]                    
+__________________________________________________________________________________________________
+dense_7 (Dense)                 multiple             1056        lambda_1[0][0]                   
+__________________________________________________________________________________________________
+dense_8 (Dense)                 multiple             4224        dense_7[0][0]                    
+__________________________________________________________________________________________________
+dense_9 (Dense)                 multiple             33024       dense_8[0][0]                    
+__________________________________________________________________________________________________
+dense_10 (Dense)                multiple             131584      dense_9[0][0]                    
+__________________________________________________________________________________________________
+dense_11 (Dense)                multiple             525312      dense_10[0][0]                   
+__________________________________________________________________________________________________
+dense_12 (Dense)                multiple             2612725     dense_11[0][0]                   
+==================================================================================================
+Total params: 6,616,405
+Trainable params: 6,616,405
+Non-trainable params: 0
+__________________________________________________________________________________________________
+None
+Epoch 1/7500
+ - 1s - loss: 2268.1686
+Epoch 2/7500
+ - 0s - loss: 1543.5824
+Epoch 3/7500
+ - 0s - loss: 1290.1188
+Epoch 4/7500
+ - 0s - loss: 1223.9821
+Epoch 5/7500
+ - 0s - loss: 1174.2449
+Epoch 6/7500
+ - 0s - loss: 1164.6161
+Epoch 7/7500
+ - 0s - loss: 1095.3721
+Epoch 8/7500
+ - 0s - loss: 1004.8661
+Epoch 9/7500
+ - 0s - loss: 969.7812
+Epoch 10/7500
+ - 0s - loss: 966.2593
+Epoch 11/7500
+ - 0s - loss: 950.5486
+Epoch 12/7500
+ - 0s - loss: 945.1224
+Epoch 13/7500
+ - 0s - loss: 943.1641
+Epoch 14/7500
+ - 0s - loss: 942.7431
+Epoch 15/7500
+ - 0s - loss: 944.6704
+Epoch 16/7500
+ - 0s - loss: 938.1423
+Epoch 17/7500
+ - 0s - loss: 939.7185
+Epoch 18/7500
+ - 0s - loss: 940.8542
+Epoch 19/7500
+ - 0s - loss: 935.2563
+Epoch 20/7500
+ - 0s - loss: 934.6227
+Epoch 21/7500
+ - 0s - loss: 936.3950
+Epoch 22/7500
+ - 0s - loss: 931.1395
+Epoch 23/7500
+ - 0s - loss: 925.9731
+Epoch 24/7500
+ - 0s - loss: 930.1003
+Epoch 25/7500
+ - 0s - loss: 930.9825
+Epoch 26/7500
+ - 0s - loss: 927.7864
+Epoch 27/7500
+ - 0s - loss: 931.5445
+Epoch 28/7500
+ - 0s - loss: 928.2402
+Epoch 29/7500
+ - 0s - loss: 921.1516
+Epoch 30/7500
+ - 0s - loss: 929.6715
+Epoch 31/7500
+ - 0s - loss: 920.7489
+Epoch 32/7500
+ - 0s - loss: 920.5011
+Epoch 33/7500
+ - 0s - loss: 920.1387
+Epoch 34/7500
+ - 0s - loss: 918.9549
+Epoch 35/7500
+ - 0s - loss: 920.3424
+Epoch 36/7500
+ - 0s - loss: 920.7732
+Epoch 37/7500
+ - 0s - loss: 919.0732
+Epoch 38/7500
+ - 0s - loss: 921.3593
+Epoch 39/7500
+ - 0s - loss: 924.2737
+Epoch 40/7500
+ - 0s - loss: 925.1788
+Epoch 41/7500
+ - 0s - loss: 919.8467
+Epoch 42/7500
+ - 0s - loss: 919.7364
+Epoch 43/7500
+ - 0s - loss: 918.7028
+Epoch 44/7500
+ - 0s - loss: 915.5890
+Epoch 45/7500
+ - 0s - loss: 918.0657
+Epoch 46/7500
+ - 0s - loss: 916.8997
+Epoch 47/7500
+ - 0s - loss: 926.3264
+Epoch 48/7500
+ - 0s - loss: 928.4953
+Epoch 49/7500
+ - 0s - loss: 917.6538
+Epoch 50/7500
+ - 0s - loss: 916.3019
+Epoch 51/7500
+ - 0s - loss: 915.7967
+Epoch 52/7500
+ - 0s - loss: 916.3774
+Epoch 53/7500
+ - 0s - loss: 917.9117
+Epoch 54/7500
+ - 0s - loss: 920.4804
+Epoch 55/7500
+ - 0s - loss: 916.1536
+Epoch 56/7500
+ - 0s - loss: 920.1992
+Epoch 57/7500
+ - 0s - loss: 915.8415
+Epoch 58/7500
+ - 0s - loss: 915.4878
+Epoch 59/7500
+ - 0s - loss: 915.8426
+Epoch 60/7500
+ - 0s - loss: 917.1166
+Epoch 61/7500
+ - 0s - loss: 918.0763
+Epoch 62/7500
+ - 0s - loss: 917.4920
+Epoch 63/7500
+ - 0s - loss: 914.4311
+Epoch 64/7500
+ - 0s - loss: 915.1826
+Epoch 65/7500
+ - 0s - loss: 916.2266
+Epoch 66/7500
+ - 0s - loss: 913.5396
+Epoch 67/7500
+ - 0s - loss: 915.7791
+Epoch 68/7500
+ - 0s - loss: 917.7023
+Epoch 69/7500
+ - 0s - loss: 914.4524
+Epoch 70/7500
+ - 0s - loss: 919.1252
+Epoch 71/7500
+ - 0s - loss: 914.2531
+Epoch 72/7500
+ - 0s - loss: 916.4141
+Epoch 73/7500
+ - 0s - loss: 915.7258
+Epoch 74/7500
+ - 0s - loss: 916.4198
+Epoch 75/7500
+ - 0s - loss: 915.9984
+Epoch 76/7500
+ - 0s - loss: 915.6099
+Epoch 77/7500
+ - 0s - loss: 914.5111
+Epoch 78/7500
+ - 0s - loss: 917.7474
+Epoch 79/7500
+ - 0s - loss: 922.4565
+Epoch 80/7500
+ - 0s - loss: 921.9113
+Epoch 81/7500
+ - 0s - loss: 912.9252
+Epoch 82/7500
+ - 0s - loss: 919.2543
+Epoch 83/7500
+ - 0s - loss: 918.9045
+Epoch 84/7500
+ - 0s - loss: 913.2308
+Epoch 85/7500
+ - 0s - loss: 915.9012
+Epoch 86/7500
+ - 0s - loss: 928.8739
+Epoch 87/7500
+ - 0s - loss: 926.3479
+Epoch 88/7500
+ - 0s - loss: 913.9037
+Epoch 89/7500
+ - 0s - loss: 913.2151
+Epoch 90/7500
+ - 0s - loss: 912.3244
+Epoch 91/7500
+ - 0s - loss: 912.9969
+Epoch 92/7500
+ - 0s - loss: 914.1256
+Epoch 93/7500
+ - 0s - loss: 914.4151
+Epoch 94/7500
+ - 0s - loss: 913.3908
+Epoch 95/7500
+ - 0s - loss: 912.6726
+Epoch 96/7500
+ - 0s - loss: 911.7840
+Epoch 97/7500
+ - 0s - loss: 916.2375
+Epoch 98/7500
+ - 0s - loss: 928.0576
+Epoch 99/7500
+ - 0s - loss: 915.1631
+Epoch 100/7500
+ - 0s - loss: 913.1068
+Epoch 101/7500
+ - 0s - loss: 913.5536
+Epoch 102/7500
+ - 0s - loss: 914.5873
+Epoch 103/7500
+ - 0s - loss: 914.4169
+Epoch 104/7500
+ - 0s - loss: 915.1587
+Epoch 105/7500
+ - 0s - loss: 913.7563
+Epoch 106/7500
+ - 0s - loss: 912.4534
+Epoch 107/7500
+ - 0s - loss: 916.6715
+Epoch 108/7500
+ - 0s - loss: 913.4500
+Epoch 109/7500
+ - 0s - loss: 912.9558
+Epoch 110/7500
+ - 0s - loss: 915.4840
+Epoch 111/7500
+ - 0s - loss: 914.7210
+Epoch 112/7500
+ - 0s - loss: 914.6939
+Epoch 113/7500
+ - 0s - loss: 914.4228
+Epoch 114/7500
+ - 0s - loss: 912.2217
+Epoch 115/7500
+ - 0s - loss: 910.5501
+Epoch 116/7500
+ - 0s - loss: 911.5023
+Epoch 117/7500
+ - 0s - loss: 914.6620
+Epoch 118/7500
+ - 0s - loss: 914.1128
+Epoch 119/7500
+ - 0s - loss: 912.3920
+Epoch 120/7500
+ - 0s - loss: 915.8874
+Epoch 121/7500
+ - 0s - loss: 913.0932
+Epoch 122/7500
+ - 0s - loss: 913.5450
+Epoch 123/7500
+ - 0s - loss: 912.0021
+Epoch 124/7500
+ - 0s - loss: 924.5573
+Epoch 125/7500
+ - 0s - loss: 912.8787
+Epoch 126/7500
+ - 0s - loss: 914.3475
+Epoch 127/7500
+ - 0s - loss: 911.9084
+Epoch 128/7500
+ - 0s - loss: 914.9477
+Epoch 129/7500
+ - 0s - loss: 911.6401
+Epoch 130/7500
+ - 0s - loss: 911.2088
+Epoch 131/7500
+ - 0s - loss: 911.0705
+Epoch 132/7500
+ - 0s - loss: 912.7878
+Epoch 133/7500
+ - 0s - loss: 916.7626
+Epoch 134/7500
+ - 0s - loss: 911.2819
+Epoch 135/7500
+ - 0s - loss: 917.2861
+Epoch 136/7500
+ - 0s - loss: 913.4540
+Epoch 137/7500
+ - 0s - loss: 915.2233
+Epoch 138/7500
+ - 0s - loss: 919.9373
+Epoch 139/7500
+ - 0s - loss: 917.8721
+Epoch 140/7500
+ - 0s - loss: 912.8832
+Epoch 141/7500
+ - 0s - loss: 913.4393
+Epoch 142/7500
+ - 0s - loss: 911.8086
+Epoch 143/7500
+ - 0s - loss: 912.3526
+Epoch 144/7500
+ - 0s - loss: 911.3248
+Epoch 145/7500
+ - 0s - loss: 914.5755
+Epoch 146/7500
+ - 0s - loss: 915.3304
+Epoch 147/7500
+ - 0s - loss: 913.7169
+Epoch 148/7500
+ - 0s - loss: 911.6073
+Epoch 149/7500
+ - 0s - loss: 917.8973
+Epoch 150/7500
+ - 0s - loss: 914.9809
+Epoch 151/7500
+ - 0s - loss: 912.5453
+Epoch 152/7500
+ - 0s - loss: 919.8893
+Epoch 153/7500
+ - 0s - loss: 912.5090
+Epoch 154/7500
+ - 0s - loss: 911.7265
+Epoch 155/7500
+ - 0s - loss: 912.0022
+Epoch 156/7500
+ - 0s - loss: 912.1537
+Epoch 157/7500
+ - 0s - loss: 911.3192
+Epoch 158/7500
+ - 0s - loss: 910.7867
+Epoch 159/7500
+ - 0s - loss: 911.0823
+Epoch 160/7500
+ - 0s - loss: 914.2323
+Epoch 161/7500
+ - 0s - loss: 916.2546
+Epoch 162/7500
+ - 0s - loss: 914.6028
+Epoch 163/7500
+ - 0s - loss: 912.9459
+Epoch 164/7500
+ - 0s - loss: 910.8475
+Epoch 165/7500
+ - 0s - loss: 913.2288
+Epoch 166/7500
+ - 0s - loss: 910.7721
+Epoch 167/7500
+ - 0s - loss: 911.0171
+Epoch 168/7500
+ - 0s - loss: 911.5776
+Epoch 169/7500
+ - 0s - loss: 910.7190
+Epoch 170/7500
+ - 0s - loss: 910.8929
+Epoch 171/7500
+ - 0s - loss: 913.2484
+Epoch 172/7500
+ - 0s - loss: 911.5800
+Epoch 173/7500
+ - 0s - loss: 910.7591
+Epoch 174/7500
+ - 0s - loss: 910.0143
+Epoch 175/7500
+ - 0s - loss: 911.4062
+Epoch 176/7500
+ - 0s - loss: 911.3250
+Epoch 177/7500
+ - 0s - loss: 914.3952
+Epoch 178/7500
+ - 0s - loss: 914.3074
+Epoch 179/7500
+ - 0s - loss: 910.6528
+Epoch 180/7500
+ - 0s - loss: 911.9788
+Epoch 181/7500
+ - 0s - loss: 910.2902
+Epoch 182/7500
+ - 0s - loss: 913.1777
+Epoch 183/7500
+ - 0s - loss: 909.9794
+Epoch 184/7500
+ - 0s - loss: 913.2688
+Epoch 185/7500
+ - 0s - loss: 910.5410
+Epoch 186/7500
+ - 0s - loss: 910.0970
+Epoch 187/7500
+ - 0s - loss: 909.5798
+Epoch 188/7500
+ - 0s - loss: 913.1384
+Epoch 189/7500
+ - 0s - loss: 913.6487
+Epoch 190/7500
+ - 0s - loss: 912.3111
+Epoch 191/7500
+ - 0s - loss: 912.2558
+Epoch 192/7500
+ - 0s - loss: 909.6633
+Epoch 193/7500
+ - 0s - loss: 910.0268
+Epoch 194/7500
+ - 0s - loss: 916.9209
+Epoch 195/7500
+ - 0s - loss: 913.4829
+Epoch 196/7500
+ - 0s - loss: 910.8604
+Epoch 197/7500
+ - 0s - loss: 912.0201
+Epoch 198/7500
+ - 0s - loss: 914.1722
+Epoch 199/7500
+ - 0s - loss: 909.8543
+Epoch 200/7500
+ - 0s - loss: 913.7817
+Epoch 201/7500
+ - 0s - loss: 912.0174
+Epoch 202/7500
+ - 0s - loss: 909.2857
+Epoch 203/7500
+ - 0s - loss: 911.0076
+Epoch 204/7500
+ - 0s - loss: 911.9130
+Epoch 205/7500
+ - 0s - loss: 911.6078
+Epoch 206/7500
+ - 0s - loss: 910.9404
+Epoch 207/7500
+ - 0s - loss: 918.8755
+Epoch 208/7500
+ - 0s - loss: 911.1136
+Epoch 209/7500
+ - 0s - loss: 911.6732
+Epoch 210/7500
+ - 0s - loss: 909.5535
+Epoch 211/7500
+ - 0s - loss: 910.0433
+Epoch 212/7500
+ - 0s - loss: 910.9660
+Epoch 213/7500
+ - 0s - loss: 910.2279
+Epoch 214/7500
+ - 0s - loss: 909.1597
+Epoch 215/7500
+ - 0s - loss: 910.5255
+Epoch 216/7500
+ - 0s - loss: 909.1682
+Epoch 217/7500
+ - 0s - loss: 909.3720
+Epoch 218/7500
+ - 0s - loss: 909.5060
+Epoch 219/7500
+ - 0s - loss: 914.5741
+Epoch 220/7500
+ - 0s - loss: 913.5160
+Epoch 221/7500
+ - 0s - loss: 912.5633
+Epoch 222/7500
+ - 0s - loss: 910.8383
+Epoch 223/7500
+ - 0s - loss: 911.3401
+Epoch 224/7500
+ - 0s - loss: 910.7708
+Epoch 225/7500
+ - 0s - loss: 908.6178
+Epoch 226/7500
+ - 0s - loss: 909.5464
+Epoch 227/7500
+ - 0s - loss: 911.1949
+Epoch 228/7500
+ - 0s - loss: 911.4671
+Epoch 229/7500
+ - 0s - loss: 911.0530
+Epoch 230/7500
+ - 0s - loss: 910.4930
+Epoch 231/7500
+ - 0s - loss: 909.5107
+Epoch 232/7500
+ - 0s - loss: 908.2589
+Epoch 233/7500
+ - 0s - loss: 908.7439
+Epoch 234/7500
+ - 0s - loss: 910.8436
+Epoch 235/7500
+ - 0s - loss: 909.5773
+Epoch 236/7500
+ - 0s - loss: 912.3092
+Epoch 237/7500
+ - 0s - loss: 914.8617
+Epoch 238/7500
+ - 0s - loss: 910.4989
+Epoch 239/7500
+ - 0s - loss: 909.9725
+Epoch 240/7500
+ - 0s - loss: 908.5709
+Epoch 241/7500
+ - 0s - loss: 908.5820
+Epoch 242/7500
+ - 0s - loss: 908.9038
+Epoch 243/7500
+ - 0s - loss: 910.4142
+Epoch 244/7500
+ - 0s - loss: 908.2762
+Epoch 245/7500
+ - 0s - loss: 908.8486
+Epoch 246/7500
+ - 0s - loss: 908.6765
+Epoch 247/7500
+ - 0s - loss: 908.2998
+Epoch 248/7500
+ - 0s - loss: 910.8373
+Epoch 249/7500
+ - 0s - loss: 910.0810
+Epoch 250/7500
+ - 0s - loss: 907.3416
+Epoch 251/7500
+ - 0s - loss: 907.3152
+Epoch 252/7500
+ - 0s - loss: 907.3433
+Epoch 253/7500
+ - 0s - loss: 907.5200
+Epoch 254/7500
+ - 0s - loss: 906.5320
+Epoch 255/7500
+ - 0s - loss: 905.8048
+Epoch 256/7500
+ - 0s - loss: 904.5853
+Epoch 257/7500
+ - 0s - loss: 902.4721
+Epoch 258/7500
+ - 0s - loss: 899.4515
+Epoch 259/7500
+ - 0s - loss: 897.5529
+Epoch 260/7500
+ - 0s - loss: 897.4480
+Epoch 261/7500
+ - 0s - loss: 896.8250
+Epoch 262/7500
+ - 0s - loss: 896.2826
+Epoch 263/7500
+ - 0s - loss: 895.8483
+Epoch 264/7500
+ - 0s - loss: 895.5416
+Epoch 265/7500
+ - 0s - loss: 895.3381
+Epoch 266/7500
+ - 0s - loss: 894.8789
+Epoch 267/7500
+ - 0s - loss: 894.6152
+Epoch 268/7500
+ - 0s - loss: 894.4405
+Epoch 269/7500
+ - 0s - loss: 894.3309
+Epoch 270/7500
+ - 0s - loss: 894.6216
+Epoch 271/7500
+ - 0s - loss: 894.3125
+Epoch 272/7500
+ - 0s - loss: 893.9809
+Epoch 273/7500
+ - 0s - loss: 894.0683
+Epoch 274/7500
+ - 0s - loss: 893.8046
+Epoch 275/7500
+ - 0s - loss: 894.2456
+Epoch 276/7500
+ - 0s - loss: 894.0352
+Epoch 277/7500
+ - 0s - loss: 893.7896
+Epoch 278/7500
+ - 0s - loss: 893.6251
+Epoch 279/7500
+ - 0s - loss: 893.6114
+Epoch 280/7500
+ - 0s - loss: 893.7580
+Epoch 281/7500
+ - 0s - loss: 893.6322
+Epoch 282/7500
+ - 0s - loss: 894.3777
+Epoch 283/7500
+ - 0s - loss: 893.7138
+Epoch 284/7500
+ - 0s - loss: 893.5628
+Epoch 285/7500
+ - 0s - loss: 893.5929
+Epoch 286/7500
+ - 0s - loss: 893.8635
+Epoch 287/7500
+ - 0s - loss: 893.6751
+Epoch 288/7500
+ - 0s - loss: 893.4320
+Epoch 289/7500
+ - 0s - loss: 893.4574
+Epoch 290/7500
+ - 0s - loss: 893.4554
+Epoch 291/7500
+ - 0s - loss: 893.3410
