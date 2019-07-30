@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pylab as plt
-import corner
+# import corner
 import emcee
 import time
 from keras.models import load_model
@@ -330,7 +330,7 @@ if MaxLikelihood_init:
     nll = lambda *args: -lnlike(*args)
     result = op.minimize(nll, [param1[1], param2[1], param3[1], param4[1], param5[1]], args=(x, y, yerr))
     p1_ml, p2_ml, p3_ml, p4_ml, p5_ml = result["x"]
-    print result['x']
+    print(result['x'])
 
 
     pos0 = [result['x']+1.e-4*np.random.randn(ndim) for i in range(nwalkers)]
