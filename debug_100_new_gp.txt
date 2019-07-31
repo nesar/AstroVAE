@@ -1,0 +1,25 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+2019-07-11 12:39:22.242893: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
+2019-07-11 12:39:22.261180: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2100000000 Hz
+2019-07-11 12:39:22.266059: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x556eee1e2910 executing computations on platform Host. Devices:
+2019-07-11 12:39:22.266122: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+2019-07-11 12:39:22.403522: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x556eee14b560 executing computations on platform CUDA. Devices:
+2019-07-11 12:39:22.403582: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): Quadro GV100, Compute Capability 7.0
+2019-07-11 12:39:22.406118: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Quadro GV100 major: 7 minor: 0 memoryClockRate(GHz): 1.627
+pciBusID: 0000:2d:00.0
+totalMemory: 31.72GiB freeMemory: 31.41GiB
+2019-07-11 12:39:22.406168: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0
+2019-07-11 12:39:22.409967: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-07-11 12:39:22.410010: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 
+2019-07-11 12:39:22.410027: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N 
+2019-07-11 12:39:22.412426: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 30553 MB memory) -> physical GPU (device: 0, name: Quadro GV100, pci bus id: 0000:2d:00.0, compute capability: 7.0)
+Cl_denoiseP4_debug.py:296: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  vae.fit(x_train_noisy, x_train, shuffle=True, batch_size=batch_size, nb_epoch=num_epochs, verbose=2) ## excluding validation for now -- otherwise creates problems for batch size > 8
+WARNING:tensorflow:From /home/nramachandra/anaconda3/envs/tf_gpu/lib/python3.7/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-07-11 12:39:25.272604: I tensorflow/stream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally

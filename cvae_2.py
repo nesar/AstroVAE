@@ -339,7 +339,7 @@ input_shape = (original_dim, )
 kernel_size = 4
 n_conv = 0
 filters = 16
-interm_dim = 128
+#interm_dim = 128
 # latent_dim = 20
 # epochs = 1000
 #

@@ -14,23 +14,19 @@ num_test = 25
 num_para = 5
 
 batch_size = 32
-<<<<<<< HEAD
 num_epochs =  100 #7500 # 7500 #8000 #7500 # 20  #200 # 7500 # 200  #110 #50
-=======
-<<<<<<< HEAD
-num_epochs =  100 # 7500 #8000 #7500 # 20  #200 # 7500 # 200  #110 #50
-epsilon_mean = 0.0 #0.0 # 1.0
-epsilon_std =  1e-4 #1e-4 ## original = 1.0, smaller the better 1e-4
-learning_rate =  1e-3 #1e-4
-decay_rate = 1.0 #1.0
-=======
+#=======
+#num_epochs =  100 # 7500 #8000 #7500 # 20  #200 # 7500 # 200  #110 #50
+#epsilon_mean = 0.0 #0.0 # 1.0
+#epsilon_std =  1e-4 #1e-4 ## original = 1.0, smaller the better 1e-4
+#learning_rate =  1e-3 #1e-4
+#decay_rate = 1.0 #1.0
+#=======
 num_epochs =  10 #7500 # 7500 #8000 #7500 # 20  #200 # 7500 # 200  #110 #50
->>>>>>> 32fcb32c0baa9231ba46258d18cf25bb82edd753
 epsilon_mean = 0.0 #0.0 # 1.0
 epsilon_std =  1e-4 #1e-4 ## original = 1.0, smaller the better 1e-4
 learning_rate =  1e-3 #1e-4
 decay_rate = 0.5 #1.0
->>>>>>> 1e6cb05ec6121c39dbe01ec6bf79f5e074e392a9
 
 noise_factor = 0.0 # 0.0 necessary
 
