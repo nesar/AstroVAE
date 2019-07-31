@@ -122,7 +122,6 @@ x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 ################# ARCHITECTURE ###############################
 
 
-
 LoadModel = True
 if LoadModel:
 
