@@ -328,8 +328,6 @@ x_train = K.cast_to_floatx(x_train)
 
 
 ############
-############
-
 
 # network parameters
 # input_shape = (image_size, image_size, 1)
