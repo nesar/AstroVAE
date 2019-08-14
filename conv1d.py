@@ -371,6 +371,8 @@ epochs = 5
 
 # x = Input(batch_shape=(batch_size,steps,original_dim))
 x = Input(shape=(steps,original_dim))
+# x = Input(shape=(None, steps, original_dim))
+
 
 # Play around with padding here, not sure what to go with.
 conv_1 = Conv1D(1,
