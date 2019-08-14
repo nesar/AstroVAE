@@ -457,6 +457,8 @@ K.set_value(vae.optimizer.decay, decay_rate)
 vae.summary()
 plot_model(vae, to_file='vae_cnn.png', show_shapes=True)
 
+
+
 # if args.weights:
 #     vae.load_weights(args.weights)
 # else:
